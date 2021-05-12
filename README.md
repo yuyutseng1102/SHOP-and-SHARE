@@ -1,1 +1,1 @@
-# Buy_Together_App
+# Buy-Together-App
