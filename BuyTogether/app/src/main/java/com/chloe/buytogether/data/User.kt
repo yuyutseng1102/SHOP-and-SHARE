@@ -1,0 +1,12 @@
+package com.chloe.buytogether.data
+
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+data class User(
+    val userId: Long = 0L,
+    val googleId: Long = 0L,
+    val name: String = ""
+): Parcelable {
+}

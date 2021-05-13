@@ -1,10 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Original -->
+    <color name="colorPrimary">@color/green_BDCCC5</color>
+    <color name="colorPrimaryDark">@color/green_BDCCC5</color>
+    <color name="colorAccent">@color/deep_purple_500</color>
+
+    <!-- Bottom Navigation -->
+    <color name="bottom_navigation_item_normal">@color/green_E6E4D7</color>
+    <color name="bottom_navigation_item_selected">@color/green_ADC9A0</color>
+
+    <!-- White Series -->
+    <color name="white">#ffffff</color>
+
+    <!-- Black Series -->
+    <color name="black">#000000</color>
+    <color name="black_3f3a3a">#3f3a3a</color>
+
+    <!-- Gray Series -->
+    <color name="gray_646464">#646464</color>
+    <color name="gray_888888">#888888</color>
+    <color name="gray_999999">#999999</color>
+    <color name="gray_cccccc">#cccccc</color>
+    <color name="gray_f0f0f0">#f0f0f0</color>
+    <color name="gray_f5f5f5">#f5f5f5</color>
+
+    <!-- Green Series -->
+    <color name="green_BDCCC5">#BDCCC5</color>
+    <color name="green_E6E4D7">#E6E4D7</color>
+    <color name="green_ADC9A0">#ADC9A0</color>
+    <color name="green_DCD2C5">#DCD2C5</color>
+    <color name="green_ACAD9C">#ACAD9C</color>
+    <color name="green_E7ECE5">#E7ECE5</color>
+    <color name="green_7A8277">#7A8277</color>
+
+    <!-- Deep Purple Series -->
+    <color name="deep_purple_500">#673ab7</color>
+    <color name="deep_purple_500_light">#9a67ea</color>
+    <color name="deep_purple_500_dark">#320b86</color>
+
+    <color name="indigo_500">#3f51b5</color>
+    <color name="green_500">#4caf50</color>
+    <color name="red_500">#f44336</color>
+    <color name="orange_500">#ff9800</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="translucent_80">#cc000000</color>
+
+
 </resources>
