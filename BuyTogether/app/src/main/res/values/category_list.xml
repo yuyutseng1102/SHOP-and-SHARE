@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="category_list">
+        <item>@string/woman</item>
+        <item>@string/man</item>
+        <item>@string/child</item>
+        <item>@string/shoes_bag</item>
+        <item>@string/makeup</item>
+        <item>@string/health</item>
+        <item>@string/food</item>
+        <item>@string/living</item>
+        <item>@string/appliance</item>
+        <item>@string/pet</item>
+        <item>@string/stationary</item>
+        <item>@string/sport</item>
+        <item>@string/computer</item>
+        <item>@string/ticket</item>
+        <item>@string/other</item>
+    </string-array>
+</resources>

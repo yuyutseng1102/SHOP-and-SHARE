@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TableLayout
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.chloe.buytogether.NavigationDirections
 import com.chloe.buytogether.R
 import com.chloe.buytogether.databinding.FragmentHomeBinding
 import com.chloe.buytogether.home.item.HomePageViewModel
@@ -27,6 +29,11 @@ class HomeFragment : Fragment() {
             it.adapter = HomeAdapter(childFragmentManager)
             it.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(binding.tabsHome))
         }
+
+        binding.floatingCollect.setOnClickListener {
+            findNavController().navigate(NavigationDirections.navigateToGatherFragment())
+        }
+
         return binding.root
     }
 

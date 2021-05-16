@@ -47,7 +47,7 @@ class MainActivity : BaseActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_profile -> {
-                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToHomeFragment())
+                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToProfileFragment())
 
 //                when (viewModel.isLoggedIn) {
 //                    true -> {
