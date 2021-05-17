@@ -39,43 +39,43 @@ class GatherOptionViewModel(private val repository: Repository,oldOption: List<S
     }
 
 
-
-    fun addOption(){
+    fun addOption() {
 
         if (optionItem.value != null && optionItem.value != "") {
             optionList?.add(optionItem.value!!)
             _option.value = optionList!!
         }
     }
-    fun clearEditOption(){
+
+    fun clearEditOption() {
         optionItem.value == null
     }
 
-    fun optionDone(){
+    fun optionDone() {
 
         // 將輸入欄加入list中
         //情況1: 自訂義輸入
-        if (isStandard.value == false){
+        if (isStandard.value == false) {
             //先清空舊的選項
             if (optionItem.value != null && optionItem.value != "") {
-                    optionList = mutableListOf(optionItem.value?:"")
+                optionList = mutableListOf(optionItem.value ?: "")
 //                    optionList?.add(optionItem.value!!)
-                    if (optionList!=null) {
-                        _option.value = optionList!!
-                        _status.value = LoadApiStatus.DONE
-                    }else{
-                        _status.value = LoadApiStatus.LOADING
-                    }
+                if (optionList != null) {
+                    _option.value = optionList!!
+                    _status.value = LoadApiStatus.DONE
+                } else {
+                    _status.value = LoadApiStatus.LOADING
+                }
             }
             //將輸入欄加入list中
 
-        }else{
+        } else {
             //情況2:新增選項規格
             //先確定選項非為空
-            if (optionList!=null){
+            if (optionList != null) {
                 _option.value = optionList!!
                 _status.value = LoadApiStatus.DONE
-            }else{
+            } else {
                 _status.value = LoadApiStatus.LOADING
             }
         }
@@ -83,26 +83,30 @@ class GatherOptionViewModel(private val repository: Repository,oldOption: List<S
 
     val optionToDisplay = MutableLiveData<String>()
 
-    fun showOption(){
-        optionToDisplay.value=
-        when (isStandard.value) {
-            false -> {
-                if (_option.value != null) {
-                    _option.value!![0]
-                } else {
+    fun showOption() {
+        optionToDisplay.value =
+            when (isStandard.value) {
+                false -> {
+                    if (_option.value != null) {
+                        _option.value!![0]
+                    } else {
+                        ""
+                    }
+                }
+                true -> if (_option.value != null) {
+                    if (_option.value!!.size > 2) {
+                        "${_option.value!![0]}+${_option.value!![1]}...共${_option.value!!.size}項"
+                    } else if (_option.value!!.size == 2) {
+                        "${_option.value!![0]}+${_option.value!![1]}"
+                    } else if (_option.value!!.size == 1) {
+                        _option.value!![0]
+                    } else {
+                        ""
+                    }
+                }else {
                     ""
                 }
+                else -> ""
             }
-            true -> if (_option.value != null) {
-                if (_option.value!!.size > 2) {
-                    "${_option.value!![0]}+${_option.value!![1]}...共${_option.value!!.size}項"
-                }else{"${_option.value!![0]}+${_option.value!![1]}"}
-            } else {
-                ""
-            }
-            else -> ""
-        }
-
     }
-
 }

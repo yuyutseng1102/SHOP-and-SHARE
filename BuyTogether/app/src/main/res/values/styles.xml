@@ -79,6 +79,20 @@
         <item name="android:textColor">@color/gray_888888</item>
     </style>
 
+    <style name="SeeDetailTitle">
+        <item name="android:fontFamily">@font/noto_sans</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/green_7A8277</item>
+    </style>
+
+    <style name="StatusTitle">
+        <item name="android:fontFamily">@font/noto_sans</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/orange_E0B291</item>
+    </style>
+
     <!-- / 開團 / -->
     <style name="GatherTitle">
         <item name="android:fontFamily">@font/noto_sans</item>

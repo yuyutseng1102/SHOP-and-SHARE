@@ -20,7 +20,7 @@ class ProfileFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         binding.gatherButton.setOnClickListener {
-            findNavController().navigate(NavigationDirections.navigateToGatherFragment())
+            findNavController().navigate(NavigationDirections.navigateToCollectionFragment())
         }
 
         return binding.root

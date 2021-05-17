@@ -33,6 +33,10 @@
     <color name="green_E7ECE5">#E7ECE5</color>
     <color name="green_7A8277">#7A8277</color>
 
+<!--    orange Series-->
+    <color name="orange_E0B291">#E0B291</color>
+
+
     <!-- Deep Purple Series -->
     <color name="deep_purple_500">#673ab7</color>
     <color name="deep_purple_500_light">#9a67ea</color>
