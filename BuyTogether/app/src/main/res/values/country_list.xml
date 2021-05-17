@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="country_list">
+        <item>@string/taiwan</item>
+        <item>@string/japan</item>
+        <item>@string/korea</item>
+        <item>@string/china</item>
+        <item>@string/usa</item>
+        <item>@string/canada</item>
+        <item>@string/eu</item>
+        <item>@string/australia</item>
+        <item>@string/south_east_asia</item>
+        <item>@string/other</item>
+    </string-array>
+</resources>

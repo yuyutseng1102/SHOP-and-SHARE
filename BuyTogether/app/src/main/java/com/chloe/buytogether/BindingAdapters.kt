@@ -1,14 +1,18 @@
 package com.chloe.buytogether
 
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.chloe.buytogether.data.Collections
+import com.chloe.buytogether.ext.toDisplayFormat
+import com.chloe.buytogether.gather.item.GatherOptionAdapter
 import com.chloe.buytogether.home.item.HomeCollectAdapter
 import com.chloe.buytogether.home.item.HomeGridAdapter
 import com.chloe.buytogether.home.item.HomeHots1stAdapter
@@ -50,6 +54,23 @@ fun bindRecyclerViewWithProducts(recyclerView: RecyclerView, collections: List<C
             }
         }
     }
+}
+
+@BindingAdapter("options")
+fun bindRecyclerViewWithStrings(recyclerView: RecyclerView, options: List<String>?) {
+    options?.let {
+        recyclerView.adapter?.apply {
+            Log.d("Chloe","summit the option list is ${options}")
+            when (this) {
+                is GatherOptionAdapter -> submitList(it)
+            }
+        }
+    }
+}
+
+@BindingAdapter("timeToDisplayFormat")
+fun bindDisplayFormatTime(textView: TextView, time: Long?) {
+    textView.text = time?.toDisplayFormat()
 }
 
 

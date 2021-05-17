@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.text.TextUtils"/>
+        <import type="android.view.View"/>
+        <import type="com.chloe.buytogether.network.LoadApiStatus"/>
         <variable
             name="viewModel"
             type="com.chloe.buytogether.gather.GatherViewModel" />
@@ -27,7 +30,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
 
                 <TextView
@@ -38,15 +41,17 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:text="開團方式"
+                    android:textColor="@{viewModel.isInvalid != null ? (viewModel.selectedMethodRadio == 0 ? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <RadioGroup
                     android:id="@+id/radio_group"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
+                    android:checkedButton="@={viewModel.selectedMethodRadio}"
                     android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="@+id/gather_method_text"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -54,37 +59,37 @@
                     app:layout_constraintTop_toTopOf="@+id/gather_method_text">
 
                     <RadioButton
-                        android:id="@+id/purchase_agent"
+                        android:id="@+id/radio_agent"
                         style="@style/GatherTitle"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="4dp"
                         android:background="@drawable/bg_radio_button"
                         android:button="@null"
                         android:paddingHorizontal="4dp"
-                        android:text="專業代購" />
+                        android:text="@string/purchase_agent" />
 
                     <RadioButton
-                        android:id="@+id/purchase_gather"
+                        android:id="@+id/radio_gather"
                         style="@style/GatherTitle"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="4dp"
                         android:background="@drawable/bg_radio_button"
                         android:button="@null"
                         android:paddingHorizontal="4dp"
-                        android:text="揪團團購" />
+                        android:text="@string/purchase_gather" />
 
                     <RadioButton
-                        android:id="@+id/purchase_private"
+                        android:id="@+id/radio_private"
                         style="@style/GatherTitle"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="4dp"
                         android:background="@drawable/bg_radio_button"
                         android:button="@null"
                         android:paddingHorizontal="4dp"
-                        android:text="私人揪團" />
+                        android:text="@string/purchase_private" />
                 </RadioGroup>
 
                 <TextView
@@ -95,8 +100,19 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:text="上傳照片"
+                    android:textColor="@{viewModel.isInvalid != null ? (viewModel.image==null ? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/gather_method_text" />
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/bg_upload_button"
+                    app:layout_constraintStart_toStartOf="@+id/upload_text"
+                    app:layout_constraintTop_toBottomOf="@+id/upload_text" />
+
 
                 <TextView
                     android:id="@+id/gather_title_text"
@@ -106,6 +122,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:text="團購名稱"
+                    android:textColor='@{viewModel.isInvalid != null ? (TextUtils.isEmpty(viewModel.title) ? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}'
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
@@ -115,15 +132,17 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:ems="10"
-                    android:inputType="text"
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine"
                     android:maxLines="2"
-                    android:text=""
+                    android:text="@={viewModel.title}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toEndOf="@+id/gather_title_text"
-                    app:layout_constraintTop_toTopOf="@+id/gather_title_text" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/gather_title_text" />
 
                 <TextView
                     android:id="@+id/gather_description_text"
@@ -133,6 +152,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:text="團購描述"
+                    android:textColor='@{viewModel.isInvalid != null ? (TextUtils.isEmpty(viewModel.description)?@color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}'
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/gather_title_edit" />
 
@@ -142,15 +162,47 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:ems="10"
-                    android:inputType="text"
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine"
                     android:maxLines="7"
-                    android:text="Name"
+                    android:text="@={viewModel.description}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toEndOf="@+id/gather_description_text"
-                    app:layout_constraintTop_toTopOf="@+id/gather_description_text" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/gather_description_text" />
+
+                <TextView
+                    android:id="@+id/gather_web_text"
+                    style="@style/GatherTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="購買來源"
+                    android:textColor='@{viewModel.isInvalid != null ? (TextUtils.isEmpty(viewModel.source)? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}'
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/gather_description_edit" />
+
+                <EditText
+                    android:id="@+id/gather_web_edit"
+                    style="@style/ProductTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:ems="10"
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine"
+                    android:maxLines="5"
+                    android:text="@={viewModel.source}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/gather_web_text" />
 
                 <TextView
                     android:id="@+id/gather_category_text"
@@ -158,10 +210,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
                     android:text="團購分類"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/gather_description_edit" />
+                    app:layout_constraintTop_toBottomOf="@id/gather_web_edit" />
 
                 <Spinner
                     android:id="@+id/spinner_gather_category"
@@ -169,6 +220,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
+                    android:selectedItemPosition="@={viewModel.selectedCategoryPosition}"
                     app:layout_constraintBottom_toBottomOf="@+id/gather_category_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/gather_category_text"
@@ -191,37 +243,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
+                    android:selectedItemPosition="@={viewModel.selectedCountryPosition}"
                     app:layout_constraintBottom_toBottomOf="@+id/gather_country_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/gather_country_text"
                     app:layout_constraintTop_toTopOf="@+id/gather_country_text" />
-
-                <TextView
-                    android:id="@+id/gather_web_text"
-                    style="@style/GatherTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:text="購買網站"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/gather_country_text" />
-
-                <EditText
-                    android:id="@+id/gather_web_edit"
-                    style="@style/ProductTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:ems="10"
-                    android:inputType="text"
-                    android:maxLines="5"
-                    android:text="Name"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toEndOf="@+id/gather_web_text"
-                    app:layout_constraintTop_toTopOf="@+id/gather_web_text" />
 
                 <TextView
                     android:id="@+id/gather_option_text"
@@ -231,8 +257,9 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:text="新增選項"
+                    android:textColor='@{viewModel.isInvalid != null ? (viewModel.option==null? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}'
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/gather_web_edit" />
+                    app:layout_constraintTop_toBottomOf="@id/gather_country_text" />
 
                 <TextView
                     android:id="@+id/gather_option_edit"
@@ -241,7 +268,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:maxLines="5"
-                    android:text="全站皆可"
+                    android:text="@={viewModel.optionShow}"
                     app:layout_constraintEnd_toStartOf="@+id/add_gather_option"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/gather_option_text"
@@ -268,6 +295,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:text="寄送方式"
+                    android:textColor='@{viewModel.isInvalid != null ? (TextUtils.isEmpty(viewModel.deliveryMethod) ? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}'
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/gather_option_edit" />
 
@@ -281,7 +309,7 @@
                     android:ems="10"
                     android:inputType="text"
                     android:maxLines="5"
-                    android:text="Name"
+                    android:text="@={viewModel.deliveryMethod}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/gather_delivery_text"
@@ -295,8 +323,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
                     android:maxLines="2"
                     android:text="成團條件"
+                    android:textColor='@{viewModel.isInvalid != null ? (TextUtils.isEmpty(viewModel.conditionShow) ? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}'
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/gather_delivery_edit" />
 
@@ -307,7 +338,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginBottom="16dp"
-                    android:text="滿5000元"
+                    android:visibility="@{viewModel.isConditionDone()?View.VISIBLE:View.GONE}"
+                    android:text="@{viewModel.conditionShow}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/add_gather_condition"
                     app:layout_constraintStart_toEndOf="@+id/gather_condition_text"
@@ -327,14 +359,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/gather_condition_text" />
 
-                <ImageView
-                    android:id="@+id/imageView3"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_marginTop="16dp"
-                    android:src="@drawable/bg_upload_button"
-                    app:layout_constraintStart_toStartOf="@+id/upload_text"
-                    app:layout_constraintTop_toBottomOf="@+id/upload_text" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -375,6 +399,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

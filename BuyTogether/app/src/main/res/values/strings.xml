@@ -4,8 +4,6 @@
 
     <!--Home-->
     <string name="hot_collect">/ 熱門團購 Hot Collection /</string>
-    <string name="living">居家生活</string>
-    <string name="makeup">美妝保養</string>
     <string name="new_collect">/ 最新上線 New Collection /</string>
 
     <!-- Sort Method-->
@@ -13,7 +11,46 @@
     <string name="by_id">綜合排序</string>
     <string name="by_time">最新上線</string>
     <string name="by_hots">熱門團購</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--Category-->
+    <string name="woman">女裝</string>
+    <string name="man">男裝</string>
+    <string name="shoes_bag">鞋包</string>
+    <string name="child">孩童</string>
+    <string name="living">居家生活</string>
+    <string name="makeup">美妝保養</string>
+    <string name="food">美食</string>
+    <string name="health">保健</string>
+    <string name="sport">運動</string>
+    <string name="computer">3C/電腦/手機</string>
+    <string name="stationary">文具用品</string>
+    <string name="pet">寵物用品</string>
+    <string name="appliance">生活家電</string>
+    <string name="ticket">服務/票券</string>
+    <string name="other">其他</string>
+
+    <!--Country-->
+    <string name="taiwan">台灣</string>
+    <string name="japan">日本</string>
+    <string name="korea">韓國</string>
+    <string name="china">中國</string>
+    <string name="usa">美國</string>
+    <string name="canada">加拿大</string>
+    <string name="eu">歐洲</string>
+    <string name="australia">澳洲</string>
+    <string name="south_east_asia">東南亞</string>
+
+    <!--Gather Method-->
+    <string name="purchase_agent">專業代購</string>
+    <string name="purchase_gather">揪團團購</string>
+    <string name="purchase_private">私人揪團</string>
+    <!-- Gather Condition -->
+    <string name="by_price">依金額</string>
+    <string name="by_quantity">依數量</string>
+    <string name="by_member">依人數</string>
+    <string name="hint_price">請輸入滿額金額</string>
+    <string name="hint_quantity">請輸入欲徵數量</string>
+    <string name="hint_member">請輸入欲徵人數</string>
+
 
 </resources>
