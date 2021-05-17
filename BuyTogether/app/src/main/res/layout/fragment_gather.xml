@@ -47,8 +47,8 @@
 
                 <RadioGroup
                     android:id="@+id/radio_group"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:checkedButton="@={viewModel.selectedMethodRadio}"
@@ -61,7 +61,7 @@
                     <RadioButton
                         android:id="@+id/radio_agent"
                         style="@style/GatherTitle"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="4dp"
                         android:background="@drawable/bg_radio_button"
@@ -72,7 +72,7 @@
                     <RadioButton
                         android:id="@+id/radio_gather"
                         style="@style/GatherTitle"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="4dp"
                         android:background="@drawable/bg_radio_button"
@@ -83,7 +83,7 @@
                     <RadioButton
                         android:id="@+id/radio_private"
                         style="@style/GatherTitle"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="4dp"
                         android:background="@drawable/bg_radio_button"
@@ -257,7 +257,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:text="新增選項"
-                    android:textColor='@{viewModel.isInvalid != null ? (viewModel.isCustom() == true  ? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}'
+                    android:textColor='@{viewModel.isInvalid != null ? (viewModel.option==null? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}'
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/gather_country_text" />
 
@@ -268,7 +268,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:maxLines="5"
-                    android:text="@={viewModel.option[0]}"
+                    android:text="@={viewModel.optionShow}"
                     app:layout_constraintEnd_toStartOf="@+id/add_gather_option"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/gather_option_text"
@@ -323,9 +323,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
                     android:maxLines="2"
                     android:text="成團條件"
-                    android:textColor='@{viewModel.isInvalid != null ? (TextUtils.isEmpty(viewModel.condition) ? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}'
+                    android:textColor='@{viewModel.isInvalid != null ? (TextUtils.isEmpty(viewModel.conditionShow) ? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}'
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/gather_delivery_edit" />
 
@@ -336,7 +338,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginBottom="16dp"
-                    android:text="@={viewModel.condition}"
+                    android:visibility="@{viewModel.isConditionDone()?View.VISIBLE:View.GONE}"
+                    android:text="@{viewModel.conditionShow}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/add_gather_condition"
                     app:layout_constraintStart_toEndOf="@+id/gather_condition_text"

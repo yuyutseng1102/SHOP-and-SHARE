@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.chloe.buytogether.data.source.Repository
 import com.chloe.buytogether.gather.GatherViewModel
 import com.chloe.buytogether.gather.item.GatherConditionViewModel
+import com.chloe.buytogether.gather.item.GatherOptionViewModel
 import com.chloe.buytogether.home.item.HomeCollectViewModel
 import com.chloe.buytogether.home.item.HomePageViewModel
 

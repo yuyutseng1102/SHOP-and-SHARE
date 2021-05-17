@@ -59,10 +59,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="8dp"
             android:ems="10"
-            android:text=""
+            app:timeToDisplayFormat="@{viewModel.deadLine}"
             android:visibility="@{viewModel.isTimeChecked?View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/check_by_time"
-            app:layout_constraintEnd_toStartOf="@+id/imageButton"
             app:layout_constraintStart_toEndOf="@+id/check_by_time"
             app:layout_constraintTop_toTopOf="@+id/check_by_time" />
 
@@ -79,18 +78,28 @@
             app:layout_constraintStart_toEndOf="@+id/check_by_condition"
             app:layout_constraintTop_toTopOf="@+id/check_by_condition" />
 
-        <EditText
-            android:id="@+id/condition_edit"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/condition_text_field"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:ems="10"
-            android:inputType="number"
-            android:text="@={viewModel.condition}"
+            android:hint="@{viewModel.selectedConditionPosition == 0?@string/hint_price:(viewModel.selectedConditionPosition == 1?@string/hint_quantity:@string/hint_member)}"
             android:visibility="@{viewModel.isConditionChecked()?View.VISIBLE:View.GONE}"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:layout_constraintEnd_toEndOf="@+id/spinner_gather_condition"
             app:layout_constraintStart_toStartOf="@+id/spinner_gather_condition"
-            app:layout_constraintTop_toBottomOf="@+id/spinner_gather_condition" />
+            app:layout_constraintTop_toBottomOf="@+id/spinner_gather_condition">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/condition_edit"
+                android:text="@={viewModel.content}"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <Button
             android:id="@+id/button_ready"
@@ -102,7 +111,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/condition_edit"
+            app:layout_constraintTop_toBottomOf="@+id/condition_text_field"
             app:layout_constraintVertical_bias="1.0" />
 
         <ImageButton

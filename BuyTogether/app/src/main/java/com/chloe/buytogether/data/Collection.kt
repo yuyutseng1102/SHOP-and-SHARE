@@ -1,6 +1,8 @@
 package com.chloe.buytogether.data
 
+import android.graphics.Insets.add
 import android.os.Parcelable
+import com.chloe.buytogether.ext.toDisplayFormat
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
@@ -18,12 +20,12 @@ data class Collections(
         val category: String = "",
         val country: String = "",
         val source: String = "",
-        val isCustom: Boolean = true,
+        val isStandard: Boolean = false,
         val option:List<String> = listOf(""),
         val deliveryMethod: String = "",
         val conditionType: Int? = null,
         val deadLine : Long? =null ,
-        val condition: String? = null,
+        val condition: Int? = null,
         val status: Int = 0,
         val order:List<Order>? = null
 ):Parcelable{
@@ -31,6 +33,16 @@ data class Collections(
         get()= "已跟團${order?.size}人"
     val followToDisplay : String
         get()= "有興趣${order?.size}人"
+    val deadLineToDisplay : String?
+        get()= "預計${deadLine?.toDisplayFormat()}收團"
+    val conditionToDisplay : String?
+        get()=
+            when (conditionType){
+                0-> "滿額NT$${condition}成團"
+                1-> "徵滿${condition}份成團"
+                2-> "徵滿${condition}人成團"
+                else -> ""
+            }
 
 }
 

@@ -3,9 +3,8 @@ package com.chloe.buytogether.gather.item
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
-import android.text.InputType.TYPE_CLASS_DATETIME
-import android.text.InputType.TYPE_DATETIME_VARIATION_TIME
 import android.util.Log
+import androidx.lifecycle.Observer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +18,7 @@ import com.chloe.buytogether.databinding.DialogGatherConditionBinding
 import com.chloe.buytogether.ext.getVmFactory
 import com.chloe.buytogether.ext.toDisplayFormat
 import com.chloe.buytogether.gather.ConditionSelector
+import com.chloe.buytogether.network.LoadApiStatus
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -40,39 +40,41 @@ class GatherConditionDialog(private val conditionSelector: ConditionSelector?) :
         binding.spinnerGatherCondition.adapter = ConditionSpannerAdapter(
             MyApplication.instance.resources.getStringArray(R.array.condition_list))
 
-        binding.buttonReady.setOnClickListener {
-            conditionSelector?.onConditionSelected()
-            this.dismiss()
-        }
 
-        val datePicker =
-            MaterialDatePicker.Builder.datePicker()
-                .setTitleText("Select date")
-                .setTheme(R.style.DatePicker)
-                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-                .build()
 
         binding.datePickerButton.setOnClickListener {
-            datePicker.show(childFragmentManager, "tag")
+            viewModel.datePicker.show(childFragmentManager, "tag")
         }
 
+        viewModel.datePicker.addOnPositiveButtonClickListener {
+            viewModel.pickDate()
+        }
 
+        viewModel.selectedConditionPosition.observe(viewLifecycleOwner, Observer {
+            viewModel.hintToShow()
+        })
 
+        binding.buttonReady.setOnClickListener {
+            viewModel.checkCondition()
 
+            viewModel.status.observe(viewLifecycleOwner, Observer {
+                Log.d("Chloe","status = ${viewModel.status.value}")
+                if (it == LoadApiStatus.DONE){
+                    viewModel.showCondition()
+                    viewModel.setCondition()
+                    conditionSelector?.onConditionSelected(
+                            viewModel.selectedConditionPosition.value,
+                            viewModel.deadLine.value,
+                            viewModel.condition.value,
+                            viewModel.conditionShow.value
+                    )
+                    Log.d("Chloe","ready to put conditionType = ${viewModel.selectedConditionPosition.value}")
+                    Log.d("Chloe","ready to put deadLine = ${viewModel.deadLine.value}")
+                    Log.d("Chloe","ready to put condition = ${viewModel.condition.value}")
 
-
-
-
-        datePicker.addOnPositiveButtonClickListener {
-            val dateToDisplay = datePicker.headerText
-            val datePicked = datePicker.selection
-            if (datePicked != null) {
-                binding.deadLineEdit.text = datePicked.toDisplayFormat()
-            }
-
-//            val formatter = DateTimeFormatter.ofPattern("mm dd, jjjj")
-//            val dt = LocalDate.parse(datePicked, formatter)
-            Log.d("Chloe","from $datePicked")
+                    this.dismiss()
+                }
+            })
         }
 
 

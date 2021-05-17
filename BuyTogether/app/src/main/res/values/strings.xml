@@ -48,6 +48,9 @@
     <string name="by_price">依金額</string>
     <string name="by_quantity">依數量</string>
     <string name="by_member">依人數</string>
+    <string name="hint_price">請輸入滿額金額</string>
+    <string name="hint_quantity">請輸入欲徵數量</string>
+    <string name="hint_member">請輸入欲徵人數</string>
 
 
 </resources>

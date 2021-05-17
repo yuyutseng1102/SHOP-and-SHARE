@@ -9,21 +9,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.chloe.buytogether.MyApplication
 import com.chloe.buytogether.R
 import com.chloe.buytogether.databinding.FragmentGatherBinding
-import com.chloe.buytogether.databinding.FragmentHomeBinding
 import com.chloe.buytogether.ext.getVmFactory
 import com.chloe.buytogether.gather.item.CategorySpannerAdapter
 import com.chloe.buytogether.gather.item.CountrySpannerAdapter
 import com.chloe.buytogether.gather.item.GatherConditionDialog
-import com.chloe.buytogether.home.HomeAdapter
-import com.chloe.buytogether.home.item.HomeCollectViewModel
-import com.chloe.buytogether.home.item.HomePageViewModel
-import com.chloe.buytogether.home.item.HomeSpinnerAdapter
+import com.chloe.buytogether.gather.item.GatherOptionDialog
 import com.chloe.buytogether.network.LoadApiStatus
-import com.google.android.material.tabs.TabLayout
 
 
 class GatherFragment : Fragment() {
@@ -51,6 +45,10 @@ class GatherFragment : Fragment() {
             viewModel.selectCountry()
         })
 
+        viewModel.conditionShow.observe(viewLifecycleOwner, Observer {
+            viewModel.checkCondition()
+        })
+
         binding.buttonAdd.setOnClickListener {
 
             viewModel.readyToPost()
@@ -66,15 +64,43 @@ class GatherFragment : Fragment() {
             Log.d("Chloe", "The new collection is ${viewModel.collection.value}")
         }
 
+
+
         binding.addGatherCondition.setOnClickListener{
+
             val dialog = GatherConditionDialog(object : ConditionSelector {
 
-                override fun onConditionSelected() {
+                override fun onConditionSelected(conditionType:Int?,
+                                                 deadLine:Long?,
+                                                 condition:Int?,
+                                                 conditionShow:String?) {
                     Log.d("Chloe","dialog is Success!")
+                    viewModel.conditionType.value = conditionType
+                    viewModel.deadLine.value = deadLine
+                    viewModel.condition.value = condition
+                    viewModel.conditionShow.value = conditionShow
                 }
             })
             dialog.show(childFragmentManager, "hiya")
         }
+
+        binding.addGatherOption.setOnClickListener{
+            Log.d("Chloe","oldOption is ${viewModel.option.value}")
+            val dialog = GatherOptionDialog(
+                    optionAdd = object : OptionAdd {
+                        override fun onOptionAdded(option: List<String>,isStandard:Boolean,optionShow:String) {
+                            Log.d("Chloe","option dialog is Success! optionlist is ${viewModel.option.value}")
+                            viewModel.option.value = option
+                            viewModel.isStandard.value = isStandard
+                            viewModel.optionShow.value = optionShow
+                        }},
+                    oldOption = viewModel.option.value,
+                    oldIsStandard = viewModel.isStandard.value?:false
+
+            )
+            dialog.show(childFragmentManager, "hiya")
+        }
+
 
         return binding.root
     }
@@ -82,5 +108,19 @@ class GatherFragment : Fragment() {
 }
 
 interface ConditionSelector {
-    fun onConditionSelected()
+    fun onConditionSelected(
+        conditionType:Int?,
+        deadLine:Long?,
+        condition:Int?,
+        conditionShow:String?
+    )
+}
+
+interface OptionAdd {
+    fun onOptionAdded(
+            option: List<String>,
+            isStandard: Boolean,
+            optionShow:String
+
+    )
 }

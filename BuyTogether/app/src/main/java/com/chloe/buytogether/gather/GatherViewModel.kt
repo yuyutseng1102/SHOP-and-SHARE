@@ -11,6 +11,7 @@ import com.chloe.buytogether.R
 import com.chloe.buytogether.data.Collections
 import com.chloe.buytogether.data.Order
 import com.chloe.buytogether.data.source.Repository
+import com.chloe.buytogether.ext.toDisplayFormat
 import com.chloe.buytogether.network.LoadApiStatus
 import com.chloe.buytogether.util.Util.getString
 import kotlinx.coroutines.CoroutineScope
@@ -50,22 +51,28 @@ class GatherViewModel(private val repository: Repository) : ViewModel() {
     val category = MutableLiveData<String>()
     val country = MutableLiveData<String>()
     val source = MutableLiveData<String>()
-    val isCustom = MutableLiveData<Boolean>()
+    val isStandard = MutableLiveData<Boolean>()
     val option = MutableLiveData<List<String>>()
     val deliveryMethod = MutableLiveData<String>()
-    val condition = MutableLiveData<String>()
+    val conditionType = MutableLiveData<Int?>()
+    val deadLine = MutableLiveData<Long?>()
+    val condition = MutableLiveData<Int?>()
+    val conditionShow = MutableLiveData<String?>()
+    val optionShow = MutableLiveData<String>()
 
     private val _isInvalid = MutableLiveData<Int>()
     val isInvalid: LiveData<Int>
         get() =  _isInvalid
 
+    private val _isConditionDone = MutableLiveData<Boolean>()
+    val isConditionDone: LiveData<Boolean>
+        get() =  _isConditionDone
+
 
     init {
         image.value = listOf("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn2O7C-ZPE_D1GshuECEOcxjqIMmnXSxo0fA&usqp=CAU")
-        isCustom.value = true
-        option.value = listOf()
-        condition.value = "滿五百"
         _isInvalid.value = null
+        _isConditionDone.value = false
     }
 
     //select gather method
@@ -141,9 +148,9 @@ class GatherViewModel(private val repository: Repository) : ViewModel() {
                 title.value.isNullOrEmpty() -> INVALID_FORMAT_TITLE_EMPTY
                 description.value.isNullOrEmpty() -> INVALID_FORMAT_DESCRIPTION_EMPTY
                 source.value.isNullOrEmpty() -> INVALID_FORMAT_SOURCE_EMPTY
-                isCustom.value == false && option.value.isNullOrEmpty() -> INVALID_FORMAT_OPTION_EMPTY
+                option.value.isNullOrEmpty() -> INVALID_FORMAT_OPTION_EMPTY
                 deliveryMethod.value.isNullOrEmpty() -> INVALID_FORMAT_DELIVERY_EMPTY
-                condition.value.isNullOrEmpty() -> INVALID_FORMAT_CONDITION_EMPTY
+                conditionShow.value.isNullOrEmpty() -> INVALID_FORMAT_CONDITION_EMPTY
                 else -> null
             }
 
@@ -163,7 +170,7 @@ class GatherViewModel(private val repository: Repository) : ViewModel() {
         Log.d("Chloe","The country.value is valid${country.value}")
         Log.d("Chloe","The  description.value is valid${description.value}")
         Log.d("Chloe","The source.value is valid${source.value}")
-        Log.d("Chloe","The isCustom.value is valid${isCustom.value}")
+        Log.d("Chloe","The isCustom.value is valid${isStandard.value}")
         Log.d("Chloe","The deliveryMethod.value is valid${deliveryMethod.value}")
         Log.d("Chloe","The condition.value is valid${condition.value}")
 
@@ -184,17 +191,24 @@ class GatherViewModel(private val repository: Repository) : ViewModel() {
             category = category.value?:"",
             country = country.value?:"",
             source = source.value?:"",
-            isCustom = isCustom.value?:false,
+            isStandard = isStandard.value?:false,
             option = option.value?: listOf(),
             deliveryMethod = deliveryMethod.value?:"",
-            conditionType = 1,
-            deadLine = 0,
-            condition = condition.value?:"",
+            conditionType = conditionType.value,
+            deadLine = deadLine.value,
+            condition = condition.value,
             status = 0,
             order = listOf()
         )
         Log.d("Chloe","The collection posted is ${_collection.value}")
     }
+
+
+    fun checkCondition(){
+        Log.d("Chloe","_isConditionDone= ${_isConditionDone.value}")
+        _isConditionDone.value = !(deadLine.value == null&&condition.value==null)
+    }
+
 
     companion object {
         const val INVALID_FORMAT_METHOD_EMPTY       = 0x11
@@ -208,26 +222,8 @@ class GatherViewModel(private val repository: Repository) : ViewModel() {
         const val INVALID_FORMAT_DELIVERY_EMPTY     = 0x19
         const val INVALID_FORMAT_CONDITION_EMPTY    = 0x20
         const val NO_ONE_KNOWS                      = 0x21
-
     }
-
 
 }
 
-//fun readyToPost() {
-//    selectCategory()
-//    selectCountry()
-//    isReady.value =
-//            when {
-//                image.value.isNullOrEmpty() -> GatherViewModel.INVALID_FORMAT_METHOD_EMPTY
-//                title.value.isNullOrEmpty() -> GatherViewModel.INVALID_FORMAT_TITLE_EMPTY
-//                description.value.isNullOrEmpty() -> GatherViewModel.INVALID_FORMAT_DESCRIPTION_EMPTY
-//                category.value.isNullOrEmpty() -> GatherViewModel.INVALID_FORMAT_CATEGORY_EMPTY
-//                country.value.isNullOrEmpty() -> GatherViewModel.INVALID_FORMAT_COUNTRY_EMPTY
-//                isCustom.value == false && option.value.isNullOrEmpty() -> GatherViewModel.INVALID_FORMAT_OPTION_EMPTY
-//                deliveryMethod.value.isNullOrEmpty() -> GatherViewModel.INVALID_FORMAT_DELIVERY_EMPTY
-//                condition.value.isNullOrEmpty() -> GatherViewModel.INVALID_FORMAT_CONDITION_EMPTY
-//                else -> null
-//            }
-//    Log.d("Chloe","The information is invalid ${isReady.value}")
-//}
+
