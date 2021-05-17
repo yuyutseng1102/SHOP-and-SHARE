@@ -1,11 +1,11 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/design_default_color_primary</item>
-        <item name="colorPrimaryDark">@color/design_default_color_primary_dark</item>
-        <item name="colorAccent">@color/purple_200</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -22,6 +22,56 @@
     </style>
 
     <style name="PublishDialog">
-        <item name="android:windowBackground">@color/cardview_light_background</item>
+        <item name="android:windowBackground">@color/transparent</item>
     </style>
+
+    <!-- / 熱門團購 Hot Collection / -->
+    <style name="TitleHots">
+        <item name="android:fontFamily">@font/noto_sans</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/green_7A8277</item>
+    </style>
+    <style name="SubTitle">
+        <item name="android:fontFamily">@font/noto_sans</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/green_7A8277</item>
+    </style>
+    <style name="HomeProductTitle">
+        <item name="android:fontFamily">@font/noto_sans</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
+    </style>
+    <style name="ProductTitle">
+        <item name="android:fontFamily">@font/noto_sans</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
+    </style>
+    <style name="ProductContent">
+        <item name="android:fontFamily">@font/noto_sans</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/gray_888888</item>
+    </style>
+
+    <!-- / 開團 / -->
+    <style name="GatherTitle">
+        <item name="android:fontFamily">@font/noto_sans</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
+    </style>
+
+    <style name="ButtonName" parent="Base.Widget.AppCompat.Button.Borderless">
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+
 </resources>

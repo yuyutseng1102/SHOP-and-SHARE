@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">Buy Together</string>
+
+
+    <!--Home-->
+    <string name="hot_collect">/ 熱門團購 Hot Collection /</string>
+    <string name="living">居家生活</string>
+    <string name="makeup">美妝保養</string>
+    <string name="new_collect">/ 最新上線 New Collection /</string>
+
+    <!-- Sort Method-->
+    <string name="select_sort">選擇排序方式</string>
+    <string name="by_id">綜合排序</string>
+    <string name="by_time">最新上線</string>
+    <string name="by_hots">熱門團購</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

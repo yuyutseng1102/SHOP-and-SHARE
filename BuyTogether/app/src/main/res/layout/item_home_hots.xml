@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="item"
+            type="com.chloe.buytogether.data.Collections" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingEnd="8dp">
+
+        <ImageView
+            android:id="@+id/product_image"
+            imageUrl="@{item.mainImage}"
+            android:layout_width="105dp"
+            android:layout_height="105dp"
+            android:background="@color/cardview_light_background"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@drawable/makeup" />
+
+        <TextView
+            android:id="@+id/product_title"
+            style="@style/HomeProductTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:text="@{item.title}"
+            tools:text="romand唇釉"
+            app:layout_constraintEnd_toEndOf="@+id/product_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/product_image" />
+
+        <ImageView
+            android:id="@+id/mark_image"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:forceHasOverlappingRendering="false"
+            android:tint="@color/green_BDCCC5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_mark" />
+
+        <TextView
+            android:id="@+id/mark_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="1"
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="@+id/mark_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/mark_image" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
