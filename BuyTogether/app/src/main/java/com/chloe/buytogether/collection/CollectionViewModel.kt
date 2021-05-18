@@ -1,5 +1,6 @@
 package com.chloe.buytogether.collection
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,6 +13,23 @@ class CollectionViewModel(private val repository: Repository): ViewModel() {
     private val _collection = MutableLiveData<List<Collections>>()
     val collection: LiveData<List<Collections>>
         get() = _collection
+
+    // Handle navigation to manage
+    private val _navigateToManage = MutableLiveData<Collections>()
+    val navigateToManage: LiveData<Collections>
+        get() = _navigateToManage
+
+    fun navigateToManage(collection: Collections) {
+        Log.d("navigationseries", "navigateToManage_00_inViewmodel = ${_navigateToManage.value}")
+
+        _navigateToManage.value = collection
+        Log.d("navigationseries", "navigateToManage_01_inViewmodel = ${_navigateToManage.value}")
+
+    }
+
+    fun onManageNavigated() {
+        _navigateToManage.value = null
+    }
 
     //mockData
     private val mockUserId = 193798L
@@ -28,6 +46,8 @@ class CollectionViewModel(private val repository: Repository): ViewModel() {
     private val condition = 5000
     private val status: Int = 0
     private val order:List<Order>? = listOf()
+
+
 
 
     fun addMockData(){

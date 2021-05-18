@@ -1,14 +1,16 @@
 package com.chloe.buytogether.collection
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.chloe.buytogether.R
+import androidx.navigation.fragment.findNavController
+import com.chloe.buytogether.NavigationDirections
 import com.chloe.buytogether.databinding.FragmentCollectionBinding
-import com.chloe.buytogether.databinding.FragmentCollectionManageBinding
+import androidx.lifecycle.Observer
 import com.chloe.buytogether.ext.getVmFactory
 
 
@@ -26,6 +28,16 @@ class CollectionFragment : Fragment() {
 
         val adapter = CollectionAdapter(viewModel)
         binding.recyclerCollection.adapter = adapter
+
+        viewModel.navigateToManage.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                Log.d("navigate", "navigateToManage_01 = ${viewModel.navigateToManage}")
+                findNavController().navigate(NavigationDirections.navigateToCollectionManageFragment(it))
+                viewModel.onManageNavigated()
+                Log.d("navigate", "navigateToDetail_02 = ${viewModel.navigateToManage}")
+            }
+        })
+
 
         return binding.root
     }

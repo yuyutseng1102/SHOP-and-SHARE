@@ -49,14 +49,14 @@ data class Collections(
 @Parcelize
 data class Order(
     val orderId: Long = 0L,
-    val time: Long= Calendar.getInstance().timeInMillis,
+    val orderTime: Long= Calendar.getInstance().timeInMillis,
     val userId:Long = 0L,
     val product:List<Product>,
     val price: Int = 0,
     val phone:String = "",
     val delivery: String = "",
     val note: String? = null,
-    val paymentStatus: Boolean = false
+    val paymentStatus: Int = 0
 ):Parcelable
 
 
@@ -65,18 +65,3 @@ data class Product(
     val productName: String = "",
     val quantity: Int = 0
 ) : Parcelable
-
-
-@Parcelize
-data class MockCollections(
-    val mainImage: String,
-    val title: String,
-    val condition:String,
-    val memberSize:Int
-):Parcelable{
-    val memberToDisplay : String
-        get()= "已跟團${memberSize}人"
-    val followToDisplay : String
-        get()= "有興趣${memberSize}人"
-
-}

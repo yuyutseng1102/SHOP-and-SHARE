@@ -30,6 +30,16 @@
         android:label="CollectionFragment"
         tools:layout="@layout/fragment_collection" />
 
+    <fragment
+        android:id="@+id/collectionManageFragment"
+        android:name="com.chloe.buytogether.collection.manage.CollectionManageFragment"
+        android:label="CollectionManageFragment"
+        tools:layout="@layout/fragment_collection_manage">
+    <argument android:name="collectionKey"
+        app:argType="com.chloe.buytogether.data.Collections"
+        app:nullable="false"/>
+    </fragment>
+
 
     <action android:id="@+id/navigate_to_home_fragment" app:destination="@id/homeFragment"
         app:popUpTo="@id/navigation"
@@ -45,6 +55,10 @@
 
     <action android:id="@+id/navigate_to_collection_fragment" app:destination="@id/collectionFragment"
         app:popUpTo="@id/profileFragment"
+        app:popUpToInclusive="false" />
+
+    <action android:id="@+id/navigate_to_collection_manage_fragment" app:destination="@id/collectionManageFragment"
+        app:popUpTo="@id/collectionFragment"
         app:popUpToInclusive="false" />
 
 

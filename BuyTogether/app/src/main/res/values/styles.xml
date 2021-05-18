@@ -78,7 +78,11 @@
         <item name="android:letterSpacing">0.15</item>
         <item name="android:textColor">@color/gray_888888</item>
     </style>
-
+    <style name="Number">
+        <item name="android:fontFamily">@font/noto_sans</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
     <style name="SeeDetailTitle">
         <item name="android:fontFamily">@font/noto_sans</item>
         <item name="android:textSize">14sp</item>
