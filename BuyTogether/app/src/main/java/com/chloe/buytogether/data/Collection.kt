@@ -62,6 +62,6 @@ data class Order(
 
 @Parcelize
 data class Product(
-    val productName: String = "",
+    val productTitle: String = "",
     val quantity: Int = 0
 ) : Parcelable

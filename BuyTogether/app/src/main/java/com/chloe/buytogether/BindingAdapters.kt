@@ -13,8 +13,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.chloe.buytogether.collection.CollectionAdapter
 import com.chloe.buytogether.collection.manage.MemberAdapter
+import com.chloe.buytogether.collection.manage.MemberProductAdapter
 import com.chloe.buytogether.data.Collections
 import com.chloe.buytogether.data.Order
+import com.chloe.buytogether.data.Product
 import com.chloe.buytogether.ext.toDisplayFormat
 import com.chloe.buytogether.gather.item.GatherOptionAdapter
 import com.chloe.buytogether.home.item.HomeCollectAdapter
@@ -47,7 +49,7 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
 }
 
 @BindingAdapter("collections")
-fun bindRecyclerViewWithProducts(recyclerView: RecyclerView, collections: List<Collections>?) {
+fun bindRecyclerViewWithCollections(recyclerView: RecyclerView, collections: List<Collections>?) {
     collections?.let {
         recyclerView.adapter?.apply {
             when (this) {
@@ -74,12 +76,24 @@ fun bindRecyclerViewWithStrings(recyclerView: RecyclerView, options: List<String
 }
 
 @BindingAdapter("orders")
-fun bindRecyclerViewWithOrders(recyclerView: RecyclerView, orders: List<Order>) {
+fun bindRecyclerViewWithOrders(recyclerView: RecyclerView, orders: List<Order>?) {
     orders?.let {
         recyclerView.adapter?.apply {
             Log.d("Chloe","summit the option list is ${orders}")
             when (this) {
                 is MemberAdapter -> submitList(it)
+            }
+        }
+    }
+}
+
+@BindingAdapter("products")
+fun bindRecyclerViewWithProducts(recyclerView: RecyclerView, products: List<Product>?) {
+    products?.let {
+        recyclerView.adapter?.apply {
+            Log.d("Chloe","summit the option list is ${products}")
+            when (this) {
+                is MemberProductAdapter -> submitList(it)
             }
         }
     }

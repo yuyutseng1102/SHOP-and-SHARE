@@ -5,32 +5,31 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.chloe.buytogether.data.Order
-import com.chloe.buytogether.databinding.ItemCollectionManageMemberBinding
+import com.chloe.buytogether.data.Product
+import com.chloe.buytogether.databinding.ItemCollectionManageProductBinding
 
-class MemberProductAdapter: ListAdapter<Order, MemberProductAdapter.ViewHolder>(DiffCallback) {
+class MemberProductAdapter: ListAdapter<Product, MemberProductAdapter.ViewHolder>(DiffCallback) {
 
-    class ViewHolder(private var binding: ItemCollectionManageMemberBinding):
+    class ViewHolder(private var binding: ItemCollectionManageProductBinding):
             RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Order, position: Int) {
+        fun bind(item: Product) {
             binding.item = item
-            binding.memberNumber.text = (position+1).toString()
             binding.executePendingBindings()
         }
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<Order>() {
-        override fun areItemsTheSame(oldItem: Order, newItem: Order): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<Product>() {
+        override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
             return oldItem === newItem
         }
-        override fun areContentsTheSame(oldItem: Order, newItem: Order): Boolean {
+        override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
             return oldItem == newItem
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-                ItemCollectionManageMemberBinding.inflate(
+                ItemCollectionManageProductBinding.inflate(
                         LayoutInflater.from(parent.context), parent, false))
     }
 
@@ -39,7 +38,7 @@ class MemberProductAdapter: ListAdapter<Order, MemberProductAdapter.ViewHolder>(
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item,position)
+        holder.bind(item)
     }
 
 }

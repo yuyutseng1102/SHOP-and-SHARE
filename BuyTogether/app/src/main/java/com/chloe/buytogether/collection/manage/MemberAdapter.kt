@@ -19,6 +19,7 @@ class MemberAdapter  : ListAdapter<Order, MemberAdapter.ViewHolder>(DiffCallback
         fun bind(item: Order,position: Int) {
             binding.item = item
             binding.memberNumber.text = (position+1).toString()
+            binding.recyclerProduct.adapter = MemberProductAdapter()
             binding.executePendingBindings()
         }
     }

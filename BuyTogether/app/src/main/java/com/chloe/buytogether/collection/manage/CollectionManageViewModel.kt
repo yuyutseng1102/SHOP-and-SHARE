@@ -28,12 +28,18 @@ class CollectionManageViewModel(
     val order: LiveData<List<Order>>
         get() = _order
 
+//    private val _product = MutableLiveData<List<Product>>().apply {
+//        value = products
+//    }
+//    val product: LiveData<List<Product>>
+//        get() = _product
+
     //mock data
 
     private val orderId = 1245L
     private val orderTime: Long= Calendar.getInstance().timeInMillis
     private val userId:Long = 193798
-    private val product:List<Product> = listOf(Product("棉麻上衣白色/M",1))
+    private val products:List<Product> = listOf(Product("棉麻上衣白色/M",1),Product("法式雪紡背心/M",2),Product("開襟洋裝/M",5))
     private val price: Int = 2000
     private val phone:String = "0988888888"
     private val delivery: String = "711永和門市"
@@ -45,13 +51,13 @@ class CollectionManageViewModel(
     fun addMockData(){
         val orderList: MutableList<Order> = mutableListOf()
         orderList.add(Order(
-                orderId, orderTime, userId, product, price, phone, delivery,note,paymentStatus
+                orderId, orderTime, userId, products, price, phone, delivery,note,paymentStatus
         ))
         orderList.add(Order(
-                orderId, orderTime, userId, product, price, phone, delivery,note,paymentStatus
+                orderId, orderTime, userId, products, price, phone, delivery,note,paymentStatus
         ))
         orderList.add(Order(
-                orderId, orderTime, userId, product, price, phone, delivery,note,paymentStatus
+                orderId, orderTime, userId, products, price, phone, delivery,note,paymentStatus
         ))
         _order.value = orderList
     }

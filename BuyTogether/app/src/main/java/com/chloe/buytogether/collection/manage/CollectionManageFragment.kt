@@ -24,8 +24,8 @@ class CollectionManageFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        val adapter = MemberAdapter()
-        binding.recyclerMember.adapter = adapter
+        val memberAdapter = MemberAdapter()
+        binding.recyclerMember.adapter = memberAdapter
 
         viewModel.addMockData()
 
