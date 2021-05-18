@@ -12,7 +12,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_margin="8dp"
         android:background="@drawable/bg_white_corner"
         android:elevation="2dp"
@@ -59,7 +59,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="待付款"
+            app:paymentStatusToDisplay="@{item.paymentStatus}"
+            tools:text="待付款"
             android:textColor="@color/black_3f3a3a"
             app:layout_constraintBottom_toBottomOf="@+id/view_top"
             app:layout_constraintEnd_toEndOf="parent"
@@ -78,9 +79,10 @@
             tools:text="194772" />
 
         <androidx.core.widget.NestedScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:fillViewport="true"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -99,16 +101,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
                     android:ellipsize="end"
                     android:maxLines="2"
                     android:text="@{item.note}"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="@+id/member_name"
                     app:layout_constraintTop_toTopOf="@+id/member_note_icon"
-                    app:layout_constraintVertical_bias="0.0"
                     tools:text="無" />
 
                 <ImageView
@@ -117,10 +116,8 @@
                     android:layout_height="24dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/member_delivery"
-                    app:layout_constraintVertical_bias="0.0"
                     app:srcCompat="@drawable/ic_baseline_message_24"
                     app:tint="@color/green_7A8277" />
 
@@ -251,6 +248,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/member_note"
+                    app:layout_constraintVertical_bias="1.0"
                     app:timeToDisplayFormat="@{item.orderTime}"
                     tools:text="124" />
 

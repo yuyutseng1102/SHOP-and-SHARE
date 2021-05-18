@@ -54,7 +54,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <!-- Collection Status -->
+    <!-- Order Status -->
     <string name="gathering">開團中</string>
     <string name="gather_success">已收團</string>
     <string name="order_success">主購已下單</string>
@@ -63,6 +63,15 @@
     <string name="packaging">出貨準備中</string>
     <string name="shipment">商品已寄出</string>
     <string name="finish">團購結束</string>
+
+    <!-- Payment Status -->
+    <string name="pending">待確認</string>
+    <string name="payment_pending">待付款</string>
+    <string name="payment_confirm">確認付款</string>
+    <string name="refund_pending">待退款</string>
+    <string name="refund_confirm">退款完成</string>
+    <string name="balance_pending">待補款</string>
+    <string name="balance_confirm">補款完成</string>
 
 
 </resources>

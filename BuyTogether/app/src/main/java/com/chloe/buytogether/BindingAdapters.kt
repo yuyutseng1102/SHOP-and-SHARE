@@ -1,23 +1,36 @@
 package com.chloe.buytogether
 
+import android.content.res.ColorStateList
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.Shape
 import android.util.Log
 import android.view.View
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.chloe.buytogether.collection.CollectionAdapter
+import com.chloe.buytogether.collection.OrderStatusType
+import com.chloe.buytogether.collection.PaymentStatusType
 import com.chloe.buytogether.collection.manage.MemberAdapter
 import com.chloe.buytogether.collection.manage.MemberProductAdapter
 import com.chloe.buytogether.data.Collections
 import com.chloe.buytogether.data.Order
 import com.chloe.buytogether.data.Product
 import com.chloe.buytogether.ext.toDisplayFormat
+import com.chloe.buytogether.gather.CategoryType
+import com.chloe.buytogether.gather.CountryType
 import com.chloe.buytogether.gather.item.GatherOptionAdapter
 import com.chloe.buytogether.home.item.HomeCollectAdapter
 import com.chloe.buytogether.home.item.HomeGridAdapter
@@ -128,22 +141,89 @@ fun bindDisplayCondition(textView: TextView,deadLine:Long?,conditionType:Int?,co
         }
 }
 
-@BindingAdapter("statusToDisplay")
-fun bindDisplayStatus(textView:TextView,status:Int) {
+@BindingAdapter("categoryToDisplay")
+fun bindDisplayCategory(textView:TextView,category:Int) {
 
-    textView.text =
-        when (status) {
-            0 -> MyApplication.instance.getString(R.string.gathering)
-            1 -> MyApplication.instance.getString(R.string.gather_success)
-            2 -> MyApplication.instance.getString(R.string.order_success)
-            3 -> MyApplication.instance.getString(R.string.shop_shipment)
-            4 -> MyApplication.instance.getString(R.string.shipment_success)
-            5 -> MyApplication.instance.getString(R.string.packaging)
-            6 -> MyApplication.instance.getString(R.string.shipment)
-            7 -> MyApplication.instance.getString(R.string.finish)
-            else -> ""
+        fun getTitle(category:Int): String {
+            for (type in CategoryType.values()) {
+                if (type.category == category) {
+                    return type.title
+                }
+            }
+            return ""
         }
 
+    textView.text = getTitle(category)
 }
+
+@BindingAdapter("countryToDisplay")
+fun bindDisplayCountry(textView:TextView,country:Int) {
+
+    fun getTitle(country:Int): String {
+        for (type in CountryType.values()) {
+            if (type.country == country) {
+                return type.title
+            }
+        }
+        return ""
+    }
+
+    textView.text = getTitle(country)
+}
+
+@BindingAdapter("orderStatusToDisplay")
+fun bindDisplayOrderStatus(textView:TextView,status:Int) {
+
+    fun getTitle(status:Int): String {
+        for (type in OrderStatusType.values()) {
+            if (type.status == status) {
+                return type.title
+            }
+        }
+        return ""
+    }
+    textView.text = getTitle(status)
+}
+
+@BindingAdapter("paymentStatusToDisplay")
+fun bindDisplayPaymentStatus(textView:TextView,status:Int) {
+
+    fun getTitle(status:Int): String {
+        for (type in PaymentStatusType.values()) {
+            if (type.paymentStatus == status) {
+                return type.title
+            }
+        }
+        return ""
+    }
+    textView.text = getTitle(status)
+}
+
+
+
+
+//@BindingAdapter("editorPaymentStatus")
+//fun bindEditorPaymentStatus(imageButton: ImageButton, paymentStatus: Int) {
+//
+//    imageButton.apply {
+//        isClickable =
+//                when(paymentStatus){
+//                    0 ->
+//                }}
+//        backgroundTintList =
+//
+//                getColor(
+//                        when (enabled) {
+//                            true -> R.color.black_3f3a3a
+//                            false -> R.color.gray_999999
+//                        }))
+//        foregroundTintList = ColorStateList.valueOf(
+//                getColor(
+//                        when (enabled) {
+//                            true -> R.color.black_3f3a3a
+//                            false -> R.color.gray_999999
+//                        }))
+//    }
+//}
 
 

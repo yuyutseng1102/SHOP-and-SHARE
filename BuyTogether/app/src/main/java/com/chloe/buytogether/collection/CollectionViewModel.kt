@@ -34,9 +34,9 @@ class CollectionViewModel(private val repository: Repository): ViewModel() {
     //mockData
     private val mockUserId = 193798L
     private val time: Long= java.util.Calendar.getInstance().timeInMillis
-    private val method = "揪團團購"
-    private val category = "女裝"
-    private val country = "日本"
+    private val method = 1
+    private val category = 101
+    private val country = 12
     private val source = ""
     private val isStandard = false
     private val option = listOf("全網站")

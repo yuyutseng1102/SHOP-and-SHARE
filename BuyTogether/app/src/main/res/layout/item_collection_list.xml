@@ -122,7 +122,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/collection_date"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/collection_date"
-            app:statusToDisplay="@{item.status}"
+            app:orderStatusToDisplay="@{item.status}"
             tools:text="徵團中" />
 
         <androidx.constraintlayout.widget.ConstraintLayout

@@ -48,8 +48,8 @@ class GatherViewModel(private val repository: Repository) : ViewModel() {
     val image = MutableLiveData<List<String>>()
     val title = MutableLiveData<String>()
     val description = MutableLiveData<String>()
-    val category = MutableLiveData<String>()
-    val country = MutableLiveData<String>()
+    val category = MutableLiveData<Int>()
+    val country = MutableLiveData<Int>()
     val source = MutableLiveData<String>()
     val isStandard = MutableLiveData<Boolean>()
     val option = MutableLiveData<List<String>>()
@@ -77,12 +77,12 @@ class GatherViewModel(private val repository: Repository) : ViewModel() {
 
     //select gather method
     val selectedMethodRadio = MutableLiveData<Int>()
-    private val method : String
+    private val method : Int
         get() = when (selectedMethodRadio.value) {
-            R.id.radio_agent -> getString(R.string.purchase_agent)
-            R.id.radio_gather -> getString(R.string.purchase_gather)
-            R.id.radio_private -> getString(R.string.purchase_private)
-            else -> ""
+            R.id.radio_agent -> 0
+            R.id.radio_gather -> 1
+            R.id.radio_private -> 2
+            else -> 1
         }
 
     //select gather category
@@ -92,25 +92,8 @@ class GatherViewModel(private val repository: Repository) : ViewModel() {
         CategoryType.values()[it]
     }
     fun selectCategory(){
-        category.value =
-        when(categoryType.value) {
-            CategoryType.WOMAN -> getString(R.string.woman)
-            CategoryType.MAN -> getString(R.string.man)
-            CategoryType.CHILD -> getString(R.string.child)
-            CategoryType.SHOES_BAG -> getString(R.string.shoes_bag)
-            CategoryType.MAKEUP -> getString(R.string.makeup)
-            CategoryType.HEALTH -> getString(R.string.health)
-            CategoryType.FOOD -> getString(R.string.food)
-            CategoryType.LIVING -> getString(R.string.living)
-            CategoryType.APPLIANCE -> getString(R.string.appliance)
-            CategoryType.PET -> getString(R.string.pet)
-            CategoryType.STATIONARY -> getString(R.string.stationary)
-            CategoryType.SPORT -> getString(R.string.sport)
-            CategoryType.COMPUTER -> getString(R.string.computer)
-            CategoryType.TICKET -> getString(R.string.ticket)
-            CategoryType.OTHER -> getString(R.string.other)
-            else -> ""
-        }
+        category.value = categoryType.value?.category
+        Log.d("Chloe","====Look at category ${category.value}==== ")
     }
 
     //select gather country
@@ -120,20 +103,8 @@ class GatherViewModel(private val repository: Repository) : ViewModel() {
         CountryType.values()[it]
     }
     fun selectCountry(){
-        country.value =
-                when(countryType.value) {
-                    CountryType.TAIWAN -> getString(R.string.taiwan)
-                    CountryType.JAPAN -> getString(R.string.japan)
-                    CountryType.KOREA -> getString(R.string.korea)
-                    CountryType.CHINA -> getString(R.string.china)
-                    CountryType.USA -> getString(R.string.usa)
-                    CountryType.CANADA -> getString(R.string.canada)
-                    CountryType.EU -> getString(R.string.eu)
-                    CountryType.AUSTRALIA -> getString(R.string.australia)
-                    CountryType.SOUTH_EAST_ASIA -> getString(R.string.south_east_asia)
-                    CountryType.OTHER -> getString(R.string.other)
-                    else -> ""
-                }
+        country.value = countryType.value?.country
+        Log.d("Chloe","====Look at country ${country.value}==== ")
     }
 
     fun readyToPost() {
@@ -188,8 +159,8 @@ class GatherViewModel(private val repository: Repository) : ViewModel() {
             image = image.value?: listOf(),
             title = title.value?:"",
             description = description.value?:"",
-            category = category.value?:"",
-            country = country.value?:"",
+            category = category.value?:0,
+            country = country.value?:0,
             source = source.value?:"",
             isStandard = isStandard.value?:false,
             option = option.value?: listOf(),
@@ -225,5 +196,46 @@ class GatherViewModel(private val repository: Repository) : ViewModel() {
     }
 
 }
+
+//fun selectCategory(){
+//        when(categoryType.value) {
+//            Transformations.map(selectedCategoryPosition) {
+//                CategoryType.values()[it]
+//            } -> CategoryType.values()[it].title
+//
+//            CategoryType.WOMAN -> CategoryType.WOMAN.title
+//            CategoryType.MAN -> CategoryType.MAN.title
+//            CategoryType.CHILD -> CategoryType.CHILD.title
+//            CategoryType.SHOES_BAG -> CategoryType.SHOES_BAG.title
+//            CategoryType.MAKEUP -> CategoryType.MAKEUP.title
+//            CategoryType.HEALTH -> CategoryType.HEALTH.title
+//            CategoryType.FOOD -> CategoryType.FOOD.title
+//            CategoryType.LIVING -> CategoryType.LIVING.title
+//            CategoryType.APPLIANCE -> CategoryType.APPLIANCE.title
+//            CategoryType.PET -> CategoryType.PET.title
+//            CategoryType.STATIONARY -> CategoryType.STATIONARY.title
+//            CategoryType.SPORT -> CategoryType.SPORT.title
+//            CategoryType.COMPUTER -> CategoryType.COMPUTER.title
+//            CategoryType.TICKET -> CategoryType.TICKET.title
+//            CategoryType.OTHER -> CategoryType.OTHER.title
+//            else -> ""
+//        }
+//}
+//fun selectCountry(){
+//    country.value =
+//            when(countryType.value) {
+//                CountryType.TAIWAN -> C
+//                CountryType.JAPAN -> getString(R.string.japan)
+//                CountryType.KOREA -> getString(R.string.korea)
+//                CountryType.CHINA -> getString(R.string.china)
+//                CountryType.USA -> getString(R.string.usa)
+//                CountryType.CANADA -> getString(R.string.canada)
+//                CountryType.EU -> getString(R.string.eu)
+//                CountryType.AUSTRALIA -> getString(R.string.australia)
+//                CountryType.SOUTH_EAST_ASIA -> getString(R.string.south_east_asia)
+//                CountryType.OTHER -> getString(R.string.other)
+//                else -> ""
+//            }
+//}
 
 

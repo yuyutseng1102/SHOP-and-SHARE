@@ -40,6 +40,7 @@ class CollectionManageViewModel(
     private val orderTime: Long= Calendar.getInstance().timeInMillis
     private val userId:Long = 193798
     private val products:List<Product> = listOf(Product("棉麻上衣白色/M",1),Product("法式雪紡背心/M",2),Product("開襟洋裝/M",5))
+    private val products2:List<Product> = listOf(Product("棉麻上衣白色/M",1),Product("法式雪紡背心/M",2),Product("開襟洋裝/M",5),Product("法式雪紡背心/M",2),Product("開襟洋裝/M",5))
     private val price: Int = 2000
     private val phone:String = "0988888888"
     private val delivery: String = "711永和門市"
@@ -54,7 +55,7 @@ class CollectionManageViewModel(
                 orderId, orderTime, userId, products, price, phone, delivery,note,paymentStatus
         ))
         orderList.add(Order(
-                orderId, orderTime, userId, products, price, phone, delivery,note,paymentStatus
+                orderId, orderTime, userId, products2, price, phone, delivery,note,paymentStatus
         ))
         orderList.add(Order(
                 orderId, orderTime, userId, products, price, phone, delivery,note,paymentStatus
