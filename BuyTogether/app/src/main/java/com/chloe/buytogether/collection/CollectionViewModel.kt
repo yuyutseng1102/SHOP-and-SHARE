@@ -6,7 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.chloe.buytogether.data.Collections
 import com.chloe.buytogether.data.Order
+import com.chloe.buytogether.data.Product
 import com.chloe.buytogether.data.source.Repository
+import java.util.*
 
 class CollectionViewModel(private val repository: Repository): ViewModel() {
 
@@ -45,8 +47,27 @@ class CollectionViewModel(private val repository: Repository): ViewModel() {
     private val deadLine = java.util.Calendar.getInstance().timeInMillis
     private val condition = 5000
     private val status: Int = 0
-    private val order:List<Order>? = listOf()
 
+    private val orderId1 = 1245L
+    private val orderId2 = 1243L
+    private val orderId3 = 1241L
+    private val orderTime: Long= Calendar.getInstance().timeInMillis
+    private val userId:Long = 193798
+    private val products:List<Product> = listOf(Product("棉麻上衣白色/M",1), Product("法式雪紡背心/M",2), Product("開襟洋裝/M",5))
+    private val products2:List<Product> = listOf(Product("棉麻上衣白色/M",1), Product("法式雪紡背心/M",2), Product("開襟洋裝/M",5), Product("法式雪紡背心/M",2), Product("開襟洋裝/M",5))
+    private val price: Int = 2000
+    private val phone:String = "0988888888"
+    private val delivery: String = "711永和門市"
+    private val note: String? = "無"
+    private val mockPaymentStatus: Int = 0
+
+
+    private val order:List<Order>? =
+            listOf(
+                    Order(orderId1, orderTime, userId, products, price, phone, delivery, note, mockPaymentStatus),
+                    Order(orderId2, orderTime, userId, products2, price, phone, delivery,note,mockPaymentStatus),
+                    Order(orderId3, orderTime, userId, products, price, phone, delivery,note,mockPaymentStatus)
+            )
 
 
 

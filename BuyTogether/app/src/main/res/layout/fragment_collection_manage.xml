@@ -174,6 +174,16 @@
                     app:layout_constraintTop_toBottomOf="@+id/collection_member_title"
                     app:orders="@{viewModel.order}" />
 
+                <TextView
+                    android:id="@+id/delete_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:text="確定刪除"
+                    app:layout_constraintBottom_toBottomOf="@+id/collection_member_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/collection_member_title" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>

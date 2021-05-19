@@ -3,6 +3,7 @@ package com.chloe.buytogether.data
 import android.graphics.Insets.add
 import android.os.Parcelable
 import com.chloe.buytogether.ext.toDisplayFormat
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
@@ -27,7 +28,7 @@ data class Collections(
         val deadLine : Long? =null ,
         val condition: Int? = null,
         val status: Int = 0,
-        val order:List<Order>? = null
+        var order:List<Order>? = null
 ):Parcelable{
     val memberToDisplay : String
         get()= "已跟團${order?.size}人"
@@ -48,16 +49,19 @@ data class Collections(
 
 @Parcelize
 data class Order(
-    val orderId: Long = 0L,
-    val orderTime: Long= Calendar.getInstance().timeInMillis,
-    val userId:Long = 0L,
-    val product:List<Product>,
-    val price: Int = 0,
-    val phone:String = "",
-    val delivery: String = "",
-    val note: String? = null,
-    val paymentStatus: Int = 0
-):Parcelable
+        val orderId: Long = 0L,
+        val orderTime: Long= Calendar.getInstance().timeInMillis,
+        val userId:Long = 0L,
+        val product:List<Product>,
+        val price: Int = 0,
+        val phone:String = "",
+        val delivery: String = "",
+        val note: String? = null,
+        var paymentStatus: Int = 0
+):Parcelable{
+    @IgnoredOnParcel
+    var isCheck: Boolean = false
+}
 
 
 @Parcelize

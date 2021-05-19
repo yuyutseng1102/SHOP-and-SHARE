@@ -1,5 +1,6 @@
 package com.chloe.buytogether
 
+import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Canvas
 import android.graphics.Color
@@ -8,11 +9,9 @@ import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.Shape
 import android.util.Log
 import android.view.View
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.core.net.toUri
+import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -36,6 +35,8 @@ import com.chloe.buytogether.home.item.HomeCollectAdapter
 import com.chloe.buytogether.home.item.HomeGridAdapter
 import com.chloe.buytogether.home.item.HomeHots1stAdapter
 import com.chloe.buytogether.home.item.HomeHots2ndAdapter
+import com.chloe.buytogether.util.Util.getColor
+import kotlin.reflect.jvm.internal.impl.util.Check
 
 /**
  * According to [LoadApiStatus] to decide the visibility of [ProgressBar]
@@ -92,11 +93,13 @@ fun bindRecyclerViewWithStrings(recyclerView: RecyclerView, options: List<String
 fun bindRecyclerViewWithOrders(recyclerView: RecyclerView, orders: List<Order>?) {
     orders?.let {
         recyclerView.adapter?.apply {
+
             Log.d("Chloe","summit the option list is ${orders}")
             when (this) {
                 is MemberAdapter -> submitList(it)
             }
         }
+
     }
 }
 
@@ -199,6 +202,53 @@ fun bindDisplayPaymentStatus(textView:TextView,status:Int) {
     textView.text = getTitle(status)
 }
 
+@BindingAdapter("editorMemberJoined")
+fun bindEditorMemberJoined(toggleButton: ToggleButton, paymentStatus: Int) {
+
+    toggleButton.apply {
+        visibility =
+                when (paymentStatus) {
+                    0 -> View.VISIBLE
+                    else -> View.GONE
+                }
+    }
+}
+
+
+@BindingAdapter("isMemberChecked")
+fun bindEditorMemberChecked(toggleButton: ToggleButton, isChecked: Boolean) {
+
+    Log.d("Chloe","isChecked really is $isChecked")
+
+//    toggleButton.apply{
+//        backgroundTintList =
+//                when(isChecked){
+//                    true ->  ColorStateList.valueOf(getColor(R.color.black_3f3a3a))
+//                    else ->  ColorStateList.valueOf(getColor(R.color.white))
+//                }
+//    }
+
+    toggleButton.setBackgroundResource(
+
+            when(isChecked){
+                true -> R.drawable.ic_check_circle
+                else -> R.drawable.ic_check_circle_outline
+            }
+
+    )
+}
+
+@BindingAdapter("selected")
+fun drawAdd2cartSizeSelectedSquare(toggleButton: ToggleButton, isSelected: Boolean?) {
+    toggleButton.backgroundTintList =
+            if (isSelected == true){
+                ColorStateList.valueOf(getColor(R.color.black_3f3a3a))
+            }else{
+                ColorStateList.valueOf(getColor(R.color.white))
+            }
+
+}
+
 
 
 
@@ -206,9 +256,11 @@ fun bindDisplayPaymentStatus(textView:TextView,status:Int) {
 //fun bindEditorPaymentStatus(imageButton: ImageButton, paymentStatus: Int) {
 //
 //    imageButton.apply {
-//        isClickable =
+//        visibility =
 //                when(paymentStatus){
-//                    0 ->
+//                    0 -> View.VISIBLE
+//                    1 -> View.VISIBLE
+//                    else -> View.GONE
 //                }}
 //        backgroundTintList =
 //
@@ -224,6 +276,6 @@ fun bindDisplayPaymentStatus(textView:TextView,status:Int) {
 //                            false -> R.color.gray_999999
 //                        }))
 //    }
-//}
+
 
 

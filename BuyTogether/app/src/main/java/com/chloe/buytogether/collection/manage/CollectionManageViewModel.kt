@@ -1,13 +1,17 @@
 package com.chloe.buytogether.collection.manage
 
 import android.os.Parcelable
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import com.chloe.buytogether.bindEditorMemberChecked
 import com.chloe.buytogether.data.Collections
 import com.chloe.buytogether.data.Order
 import com.chloe.buytogether.data.Product
 import com.chloe.buytogether.data.source.Repository
+import com.google.android.gms.common.config.GservicesValue.value
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
@@ -24,9 +28,91 @@ class CollectionManageViewModel(
     val collection: LiveData<Collections>
         get() = _collection
 
-    private val _order = MutableLiveData<List<Order>>()
-    val order: LiveData<List<Order>>
+    private val _order = MutableLiveData<List<Order?>>()
+    val order: LiveData<List<Order?>>
         get() = _order
+
+    private val _member = MutableLiveData<Order?>()
+    val member : LiveData<Order?>
+        get() = _member
+
+    private val _isChecked = MutableLiveData<Boolean>()
+    val isChecked: LiveData<Boolean>
+        get() = _isChecked
+
+    init {
+            _order.value = _collection.value?.order
+
+    }
+
+
+//
+    private val _paymentStatus = MutableLiveData<Int>()
+    val paymentStatus: LiveData<Int>
+        get() = _paymentStatus
+
+    var checkedMemberPosition = MutableLiveData<Int?>()
+    val orderList: MutableList<Order>? = mutableListOf()
+    val deleteList: MutableList<Order>? = mutableListOf()
+
+
+
+    //打勾的是即將要刪除的團員
+    fun checkAgain(member: Order, position: Int){
+        checkedMemberPosition.value = position
+        _member.value = member
+        if (_member.value!=null) {
+            if (_member.value!!.isCheck) {
+                deleteList?.add(_member.value!!)
+            }else if (!_member.value!!.isCheck){
+                deleteList?.remove(_member.value!!)
+            }
+            Log.d("checkChloe","deleteList=${deleteList}")
+        }
+    }
+
+    fun deleteMember() {
+        //先把現有的order都加到list
+        if (_order.value != null) {
+            if (orderList.isNullOrEmpty()) {
+                for (i in _order.value!!) {
+                    orderList?.add(i!!)
+                }
+            }
+                Log.d("Chloe", "after order value is $orderList")
+                //再把上面有勾起來的都刪掉,並改變現有的order
+                if (deleteList != null) {
+                    for (i in deleteList) {
+                        orderList?.remove(i)
+                        _order.value = orderList
+                    }
+                }
+            }
+
+    }
+
+
+    //點選確定後
+    //把剩下的所有團員 狀態改為待付款
+
+    fun readyCollect(){
+
+        if (_order.value!=null){
+                for (i in _order.value!!){
+                    i?.paymentStatus = 1
+                }
+        }
+            Log.d("Chloe","after delete, order value is ${_order.value}")
+            //更新collection
+            _collection.value?.order ==_order.value
+            Log.d("Chloe","after update, now collection is ${_collection.value}")
+        }
+    }
+
+
+
+
+
 
 //    private val _product = MutableLiveData<List<Product>>().apply {
 //        value = products
@@ -34,33 +120,61 @@ class CollectionManageViewModel(
 //    val product: LiveData<List<Product>>
 //        get() = _product
 
-    //mock data
-
-    private val orderId = 1245L
-    private val orderTime: Long= Calendar.getInstance().timeInMillis
-    private val userId:Long = 193798
-    private val products:List<Product> = listOf(Product("棉麻上衣白色/M",1),Product("法式雪紡背心/M",2),Product("開襟洋裝/M",5))
-    private val products2:List<Product> = listOf(Product("棉麻上衣白色/M",1),Product("法式雪紡背心/M",2),Product("開襟洋裝/M",5),Product("法式雪紡背心/M",2),Product("開襟洋裝/M",5))
-    private val price: Int = 2000
-    private val phone:String = "0988888888"
-    private val delivery: String = "711永和門市"
-    private val note: String? = "無"
-    private val paymentStatus: Int = 0
 
 
+//    val orderList: MutableList<Order> = mutableListOf()
+//    fun addMockData(){
+//
+//        orderList.add(Order(
+//                orderId, orderTime, userId, products, price, phone, delivery,note,mockPaymentStatus
+//        ))
+//        orderList.add(Order(
+//                orderId, orderTime, userId, products2, price, phone, delivery,note,mockPaymentStatus
+//        ))
+//        orderList.add(Order(
+//                orderId, orderTime, userId, products, price, phone, delivery,note,mockPaymentStatus
+//        ))
+//        _order.value = orderList
+//    }
+//if (orderList!=null) {
+//    for (i in orderList) {
+//        i.paymentStatus = 1
+//    }
+//    _order.value = orderList
+//
+//}else _order.value = null
+//
+//if (_order.value!=null) {
+//    for (i in _order.value!!) {
+//        _collection.value?.order = _collection.value?.order?.filter { it.orderId == i.orderId }
+//        Log.d("Chloe", "order value now is ${_collection.value?.order}")
+//    }
+//}else{
+//    _collection.value?.order = listOf()
+//}
 
-    fun addMockData(){
-        val orderList: MutableList<Order> = mutableListOf()
-        orderList.add(Order(
-                orderId, orderTime, userId, products, price, phone, delivery,note,paymentStatus
-        ))
-        orderList.add(Order(
-                orderId, orderTime, userId, products2, price, phone, delivery,note,paymentStatus
-        ))
-        orderList.add(Order(
-                orderId, orderTime, userId, products, price, phone, delivery,note,paymentStatus
-        ))
-        _order.value = orderList
-    }
-
-}
+//    fun checkMember(member: Order, position: Int) {
+//        Log.d("checkChloe","selectMember=$member, position=$position")
+//        checkedMemberPosition.value = position
+//        _member.value = member
+//
+//        if(_member.value!=null){deleteList?.add(_member.value!!)}
+//        Log.d("checkChloe","_memberChecked.value=${_member.value}, paymentStatus=${_member.value?.paymentStatus}")
+//        Log.d("checkChloe","deleteList=${deleteList}")
+//    }
+//
+//    fun removeCheckMember(member: Order, position: Int) {
+//        Log.d("checkChloe","remove selectMember=$member, position=$position")
+//        checkedMemberPosition.value = position
+//        _member.value = member
+//        if(_member.value!=null){deleteList?.remove(_member.value!!)}
+//        Log.d("checkChloe","remove _memberChecked.value=${_member.value}, paymentStatus=${_member.value?.paymentStatus}")
+//        Log.d("checkChloe","deleteList=${deleteList}")
+//    }
+//fun check(){
+//    _isChecked.value = true
+//    _order.value!![checkedMemberPosition.value!!]
+//}
+//fun unCheck(){
+//    _isChecked.value = false
+//}
