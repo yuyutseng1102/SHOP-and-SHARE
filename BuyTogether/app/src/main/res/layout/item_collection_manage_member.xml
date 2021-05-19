@@ -55,6 +55,7 @@
             android:contextClickable="false"
             android:elegantTextHeight="false"
             android:gravity="center"
+            android:text="@{String.valueOf(viewHolder.livePosition+1)}"
             app:layout_constraintBottom_toBottomOf="@+id/view_circle"
             app:layout_constraintEnd_toEndOf="@+id/view_circle"
             app:layout_constraintStart_toStartOf="@+id/view_circle"
@@ -68,11 +69,11 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:textColor="@color/black_3f3a3a"
+            android:visibility="@{viewModel.paymentStatus==0?View.GONE:View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@+id/view_top"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/view_top"
             app:paymentStatusToDisplay="@{item.paymentStatus}"
-            android:visibility="@{viewModel.paymentStatus==0?View.GONE:View.VISIBLE}"
             tools:text="待付款" />
 
         <TextView

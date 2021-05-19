@@ -52,7 +52,7 @@ class CollectionManageViewModel(
         get() = _paymentStatus
 
     var checkedMemberPosition = MutableLiveData<Int?>()
-    val orderList: MutableList<Order>? = mutableListOf()
+    var orderList: MutableList<Order>? = mutableListOf()
     val deleteList: MutableList<Order>? = mutableListOf()
 
 
@@ -60,6 +60,7 @@ class CollectionManageViewModel(
     //打勾的是即將要刪除的團員
     fun checkAgain(member: Order, position: Int){
         checkedMemberPosition.value = position
+        Log.d("checkChloe","selectMember=$member, position=$position")
         _member.value = member
         if (_member.value!=null) {
             if (_member.value!!.isCheck) {
@@ -72,23 +73,14 @@ class CollectionManageViewModel(
     }
 
     fun deleteMember() {
-        //先把現有的order都加到list
-        if (_order.value != null) {
-            if (orderList.isNullOrEmpty()) {
-                for (i in _order.value!!) {
-                    orderList?.add(i!!)
-                }
-            }
-                Log.d("Chloe", "after order value is $orderList")
-                //再把上面有勾起來的都刪掉,並改變現有的order
-                if (deleteList != null) {
-                    for (i in deleteList) {
-                        orderList?.remove(i)
-                        _order.value = orderList
-                    }
-                }
-            }
 
+        if(deleteList!=null){
+            val realList = _order.value?.toMutableList()
+            for(i in deleteList){
+                realList?.remove(i)
+            }
+            _order.value = realList
+        }
     }
 
 
@@ -178,3 +170,23 @@ class CollectionManageViewModel(
 //fun unCheck(){
 //    _isChecked.value = false
 //}
+//先把現有的order都加到list
+//        if (_order.value != null) {
+//             orderList = mutableListOf()
+//            if (orderList.isNullOrEmpty()) {
+//                for (i in _order.value!!) {
+//
+//                    orderList?.add(i!!)
+//                }
+//            }
+//                Log.d("Chloe", "after order value is $orderList")
+//                //再把上面有勾起來的都刪掉,並改變現有的order
+//                if (deleteList != null) {
+//                    for (i in deleteList) {
+//                        orderList?.remove(i)
+//                        deleteList.remove(i)
+//                        _order.value = orderList
+//                    }
+//
+//                }
+//            }

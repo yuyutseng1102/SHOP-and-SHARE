@@ -16,7 +16,7 @@
         android:background="@color/green_E7ECE5"
         android:elevation="1dp">
 
-        <androidx.core.widget.NestedScrollView
+        <ScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:fillViewport="true"
@@ -151,6 +151,231 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/collection_condition" />
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/progress_block"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view2">
+
+                    <View
+                        android:id="@+id/progress_line"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/ic_line"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/progress_title" />
+
+                    <TextView
+                        android:id="@+id/progress_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="團購進度"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/point_gathering"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/progress_line"
+                        app:layout_constraintEnd_toStartOf="@+id/point_gather_success"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        app:layout_constraintStart_toStartOf="@+id/progress_line"
+                        app:layout_constraintTop_toTopOf="@+id/progress_line"
+                        app:srcCompat="@drawable/ic_baseline_circle_24" />
+
+                    <TextView
+                        android:id="@+id/text_gathering"
+                        android:layout_width="15dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="32dp"
+                        android:text="@string/gathering"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/point_gathering"
+                        app:layout_constraintStart_toStartOf="@+id/progress_line"
+                        app:layout_constraintTop_toBottomOf="@+id/point_gathering"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <ImageView
+                        android:id="@+id/point_gather_success"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/progress_line"
+                        app:layout_constraintEnd_toStartOf="@+id/point_order_success"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/point_gathering"
+                        app:layout_constraintTop_toTopOf="@+id/progress_line"
+                        app:layout_constraintVertical_bias="0.5"
+                        app:srcCompat="@drawable/ic_baseline_circle_24" />
+
+                    <TextView
+                        android:id="@+id/text_gather_success"
+                        android:layout_width="15dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="32dp"
+                        android:orientation="vertical"
+                        android:text="@string/gather_success"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/point_gather_success"
+                        app:layout_constraintStart_toStartOf="@+id/point_gather_success"
+                        app:layout_constraintTop_toBottomOf="@+id/point_gather_success" />
+
+                    <ImageView
+                        android:id="@+id/point_order_success"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/progress_line"
+                        app:layout_constraintEnd_toStartOf="@+id/point_shop_shipment"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/point_gather_success"
+                        app:layout_constraintTop_toTopOf="@+id/progress_line"
+                        app:layout_constraintVertical_bias="0.5"
+                        app:srcCompat="@drawable/ic_baseline_circle_24" />
+
+                    <TextView
+                        android:id="@+id/text_order_success"
+                        android:layout_width="15dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:orientation="vertical"
+                        android:text="@string/order_success"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/point_order_success"
+                        app:layout_constraintStart_toStartOf="@+id/point_order_success"
+                        app:layout_constraintTop_toBottomOf="@+id/point_order_success" />
+
+                    <ImageView
+                        android:id="@+id/point_shop_shipment"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/progress_line"
+                        app:layout_constraintEnd_toStartOf="@+id/point_shipment_success"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/point_order_success"
+                        app:layout_constraintTop_toTopOf="@+id/progress_line"
+                        app:layout_constraintVertical_bias="0.5"
+                        app:srcCompat="@drawable/ic_baseline_circle_24" />
+
+                    <TextView
+                        android:id="@+id/text_shop_shipment"
+                        android:layout_width="15dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:orientation="vertical"
+                        android:text="@string/shop_shipment"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/point_shop_shipment"
+                        app:layout_constraintStart_toStartOf="@+id/point_shop_shipment"
+                        app:layout_constraintTop_toBottomOf="@+id/point_shop_shipment" />
+
+                    <ImageView
+                        android:id="@+id/point_shipment_success"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/progress_line"
+                        app:layout_constraintEnd_toStartOf="@+id/point_packaging"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/point_shop_shipment"
+                        app:layout_constraintTop_toTopOf="@+id/progress_line"
+                        app:layout_constraintVertical_bias="0.5"
+                        app:srcCompat="@drawable/ic_baseline_circle_24" />
+
+                    <TextView
+                        android:id="@+id/text_shipment_success"
+                        android:layout_width="15dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:orientation="vertical"
+                        android:text="@string/shipment_success"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/point_shipment_success"
+                        app:layout_constraintStart_toStartOf="@+id/point_shipment_success"
+                        app:layout_constraintTop_toBottomOf="@+id/point_shipment_success" />
+
+                    <ImageView
+                        android:id="@+id/point_packaging"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/progress_line"
+                        app:layout_constraintEnd_toStartOf="@+id/point_shipment"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/point_shipment_success"
+                        app:layout_constraintTop_toTopOf="@+id/progress_line"
+                        app:layout_constraintVertical_bias="0.5"
+                        app:srcCompat="@drawable/ic_baseline_circle_24" />
+
+                    <TextView
+                        android:id="@+id/text_packaging"
+                        android:layout_width="15dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:orientation="vertical"
+                        android:text="@string/packaging"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/point_packaging"
+                        app:layout_constraintStart_toStartOf="@+id/point_packaging"
+                        app:layout_constraintTop_toBottomOf="@+id/point_packaging" />
+
+                    <ImageView
+                        android:id="@+id/point_shipment"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/progress_line"
+                        app:layout_constraintEnd_toStartOf="@+id/point_finish"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/point_packaging"
+                        app:layout_constraintTop_toTopOf="@+id/progress_line"
+                        app:layout_constraintVertical_bias="0.5"
+                        app:srcCompat="@drawable/ic_baseline_circle_24" />
+
+                    <TextView
+                        android:id="@+id/text_shipment"
+                        android:layout_width="15dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:orientation="vertical"
+                        android:text="@string/shipment"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/point_shipment"
+                        app:layout_constraintStart_toStartOf="@+id/point_shipment"
+                        app:layout_constraintTop_toBottomOf="@+id/point_shipment" />
+
+                    <ImageView
+                        android:id="@+id/point_finish"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/progress_line"
+                        app:layout_constraintEnd_toEndOf="@+id/progress_line"
+                        app:layout_constraintStart_toEndOf="@+id/point_shipment"
+                        app:layout_constraintTop_toTopOf="@+id/progress_line"
+                        app:layout_constraintVertical_bias="0.5"
+                        app:srcCompat="@drawable/ic_baseline_circle_24" />
+
+                    <TextView
+                        android:id="@+id/text_finish"
+                        android:layout_width="15dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:orientation="vertical"
+                        android:text="@string/finish"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/point_finish"
+                        app:layout_constraintStart_toStartOf="@+id/point_finish"
+                        app:layout_constraintTop_toBottomOf="@+id/point_finish" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <TextView
                     android:id="@+id/collection_member_title"
                     style="@style/ProductTitle"
@@ -159,14 +384,15 @@
                     android:layout_marginTop="16dp"
                     android:text="團員名單"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view2" />
+                    app:layout_constraintTop_toBottomOf="@+id/progress_block" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_member"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:orientation="horizontal"
+                    android:minHeight="350dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -186,7 +412,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.core.widget.NestedScrollView>
+        </ScrollView>
 
 
         <androidx.constraintlayout.widget.ConstraintLayout

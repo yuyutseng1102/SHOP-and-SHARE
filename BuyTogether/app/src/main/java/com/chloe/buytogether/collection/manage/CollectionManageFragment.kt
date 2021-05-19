@@ -1,16 +1,17 @@
 package com.chloe.buytogether.collection.manage
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.chloe.buytogether.databinding.FragmentCollectionManageBinding
-import com.chloe.buytogether.databinding.ItemCollectionManageMemberBinding
 import com.chloe.buytogether.ext.getVmFactory
+import okhttp3.internal.notifyAll
 
 
 class CollectionManageFragment : Fragment() {
@@ -33,22 +34,40 @@ class CollectionManageFragment : Fragment() {
             viewModel.readyCollect()
             memberAdapter.notifyDataSetChanged()
         }
-        viewModel.member.observe(viewLifecycleOwner, Observer{
-            it?.let {  memberAdapter.notifyDataSetChanged()}
 
-        })
 
-        viewModel.paymentStatus.observe(viewLifecycleOwner, Observer{
-            it?.let {  memberAdapter.notifyDataSetChanged()}
+            viewModel.member.observe(viewLifecycleOwner, Observer {
+                it?.let {
 
-        })
+                    Log.d("Life", "member is change")
+
+                    memberAdapter.notifyDataSetChanged()
+
+                }
+
+            })
+
+
+
+    viewModel.order.observe(viewLifecycleOwner, Observer {
+        it?.let {
+
+            Log.d("Life", "order is change")
+//            memberAdapter.submitList(it)
+            memberAdapter.notifyDataSetChanged()
+
+        }
+
+
+    })
+
+
 
 
         binding.deleteButton.setOnClickListener {
             viewModel.deleteMember()
-            memberAdapter.notifyDataSetChanged()
-
         }
+
 
         return binding.root
     }
