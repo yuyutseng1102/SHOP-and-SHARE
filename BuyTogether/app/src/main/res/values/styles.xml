@@ -72,6 +72,19 @@
         <item name="android:letterSpacing">0.15</item>
         <item name="android:textColor">@color/black_3f3a3a</item>
     </style>
+    state_focus
+    <style name="NewStatusContent">
+        <item name="android:fontFamily">@font/noto_sans</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/orange_9A4747</item>
+    </style>
+
+    <style name="OtherStatusContent">
+        <item name="android:fontFamily">@font/noto_sans</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gray_888888</item>
+    </style>
     <style name="ProductContent">
         <item name="android:fontFamily">@font/noto_sans</item>
         <item name="android:textSize">12sp</item>

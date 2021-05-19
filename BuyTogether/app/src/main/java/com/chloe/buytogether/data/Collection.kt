@@ -25,10 +25,10 @@ data class Collections(
         val option:List<String> = listOf(""),
         val deliveryMethod: String = "",
         val conditionType: Int? = null,
-        val deadLine : Long? =null ,
+        val deadLine : Long? =null,
         val condition: Int? = null,
-        val status: Int = 0,
-        var order:List<Order>? = null
+        var status: Int = 0,
+        var order:List<Order?>? = null
 ):Parcelable{
     val memberToDisplay : String
         get()= "已跟團${order?.size}人"

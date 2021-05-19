@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.chloe.buytogether.bindEditorMemberChecked
+import com.chloe.buytogether.collection.groupmessage.GroupMessageDialog
 import com.chloe.buytogether.data.Collections
 import com.chloe.buytogether.data.Order
 import com.chloe.buytogether.data.Product
@@ -40,20 +41,31 @@ class CollectionManageViewModel(
     val isChecked: LiveData<Boolean>
         get() = _isChecked
 
-    init {
-            _order.value = _collection.value?.order
+    private val _collectionStatus = MutableLiveData<Int>()
+    val collectionStatus: LiveData<Int>
+        get() = _collectionStatus
 
+    val messageContent = MutableLiveData<String>()
+
+
+
+
+    init {
+        _order.value = _collection.value?.order
+        _collectionStatus.value = _collection.value?.status
     }
 
 
 //
-    private val _paymentStatus = MutableLiveData<Int>()
-    val paymentStatus: LiveData<Int>
-        get() = _paymentStatus
+//    private val _paymentStatus = MutableLiveData<Int>()
+//    val paymentStatus: LiveData<Int>
+//        get() = _paymentStatus
+
+
 
     var checkedMemberPosition = MutableLiveData<Int?>()
-    var orderList: MutableList<Order>? = mutableListOf()
-    val deleteList: MutableList<Order>? = mutableListOf()
+//    var orderList: MutableList<Order>? = mutableListOf()
+private val deleteList: MutableList<Order>? = mutableListOf()
 
 
 
@@ -96,9 +108,34 @@ class CollectionManageViewModel(
         }
             Log.d("Chloe","after delete, order value is ${_order.value}")
             //更新collection
-            _collection.value?.order ==_order.value
+            _collection.value?.order =_order.value
             Log.d("Chloe","after update, now collection is ${_collection.value}")
+        //更新collection的status
+        _collectionStatus.value = 1
+        expectStatus.value = 0
+        Log.d("Chloe","after update, now status is ${_collectionStatus.value}")
         }
+
+    //按鈕改變團購狀態
+
+    var expectStatus = MutableLiveData<Int>()
+
+
+    fun clickStatus(status:Int){
+        expectStatus.value = status
+        Log.d("Chloe","i want to change the status to $expectStatus")
+    }
+
+    fun updateStatus(){
+        _collectionStatus.value = expectStatus.value
+
+            expectStatus.value = 0
+        Log.d("Chloe","after update, now status is ${_collectionStatus.value}")
+    }
+
+
+
+
     }
 
 

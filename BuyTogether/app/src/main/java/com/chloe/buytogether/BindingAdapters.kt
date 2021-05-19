@@ -238,16 +238,19 @@ fun bindEditorMemberChecked(toggleButton: ToggleButton, isChecked: Boolean) {
     )
 }
 
-@BindingAdapter("selected")
-fun drawAdd2cartSizeSelectedSquare(toggleButton: ToggleButton, isSelected: Boolean?) {
-    toggleButton.backgroundTintList =
-            if (isSelected == true){
-                ColorStateList.valueOf(getColor(R.color.black_3f3a3a))
-            }else{
-                ColorStateList.valueOf(getColor(R.color.white))
-            }
+//
+//@BindingAdapter("selected")
+//fun bindTextCollectionStatus(textView: TextView, isSelected: Boolean?) {
+//    textView.textColors ==
+//            if (isSelected == true){
+//                ColorSquare("#${it.code}", isSelected = isSelected)
+//                ColorStateList.valueOf(getColor(R.color.black_3f3a3a))
+//            }else{
+//                ColorStateList.valueOf(getColor(R.color.white))
+//            }
+//
+//}
 
-}
 
 
 

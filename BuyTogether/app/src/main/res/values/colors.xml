@@ -9,6 +9,9 @@
     <color name="bottom_navigation_item_normal">@color/green_E6E4D7</color>
     <color name="bottom_navigation_item_selected">@color/green_ADC9A0</color>
 
+    <color name="state_focus">@color/orange_DD894D</color>
+    <color name="state_click">@color/green_E6E4D7</color>
+
     <!-- White Series -->
     <color name="white">#ffffff</color>
 
@@ -36,6 +39,8 @@
 
 <!--    orange Series-->
     <color name="orange_E0B291">#E0B291</color>
+    <color name="orange_9A4747">#9A4747</color>
+    <color name="orange_DD894D">#DD894D</color>
 
 
     <!-- Deep Purple Series -->

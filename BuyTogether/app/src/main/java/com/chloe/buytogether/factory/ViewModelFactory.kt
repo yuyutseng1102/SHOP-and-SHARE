@@ -3,6 +3,7 @@ package com.chloe.buytogether.factory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.chloe.buytogether.collection.CollectionViewModel
+import com.chloe.buytogether.collection.groupmessage.GroupMessageViewModel
 import com.chloe.buytogether.data.source.Repository
 import com.chloe.buytogether.gather.GatherViewModel
 import com.chloe.buytogether.gather.item.GatherConditionViewModel
@@ -35,6 +36,9 @@ class ViewModelFactory constructor(
 
                     isAssignableFrom(CollectionViewModel::class.java) ->
                         CollectionViewModel(repository)
+
+                    isAssignableFrom(GroupMessageViewModel::class.java) ->
+                        GroupMessageViewModel(repository)
 
 
                     else ->
