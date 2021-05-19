@@ -124,5 +124,9 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="SuccessDialog">
+        <item name="android:windowBackground">@color/translucent_80</item>
+    </style>
+
 
 </resources>
