@@ -34,6 +34,7 @@ class HomeFragment : Fragment() {
             findNavController().navigate(NavigationDirections.navigateToGatherFragment())
         }
 
+
         return binding.root
     }
 

@@ -5,13 +5,15 @@
 
     <data>
         <variable
-            name="item"
-            type="com.chloe.buytogether.data.Collections" />
+            name="item" type="com.chloe.buytogether.data.Collections" />
+        <variable
+            name="viewModel" type="com.chloe.buytogether.home.item.HomePageViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{()->viewModel.navigateToDetail(item)}">
 
         <ImageView
             android:id="@+id/imageView"

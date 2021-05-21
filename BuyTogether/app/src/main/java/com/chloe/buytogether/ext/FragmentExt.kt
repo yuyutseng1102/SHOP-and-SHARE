@@ -4,6 +4,7 @@ import android.icu.text.SimpleDateFormat
 import androidx.fragment.app.Fragment
 import com.chloe.buytogether.MyApplication
 import com.chloe.buytogether.data.Collections
+import com.chloe.buytogether.detail.OptionSelector
 import com.chloe.buytogether.factory.CollectViewModelFactory
 import com.chloe.buytogether.factory.OptionViewModelFactory
 import com.chloe.buytogether.factory.ViewModelFactory
@@ -27,7 +28,6 @@ fun Fragment.getVmFactory(collection:Collections): CollectViewModelFactory {
     val repository = (requireContext().applicationContext as MyApplication).repository
     return CollectViewModelFactory(repository, collection)
 }
-
 
 
 fun Long.toDisplayFormat(): String {

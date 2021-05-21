@@ -5,6 +5,11 @@
     <!--Home-->
     <string name="hot_collect">/ 熱門團購 Hot Collection /</string>
     <string name="new_collect">/ 最新上線 New Collection /</string>
+    <!--Fragment Type-->
+    <string name="profile">個人專區</string>
+    <string name="gather">發起團購</string>
+    <string name="collection">開團查詢</string>
+    <string name="collection_manage">團購管理</string>
 
     <!-- Sort Method-->
     <string name="select_sort">選擇排序方式</string>
@@ -72,6 +77,56 @@
     <string name="refund_confirm">退款完成</string>
     <string name="balance_pending">待補款</string>
     <string name="balance_confirm">補款完成</string>
+    <string name="detail_description">團購詳情</string>
+    <string name="Message_board">留言板</string>
+
+
+    <string name="test">一、購買物品介紹
+      ★商品名稱：任天堂 Switch NSO 一年家庭號會員
+      ★商品網址：https://www.nintendo.com/switch/online-service/
+
+        ★批價/數量：一年/8組/主購需要1組 再徵求7組
+
+      ★代買：armiya
+      ★匯率：1：27.97美金
+      ★主購下單付款方式：台新@gogo卡
+
+      ★優惠/折價券：無VIP 2.5%現金回饋
+
+      ★金額試算：34.99*27.97*（1+1.5%手續費-2.5%現金回饋）/8=121.11
+
+        ★後續避免爭議，團購主每人實收110元
+
+    二、截止日期/欲徵數量
+
+      ★預計收團時間：5/20 中午12：00（徵滿提早關團）
+      ★預計徵求數量：7組
+      ★預計匯款時間：5/20 24：00前，錢收滿後馬上開通
+
+
+    三、團員付款方式
+        ★收款銀行：台新Richart
+        ★退款銀行：台新Richart
+
+    四、主辦人連絡方式：站內信/手機/Line
+
+    五、拿貨面交地點/時間：收到匯款後6小時內
+
+    六、運費的分擔方式：無
+
+    七、雜費收取方式＆用途：無
+
+    八、滿額禮/贈品/禮券/紅利點數之內容與分配方式：無
+
+    九、其他注意事項
+
+       1.請先註冊Nintendo Account帳號，並提供主購該帳號email，主購將以此email邀請
+    。
+       2.組成NSO之前，請先將Nintendo Switch帳號跨區至[美國]，請自行google如何跨區
+    。
+       3.嚴禁在加入家庭前/後改機、刷機、購買任何來路不明之遊戲序號（eshop代購也是
+    ）
+       4.成團後一年內會員期間無法退費或變更帳號，請審慎考量。" </string>
 
 
 </resources>

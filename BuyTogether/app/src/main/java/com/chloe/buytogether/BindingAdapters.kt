@@ -27,6 +27,7 @@ import com.chloe.buytogether.collection.manage.MemberProductAdapter
 import com.chloe.buytogether.data.Collections
 import com.chloe.buytogether.data.Order
 import com.chloe.buytogether.data.Product
+import com.chloe.buytogether.detail.item.DetailOptionAdapter
 import com.chloe.buytogether.ext.toDisplayFormat
 import com.chloe.buytogether.gather.CategoryType
 import com.chloe.buytogether.gather.CountryType
@@ -84,6 +85,7 @@ fun bindRecyclerViewWithStrings(recyclerView: RecyclerView, options: List<String
             Log.d("Chloe","summit the option list is ${options}")
             when (this) {
                 is GatherOptionAdapter -> submitList(it)
+                is DetailOptionAdapter -> submitList(it)
             }
         }
     }

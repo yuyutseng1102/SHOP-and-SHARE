@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.chloe.buytogether.detail.DetailViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_background"
+        tools:context=".detail.DetailFragment">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_block"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/detail_img_block"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="#FFFFFF"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/detail_image"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:imageUrl="@{viewModel.collection.mainImage}"
+                        app:layout_constraintDimensionRatio="1:1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:srcCompat="@drawable/img_detail"
+                        tools:visibility="gone" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/detail_info_block"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#FFFFFF"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_img_block">
+
+
+                    <TextView
+                        android:id="@+id/detail_title"
+                        style="@style/DetailTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:maxLines="2"
+                        android:padding="1dp"
+                        android:text="@{viewModel.collection.title}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tag_category"
+                        tools:text="2WAY證背面兩穿小荷葉領短袖上衣-五色" />
+
+                    <TextView
+                        android:id="@+id/tag_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/bg_tag"
+                        android:backgroundTint="@color/tag_category"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="1dp"
+                        app:categoryToDisplay="@{viewModel.collection.category}"
+                        tools:text="女裝"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tag_country"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/bg_tag"
+                        android:backgroundTint="@color/tag_country"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="1dp"
+                        app:countryToDisplay="@{viewModel.collection.country}"
+                        tools:text="日本"
+                        app:layout_constraintStart_toEndOf="@+id/tag_category"
+                        app:layout_constraintTop_toTopOf="@+id/tag_category" />
+
+                    <TextView
+                        android:id="@+id/host_title"
+                        style="@style/DetailSubTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="主購"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/detail_title" />
+
+                    <TextView
+                        android:id="@+id/host_id"
+                        style="@style/DetailContent"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:text="@{String.valueOf(viewModel.collection.userId)}"
+                        app:layout_constraintBottom_toBottomOf="@+id/host_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="@+id/detail_condition_text"
+                        app:layout_constraintTop_toTopOf="@+id/host_title"
+                        tools:text="chloe193798" />
+
+                    <TextView
+                        android:id="@+id/detail_condition_title"
+                        style="@style/DetailSubTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:text="成團條件"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/host_title" />
+
+                    <TextView
+                        android:id="@+id/detail_condition_text"
+                        style="@style/DetailContent"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:maxLines="2"
+                        app:conditionToDisplay="@{viewModel.collection.condition}"
+                        app:conditionType="@{viewModel.collection.conditionType}"
+                        app:deadLineToDisplay="@{viewModel.collection.deadLine}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/detail_condition_title"
+                        app:layout_constraintTop_toTopOf="@+id/detail_condition_title"
+                        tools:text="TextView" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/option_block"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="#FFFFFF"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_info_block">
+
+                    <TextView
+                        android:id="@+id/deatil_option_title"
+                        style="@style/DetailSubTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="商品選項"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <ImageButton
+                        android:id="@+id/option_expand_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/ic_baseline_chevron_right_24"
+                        android:backgroundTint="@color/gray_888888"
+                        android:onClick="@{() -> viewModel.navigateToOption(viewModel.collection)}"
+                        app:layout_constraintBottom_toBottomOf="@+id/deatil_option_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/deatil_option_title" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/delivery_block"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="#FFFFFF"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/option_block">
+
+                    <TextView
+                        android:id="@+id/deatil_delivery_title"
+                        style="@style/DetailSubTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="寄送方式"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <ImageButton
+                        android:id="@+id/delivery_expand_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/ic_baseline_chevron_right_24"
+                        android:backgroundTint="@color/gray_888888"
+                        app:layout_constraintBottom_toBottomOf="@+id/deatil_delivery_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/deatil_delivery_title" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/pager_block"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="#FFFFFF"
+                    android:minHeight="200dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/delivery_block">
+
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/viewpager_detail"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.tabs.TabLayout
+                            android:id="@+id/tabs_detail"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/height_home_tab"
+                            app:tabIndicatorColor="@color/black_3f3a3a"
+                            app:tabSelectedTextColor="@color/black_3f3a3a"
+                            app:tabTextColor="@color/gray_888888">
+
+                        </com.google.android.material.tabs.TabLayout>
+
+                    </androidx.viewpager.widget.ViewPager>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/bottom_block"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_bottom_nav_view_main"
+            android:background="@color/white"
+            android:elevation="@dimen/elevation_all"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <ImageView
+                android:id="@+id/nav_home"
+                android:layout_width="@dimen/size_bottom_nav_icon"
+                android:layout_height="@dimen/size_bottom_nav_icon"
+                android:layout_marginStart="24dp"
+                android:src="@drawable/ic_home"
+                app:tint="@drawable/bottom_nav_item_selector"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/nav_follow"
+                android:layout_width="@dimen/size_bottom_nav_icon"
+                android:layout_height="@dimen/size_bottom_nav_icon"
+                android:layout_marginStart="45dp"
+                android:src="@drawable/ic_follow"
+                app:tint="@drawable/bottom_nav_item_selector"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/nav_home"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/button_purchase"
+                style="@style/Number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                android:text="我要跟團"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

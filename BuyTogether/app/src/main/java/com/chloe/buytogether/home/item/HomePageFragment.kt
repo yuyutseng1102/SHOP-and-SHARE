@@ -9,8 +9,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.chloe.buytogether.NavigationDirections
 import com.chloe.buytogether.R
+import com.chloe.buytogether.data.Product
 import com.chloe.buytogether.databinding.FragmentHomePageBinding
+import com.chloe.buytogether.detail.OptionSelector
 import com.chloe.buytogether.ext.getVmFactory
 import com.chloe.buytogether.home.HomeAdapter
 import com.google.android.material.tabs.TabLayout
@@ -27,17 +31,20 @@ class HomePageFragment : Fragment() {
     ): View? {
         val binding = FragmentHomePageBinding.inflate(inflater,container,false)
 
-        val adapter1st = HomeHots1stAdapter(HomeCollectAdapter.OnClickListener {
-            Log.d("Chloe", "click!")
+        val adapter1st = HomeHots1stAdapter(viewModel)
+
+        val adapter2nd = HomeHots2ndAdapter(viewModel)
+
+        val gridAdapter = HomeGridAdapter(viewModel)
+
+        viewModel.navigateToDetail.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                findNavController().navigate(
+                    NavigationDirections.navigateToDetailFragment(it)
+                )
+            }
         })
 
-        val adapter2nd = HomeHots2ndAdapter(HomeCollectAdapter.OnClickListener {
-            Log.d("Chloe", "click!")
-        })
-
-        val gridAdapter = HomeGridAdapter(HomeCollectAdapter.OnClickListener {
-            Log.d("Chloe", "click!")
-        })
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel

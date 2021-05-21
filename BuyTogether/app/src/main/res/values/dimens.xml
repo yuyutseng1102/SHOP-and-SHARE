@@ -25,4 +25,6 @@
 
     <!-- IMessage Dialog -->
     <dimen name="size_message">160dp</dimen>
+
+    <dimen name="size_select_amount">30dp</dimen>
 </resources>

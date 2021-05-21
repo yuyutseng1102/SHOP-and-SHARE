@@ -5,6 +5,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.chloe.buytogether.collection.manage.CollectionManageViewModel
 import com.chloe.buytogether.data.Collections
 import com.chloe.buytogether.data.source.Repository
+import com.chloe.buytogether.detail.DetailViewModel
+import com.chloe.buytogether.detail.item.DetailOptionDialog
+import com.chloe.buytogether.detail.item.DetailOptionViewModel
 
 @Suppress("UNCHECKED_CAST")
 class CollectViewModelFactory(
@@ -17,6 +20,18 @@ class CollectViewModelFactory(
                 when {
                     isAssignableFrom(CollectionManageViewModel::class.java) ->
                         CollectionManageViewModel(repository, collection)
+
+                    isAssignableFrom(DetailViewModel::class.java) ->
+                        DetailViewModel(repository, collection)
+
+                    isAssignableFrom(DetailViewModel::class.java) ->
+                        DetailViewModel(repository, collection)
+
+                    isAssignableFrom(DetailOptionViewModel::class.java) ->
+                        DetailOptionViewModel(repository, collection)
+
+
+
                     else ->
                         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
                 }

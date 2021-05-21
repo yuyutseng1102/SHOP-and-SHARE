@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.chloe.buytogether.detail.item.DetailOptionViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/view_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_green_top_corner"
+        android:backgroundTint="#FFFFFF"
+        tools:context=".detail.item.DetailOptionDialog">
+
+        <TextView
+            android:id="@+id/purchase_option_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="選擇商品規格"
+            app:layout_constraintBottom_toTopOf="@+id/view_purchase_option"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/view_purchase_option"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="40dp"
+            app:layout_constraintBottom_toTopOf="@+id/select_quantity_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_option"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:singleSelection="true">
+
+            </com.google.android.material.chip.ChipGroup>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/select_quantity_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="選擇商品數量"
+            app:layout_constraintBottom_toTopOf="@+id/button_add_to_list"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageButton
+            android:id="@+id/button_decrease"
+            android:layout_width="@dimen/size_select_amount"
+            android:layout_height="@dimen/size_select_amount"
+            android:background="@drawable/icons_24px_subtract01"
+            app:layout_constraintBottom_toBottomOf="@+id/edit_quantity_editor"
+            app:layout_constraintEnd_toStartOf="@+id/edit_quantity_editor"
+            app:layout_constraintTop_toTopOf="@+id/edit_quantity_editor" />
+
+        <ImageButton
+            android:id="@+id/button_increase"
+            android:layout_width="@dimen/size_select_amount"
+            android:layout_height="@dimen/size_select_amount"
+            android:layout_marginEnd="60dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/icons_24px_add01"
+            app:layout_constraintBottom_toTopOf="@+id/button_add_to_list"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/select_quantity_title" />
+
+        <EditText
+            android:id="@+id/edit_quantity_editor"
+            android:layout_width="70dp"
+            android:layout_height="@dimen/size_select_amount"
+            android:background="@color/white"
+            android:fontFamily="@font/noto_sans"
+            android:gravity="center"
+            android:inputType="number"
+            android:letterSpacing="0.15"
+            android:maxLines="1"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@color/black_3f3a3a"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/button_increase"
+            app:layout_constraintEnd_toStartOf="@+id/button_increase" />
+
+        <Button
+            android:id="@+id/button_add_to_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="84dp"
+            android:layout_marginBottom="16dp"
+            android:text="加入清單"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/button_ready_to_buy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="84dp"
+            android:text="確定跟團"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/button_add_to_list"
+            app:layout_constraintTop_toTopOf="@+id/button_add_to_list" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

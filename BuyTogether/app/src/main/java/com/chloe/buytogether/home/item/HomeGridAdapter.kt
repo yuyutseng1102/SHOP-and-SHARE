@@ -8,12 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chloe.buytogether.data.Collections
 import com.chloe.buytogether.databinding.ItemHomeGridBinding
 
-class HomeGridAdapter(private val onClickListener: HomeCollectAdapter.OnClickListener)  : ListAdapter<Collections, HomeGridAdapter.ViewHolder>(DiffCallback) {
+class HomeGridAdapter(private val  viewModel: HomePageViewModel)  : ListAdapter<Collections, HomeGridAdapter.ViewHolder>(DiffCallback) {
 
     class ViewHolder(private var binding: ItemHomeGridBinding):
             RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Collections) {
+        fun bind(item: Collections,viewModel: HomePageViewModel) {
             binding.item = item
+            binding.viewModel = viewModel
             binding.executePendingBindings()
         }
     }
@@ -37,10 +38,7 @@ class HomeGridAdapter(private val onClickListener: HomeCollectAdapter.OnClickLis
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.itemView.setOnClickListener {
-            onClickListener.onClick(item)
-        }
-        holder.bind(item)
+        holder.bind(item,viewModel)
     }
 
 }
