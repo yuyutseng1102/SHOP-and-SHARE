@@ -3,6 +3,8 @@ package com.chloe.buytogether.ext
 import android.icu.text.SimpleDateFormat
 import androidx.fragment.app.Fragment
 import com.chloe.buytogether.MyApplication
+import com.chloe.buytogether.data.Collections
+import com.chloe.buytogether.factory.CollectViewModelFactory
 import com.chloe.buytogether.factory.OptionViewModelFactory
 import com.chloe.buytogether.factory.ViewModelFactory
 import java.util.*
@@ -19,6 +21,11 @@ fun Fragment.getVmFactory(): ViewModelFactory {
 fun Fragment.getVmFactory(option: List<String>?,isStandard:Boolean): OptionViewModelFactory {
     val repository = (requireContext().applicationContext as MyApplication).repository
     return OptionViewModelFactory(repository, option, isStandard)
+}
+
+fun Fragment.getVmFactory(collection:Collections): CollectViewModelFactory {
+    val repository = (requireContext().applicationContext as MyApplication).repository
+    return CollectViewModelFactory(repository, collection)
 }
 
 

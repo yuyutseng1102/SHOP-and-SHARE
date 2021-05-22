@@ -67,15 +67,27 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/profile_id" />
 
-        <Button
+        <ImageButton
             android:id="@+id/gather_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
-            android:text="Button"
+            android:background="@drawable/ic_baseline_all_inbox_24"
+            android:backgroundTint="@color/green_7A8277"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/line" />
+
+        <TextView
+            android:id="@+id/gather_text"
+            style="@style/ProductTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="我的團購"
+            app:layout_constraintEnd_toEndOf="@+id/gather_button"
+            app:layout_constraintStart_toStartOf="@+id/gather_button"
+            app:layout_constraintTop_toBottomOf="@+id/gather_button" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

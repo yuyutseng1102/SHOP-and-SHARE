@@ -3,6 +3,7 @@ package com.chloe.buytogether.data
 import android.graphics.Insets.add
 import android.os.Parcelable
 import com.chloe.buytogether.ext.toDisplayFormat
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
@@ -12,22 +13,22 @@ data class Collections(
         val id: Long = 0L,
         val userId: Long = 0L,
         val time: Long= Calendar.getInstance().timeInMillis,
-        val method: String="",
+        val method: Int,
         val mainImage: String="",
         val image: List<String> = listOf(""),
         val title: String = "",
         val description:String = "",
-        val category: String = "",
-        val country: String = "",
+        val category: Int = 0,
+        val country: Int = 0,
         val source: String = "",
         val isStandard: Boolean = false,
         val option:List<String> = listOf(""),
         val deliveryMethod: String = "",
         val conditionType: Int? = null,
-        val deadLine : Long? =null ,
+        val deadLine : Long? =null,
         val condition: Int? = null,
-        val status: Int = 0,
-        val order:List<Order>? = null
+        var status: Int = 0,
+        var order:List<Order?>? = null
 ):Parcelable{
     val memberToDisplay : String
         get()= "已跟團${order?.size}人"
@@ -48,35 +49,23 @@ data class Collections(
 
 @Parcelize
 data class Order(
-    val orderId: Long = 0L,
-    val time: Long= Calendar.getInstance().timeInMillis,
-    val userId:Long = 0L,
-    val product:List<Product>,
-    val price: Int = 0,
-    val phone:String = "",
-    val delivery: String = "",
-    val note: String? = null,
-    val paymentStatus: Boolean = false
-):Parcelable
+        val orderId: Long = 0L,
+        val orderTime: Long= Calendar.getInstance().timeInMillis,
+        val userId:Long = 0L,
+        val product:List<Product>,
+        val price: Int = 0,
+        val phone:String = "",
+        val delivery: String = "",
+        val note: String? = null,
+        var paymentStatus: Int = 0
+):Parcelable{
+    @IgnoredOnParcel
+    var isCheck: Boolean = false
+}
 
 
 @Parcelize
 data class Product(
-    val productName: String = "",
+    val productTitle: String = "",
     val quantity: Int = 0
 ) : Parcelable
-
-
-@Parcelize
-data class MockCollections(
-    val mainImage: String,
-    val title: String,
-    val condition:String,
-    val memberSize:Int
-):Parcelable{
-    val memberToDisplay : String
-        get()= "已跟團${memberSize}人"
-    val followToDisplay : String
-        get()= "有興趣${memberSize}人"
-
-}

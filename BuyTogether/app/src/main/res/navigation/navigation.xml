@@ -24,6 +24,28 @@
         android:label="GatherFragment"
         tools:layout="@layout/fragment_gather"/>
 
+    <fragment
+        android:id="@+id/collectionFragment"
+        android:name="com.chloe.buytogether.collection.CollectionFragment"
+        android:label="CollectionFragment"
+        tools:layout="@layout/fragment_collection" />
+
+    <fragment
+        android:id="@+id/collectionManageFragment"
+        android:name="com.chloe.buytogether.collection.manage.CollectionManageFragment"
+        android:label="CollectionManageFragment"
+        tools:layout="@layout/fragment_collection_manage">
+    <argument android:name="collectionKey"
+        app:argType="com.chloe.buytogether.data.Collections"
+        app:nullable="false"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/successDialog"
+        android:name="com.chloe.buytogether.dialog.SuccessDialog"
+        tools:layout="@layout/dialog_success"
+        android:label="SuccessDialog" />
+
 
     <action android:id="@+id/navigate_to_home_fragment" app:destination="@id/homeFragment"
         app:popUpTo="@id/navigation"
@@ -36,6 +58,18 @@
     <action android:id="@+id/navigate_to_gather_fragment" app:destination="@id/gatherFragment"
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true" />
+
+    <action android:id="@+id/navigate_to_collection_fragment" app:destination="@id/collectionFragment"
+        app:popUpTo="@id/profileFragment"
+        app:popUpToInclusive="false" />
+
+    <action android:id="@+id/navigate_to_collection_manage_fragment" app:destination="@id/collectionManageFragment"
+        app:popUpTo="@id/collectionFragment"
+        app:popUpToInclusive="false" />
+
+    <action android:id="@+id/navigate_to_success_dialog" app:destination="@id/successDialog"/>
+
+
 
 
 </navigation>

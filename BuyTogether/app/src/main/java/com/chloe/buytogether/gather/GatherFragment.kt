@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.chloe.buytogether.MyApplication
+import com.chloe.buytogether.NavigationDirections
 import com.chloe.buytogether.R
 import com.chloe.buytogether.databinding.FragmentGatherBinding
 import com.chloe.buytogether.ext.getVmFactory
@@ -58,6 +60,9 @@ class GatherFragment : Fragment() {
                 } else if (viewModel.status.value == LoadApiStatus.DONE) {
                     Toast.makeText(context, "成功送出", Toast.LENGTH_SHORT).show()
                     viewModel.postGatherCollection()
+                    findNavController().navigate(
+                        NavigationDirections.navigateToSuccessDialog()
+                    )
                 }
             }
             )

@@ -1,35 +1,40 @@
 package com.chloe.buytogether.gather
 
-enum class CategoryType(val positionOnSpinner: Int) {
-    WOMAN(0),
-    MAN(1),
-    CHILD(2),
-    SHOES_BAG(3),
-    MAKEUP(4),
-    HEALTH(5),
-    FOOD(6),
-    LIVING(7),
-    APPLIANCE(8),
-    PET(9),
-    STATIONARY(10),
-    SPORT(11),
-    COMPUTER(12),
-    TICKET(13),
-    OTHER(14)
+import com.chloe.buytogether.R
+import com.chloe.buytogether.util.Util
+import com.chloe.buytogether.util.Util.getString
+
+
+enum class CategoryType(val positionOnSpinner: Int,val category: Int,val title:String) {
+    WOMAN(0, 101,getString(R.string.woman)),
+    MAN(1, 102,getString(R.string.man)),
+    CHILD(2, 103,getString(R.string.child)),
+    SHOES_BAG(3, 104,getString(R.string.shoes_bag)),
+    MAKEUP(4, 201,getString(R.string.makeup)),
+    HEALTH(5,202,getString(R.string.health)),
+    FOOD(6, 301,getString(R.string.food)),
+    LIVING(7, 401,getString(R.string.living)),
+    APPLIANCE(8, 402,getString(R.string.appliance)),
+    PET(9, 501,getString(R.string.pet)),
+    STATIONARY(10, 601,getString(R.string.stationary)),
+    SPORT(11, 701,getString(R.string.sport)),
+    COMPUTER(12, 602,getString(R.string.computer)),
+    TICKET(13,801,getString(R.string.ticket)),
+    OTHER(14,901,getString(R.string.other))
 }
 
 
-enum class CountryType(val positionOnSpinner: Int) {
-    TAIWAN(0),
-    JAPAN(1),
-    KOREA(2),
-    CHINA(3),
-    USA(4),
-    CANADA(5),
-    EU(6),
-    AUSTRALIA(7),
-    SOUTH_EAST_ASIA(8),
-    OTHER(9)
+enum class CountryType(val positionOnSpinner: Int,val country: Int,val title:String) {
+    TAIWAN(0,11,getString(R.string.taiwan)),
+    JAPAN(1,12,getString(R.string.japan)),
+    KOREA(2,13,getString(R.string.korea)),
+    CHINA(3,14,getString(R.string.china)),
+    USA(4,21,getString(R.string.usa)),
+    CANADA(5,22,getString(R.string.canada)),
+    EU(6,30,getString(R.string.eu)),
+    AUSTRALIA(7,40,getString(R.string.australia)),
+    SOUTH_EAST_ASIA(8,15,getString(R.string.south_east_asia)),
+    OTHER(9,50,getString(R.string.other))
 }
 
 enum class ConditionType(val positionOnSpinner: Int) {

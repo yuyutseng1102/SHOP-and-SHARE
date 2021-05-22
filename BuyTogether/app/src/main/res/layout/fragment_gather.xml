@@ -210,6 +210,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
                     android:text="團購分類"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/gather_web_edit" />
@@ -333,13 +334,13 @@
 
                 <TextView
                     android:id="@+id/gather_condition_edit"
-                    style="@style/GatherTitle"
+                    style="@style/ProductTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginBottom="16dp"
-                    android:visibility="@{viewModel.isConditionDone()?View.VISIBLE:View.GONE}"
                     android:text="@{viewModel.conditionShow}"
+                    android:visibility="@{viewModel.isConditionDone()?View.VISIBLE:View.GONE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/add_gather_condition"
                     app:layout_constraintStart_toEndOf="@+id/gather_condition_text"

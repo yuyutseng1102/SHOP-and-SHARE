@@ -2,10 +2,11 @@ package com.chloe.buytogether.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.chloe.buytogether.collection.CollectionViewModel
+import com.chloe.buytogether.collection.groupmessage.GroupMessageViewModel
 import com.chloe.buytogether.data.source.Repository
 import com.chloe.buytogether.gather.GatherViewModel
 import com.chloe.buytogether.gather.item.GatherConditionViewModel
-import com.chloe.buytogether.gather.item.GatherOptionViewModel
 import com.chloe.buytogether.home.item.HomeCollectViewModel
 import com.chloe.buytogether.home.item.HomePageViewModel
 
@@ -32,6 +33,13 @@ class ViewModelFactory constructor(
 
                     isAssignableFrom(GatherConditionViewModel::class.java) ->
                         GatherConditionViewModel(repository)
+
+                    isAssignableFrom(CollectionViewModel::class.java) ->
+                        CollectionViewModel(repository)
+
+                    isAssignableFrom(GroupMessageViewModel::class.java) ->
+                        GroupMessageViewModel(repository)
+
 
                     else ->
                         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
