@@ -7,8 +7,8 @@ import com.chloe.buytogether.collection.CollectionViewModel
 import com.chloe.buytogether.collection.groupmessage.GroupMessageViewModel
 import com.chloe.buytogether.data.source.Repository
 import com.chloe.buytogether.detail.item.DetailDescriptionViewModel
-import com.chloe.buytogether.gather.GatherViewModel
-import com.chloe.buytogether.gather.item.GatherConditionViewModel
+import com.chloe.buytogether.host.HostViewModel
+import com.chloe.buytogether.host.item.GatherConditionViewModel
 import com.chloe.buytogether.home.item.HomeCollectViewModel
 import com.chloe.buytogether.home.item.HomePageViewModel
 
@@ -33,8 +33,8 @@ class ViewModelFactory constructor(
                     isAssignableFrom(HomeCollectViewModel::class.java) ->
                         HomeCollectViewModel(repository)
 
-                    isAssignableFrom(GatherViewModel::class.java) ->
-                        GatherViewModel(repository)
+                    isAssignableFrom(HostViewModel::class.java) ->
+                        HostViewModel(repository)
 
                     isAssignableFrom(GatherConditionViewModel::class.java) ->
                         GatherConditionViewModel(repository)

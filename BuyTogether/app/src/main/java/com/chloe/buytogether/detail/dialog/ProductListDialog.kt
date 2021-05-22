@@ -45,7 +45,7 @@ class ProductListDialog(private val collection: Collections, private val product
         viewModel.product.observe(viewLifecycleOwner, Observer {
             Log.d("Chloe","product is change to ${viewModel.product.value}")
             it?.let {
-//                adapter.submitList(it)
+                adapter.submitList(it)
                 adapter.notifyDataSetChanged()
                 viewModel.isEnable()
             }
@@ -55,7 +55,7 @@ class ProductListDialog(private val collection: Collections, private val product
         viewModel.navigateToParticipate.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if (viewModel.collection.value!=null)
-                    Log.d("Chloe","navigate to participate is product = $it")
+                    Log.d("Chloe","navigate to participate is product = ${it.toTypedArray()}")
                 findNavController().navigate(NavigationDirections.navigateToParticipateFragment(
                     viewModel.collection.value!!,
                     it.toTypedArray()
@@ -77,7 +77,9 @@ class ProductListDialog(private val collection: Collections, private val product
         if (viewModel.navigateToParticipate.value == null) {
             Log.d("Chloe","Pop back to Detail")
             if (viewModel.product.value != null) {
+                Log.d("Chloe","viewModel.product.value is ${viewModel.product.value}")
                 viewModel.navigateToDetails(viewModel.product.value!!)
+                productListCheck?.onProductListCheck(viewModel.navigateToDetails.value!!)
                 viewModel.onDetailsNavigated()
                 this.dismiss()
             }
@@ -86,14 +88,9 @@ class ProductListDialog(private val collection: Collections, private val product
             viewModel.onParticipateNavigated()
         }
 
-        viewModel.navigateToDetails.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                productListCheck?.onProductListCheck(
-                        it
-                )
-            }
-        })
-            viewModel.onParticipateNavigated()
+
+
+
 
     }
 

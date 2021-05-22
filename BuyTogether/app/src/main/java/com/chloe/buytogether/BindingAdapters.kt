@@ -23,14 +23,17 @@ import com.chloe.buytogether.data.Collections
 import com.chloe.buytogether.data.Order
 import com.chloe.buytogether.data.Product
 import com.chloe.buytogether.detail.dialog.ProductListAdapter
+import com.chloe.buytogether.detail.item.DetailDeliveryAdapter
 import com.chloe.buytogether.ext.toDisplayFormat
-import com.chloe.buytogether.gather.CategoryType
-import com.chloe.buytogether.gather.CountryType
-import com.chloe.buytogether.gather.item.GatherOptionAdapter
+import com.chloe.buytogether.host.CategoryType
+import com.chloe.buytogether.host.CountryType
+import com.chloe.buytogether.host.item.GatherOptionAdapter
 import com.chloe.buytogether.home.item.HomeCollectAdapter
 import com.chloe.buytogether.home.item.HomeGridAdapter
 import com.chloe.buytogether.home.item.HomeHots1stAdapter
 import com.chloe.buytogether.home.item.HomeHots2ndAdapter
+import com.chloe.buytogether.host.DeliveryMethod
+import com.chloe.buytogether.participate.ParticipateAdapter
 import com.chloe.buytogether.util.Util.getColor
 
 /**
@@ -73,12 +76,24 @@ fun bindRecyclerViewWithCollections(recyclerView: RecyclerView, collections: Lis
 }
 
 @BindingAdapter("options")
-fun bindRecyclerViewWithStrings(recyclerView: RecyclerView, options: List<String>?) {
+fun bindRecyclerViewWithOptionStrings(recyclerView: RecyclerView, options: List<String>?) {
     options?.let {
         recyclerView.adapter?.apply {
             Log.d("Chloe","summit the option list is ${options}")
             when (this) {
                 is GatherOptionAdapter -> submitList(it)
+            }
+        }
+    }
+}
+
+@BindingAdapter("delivery")
+fun bindRecyclerViewWithDeliveryInt(recyclerView: RecyclerView, delivery: List<Int>) {
+    delivery.let {
+        recyclerView.adapter?.apply {
+            Log.d("Chloe","summit the delivery list is $delivery")
+            when (this) {
+                is DetailDeliveryAdapter -> submitList(it)
             }
         }
     }
@@ -106,6 +121,7 @@ fun bindRecyclerViewWithProducts(recyclerView: RecyclerView, products: List<Prod
             when (this) {
                 is MemberProductAdapter -> submitList(it)
                 is ProductListAdapter -> submitList(it)
+                is ParticipateAdapter -> submitList(it)
             }
         }
     }
@@ -170,6 +186,21 @@ fun bindDisplayCountry(textView:TextView,country:Int) {
     textView.text = getTitle(country)
 }
 
+@BindingAdapter("deliveryToDisplay")
+fun bindDisplayDelivery(textView:TextView,delivery:Int) {
+
+    fun getTitle(delivery:Int): String {
+        for (type in DeliveryMethod.values()) {
+            if (type.delivery == delivery) {
+                return type.title
+            }
+        }
+        return ""
+    }
+
+    textView.text = getTitle(delivery)
+}
+
 @BindingAdapter("orderStatusToDisplay")
 fun bindDisplayOrderStatus(textView:TextView,status:Int) {
 
@@ -216,19 +247,26 @@ fun bindEditorMemberChecked(toggleButton: ToggleButton, isChecked: Boolean) {
 
     Log.d("Chloe","isChecked really is $isChecked")
 
-//    toggleButton.apply{
-//        backgroundTintList =
-//                when(isChecked){
-//                    true ->  ColorStateList.valueOf(getColor(R.color.black_3f3a3a))
-//                    else ->  ColorStateList.valueOf(getColor(R.color.white))
-//                }
-//    }
-
     toggleButton.setBackgroundResource(
 
             when(isChecked){
                 true -> R.drawable.ic_check_circle
                 else -> R.drawable.ic_check_circle_outline
+            }
+
+    )
+}
+
+@BindingAdapter("isExpandChecked")
+fun bindExpandButtonChecked(toggleButton: ToggleButton, isChecked: Boolean) {
+
+    Log.d("Chloe","isChecked really is $isChecked")
+
+    toggleButton.setBackgroundResource(
+
+            when(isChecked){
+                true -> R.drawable.ic_baseline_keyboard_arrow_down_24
+                else -> R.drawable.ic_baseline_chevron_right_24
             }
 
     )

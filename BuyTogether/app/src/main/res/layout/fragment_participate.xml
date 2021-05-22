@@ -26,12 +26,14 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/color_background">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/product_list_block"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="#FFFFFF"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -43,6 +45,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:scaleType="centerCrop"
+                        app:imageUrl="@{viewModel.collection.mainImage}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:srcCompat="@drawable/img_detail" />
@@ -50,12 +53,14 @@
                     <TextView
                         android:id="@+id/title_text"
                         style="@style/GatherTitle"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="16dp"
                         android:maxLines="2"
+                        android:text="@{viewModel.collection.title}"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/product_list_image"
                         app:layout_constraintTop_toTopOf="@+id/product_list_image"
                         tools:text="2WAY證背面兩穿小荷葉領短袖上衣-五色" />
@@ -64,15 +69,14 @@
                         android:id="@+id/recycler_product_list"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginTop="8dp"
+                        android:paddingBottom="16dp"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/title_text"
                         app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="@+id/title_text"
-                        app:layout_constraintTop_toBottomOf="@+id/title_text"
-                        app:layout_constraintVertical_bias="0.0"/>
+                        app:layout_constraintStart_toStartOf="@+id/product_list_image"
+                        app:layout_constraintTop_toBottomOf="@+id/product_list_image"
+                        app:products="@{viewModel.product}" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -81,6 +85,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:background="#FFFFFF"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/product_list_block">
@@ -96,6 +101,16 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
+                    <RadioGroup
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/delivery_title" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -103,6 +118,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:background="#FFFFFF"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/delivery_block">
@@ -135,6 +151,8 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/price_edit"
+                            android:inputType="number"
+                            android:text="@={``+viewModel.price}"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -145,6 +163,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:background="#FFFFFF"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/price_edit_block">
@@ -174,6 +193,7 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/receiver_name_edit"
+                            android:text="@={viewModel.name}"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -193,6 +213,8 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/receiver_phone_edit"
+                            android:text="@={viewModel.phone}"
+                            android:inputType="phone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -216,7 +238,10 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/receiver_delivery_edit"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:inputType="textImeMultiLine"
+                            android:gravity="top|start"
+                            android:text="@={viewModel.address}" />
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -227,6 +252,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:background="#FFFFFF"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/receiver_block">
@@ -250,6 +276,8 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp"
+                        android:inputType="textImeMultiLine"
+                        android:gravity="top|start"
                         android:hint="備註內容"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -259,6 +287,7 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/note_edit"
+                            android:text="@={viewModel.note}"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -269,6 +298,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:background="#FFFFFF"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -301,7 +331,6 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.0" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

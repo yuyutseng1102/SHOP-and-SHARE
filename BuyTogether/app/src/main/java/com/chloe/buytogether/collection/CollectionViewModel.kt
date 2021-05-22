@@ -42,12 +42,11 @@ class CollectionViewModel(private val repository: Repository): ViewModel() {
     private val source = ""
     private val isStandard = false
     private val option = listOf("全網站")
-    private val deliveryMethod  = "711"
+    private val deliveryMethod  = listOf(10,11,12)
     private val conditionType = 1
     private val deadLine = java.util.Calendar.getInstance().timeInMillis
     private val condition = 5000
     private val status: Int = 0
-
     private val orderId1 = 1245L
     private val orderId2 = 1243L
     private val orderId3 = 1241L
@@ -57,16 +56,17 @@ class CollectionViewModel(private val repository: Repository): ViewModel() {
     private val products2:List<Product> = listOf(Product("棉麻上衣白色/M",1), Product("法式雪紡背心/M",2), Product("開襟洋裝/M",5), Product("法式雪紡背心/M",2), Product("開襟洋裝/M",5))
     private val price: Int = 2000
     private val phone:String = "0988888888"
-    private val delivery: String = "711永和門市"
-    private val note: String? = "無"
+    private val delivery: Int = 10
+    private val address: String = "永和門市"
+    private val note: String = "無"
     private val mockPaymentStatus: Int = 0
 
 
     private val order:List<Order>? =
             listOf(
-                    Order(orderId1, orderTime, userId, products, price, phone, delivery, note, mockPaymentStatus),
-                    Order(orderId2, orderTime, userId, products2, price, phone, delivery,note,mockPaymentStatus),
-                    Order(orderId3, orderTime, userId, products, price, phone, delivery,note,mockPaymentStatus)
+                    Order(orderId1, orderTime, userId, products, price, phone, delivery, address,note, mockPaymentStatus),
+                    Order(orderId2, orderTime, userId, products2, price, phone, delivery,address,note,mockPaymentStatus),
+                    Order(orderId3, orderTime, userId, products, price, phone, delivery,address,note,mockPaymentStatus)
             )
 
 

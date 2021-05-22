@@ -22,16 +22,16 @@ class ProductListViewModel(private val repository: Repository,
     val collection: LiveData<Collections>
         get() = _collection
 
-    private val _product= MutableLiveData<List<Product>>()
+    private val _product= MutableLiveData<List<Product>>().apply {
+        value = argsProduct
+    }
     val product: LiveData<List<Product>>
         get() = _product
 
     val isEnable = MutableLiveData<Boolean?>()
     val increaseEnable: Boolean = true
 
-    init {
-        _product.value = argsProduct
-    }
+
 
 
     // 關閉時回傳給detail頁面
@@ -67,6 +67,7 @@ class ProductListViewModel(private val repository: Repository,
         val productList = _product.value?.toMutableList()
         productList?.remove(product)
         _product.value = productList?: mutableListOf()
+        Log.d("Chloe","new product is remove to ${_product.value},product List is ${productList}")
     }
 
     private fun updateProduct(productItem: Product) {

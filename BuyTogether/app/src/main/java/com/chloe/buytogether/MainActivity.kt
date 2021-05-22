@@ -101,7 +101,7 @@ class MainActivity : BaseActivity() {
             viewModel.currentFragmentType.value = when (navController.currentDestination?.id) {
                 R.id.homeFragment -> CurrentFragmentType.HOME
                 R.id.profileFragment -> CurrentFragmentType.PROFILE
-                R.id.gatherFragment -> CurrentFragmentType.GATHER
+                R.id.hostFragment -> CurrentFragmentType.GATHER
                 R.id.collectionFragment -> CurrentFragmentType.COLLECTION
                 R.id.collectionManageFragment -> CurrentFragmentType.COLLECTION_MANAGE
                 R.id.detailFragment -> CurrentFragmentType.DETAIL

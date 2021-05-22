@@ -31,7 +31,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.floatingCollect.setOnClickListener {
-            findNavController().navigate(NavigationDirections.navigateToGatherFragment())
+            findNavController().navigate(NavigationDirections.navigateToHostFragment())
         }
 
 

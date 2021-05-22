@@ -48,10 +48,10 @@
         tools:layout="@layout/fragment_profile" />
 
     <fragment
-        android:id="@+id/gatherFragment"
-        android:name="com.chloe.buytogether.gather.GatherFragment"
-        android:label="GatherFragment"
-        tools:layout="@layout/fragment_gather"/>
+        android:id="@+id/hostFragment"
+        android:name="com.chloe.buytogether.host.HostFragment"
+        android:label="HostFragment"
+        tools:layout="@layout/fragment_host"/>
 
     <fragment
         android:id="@+id/collectionFragment"
@@ -92,8 +92,8 @@
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true" />
 
-    <action android:id="@+id/navigate_to_gather_fragment" app:destination="@id/gatherFragment"
-        app:popUpTo="@id/gatherFragment"
+    <action android:id="@+id/navigate_to_host_fragment" app:destination="@id/hostFragment"
+        app:popUpTo="@id/hostFragment"
         app:popUpToInclusive="true" />
 
     <action android:id="@+id/navigate_to_collection_fragment" app:destination="@id/collectionFragment"

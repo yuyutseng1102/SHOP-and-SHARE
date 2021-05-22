@@ -9,7 +9,10 @@
         <import type="com.chloe.buytogether.network.LoadApiStatus"/>
         <variable
             name="viewModel"
-            type="com.chloe.buytogether.gather.GatherViewModel" />
+            type="com.chloe.buytogether.host.HostViewModel" />
+        <variable
+            name="deliveryMethod"
+            type="com.chloe.buytogether.host.DeliveryMethod" />
 
     </data>
 
@@ -295,27 +298,68 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="寄送方式"
-                    android:textColor='@{viewModel.isInvalid != null ? (TextUtils.isEmpty(viewModel.deliveryMethod) ? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}'
+                    android:text="@string/delivery_method"
+                    android:textColor='@{viewModel.isInvalid != null ? (viewModel.deliveryMethod == null? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}'
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/gather_option_edit" />
 
-                <EditText
-                    android:id="@+id/gather_delivery_edit"
-                    style="@style/ProductTitle"
-                    android:layout_width="0dp"
+                <CheckBox
+                    android:id="@+id/checkBox_seven_eleven"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:ems="10"
-                    android:inputType="text"
-                    android:maxLines="5"
-                    android:text="@={viewModel.deliveryMethod}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
+                    android:text="@string/seven_eleven"
                     app:layout_constraintStart_toEndOf="@+id/gather_delivery_text"
                     app:layout_constraintTop_toTopOf="@+id/gather_delivery_text" />
 
+                <CheckBox
+                    android:id="@+id/checkBox_family_mart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/family_mart"
+                    app:layout_constraintBottom_toBottomOf="@+id/checkBox_seven_eleven"
+                    app:layout_constraintStart_toEndOf="@+id/checkBox_seven_eleven"
+                    app:layout_constraintTop_toTopOf="@+id/checkBox_seven_eleven" />
+
+                <CheckBox
+                    android:id="@+id/checkBox_hi_life"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/hi_life"
+                    app:layout_constraintBottom_toBottomOf="@+id/checkBox_family_mart"
+                    app:layout_constraintStart_toEndOf="@+id/checkBox_family_mart"
+                    app:layout_constraintTop_toTopOf="@+id/checkBox_family_mart" />
+
+                <CheckBox
+                    android:id="@+id/checkBox_ok"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/ok"
+                    app:layout_constraintBottom_toBottomOf="@+id/checkBox_hi_life"
+                    app:layout_constraintStart_toEndOf="@+id/checkBox_hi_life"
+                    app:layout_constraintTop_toTopOf="@+id/checkBox_hi_life" />
+
+                <CheckBox
+                    android:id="@+id/checkBox_home_delivery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_delivery"
+                    app:layout_constraintStart_toStartOf="@+id/checkBox_seven_eleven"
+                    app:layout_constraintTop_toBottomOf="@+id/checkBox_seven_eleven" />
+
+
+                <CheckBox
+                    android:id="@+id/checkBox_by_hand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/by_hand"
+                    app:layout_constraintBottom_toBottomOf="@+id/checkBox_home_delivery"
+                    app:layout_constraintStart_toEndOf="@+id/checkBox_home_delivery"
+                    app:layout_constraintTop_toTopOf="@+id/checkBox_home_delivery" />
 
                 <TextView
                     android:id="@+id/gather_condition_text"
@@ -330,7 +374,8 @@
                     android:textColor='@{viewModel.isInvalid != null ? (TextUtils.isEmpty(viewModel.conditionShow) ? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}'
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/gather_delivery_edit" />
+                    app:layout_constraintTop_toBottomOf="@+id/checkBox_home_delivery"
+                    app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
                     android:id="@+id/gather_condition_edit"
@@ -359,6 +404,8 @@
                     app:layout_constraintDimensionRatio="h,1:1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/gather_condition_text" />
+
+
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

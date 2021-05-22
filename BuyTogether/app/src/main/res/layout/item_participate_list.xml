@@ -6,7 +6,7 @@
     <data>
         <import type="android.view.View"/>
         <variable name="item" type="com.chloe.buytogether.data.Product" />
-        <variable name="viewModel" type="com.chloe.buytogether.detail.dialog.ProductListViewModel" />
+        <variable name="viewModel" type="com.chloe.buytogether.participate.ParticipateViewModel" />
 
     </data>
 

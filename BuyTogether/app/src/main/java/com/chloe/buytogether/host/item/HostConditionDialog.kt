@@ -1,29 +1,19 @@
-package com.chloe.buytogether.gather.item
+package com.chloe.buytogether.host.item
 
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.Observer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.viewModels
 import com.chloe.buytogether.MyApplication
 import com.chloe.buytogether.R
-import com.chloe.buytogether.databinding.DialogGatherConditionBinding
+import com.chloe.buytogether.databinding.DialogHostConditionBinding
 import com.chloe.buytogether.ext.getVmFactory
-import com.chloe.buytogether.ext.toDisplayFormat
-import com.chloe.buytogether.gather.ConditionSelector
+import com.chloe.buytogether.host.ConditionSelector
 import com.chloe.buytogether.network.LoadApiStatus
-import com.google.android.material.datepicker.MaterialDatePicker
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.util.*
 
 
 class GatherConditionDialog(private val conditionSelector: ConditionSelector?) : AppCompatDialogFragment() {
@@ -33,7 +23,7 @@ class GatherConditionDialog(private val conditionSelector: ConditionSelector?) :
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val binding = DialogGatherConditionBinding.inflate(inflater, container, false)
+        val binding = DialogHostConditionBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 

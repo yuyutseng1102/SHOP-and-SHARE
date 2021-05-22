@@ -1,11 +1,9 @@
-package com.chloe.buytogether.gather.item
+package com.chloe.buytogether.host.item
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.chloe.buytogether.data.source.Repository
-import com.chloe.buytogether.ext.toDisplayFormat
 import com.chloe.buytogether.network.LoadApiStatus
 
 class GatherOptionViewModel(private val repository: Repository,oldOption: List<String>?,oldIsStandard: Boolean): ViewModel() {

@@ -1,4 +1,4 @@
-package com.chloe.buytogether.gather
+package com.chloe.buytogether.host
 
 import android.os.Bundle
 import android.util.Log
@@ -13,23 +13,23 @@ import androidx.navigation.fragment.findNavController
 import com.chloe.buytogether.MyApplication
 import com.chloe.buytogether.NavigationDirections
 import com.chloe.buytogether.R
-import com.chloe.buytogether.databinding.FragmentGatherBinding
+import com.chloe.buytogether.databinding.FragmentHostBinding
 import com.chloe.buytogether.ext.getVmFactory
-import com.chloe.buytogether.gather.item.CategorySpannerAdapter
-import com.chloe.buytogether.gather.item.CountrySpannerAdapter
-import com.chloe.buytogether.gather.item.GatherConditionDialog
-import com.chloe.buytogether.gather.item.GatherOptionDialog
+import com.chloe.buytogether.host.item.CategorySpannerAdapter
+import com.chloe.buytogether.host.item.CountrySpannerAdapter
+import com.chloe.buytogether.host.item.GatherConditionDialog
+import com.chloe.buytogether.host.item.GatherOptionDialog
 import com.chloe.buytogether.network.LoadApiStatus
 
 
-class GatherFragment : Fragment() {
+class HostFragment : Fragment() {
 
-    private val viewModel by viewModels<GatherViewModel> { getVmFactory() }
+    private val viewModel by viewModels<HostViewModel> { getVmFactory() }
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val binding = FragmentGatherBinding.inflate(inflater,container,false)
+        val binding = FragmentHostBinding.inflate(inflater,container,false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
@@ -38,6 +38,7 @@ class GatherFragment : Fragment() {
 
         binding.spinnerGatherCountry.adapter = CountrySpannerAdapter(
                 MyApplication.instance.resources.getStringArray(R.array.country_list))
+
 
         viewModel.categoryType.observe(viewLifecycleOwner, Observer {
             viewModel.selectCategory()
@@ -104,6 +105,44 @@ class GatherFragment : Fragment() {
 
             )
             dialog.show(childFragmentManager, "hiya")
+        }
+
+
+        binding.checkBoxSevenEleven.setOnCheckedChangeListener { _, isChecked ->
+            when(isChecked){
+                true -> viewModel.selectDelivery(DeliveryMethod.SEVEN_ELEVEN.delivery)
+                else -> viewModel.removeDelivery(DeliveryMethod.SEVEN_ELEVEN.delivery)
+            }
+        }
+        binding.checkBoxFamilyMart.setOnCheckedChangeListener { _, isChecked ->
+            when(isChecked){
+                true -> viewModel.selectDelivery(DeliveryMethod.FAMILY_MART.delivery)
+                else -> viewModel.removeDelivery(DeliveryMethod.FAMILY_MART.delivery)
+            }
+        }
+        binding.checkBoxHiLife.setOnCheckedChangeListener { _, isChecked ->
+            when(isChecked){
+                true -> viewModel.selectDelivery(DeliveryMethod.HI_LIFE.delivery)
+                else -> viewModel.removeDelivery(DeliveryMethod.HI_LIFE.delivery)
+            }
+        }
+        binding.checkBoxOk.setOnCheckedChangeListener { _, isChecked ->
+            when(isChecked){
+                true -> viewModel.selectDelivery(DeliveryMethod.OK.delivery)
+                else -> viewModel.removeDelivery(DeliveryMethod.OK.delivery)
+            }
+        }
+        binding.checkBoxHomeDelivery.setOnCheckedChangeListener { _, isChecked ->
+            when(isChecked){
+                true -> viewModel.selectDelivery(DeliveryMethod.HOME_DELIVERY.delivery)
+                else -> viewModel.removeDelivery(DeliveryMethod.HOME_DELIVERY.delivery)
+            }
+        }
+        binding.checkBoxByHand.setOnCheckedChangeListener { _, isChecked ->
+            when(isChecked){
+                true -> viewModel.selectDelivery(DeliveryMethod.BY_HAND.delivery)
+                else -> viewModel.removeDelivery(DeliveryMethod.BY_HAND.delivery)
+            }
         }
 
 
