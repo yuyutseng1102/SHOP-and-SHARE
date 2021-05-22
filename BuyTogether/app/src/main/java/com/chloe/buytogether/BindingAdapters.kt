@@ -1,6 +1,5 @@
 package com.chloe.buytogether
 
-import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Canvas
 import android.graphics.Color
@@ -11,11 +10,7 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.core.net.toUri
-import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -27,6 +22,7 @@ import com.chloe.buytogether.collection.manage.MemberProductAdapter
 import com.chloe.buytogether.data.Collections
 import com.chloe.buytogether.data.Order
 import com.chloe.buytogether.data.Product
+import com.chloe.buytogether.detail.dialog.ProductListAdapter
 import com.chloe.buytogether.ext.toDisplayFormat
 import com.chloe.buytogether.gather.CategoryType
 import com.chloe.buytogether.gather.CountryType
@@ -36,7 +32,6 @@ import com.chloe.buytogether.home.item.HomeGridAdapter
 import com.chloe.buytogether.home.item.HomeHots1stAdapter
 import com.chloe.buytogether.home.item.HomeHots2ndAdapter
 import com.chloe.buytogether.util.Util.getColor
-import kotlin.reflect.jvm.internal.impl.util.Check
 
 /**
  * According to [LoadApiStatus] to decide the visibility of [ProgressBar]
@@ -110,6 +105,7 @@ fun bindRecyclerViewWithProducts(recyclerView: RecyclerView, products: List<Prod
             Log.d("Chloe","summit the option list is ${products}")
             when (this) {
                 is MemberProductAdapter -> submitList(it)
+                is ProductListAdapter -> submitList(it)
             }
         }
     }
@@ -236,6 +232,93 @@ fun bindEditorMemberChecked(toggleButton: ToggleButton, isChecked: Boolean) {
             }
 
     )
+}
+
+@BindingAdapter("editorControllerStatus")
+fun bindEditorControllerStatus(imageButton: ImageButton, enabled: Boolean = false) {
+
+    imageButton.apply {
+        foreground = ShapeDrawable(object : Shape() {
+            override fun draw(canvas: Canvas, paint: Paint) {
+
+                paint.color = Color.BLACK
+                paint.style = Paint.Style.STROKE
+                paint.strokeWidth = MyApplication.instance.resources
+                    .getDimensionPixelSize(R.dimen.edge_select).toFloat()
+                canvas.drawRect(0f, 0f, this.width, this.height, paint)
+            }
+        })
+        isClickable = enabled
+        backgroundTintList = ColorStateList.valueOf(
+            getColor(
+                when (enabled) {
+                    true -> R.color.black_3f3a3a
+                    false -> R.color.gray_999999
+                }))
+        foregroundTintList = ColorStateList.valueOf(
+            getColor(
+                when (enabled) {
+                    true -> R.color.black_3f3a3a
+                    false -> R.color.gray_999999
+                }))
+    }
+}
+
+@BindingAdapter("optionIsStandard","shortOptionDisplay")
+fun bindDisplayShortOption(textView: TextView, isStandard:Boolean ,option: List<String>) {
+    textView.apply {
+        text =
+            when (isStandard) {
+                false -> {
+                    option[0]
+                }
+                true -> if (option.size > 2) {
+                    "${option[0]}+${option[1]}...共${option.size}項"
+                } else if (option.size == 2) {
+                    "${option[0]}+${option[1]}"
+                } else if (option.size == 1) {
+                    option[0]
+                } else {
+                    ""
+                }
+            }
+    }
+}
+
+@BindingAdapter("enableButtonStatus")
+fun bindEnableButtonStatus(button: Button, enabled: Boolean = false) {
+
+    button.apply {
+        isClickable = enabled
+        backgroundTintList = ColorStateList.valueOf(
+            getColor(
+                when (enabled) {
+                    true -> R.color.colorPrimary
+                    false -> R.color.gray_cccccc
+                }))
+
+    }
+}
+
+@BindingAdapter("quantity")
+fun bindEditorStatus(textView: TextView, quantity: Int) {
+    textView.apply {
+        background = ShapeDrawable(object : Shape() {
+            override fun draw(canvas: Canvas, paint: Paint) {
+
+                paint.color = Color.BLACK
+                paint.style = Paint.Style.STROKE
+                paint.strokeWidth = MyApplication.instance.resources
+                    .getDimensionPixelSize(R.dimen.edge_select).toFloat()
+                canvas.drawRect(0f, 0f, this.width, this.height, paint)
+            }
+        })
+        text =
+            when (quantity){
+                0 -> ""
+                else -> "$quantity"
+            }
+    }
 }
 
 //

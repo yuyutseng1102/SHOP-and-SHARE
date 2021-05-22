@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable name="item" type="com.chloe.buytogether.data.Product" />
+        <variable name="viewModel" type="com.chloe.buytogether.detail.dialog.ProductListViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="16dp">
+
+
+        <TextView
+            android:id="@+id/item_title"
+            style="@style/ProductTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:maxLines="2"
+            android:text="@{item.productTitle}"
+            tools:text="TextView"
+            app:layout_constraintEnd_toStartOf="@+id/button_list_decrease"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/button_list_decrease"
+            android:layout_width="@dimen/size_product_list_quantity"
+            android:layout_height="@dimen/size_product_list_quantity"
+            android:background="@drawable/icons_24px_subtract01"
+            android:onClick="@{() -> viewModel.decreaseQuantity(item)}"
+            app:editorControllerStatus="@{item.quantity>1}"
+            app:layout_constraintEnd_toStartOf="@+id/text_list_quantity_editor"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/button_list_increase"
+            android:layout_width="@dimen/size_product_list_quantity"
+            android:layout_height="@dimen/size_product_list_quantity"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/icons_24px_add01"
+            android:onClick="@{() -> viewModel.increaseQuantity(item)}"
+            app:layout_constraintBottom_toBottomOf="@+id/text_list_quantity_editor"
+            app:layout_constraintEnd_toStartOf="@+id/remove_item"
+            app:editorControllerStatus="@{viewModel.increaseEnable}"
+            app:layout_constraintTop_toTopOf="@+id/text_list_quantity_editor" />
+
+        <TextView
+            android:id="@+id/text_list_quantity_editor"
+            android:layout_width="60dp"
+            android:layout_height="@dimen/size_product_list_quantity"
+            android:background="@color/white"
+            android:fontFamily="@font/noto_sans"
+            android:gravity="center"
+            android:inputType="number"
+            android:letterSpacing="0.15"
+            android:maxLines="1"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@{String.valueOf(item.quantity)}"
+            app:quantity="@{item.quantity}"
+            android:textColor="@color/black_3f3a3a"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/button_list_decrease"
+            app:layout_constraintEnd_toStartOf="@+id/button_list_increase" />
+
+        <View
+            android:id="@+id/line_button"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_marginTop="24dp"
+            android:background="@color/gray_cccccc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_title" />
+
+        <TextView
+            android:id="@+id/remove_item"
+            style="@style/OtherStatusContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:onClick="@{()->viewModel.removeProduct(item)}"
+            android:text="移除"
+            android:clickable="@{viewModel.isEnable}"
+            app:layout_constraintBottom_toBottomOf="@+id/button_list_increase"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/button_list_increase" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

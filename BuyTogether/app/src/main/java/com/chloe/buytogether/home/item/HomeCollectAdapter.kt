@@ -10,12 +10,13 @@ import com.chloe.buytogether.data.Collections
 import com.chloe.buytogether.databinding.ItemHomeCollectionBinding
 import com.chloe.buytogether.databinding.ItemHomeHotsBinding
 
-class HomeCollectAdapter(private val onClickListener: OnClickListener )  : ListAdapter<Collections, HomeCollectAdapter.ViewHolder>(DiffCallback) {
+class HomeCollectAdapter(private val viewModel: HomeCollectViewModel)  : ListAdapter<Collections, HomeCollectAdapter.ViewHolder>(DiffCallback) {
 
     class ViewHolder(private var binding: ItemHomeCollectionBinding):
             RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Collections) {
+        fun bind(item: Collections,viewModel: HomeCollectViewModel) {
             binding.item = item
+            binding.viewModel = viewModel
             binding.executePendingBindings()
         }
     }
@@ -39,13 +40,7 @@ class HomeCollectAdapter(private val onClickListener: OnClickListener )  : ListA
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.itemView.setOnClickListener {
-            onClickListener.onClick(item)
-        }
-        holder.bind(item)
+        holder.bind(item,viewModel)
     }
 
-    class OnClickListener(val clickListener: (item: Collections) -> Unit) {
-        fun onClick(item: Collections) = clickListener(item)
-    }
 }

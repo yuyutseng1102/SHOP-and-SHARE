@@ -4,13 +4,20 @@
     <color name="colorPrimary">@color/green_BDCCC5</color>
     <color name="colorPrimaryDark">@color/green_BDCCC5</color>
     <color name="colorAccent">@color/deep_purple_500</color>
+    <color name="color_background">@color/green_E7ECE5</color>
 
     <!-- Bottom Navigation -->
     <color name="bottom_navigation_item_normal">@color/green_E6E4D7</color>
     <color name="bottom_navigation_item_selected">@color/green_ADC9A0</color>
 
+    <color name="translucent_40">#66000000</color>
+
     <color name="state_focus">@color/orange_DD894D</color>
     <color name="state_click">@color/green_E6E4D7</color>
+
+    <!-- Tag Navigation -->
+    <color name="tag_category">@color/yellow_FFF499</color>
+    <color name="tag_country">@color/blue_9EBFBE</color>
 
     <!-- White Series -->
     <color name="white">#ffffff</color>
@@ -42,11 +49,20 @@
     <color name="orange_9A4747">#9A4747</color>
     <color name="orange_DD894D">#DD894D</color>
 
+    <!-- Yellow Series -->
+    <color name="yellow_ECE07A">#ECE07A</color>
+    <color name="yellow_FFF499">#FFF499</color>
+
+
 
     <!-- Deep Purple Series -->
     <color name="deep_purple_500">#673ab7</color>
     <color name="deep_purple_500_light">#9a67ea</color>
     <color name="deep_purple_500_dark">#320b86</color>
+    <color name="blue_72A6A5">#72A6A5</color>
+    <color name="blue_81AAA9">#81AAA9</color>
+    <color name="blue_9EBFBE">#9EBFBE</color>
+
 
     <color name="indigo_500">#3f51b5</color>
     <color name="green_500">#4caf50</color>

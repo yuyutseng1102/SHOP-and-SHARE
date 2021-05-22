@@ -2,9 +2,11 @@ package com.chloe.buytogether.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.chloe.buytogether.MainViewModel
 import com.chloe.buytogether.collection.CollectionViewModel
 import com.chloe.buytogether.collection.groupmessage.GroupMessageViewModel
 import com.chloe.buytogether.data.source.Repository
+import com.chloe.buytogether.detail.item.DetailDescriptionViewModel
 import com.chloe.buytogether.gather.GatherViewModel
 import com.chloe.buytogether.gather.item.GatherConditionViewModel
 import com.chloe.buytogether.home.item.HomeCollectViewModel
@@ -22,6 +24,9 @@ class ViewModelFactory constructor(
     override fun <T : ViewModel> create(modelClass: Class<T>) =
             with(modelClass) {
                 when {
+                    isAssignableFrom(MainViewModel::class.java) ->
+                        MainViewModel(repository)
+
                     isAssignableFrom(HomePageViewModel::class.java) ->
                         HomePageViewModel(repository)
 
@@ -39,6 +44,9 @@ class ViewModelFactory constructor(
 
                     isAssignableFrom(GroupMessageViewModel::class.java) ->
                         GroupMessageViewModel(repository)
+
+                    isAssignableFrom(DetailDescriptionViewModel::class.java) ->
+                        DetailDescriptionViewModel(repository)
 
 
                     else ->

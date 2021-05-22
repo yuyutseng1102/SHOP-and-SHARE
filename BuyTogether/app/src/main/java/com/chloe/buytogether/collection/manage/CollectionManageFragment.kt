@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.chloe.buytogether.NavigationDirections
 import com.chloe.buytogether.collection.groupmessage.GroupMessageDialog
 import com.chloe.buytogether.databinding.FragmentCollectionManageBinding
 import com.chloe.buytogether.ext.getVmFactory
@@ -83,6 +85,11 @@ class CollectionManageFragment : Fragment() {
             )
             dialog.show(childFragmentManager, "hiya")
         }
+
+        binding.collectionConditionTitle.setOnClickListener {
+            findNavController().navigate(NavigationDirections.navigateToDetailFragment(viewModel.collection.value!!))
+        }
+
 
 
 

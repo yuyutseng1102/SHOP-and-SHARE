@@ -9,13 +9,18 @@ import android.util.Log
 import android.view.DisplayCutout
 import android.view.Gravity
 import android.view.LayoutInflater
+import androidx.activity.viewModels
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
+import androidx.navigation.ui.AppBarConfiguration
 import com.chloe.buytogether.databinding.ActivityMainBinding
+import com.chloe.buytogether.ext.getVmFactory
+import com.chloe.buytogether.util.CurrentFragmentType
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -23,7 +28,10 @@ import kotlinx.coroutines.launch
 
 class MainActivity : BaseActivity() {
 
+    val viewModel by viewModels<MainViewModel> { getVmFactory() }
+
     private lateinit var binding: ActivityMainBinding
+
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -81,10 +89,25 @@ class MainActivity : BaseActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.lifecycleOwner = this
+        binding.viewModel = viewModel
         setupToolbar()
         setupBottomNav()
 //        setupDrawer()
-//        setupNavController()
+        setupNavController()
+    }
+
+    private fun setupNavController() {
+        findNavController(R.id.myNavHostFragment).addOnDestinationChangedListener { navController: NavController, _: NavDestination, _: Bundle? ->
+            viewModel.currentFragmentType.value = when (navController.currentDestination?.id) {
+                R.id.homeFragment -> CurrentFragmentType.HOME
+                R.id.profileFragment -> CurrentFragmentType.PROFILE
+                R.id.gatherFragment -> CurrentFragmentType.GATHER
+                R.id.collectionFragment -> CurrentFragmentType.COLLECTION
+                R.id.collectionManageFragment -> CurrentFragmentType.COLLECTION_MANAGE
+                R.id.detailFragment -> CurrentFragmentType.DETAIL
+                else -> viewModel.currentFragmentType.value
+            }
+        }
     }
 
 
@@ -101,6 +124,8 @@ class MainActivity : BaseActivity() {
 //        bindingBadge.lifecycleOwner = this
 //        bindingBadge.viewModel = viewModel
     }
+
+
 
 
 

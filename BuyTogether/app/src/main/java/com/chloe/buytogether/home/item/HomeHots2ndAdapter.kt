@@ -10,11 +10,11 @@ import com.chloe.buytogether.data.Collections
 import com.chloe.buytogether.databinding.ItemHomeHotsBinding
 import kotlin.collections.Collection
 
-class HomeHots2ndAdapter(private val onClickListener: HomeCollectAdapter.OnClickListener): ListAdapter<Collections, HomeHots2ndAdapter.ViewHolder>(DiffCallback) {
+class HomeHots2ndAdapter(private val viewModel: HomePageViewModel): ListAdapter<Collections, HomeHots2ndAdapter.ViewHolder>(DiffCallback) {
 
     class ViewHolder(private var binding: ItemHomeHotsBinding):
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Collections, position: Int) {
+        fun bind(item: Collections, position: Int,viewModel: HomePageViewModel) {
             binding.item = item
             if (position<=3){
                 binding.markText.text = position.toString()
@@ -22,6 +22,7 @@ class HomeHots2ndAdapter(private val onClickListener: HomeCollectAdapter.OnClick
                 binding.markText.visibility = View.GONE
                 binding.markImage.visibility = View.GONE
             }
+            binding.viewModel = viewModel
             binding.executePendingBindings()
         }
     }
@@ -46,9 +47,6 @@ class HomeHots2ndAdapter(private val onClickListener: HomeCollectAdapter.OnClick
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.itemView.setOnClickListener {
-            onClickListener.onClick(item)
-        }
-        holder.bind(item,position+1)
+        holder.bind(item,position+1,viewModel)
     }
 }

@@ -25,4 +25,11 @@
 
     <!-- IMessage Dialog -->
     <dimen name="size_message">160dp</dimen>
+
+    <!-- Option Select Dialog -->
+    <dimen name="size_select_amount">30dp</dimen>
+    <dimen name="edge_select">2dp</dimen>
+
+    <!-- Product List Dialog -->
+    <dimen name="size_product_list_quantity">32dp</dimen>
 </resources>

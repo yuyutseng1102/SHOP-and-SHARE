@@ -13,6 +13,35 @@
     </fragment>
 
     <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.chloe.buytogether.detail.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail" >
+        <argument android:name="collectionKey"
+            app:argType="com.chloe.buytogether.data.Collections"
+            app:nullable="false"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailDescriptionFragment"
+        android:name="com.chloe.buytogether.detail.item.DetailDescriptionFragment"
+        android:label="fragment_detail_description"
+        tools:layout="@layout/fragment_detail_description" />
+
+    <fragment
+        android:id="@+id/participateFragment"
+        android:name="com.chloe.buytogether.participate.ParticipateFragment"
+        android:label="ParticipateFragment"
+        tools:layout="@layout/fragment_participate">
+        <argument android:name="collectionKey"
+        app:argType="com.chloe.buytogether.data.Collections"
+        app:nullable="false"/>
+        <argument android:name="productKey"
+            app:argType="com.chloe.buytogether.data.Product[]"
+            app:nullable="false"/>
+    </fragment>
+
+    <fragment
         android:id="@+id/profileFragment"
         android:name="com.chloe.buytogether.profile.ProfileFragment"
         android:label="fragment_profile"
@@ -51,12 +80,20 @@
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true" />
 
+    <action android:id="@+id/navigate_to_detail_fragment" app:destination="@id/detailFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
+
+    <action android:id="@+id/navigate_to_participate_fragment" app:destination="@id/participateFragment"
+        app:popUpTo="@id/detailFragment"
+        app:popUpToInclusive="true" />
+
     <action android:id="@+id/navigate_to_profile_fragment" app:destination="@id/profileFragment"
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true" />
 
     <action android:id="@+id/navigate_to_gather_fragment" app:destination="@id/gatherFragment"
-        app:popUpTo="@id/navigation"
+        app:popUpTo="@id/gatherFragment"
         app:popUpToInclusive="true" />
 
     <action android:id="@+id/navigate_to_collection_fragment" app:destination="@id/collectionFragment"
@@ -67,9 +104,10 @@
         app:popUpTo="@id/collectionFragment"
         app:popUpToInclusive="false" />
 
+
+
+
     <action android:id="@+id/navigate_to_success_dialog" app:destination="@id/successDialog"/>
-
-
 
 
 </navigation>

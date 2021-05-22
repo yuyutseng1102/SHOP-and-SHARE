@@ -15,6 +15,21 @@ class HomeCollectViewModel(private val repository: Repository) : ViewModel() {
     val collection: LiveData<List<Collections>>
     get() = _collection
 
+    private val _navigateToDetail = MutableLiveData<Collections?>()
+
+    val navigateToDetail: LiveData<Collections?>
+        get() = _navigateToDetail
+
+
+    fun navigateToDetail(collection:Collections){
+        _navigateToDetail.value = collection
+    }
+
+    fun onDetailNavigated(collection:Collections){
+        _navigateToDetail.value = null
+    }
+
+
     //排序方式
     val selectedSortMethodPosition = MutableLiveData<Int>()
     val sortMethod: LiveData<SortMethod> = Transformations.map(selectedSortMethodPosition) {
