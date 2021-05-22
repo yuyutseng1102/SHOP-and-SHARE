@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="com.chloe.buytogether.detail.item.DetailOptionViewModel" />
+            type="com.chloe.buytogether.detail.dialog.DetailOptionViewModel" />
 
     </data>
 
@@ -16,10 +17,11 @@
         android:layout_height="match_parent"
         android:background="@drawable/bg_green_top_corner"
         android:backgroundTint="#FFFFFF"
-        tools:context=".detail.item.DetailOptionDialog">
+        tools:context=".detail.dialog.DetailOptionDialog">
 
         <TextView
             android:id="@+id/purchase_option_title"
+            style="@style/GatherTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -37,8 +39,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="40dp"
-            app:layout_constraintBottom_toTopOf="@+id/select_quantity_title"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/custom_field"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent">
@@ -56,70 +58,108 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/custom_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:ems="10"
+            android:hint="商品名稱 / 規格"
+            android:visibility="@{viewModel.isVisible==true?View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toTopOf="@+id/select_quantity_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/custom_edit"
+                style="@style/ProductTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:text="@={viewModel.productTitle}" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
         <TextView
             android:id="@+id/select_quantity_title"
+            style="@style/GatherTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginBottom="16dp"
             android:text="選擇商品數量"
-            app:layout_constraintBottom_toTopOf="@+id/button_add_to_list"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <ImageButton
-            android:id="@+id/button_decrease"
-            android:layout_width="@dimen/size_select_amount"
-            android:layout_height="@dimen/size_select_amount"
-            android:background="@drawable/icons_24px_subtract01"
-            app:layout_constraintBottom_toBottomOf="@+id/edit_quantity_editor"
-            app:layout_constraintEnd_toStartOf="@+id/edit_quantity_editor"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/edit_quantity_editor" />
 
         <ImageButton
+            android:id="@+id/button_decrease"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="92dp"
+            android:background="@drawable/icons_24px_subtract01"
+            android:onClick="@{()->viewModel.decreaseQuantity()}"
+            app:editorControllerStatus="@{viewModel.quantity>1}"
+            app:layout_constraintBottom_toBottomOf="@+id/edit_quantity_editor"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintStart_toEndOf="@+id/select_quantity_title"
+            app:layout_constraintTop_toTopOf="@+id/edit_quantity_editor"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ImageButton
             android:id="@+id/button_increase"
-            android:layout_width="@dimen/size_select_amount"
-            android:layout_height="@dimen/size_select_amount"
-            android:layout_marginEnd="60dp"
-            android:layout_marginBottom="16dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="16dp"
             android:background="@drawable/icons_24px_add01"
-            app:layout_constraintBottom_toTopOf="@+id/button_add_to_list"
+            android:onClick="@{()->viewModel.increaseQuantity()}"
+            app:editorControllerStatus="@{viewModel.isEnable}"
+            app:layout_constraintBottom_toBottomOf="@+id/edit_quantity_editor"
+            app:layout_constraintDimensionRatio="h,1:1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/select_quantity_title" />
+            app:layout_constraintTop_toTopOf="@+id/edit_quantity_editor"
+            app:layout_constraintVertical_bias="0.589" />
 
         <EditText
             android:id="@+id/edit_quantity_editor"
-            android:layout_width="70dp"
-            android:layout_height="@dimen/size_select_amount"
-            android:background="@color/white"
-            android:fontFamily="@font/noto_sans"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:gravity="center"
             android:inputType="number"
-            android:letterSpacing="0.15"
-            android:maxLines="1"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+            android:text="@={``+viewModel.quantity}"
             android:textColor="@color/black_3f3a3a"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/button_increase"
-            app:layout_constraintEnd_toStartOf="@+id/button_increase" />
+            android:textSize="14sp"
+            android:clickable="false"
+            app:layout_constraintBottom_toTopOf="@+id/button_add_to_list"
+            app:layout_constraintEnd_toStartOf="@+id/button_increase"
+            app:layout_constraintStart_toEndOf="@+id/button_decrease"
+            app:quantity="@{viewModel.quantity}" />
 
         <Button
             android:id="@+id/button_add_to_list"
+            style="@style/WhiteButtonName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="84dp"
             android:layout_marginBottom="16dp"
             android:text="加入清單"
+            android:onClick="@{()->viewModel.navigateToProductList(viewModel.finishSelector())}"
+            app:enableButtonStatus="@{viewModel.quantity>0}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/button_ready_to_buy"
+            style="@style/WhiteButtonName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="84dp"
             android:text="確定跟團"
+            android:onClick="@{()->viewModel.navigateToParticipate(viewModel.finishSelector())}"
+            app:enableButtonStatus="@{viewModel.quantity>0}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/button_add_to_list"

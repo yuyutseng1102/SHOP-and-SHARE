@@ -196,9 +196,24 @@
                         android:layout_marginEnd="16dp"
                         android:background="@drawable/ic_baseline_chevron_right_24"
                         android:backgroundTint="@color/gray_888888"
-                        android:onClick="@{() -> viewModel.navigateToOption(viewModel.collection)}"
+                        android:onClick="@{() -> viewModel.navigateToOption(viewModel.product)}"
                         app:layout_constraintBottom_toBottomOf="@+id/deatil_option_title"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/deatil_option_title" />
+
+                    <TextView
+                        android:id="@+id/short_option_text"
+                        style="@style/DetailContent"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="16dp"
+                        app:shortOptionDisplay="@{viewModel.collection.option}"
+                        app:optionIsStandard="@{viewModel.collection.isStandard}"
+                        tools:text="全網站皆可"
+                        app:layout_constraintBottom_toBottomOf="@+id/deatil_option_title"
+                        app:layout_constraintEnd_toStartOf="@+id/option_expand_button"
+                        app:layout_constraintStart_toEndOf="@+id/deatil_option_title"
                         app:layout_constraintTop_toTopOf="@+id/deatil_option_title" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -292,10 +307,10 @@
                 android:layout_height="@dimen/size_bottom_nav_icon"
                 android:layout_marginStart="24dp"
                 android:src="@drawable/ic_home"
-                app:tint="@drawable/bottom_nav_item_selector"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@drawable/bottom_nav_item_selector" />
 
             <ImageView
                 android:id="@+id/nav_follow"
@@ -303,21 +318,42 @@
                 android:layout_height="@dimen/size_bottom_nav_icon"
                 android:layout_marginStart="45dp"
                 android:src="@drawable/ic_follow"
-                app:tint="@drawable/bottom_nav_item_selector"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/nav_home"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@drawable/bottom_nav_item_selector" />
 
             <Button
-                android:id="@+id/button_purchase"
-                style="@style/Number"
+                android:id="@+id/button_product_list"
+                style="@style/WhiteButtonName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="32dp"
+                android:layout_marginStart="45dp"
+                android:layout_marginEnd="16dp"
+                android:text="查看清單"
+                android:onClick="@{() -> viewModel.navigateToProductList(viewModel.product)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/button_participate"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toEndOf="@+id/nav_follow"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
+
+            <Button
+                android:id="@+id/button_participate"
+                style="@style/WhiteButtonName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
                 android:text="我要跟團"
+                android:onClick="@{() -> viewModel.navigateToOption(viewModel.product)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/button_product_list"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.625" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

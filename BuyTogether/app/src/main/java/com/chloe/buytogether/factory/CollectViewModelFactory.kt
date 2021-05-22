@@ -6,8 +6,7 @@ import com.chloe.buytogether.collection.manage.CollectionManageViewModel
 import com.chloe.buytogether.data.Collections
 import com.chloe.buytogether.data.source.Repository
 import com.chloe.buytogether.detail.DetailViewModel
-import com.chloe.buytogether.detail.item.DetailOptionDialog
-import com.chloe.buytogether.detail.item.DetailOptionViewModel
+import com.chloe.buytogether.detail.dialog.DetailOptionViewModel
 
 @Suppress("UNCHECKED_CAST")
 class CollectViewModelFactory(
@@ -27,8 +26,6 @@ class CollectViewModelFactory(
                     isAssignableFrom(DetailViewModel::class.java) ->
                         DetailViewModel(repository, collection)
 
-                    isAssignableFrom(DetailOptionViewModel::class.java) ->
-                        DetailOptionViewModel(repository, collection)
 
 
 

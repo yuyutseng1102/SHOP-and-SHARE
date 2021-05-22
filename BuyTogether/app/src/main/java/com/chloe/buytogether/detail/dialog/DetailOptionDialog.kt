@@ -1,35 +1,31 @@
-package com.chloe.buytogether.detail.item
+package com.chloe.buytogether.detail.dialog
 
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.navArgs
+import androidx.navigation.fragment.findNavController
+import com.chloe.buytogether.NavigationDirections
 import com.chloe.buytogether.R
 import com.chloe.buytogether.data.Collections
+import com.chloe.buytogether.data.Product
 import com.chloe.buytogether.databinding.DialogDetailOptionBinding
-import com.chloe.buytogether.databinding.DialogGatherConditionBinding
-import com.chloe.buytogether.detail.DetailFragmentArgs
-import com.chloe.buytogether.detail.DetailViewModel
 import com.chloe.buytogether.detail.OptionSelector
 import com.chloe.buytogether.ext.getVmFactory
-import com.chloe.buytogether.gather.ConditionSelector
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 
 
-class DetailOptionDialog(private val collection:Collections,private val optionSelector: OptionSelector): BottomSheetDialogFragment()  {
+class DetailOptionDialog(private val collection:Collections,private val productList: List<Product>,private val optionSelector: OptionSelector?): BottomSheetDialogFragment()  {
 
-    private val viewModel by viewModels<DetailOptionViewModel> { getVmFactory(collection) }
+    private val viewModel by viewModels<DetailOptionViewModel> { getVmFactory(collection,productList) }
     private lateinit var binding : DialogDetailOptionBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,9 +62,12 @@ class DetailOptionDialog(private val collection:Collections,private val optionSe
         viewModel.selectedChip.observe(viewLifecycleOwner, Observer {
             it?.let {
                 viewModel.getOption()
-                Log.d("Chloe","what i choose is ${viewModel.optionSelected}")
+                Log.d("Chloe","what i choose is ${viewModel.productTitle}")
             }
         })
+
+
+
 
 
         var lastCheckedId = View.NO_ID
@@ -93,8 +92,46 @@ class DetailOptionDialog(private val collection:Collections,private val optionSe
             }
         })
 
+
+        viewModel.navigateToProductList.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                optionSelector?.onOptionSelector(it)
+                viewModel.onProductListNavigated()
+                this.dismiss()
+            }
+
+        })
+
+        viewModel.navigateToParticipate.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if (viewModel.collection.value!=null) {
+                    Log.d("Chloe","navigate to participate is product = $it")
+                    findNavController().navigate(
+                        NavigationDirections.navigateToParticipateFragment(
+                            viewModel.collection.value!!,
+                            it.toTypedArray()
+                        )
+                    )
+                    optionSelector?.onOptionSelector(it)
+                    viewModel.onProductListNavigated()
+                    this.dismiss()
+                }
+            }
+
+        })
+
+
+        viewModel.productTitle.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                viewModel.isEditable()
+            }
+        })
+
+
         return binding.root
     }
+
+
 
 
 }

@@ -28,6 +28,18 @@
         android:label="fragment_detail_description"
         tools:layout="@layout/fragment_detail_description" />
 
+    <fragment
+        android:id="@+id/participateFragment"
+        android:name="com.chloe.buytogether.participate.ParticipateFragment"
+        android:label="ParticipateFragment"
+        tools:layout="@layout/fragment_participate">
+        <argument android:name="collectionKey"
+        app:argType="com.chloe.buytogether.data.Collections"
+        app:nullable="false"/>
+        <argument android:name="productKey"
+            app:argType="com.chloe.buytogether.data.Product[]"
+            app:nullable="false"/>
+    </fragment>
 
     <fragment
         android:id="@+id/profileFragment"
@@ -70,6 +82,10 @@
 
     <action android:id="@+id/navigate_to_detail_fragment" app:destination="@id/detailFragment"
         app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
+
+    <action android:id="@+id/navigate_to_participate_fragment" app:destination="@id/participateFragment"
+        app:popUpTo="@id/detailFragment"
         app:popUpToInclusive="true" />
 
     <action android:id="@+id/navigate_to_profile_fragment" app:destination="@id/profileFragment"
