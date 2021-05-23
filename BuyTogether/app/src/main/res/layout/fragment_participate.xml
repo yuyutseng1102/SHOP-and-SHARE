@@ -5,6 +5,8 @@
 
     <data>
         <import type="android.view.View"/>
+        <import type="android.text.TextUtils"/>
+        <import type="com.chloe.buytogether.network.LoadApiStatus"/>
         <variable
             name="viewModel"
             type="com.chloe.buytogether.participate.ParticipateViewModel" />
@@ -65,6 +67,17 @@
                         app:layout_constraintTop_toTopOf="@+id/product_list_image"
                         tools:text="2WAY證背面兩穿小荷葉領短袖上衣-五色" />
 
+                    <TextView
+                        android:id="@+id/product_size_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text='@{viewModel.isInvalid != null ? (viewModel.product.size()==0?"清單內無商品":"共"+viewModel.product.size()+"項商品") :"共"+viewModel.product.size()+"項商品"}'
+                        tools:text="共5項商品"
+                        android:textColor="@{viewModel.isInvalid != null ? (viewModel.product.size()==0?@color/red_500 : @color/gray_646464) : @color/gray_646464}"
+                        app:layout_constraintStart_toStartOf="@+id/title_text"
+                        app:layout_constraintTop_toBottomOf="@+id/title_text" />
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_product_list"
                         android:layout_width="0dp"
@@ -77,6 +90,8 @@
                         app:layout_constraintStart_toStartOf="@+id/product_list_image"
                         app:layout_constraintTop_toBottomOf="@+id/product_list_image"
                         app:products="@{viewModel.product}" />
+
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -96,13 +111,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
                         android:text="寄送方式"
+                        android:textColor="@{viewModel.isInvalid != null ? (viewModel.delivery==null||viewModel.delivery==0?@color/red_500 : @color/gray_646464) : @color/gray_646464}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
 
                     <RadioGroup
+                        android:id="@+id/radio_group_delivery"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -142,7 +159,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp"
-                        android:hint="商品金額(含運費)"
+                        app:boxStrokeColor="@{viewModel.isInvalid != null ?(viewModel.price == null||viewModel.price==0?@color/red_500 : @color/gray_646464) : @color/gray_646464}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -151,10 +168,12 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/price_edit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="商品金額(含運費)"
                             android:inputType="number"
                             android:text="@={``+viewModel.price}"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:textColorHint="@{viewModel.isInvalid != null ? (viewModel.price == null||viewModel.price==0?@color/red_500 : @color/gray_646464) : @color/gray_646464}" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -186,7 +205,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
-                        android:hint="真實姓名"
+                        app:boxStrokeColor="@{viewModel.isInvalid != null ?(TextUtils.isEmpty(viewModel.name)?@color/red_500 : @color/gray_646464) : @color/gray_646464}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/receiver_title">
@@ -194,6 +213,8 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/receiver_name_edit"
                             android:text="@={viewModel.name}"
+                            android:hint="真實姓名"
+                            android:textColorHint="@{viewModel.isInvalid != null ? (TextUtils.isEmpty(viewModel.name)?@color/red_500 : @color/gray_646464) : @color/gray_646464}"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -206,7 +227,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
-                        android:hint="手機號碼"
+                        app:boxStrokeColor="@{viewModel.isInvalid != null ?(TextUtils.isEmpty(viewModel.phone)?@color/red_500 : @color/gray_646464) : @color/gray_646464}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/receiver_name_field">
@@ -214,6 +235,8 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/receiver_phone_edit"
                             android:text="@={viewModel.phone}"
+                            android:hint="手機號碼"
+                            android:textColorHint="@{viewModel.isInvalid != null ? (TextUtils.isEmpty(viewModel.phone)?@color/red_500 : @color/gray_646464) : @color/gray_646464}"
                             android:inputType="phone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -228,7 +251,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp"
-                        android:hint="收件地址"
+                        app:boxStrokeColor="@{viewModel.isInvalid != null ?(TextUtils.isEmpty(viewModel.address)?@color/red_500 : @color/gray_646464) : @color/gray_646464}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -241,6 +264,8 @@
                             android:layout_height="wrap_content"
                             android:inputType="textImeMultiLine"
                             android:gravity="top|start"
+                            android:hint="收件地址"
+                            android:textColorHint="@{viewModel.isInvalid != null ? (TextUtils.isEmpty(viewModel.address)?@color/red_500 : @color/gray_646464) : @color/gray_646464}"
                             android:text="@={viewModel.address}" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -325,7 +350,8 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp"
-                        android:text="NT$6,450"
+                        tools:text="NT$6,450"
+                        android:text='@{"NT$"+String.valueOf(viewModel.price)}'
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"

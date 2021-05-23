@@ -85,16 +85,16 @@
         app:popUpToInclusive="true" />
 
     <action android:id="@+id/navigate_to_participate_fragment" app:destination="@id/participateFragment"
-        app:popUpTo="@id/detailFragment"
-        app:popUpToInclusive="true" />
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true"/>
 
     <action android:id="@+id/navigate_to_profile_fragment" app:destination="@id/profileFragment"
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true" />
 
     <action android:id="@+id/navigate_to_host_fragment" app:destination="@id/hostFragment"
-        app:popUpTo="@id/hostFragment"
-        app:popUpToInclusive="true" />
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true"/>
 
     <action android:id="@+id/navigate_to_collection_fragment" app:destination="@id/collectionFragment"
         app:popUpTo="@id/profileFragment"

@@ -35,6 +35,7 @@ import com.chloe.buytogether.home.item.HomeHots2ndAdapter
 import com.chloe.buytogether.host.DeliveryMethod
 import com.chloe.buytogether.participate.ParticipateAdapter
 import com.chloe.buytogether.util.Util.getColor
+import com.google.android.material.textfield.TextInputEditText
 
 /**
  * According to [LoadApiStatus] to decide the visibility of [ProgressBar]
@@ -201,6 +202,7 @@ fun bindDisplayDelivery(textView:TextView,delivery:Int) {
     textView.text = getTitle(delivery)
 }
 
+
 @BindingAdapter("orderStatusToDisplay")
 fun bindDisplayOrderStatus(textView:TextView,status:Int) {
 
@@ -356,6 +358,20 @@ fun bindEditorStatus(textView: TextView, quantity: Int) {
                 0 -> ""
                 else -> "$quantity"
             }
+    }
+}
+
+
+@BindingAdapter("isInvalid","inputTextColorHintPrice")
+fun bindEditorPriceStatus(editText: TextInputEditText, isInvalid: Int?, price: Int?) {
+    editText.apply {
+        setHintTextColor(
+
+                if (isInvalid != null && (price == null || price == 0)) {
+                    R.color.red_500
+                } else {
+                    R.color.gray_646464
+                })
     }
 }
 
