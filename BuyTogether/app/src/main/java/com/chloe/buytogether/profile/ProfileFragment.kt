@@ -19,8 +19,12 @@ class ProfileFragment : Fragment() {
         val binding = FragmentProfileBinding.inflate(inflater,container,false)
         binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.gatherButton.setOnClickListener {
+        binding.hostButton.setOnClickListener {
             findNavController().navigate(NavigationDirections.navigateToCollectionFragment())
+        }
+
+        binding.notifyButton.setOnClickListener {
+            findNavController().navigate(NavigationDirections.navigateToNotifyFragment())
         }
 
         return binding.root

@@ -70,6 +70,11 @@
     </fragment>
 
     <fragment
+        android:id="@+id/notifyFragment"
+        android:name="com.chloe.buytogether.notify.NotificationFragment"
+        android:label="NotifyFragment" />
+
+    <fragment
         android:id="@+id/successDialog"
         android:name="com.chloe.buytogether.dialog.SuccessDialog"
         tools:layout="@layout/dialog_success"
@@ -104,10 +109,15 @@
         app:popUpTo="@id/collectionFragment"
         app:popUpToInclusive="false" />
 
+    <action android:id="@+id/navigate_to_notify_fragment" app:destination="@id/notifyFragment"
+        app:popUpTo="@id/profileFragment"
+        app:popUpToInclusive="false" />
+
 
 
 
     <action android:id="@+id/navigate_to_success_dialog" app:destination="@id/successDialog"/>
+
 
 
 </navigation>
