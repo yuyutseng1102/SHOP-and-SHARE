@@ -5,9 +5,9 @@
 
     <data>
         <variable
-            name="item" type="com.chloe.buytogether.data.Collections" />
+            name="item" type="com.chloe.shopshare.data.Collections" />
         <variable
-            name="viewModel" type="com.chloe.buytogether.home.item.HomeCollectViewModel" />
+            name="viewModel" type="com.chloe.shopshare.home.item.HomeCollectViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

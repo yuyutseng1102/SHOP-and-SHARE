@@ -6,13 +6,13 @@
     <data>
         <import type="android.text.TextUtils"/>
         <import type="android.view.View"/>
-        <import type="com.chloe.buytogether.network.LoadApiStatus"/>
+        <import type="com.chloe.shopshare.network.LoadApiStatus"/>
         <variable
             name="viewModel"
-            type="com.chloe.buytogether.host.HostViewModel" />
+            type="com.chloe.shopshare.host.HostViewModel" />
         <variable
             name="deliveryMethod"
-            type="com.chloe.buytogether.host.DeliveryMethod" />
+            type="com.chloe.shopshare.host.DeliveryMethod" />
 
     </data>
 

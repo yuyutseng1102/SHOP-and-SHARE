@@ -5,8 +5,8 @@
 
     <data>
         <import type="android.view.View"/>
-        <variable name="item" type="com.chloe.buytogether.data.Product" />
-        <variable name="viewModel" type="com.chloe.buytogether.participate.ParticipateViewModel" />
+        <variable name="item" type="com.chloe.shopshare.data.Product" />
+        <variable name="viewModel" type="com.chloe.shopshare.participate.ParticipateViewModel" />
 
     </data>
 

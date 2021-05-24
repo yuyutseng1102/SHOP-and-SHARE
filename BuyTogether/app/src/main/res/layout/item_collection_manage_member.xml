@@ -5,16 +5,16 @@
 
     <data>
         <import type="android.view.View"/>
-        <variable name="item" type="com.chloe.buytogether.data.Order" />
+        <variable name="item" type="com.chloe.shopshare.data.Order" />
         <variable
             name="isChecked"
             type="Boolean" />
         <variable
             name="viewHolder"
-            type="com.chloe.buytogether.collection.manage.MemberAdapter.ViewHolder" />
+            type="com.chloe.shopshare.collection.manage.MemberAdapter.ViewHolder" />
         <variable
             name="viewModel"
-            type="com.chloe.buytogether.collection.manage.CollectionManageViewModel" />
+            type="com.chloe.shopshare.collection.manage.CollectionManageViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

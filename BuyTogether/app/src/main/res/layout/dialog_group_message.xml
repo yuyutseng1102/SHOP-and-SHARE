@@ -7,7 +7,7 @@
         <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="com.chloe.buytogether.collection.groupmessage.GroupMessageViewModel" />
+            type="com.chloe.shopshare.collection.groupmessage.GroupMessageViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

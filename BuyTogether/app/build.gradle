@@ -13,7 +13,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.chloe.buytogether"
+        applicationId "com.chloe.shopshare"
         minSdkVersion 26
         targetSdkVersion 30
         versionCode 1

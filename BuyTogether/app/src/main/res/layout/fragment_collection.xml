@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.chloe.buytogether.collection.CollectionViewModel" />
+            type="com.chloe.shopshare.collection.CollectionViewModel" />
 
     </data>
 

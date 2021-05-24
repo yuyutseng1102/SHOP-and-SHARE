@@ -4,8 +4,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <variable name="item" type="com.chloe.buytogether.data.Collections" />
-        <variable name="viewModel" type="com.chloe.buytogether.collection.CollectionViewModel" />
+        <variable name="item" type="com.chloe.shopshare.data.Collections" />
+        <variable name="viewModel" type="com.chloe.shopshare.collection.CollectionViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

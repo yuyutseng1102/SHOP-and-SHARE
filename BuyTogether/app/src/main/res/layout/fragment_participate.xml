@@ -6,10 +6,10 @@
     <data>
         <import type="android.view.View"/>
         <import type="android.text.TextUtils"/>
-        <import type="com.chloe.buytogether.network.LoadApiStatus"/>
+        <import type="com.chloe.shopshare.network.LoadApiStatus"/>
         <variable
             name="viewModel"
-            type="com.chloe.buytogether.participate.ParticipateViewModel" />
+            type="com.chloe.shopshare.participate.ParticipateViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

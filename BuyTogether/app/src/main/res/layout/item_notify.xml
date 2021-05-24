@@ -5,8 +5,8 @@
 
     <data>
         <import type="android.view.View" />
-        <variable name="item" type="com.chloe.buytogether.data.Notify" />
-        <variable name="viewModel" type="com.chloe.buytogether.notify.NotifyViewModel" />
+        <variable name="item" type="com.chloe.shopshare.data.Notify" />
+        <variable name="viewModel" type="com.chloe.shopshare.notify.NotifyViewModel" />
 
     </data>
 

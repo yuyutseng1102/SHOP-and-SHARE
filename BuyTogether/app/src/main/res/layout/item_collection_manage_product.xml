@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.chloe.buytogether.data.Product" />
+            type="com.chloe.shopshare.data.Product" />
 
     </data>
 
