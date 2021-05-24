@@ -1,7 +1,10 @@
 package com.chloe.buytogether.host
 
 
+import android.content.Intent
+import android.provider.DocumentsContract
 import android.util.Log
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -189,6 +192,9 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
     }
 
 
+
+
+
     companion object {
         const val INVALID_FORMAT_METHOD_EMPTY       = 0x11
         const val INVALID_FORMAT_IMAGE_EMPTY        = 0x12
@@ -204,46 +210,5 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
     }
 
 }
-
-//fun selectCategory(){
-//        when(categoryType.value) {
-//            Transformations.map(selectedCategoryPosition) {
-//                CategoryType.values()[it]
-//            } -> CategoryType.values()[it].title
-//
-//            CategoryType.WOMAN -> CategoryType.WOMAN.title
-//            CategoryType.MAN -> CategoryType.MAN.title
-//            CategoryType.CHILD -> CategoryType.CHILD.title
-//            CategoryType.SHOES_BAG -> CategoryType.SHOES_BAG.title
-//            CategoryType.MAKEUP -> CategoryType.MAKEUP.title
-//            CategoryType.HEALTH -> CategoryType.HEALTH.title
-//            CategoryType.FOOD -> CategoryType.FOOD.title
-//            CategoryType.LIVING -> CategoryType.LIVING.title
-//            CategoryType.APPLIANCE -> CategoryType.APPLIANCE.title
-//            CategoryType.PET -> CategoryType.PET.title
-//            CategoryType.STATIONARY -> CategoryType.STATIONARY.title
-//            CategoryType.SPORT -> CategoryType.SPORT.title
-//            CategoryType.COMPUTER -> CategoryType.COMPUTER.title
-//            CategoryType.TICKET -> CategoryType.TICKET.title
-//            CategoryType.OTHER -> CategoryType.OTHER.title
-//            else -> ""
-//        }
-//}
-//fun selectCountry(){
-//    country.value =
-//            when(countryType.value) {
-//                CountryType.TAIWAN -> C
-//                CountryType.JAPAN -> getString(R.string.japan)
-//                CountryType.KOREA -> getString(R.string.korea)
-//                CountryType.CHINA -> getString(R.string.china)
-//                CountryType.USA -> getString(R.string.usa)
-//                CountryType.CANADA -> getString(R.string.canada)
-//                CountryType.EU -> getString(R.string.eu)
-//                CountryType.AUSTRALIA -> getString(R.string.australia)
-//                CountryType.SOUTH_EAST_ASIA -> getString(R.string.south_east_asia)
-//                CountryType.OTHER -> getString(R.string.other)
-//                else -> ""
-//            }
-//}
 
 
