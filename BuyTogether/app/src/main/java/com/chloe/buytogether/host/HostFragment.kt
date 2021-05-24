@@ -53,6 +53,12 @@ class HostFragment : Fragment() {
 
         binding.spinnerGatherCountry.adapter = CountrySpannerAdapter(
                 MyApplication.instance.resources.getStringArray(R.array.country_list))
+        val imageAdapter = HostImageAdapter(viewModel)
+        binding.recyclerImage.adapter = imageAdapter
+        viewModel.image.observe(viewLifecycleOwner, Observer {
+            Log.d("Chloe","notify imageAdapter the image change to ${viewModel.image.value}")
+            imageAdapter.notifyDataSetChanged()
+        })
 
 
         viewModel.categoryType.observe(viewLifecycleOwner, Observer {
@@ -184,37 +190,38 @@ class HostFragment : Fragment() {
 
         val contentResolver = requireActivity().contentResolver
 
-        @Throws(IOException::class)
-        fun getBitmapFromUri(uri: Uri): Bitmap? {
-            val parcelFileDescriptor: ParcelFileDescriptor? =
-                    contentResolver.openFileDescriptor(uri, "r")
-            if (parcelFileDescriptor !=null){
-                val fileDescriptor: FileDescriptor = parcelFileDescriptor.fileDescriptor
-                val image: Bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor)
-                parcelFileDescriptor.close()
-                Log.d("Chloe","My image of bitmap is ${image} ")
-                return image
-            }else{
-                return null
-            }
-        }
+//        @Throws(IOException::class)
+//        fun getBitmapFromUri(uri: Uri): Bitmap? {
+//            val parcelFileDescriptor: ParcelFileDescriptor? =
+//                    contentResolver.openFileDescriptor(uri, "r")
+//            return if (parcelFileDescriptor !=null){
+//                val fileDescriptor: FileDescriptor = parcelFileDescriptor.fileDescriptor
+//                val image: Bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor)
+//                parcelFileDescriptor.close()
+//                Log.d("Chloe","My image of bitmap is ${image} ")
+//                image
+//            }else{
+//                null
+//            }
+//        }
 
-        fun bitMapToString(bitmap: Bitmap): String {
-            val byteStream = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteStream)
-            val b = byteStream.toByteArray()
-            Log.d("Chloe","My image of string is ${Base64.encodeToString(b, Base64.DEFAULT)} ")
-            return Base64.encodeToString(b, Base64.DEFAULT)
-        }
+//        fun bitMapToString(bitmap: Bitmap): String {
+//            val byteStream = ByteArrayOutputStream()
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteStream)
+//            val b = byteStream.toByteArray()
+//            Log.d("Chloe","My image of string is ${Base64.encodeToString(b, Base64.DEFAULT)} ")
+//            return Base64.encodeToString(b, Base64.DEFAULT)
+//        }
 
         when (requestCode) {
             pickImageFile -> {
                 if (resultCode == Activity.RESULT_OK && resultData != null)
                     resultData.data?.let { uri ->
+                        viewModel.pickImages(uri)
 //                        val bitmap = getBitmapFromUri(uri)
 //                        selectedImageUri = resultData.data
 //                        val bitMapToString = bitMapToString(bitmap)
-                        binding.imageView3.setImageURI(uri)
+//                        binding.imageView3.setImageURI(uri)
 //                        viewModel.updateDataPhoto(adapter.position!!, bitMapToString)
 //                        Log.d("test", "${viewModel.commentSend.value}")
 //                        adapter.imageView?.setImageURI(uri)

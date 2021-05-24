@@ -34,6 +34,7 @@ import com.chloe.buytogether.home.item.HomeGridAdapter
 import com.chloe.buytogether.home.item.HomeHots1stAdapter
 import com.chloe.buytogether.home.item.HomeHots2ndAdapter
 import com.chloe.buytogether.host.DeliveryMethod
+import com.chloe.buytogether.host.HostImageAdapter
 import com.chloe.buytogether.notify.NotifyAdapter
 import com.chloe.buytogether.participate.ParticipateAdapter
 import com.chloe.buytogether.util.Util.getColor
@@ -78,13 +79,14 @@ fun bindRecyclerViewWithCollections(recyclerView: RecyclerView, collections: Lis
     }
 }
 
-@BindingAdapter("options")
+@BindingAdapter("strings")
 fun bindRecyclerViewWithOptionStrings(recyclerView: RecyclerView, options: List<String>?) {
     options?.let {
         recyclerView.adapter?.apply {
             Log.d("Chloe","summit the option list is ${options}")
             when (this) {
                 is GatherOptionAdapter -> submitList(it)
+                is HostImageAdapter -> submitList(it)
             }
         }
     }
