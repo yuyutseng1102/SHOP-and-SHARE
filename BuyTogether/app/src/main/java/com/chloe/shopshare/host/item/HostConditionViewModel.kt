@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.chloe.shopshare.R
-import com.chloe.shopshare.data.Collections
+import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.ext.toDisplayFormat
 import com.chloe.shopshare.host.ConditionType
@@ -21,9 +21,9 @@ class GatherConditionViewModel(private val repository: Repository): ViewModel() 
     val condition = MutableLiveData<Int?>()
     val content = MutableLiveData<String?>()
 
-    private val _collection = MutableLiveData<Collections>()
-    val collection: LiveData<Collections>
-        get() =  _collection
+    private val _shop = MutableLiveData<Shop>()
+    val shop: LiveData<Shop>
+        get() =  _shop
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()

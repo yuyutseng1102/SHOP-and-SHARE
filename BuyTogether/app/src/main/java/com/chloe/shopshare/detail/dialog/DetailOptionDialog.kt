@@ -13,7 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.chloe.shopshare.NavigationDirections
 import com.chloe.shopshare.R
-import com.chloe.shopshare.data.Collections
+import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.data.Product
 import com.chloe.shopshare.databinding.DialogDetailOptionBinding
 import com.chloe.shopshare.detail.OptionSelector
@@ -23,9 +23,9 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 
 
-class DetailOptionDialog(private val collection:Collections,private val productList: List<Product>,private val optionSelector: OptionSelector?): BottomSheetDialogFragment()  {
+class DetailOptionDialog(private val shop:Shop, private val productList: List<Product>, private val optionSelector: OptionSelector?): BottomSheetDialogFragment()  {
 
-    private val viewModel by viewModels<DetailOptionViewModel> { getVmFactory(collection,productList) }
+    private val viewModel by viewModels<DetailOptionViewModel> { getVmFactory(shop,productList) }
     private lateinit var binding : DialogDetailOptionBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,11 +104,11 @@ class DetailOptionDialog(private val collection:Collections,private val productL
 
         viewModel.navigateToParticipate.observe(viewLifecycleOwner, Observer {
             it?.let {
-                if (viewModel.collection.value!=null) {
+                if (viewModel.shop.value!=null) {
                     Log.d("Chloe","navigate to participate is product = $it")
                     findNavController().navigate(
                         NavigationDirections.navigateToParticipateFragment(
-                            viewModel.collection.value!!,
+                            viewModel.shop.value!!,
                             it.toTypedArray()
                         )
                     )

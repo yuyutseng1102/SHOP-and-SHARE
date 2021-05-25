@@ -5,7 +5,7 @@
 
     <data>
         <variable
-            name="item" type="com.chloe.shopshare.data.Collections" />
+            name="item" type="com.chloe.shopshare.data.Shop" />
         <variable
             name="viewModel" type="com.chloe.shopshare.home.item.HomeCollectViewModel" />
     </data>

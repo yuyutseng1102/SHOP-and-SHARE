@@ -16,8 +16,8 @@ class NotifyViewModel(private val repository: Repository) : ViewModel() {
     val isChecked = MutableLiveData<Boolean>()
 
     //mock data
-    val notifyId: Long = 55556666
-    val id: Long = 1038573
+    val notifyId = "55556666"
+    val id = "1038573"
     val notifyTime: Long = Calendar.getInstance().timeInMillis
     val notifyType: Int = 10
     val content: String = "預計匯款時間：5/20 24：00前，錢收滿後馬上開通"

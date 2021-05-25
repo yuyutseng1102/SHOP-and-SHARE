@@ -1,4 +1,4 @@
-package com.chloe.shopshare.collection.groupmessage
+package com.chloe.shopshare.manage.groupmessage
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData

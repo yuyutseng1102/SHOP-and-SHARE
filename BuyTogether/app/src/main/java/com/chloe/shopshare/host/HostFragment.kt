@@ -31,7 +31,6 @@ class HostFragment : Fragment() {
     private val viewModel by viewModels<HostViewModel> { getVmFactory() }
     private lateinit var binding : FragmentHostBinding
     private val pickImageFile = 2
-    private var selectedImageUri: Uri? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -68,12 +67,18 @@ class HostFragment : Fragment() {
         binding.buttonAdd.setOnClickListener {
 
             viewModel.readyToPost()
+
             viewModel.status.observe(viewLifecycleOwner, Observer {
                 if (viewModel.status.value == LoadApiStatus.LOADING) {
                     Toast.makeText(context, "尚未輸入完整內容", Toast.LENGTH_SHORT).show()
                 } else if (viewModel.status.value == LoadApiStatus.DONE) {
                     Toast.makeText(context, "成功送出", Toast.LENGTH_SHORT).show()
                     viewModel.postGatherCollection()
+                    viewModel.shop.observe(viewLifecycleOwner, Observer {
+                        it?.let {
+                            viewModel.postShop(it)
+                        }
+                    })
                     successDialog.setContentView(view)
                     successDialog.show()
 
@@ -83,7 +88,7 @@ class HostFragment : Fragment() {
                 }
             }
             )
-            Log.d("Chloe", "The new collection is ${viewModel.collection.value}")
+            Log.d("Chloe", "The new collection is ${viewModel.shop.value}")
         }
 
 
@@ -169,9 +174,12 @@ class HostFragment : Fragment() {
             startActivityForResult(intent, pickImageFile)
         }
 
-
-
-
+        viewModel.imageUri.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                Log.d("Chloe","imgUri is change to ${viewModel.imageUri.value}")
+                viewModel.pickImages()
+            }
+        })
 
         return binding.root
     }
@@ -179,49 +187,13 @@ class HostFragment : Fragment() {
     override fun onActivityResult(
             requestCode: Int, resultCode: Int, resultData: Intent?) {
 
-        val contentResolver = requireActivity().contentResolver
-
-//        @Throws(IOException::class)
-//        fun getBitmapFromUri(uri: Uri): Bitmap? {
-//            val parcelFileDescriptor: ParcelFileDescriptor? =
-//                    contentResolver.openFileDescriptor(uri, "r")
-//            return if (parcelFileDescriptor !=null){
-//                val fileDescriptor: FileDescriptor = parcelFileDescriptor.fileDescriptor
-//                val image: Bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor)
-//                parcelFileDescriptor.close()
-//                Log.d("Chloe","My image of bitmap is ${image} ")
-//                image
-//            }else{
-//                null
-//            }
-//        }
-
-//        fun bitMapToString(bitmap: Bitmap): String {
-//            val byteStream = ByteArrayOutputStream()
-//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteStream)
-//            val b = byteStream.toByteArray()
-//            Log.d("Chloe","My image of string is ${Base64.encodeToString(b, Base64.DEFAULT)} ")
-//            return Base64.encodeToString(b, Base64.DEFAULT)
-//        }
-
         when (requestCode) {
             pickImageFile -> {
                 if (resultCode == Activity.RESULT_OK && resultData != null)
-                    resultData.data?.let { uri ->
-                        viewModel.pickImages(uri)
-//                        val bitmap = getBitmapFromUri(uri)
-//                        selectedImageUri = resultData.data
-//                        val bitMapToString = bitMapToString(bitmap)
-//                        binding.imageView3.setImageURI(uri)
-//                        viewModel.updateDataPhoto(adapter.position!!, bitMapToString)
-//                        Log.d("test", "${viewModel.commentSend.value}")
-//                        adapter.imageView?.setImageURI(uri)
-                    }
+                    resultData.data?.let { uri -> viewModel.uploadImages(uri)}
             }
         }
     }
-
-
 }
 
 interface ConditionSelector {

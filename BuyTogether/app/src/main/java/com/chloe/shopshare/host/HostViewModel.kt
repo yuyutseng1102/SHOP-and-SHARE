@@ -7,28 +7,43 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import com.chloe.shopshare.MyApplication
 import com.chloe.shopshare.R
-import com.chloe.shopshare.data.Collections
+import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.network.LoadApiStatus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.util.*
+import com.chloe.shopshare.data.Result
 
 class HostViewModel(private val repository: Repository) : ViewModel() {
 
-    val userId = 193798L
+    val userId = "193798"
 
-    private val _collection = MutableLiveData<Collections>()
-    val collection: LiveData<Collections>
-        get() =  _collection
+
+    private val _shop = MutableLiveData<Shop>()
+    val shop: LiveData<Shop>
+        get() =  _shop
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
 
     val status: LiveData<LoadApiStatus>
         get() = _status
+
+    // error: The internal MutableLiveData that stores the error of the most recent request
+    private val _error = MutableLiveData<String>()
+
+    val error: LiveData<String>
+        get() = _error
+
+    private val _leave = MutableLiveData<Boolean>()
+
+    val leave: LiveData<Boolean>
+        get() = _leave
 
     private val _image = MutableLiveData<List<String>>()
     val image: LiveData<List<String>>
@@ -59,6 +74,9 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
     val conditionShow = MutableLiveData<String?>()
     val optionShow = MutableLiveData<String>()
 
+    val imageUri = MutableLiveData<String>()
+
+
 
     private val _isInvalid = MutableLiveData<Int>()
     val isInvalid: LiveData<Int>
@@ -85,19 +103,81 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
             else -> 1
         }
 
-    //pick up photo
-    lateinit var imageList : MutableList<String>
-    fun pickImages(uri: Uri){
+    //add uri downloaded from storage and display on layout
+    private lateinit var imageList : MutableList<String>
+    fun pickImages(){
         imageList =
         if (image.value!= null){
             image.value?.toMutableList()?: mutableListOf()
         }else{
             mutableListOf()
         }
-        imageList.add(uri.toString())
+        imageList.add(imageUri.value!!)
         _image.value = imageList
-        Log.d("Chloe","imageList add $uri , the list change to ${_image.value} ")
+        Log.d("Chloe","imageList add $imageUri , the list change to ${_image.value} ")
     }
+
+    fun postShop(shop: Shop) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            when (val result = repository.postShop(shop)) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    leave(true)
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                }
+                else -> {
+                    _error.value = MyApplication.instance.getString(R.string.result_fail)
+                    _status.value = LoadApiStatus.ERROR
+                }
+            }
+        }
+    }
+
+
+
+
+    fun uploadImages(uri: Uri) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            when (val result = repository.uploadImage(uri,"host")) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    imageUri.value = result.data
+                    leave(true)
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                }
+                else -> {
+                    _error.value = MyApplication.instance.getString(R.string.result_fail)
+                    _status.value = LoadApiStatus.ERROR
+                }
+            }
+        }
+    }
+
+
     //delete photo
     fun removeImages(item:String){
         imageList.remove(item)
@@ -183,11 +263,11 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
 
     fun postGatherCollection(){
 
-        _collection.value = Collections(
-            id = 0,
-            userId = userId,
-            time = Calendar.getInstance().timeInMillis,
-            method = method,
+        _shop.value = Shop(
+//            id = "chloe123",
+            userId = "chloe123",
+//            time = Calendar.getInstance().timeInMillis,
+            type = method,
             mainImage = image.value?.get(0) ?:"",
             image = image.value?: listOf(),
             title = title.value?:"",
@@ -204,7 +284,7 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
             status = 0,
             order = listOf()
         )
-        Log.d("Chloe","The collection posted is ${_collection.value}")
+        Log.d("Chloe","The collection posted is ${_shop.value}")
     }
 
 
@@ -229,6 +309,14 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
         const val INVALID_FORMAT_DELIVERY_EMPTY     = 0x19
         const val INVALID_FORMAT_CONDITION_EMPTY    = 0x20
         const val NO_ONE_KNOWS                      = 0x21
+    }
+
+    fun leave(needRefresh: Boolean = false) {
+        _leave.value = needRefresh
+    }
+
+    fun onLeft() {
+        _leave.value = null
     }
 
 }

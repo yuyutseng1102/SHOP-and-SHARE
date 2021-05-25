@@ -4,21 +4,21 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.chloe.shopshare.data.Collections
+import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.data.Product
 import com.chloe.shopshare.data.source.Repository
 
 class ProductListViewModel(private val repository: Repository,
-                           private val argsCollection: Collections,
+                           private val argsShop: Shop,
                            private val argsProduct: List<Product>
 ): ViewModel() {
 
-    private val _collection = MutableLiveData<Collections>().apply {
-        value = argsCollection
+    private val _shop = MutableLiveData<Shop>().apply {
+        value = argsShop
     }
 
-    val collection: LiveData<Collections>
-        get() = _collection
+    val shop: LiveData<Shop>
+        get() = _shop
 
     private val _product= MutableLiveData<List<Product>>().apply {
         value = argsProduct
@@ -71,7 +71,7 @@ class ProductListViewModel(private val repository: Repository,
     private fun updateProduct(productItem: Product) {
         if(_product.value!= null){
             for (item in _product.value!!){
-                    if (item.productTitle == productItem.productTitle){
+                    if (item.title == productItem.title){
                         item.quantity = productItem.quantity
                     } }
             _product.value = _product.value

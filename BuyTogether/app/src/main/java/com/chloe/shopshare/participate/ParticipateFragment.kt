@@ -25,7 +25,7 @@ class ParticipateFragment : Fragment() {
 
     private val args: ParticipateFragmentArgs by navArgs()
 
-    private val viewModel by viewModels<ParticipateViewModel> { getVmFactory(args.collectionKey,args.productKey.asList()) }
+    private val viewModel by viewModels<ParticipateViewModel> { getVmFactory(args.shopKey,args.productKey.asList()) }
 
     private lateinit var binding : FragmentParticipateBinding
 
@@ -64,7 +64,7 @@ class ParticipateFragment : Fragment() {
 
         binding.radioGroupDelivery.apply{
             orientation = RadioGroup.VERTICAL
-           addRadio(context,viewModel.collection.value!!.deliveryMethod)
+           addRadio(context,viewModel.shop.value!!.deliveryMethod)
             setOnCheckedChangeListener { _ , checkedId ->
                 val radioButton: RadioButton = findViewById(checkedId)
                 viewModel.selectDelivery(radioButton)
@@ -93,7 +93,7 @@ class ParticipateFragment : Fragment() {
                     if (it == LoadApiStatus.DONE) {
                         viewModel.sendOrder()
                         Log.d("Chloe","order is ready, this order = ${viewModel.order.value}")
-                        Log.d("Chloe","order is ready, all order = ${viewModel.collection.value?.order}")
+                        Log.d("Chloe","order is ready, all order = ${viewModel.shop.value?.order}")
 
                         successDialog.setContentView(view)
                         successDialog.show()

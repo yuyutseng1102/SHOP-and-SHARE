@@ -1,4 +1,4 @@
-package com.chloe.shopshare.collection.groupmessage
+package com.chloe.shopshare.manage.groupmessage
 
 import android.os.Bundle
 import android.util.Log
@@ -9,12 +9,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.chloe.shopshare.collection.manage.GroupMessageSend
+import com.chloe.shopshare.manage.GroupMessageSend
 import com.chloe.shopshare.databinding.DialogGroupMessageBinding
 import com.chloe.shopshare.ext.getVmFactory
 
 
-class GroupMessageDialog(private val groupMessageSend : GroupMessageSend?,val status :Int) : AppCompatDialogFragment() {
+class GroupMessageDialog(private val groupMessageSend : GroupMessageSend?, val status :Int) : AppCompatDialogFragment() {
 
     private val viewModel by viewModels<GroupMessageViewModel> { getVmFactory() }
 

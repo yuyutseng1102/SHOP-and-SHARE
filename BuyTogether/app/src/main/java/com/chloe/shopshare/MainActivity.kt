@@ -96,7 +96,7 @@ class MainActivity : BaseActivity() {
                 R.id.profileFragment -> CurrentFragmentType.PROFILE
                 R.id.hostFragment -> CurrentFragmentType.GATHER
                 R.id.collectionFragment -> CurrentFragmentType.COLLECTION
-                R.id.collectionManageFragment -> CurrentFragmentType.COLLECTION_MANAGE
+                R.id.manageFragment -> CurrentFragmentType.COLLECTION_MANAGE
                 R.id.detailFragment -> CurrentFragmentType.DETAIL
                 else -> viewModel.currentFragmentType.value
             }

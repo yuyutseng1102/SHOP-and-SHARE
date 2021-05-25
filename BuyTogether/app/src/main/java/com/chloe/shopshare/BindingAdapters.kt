@@ -14,12 +14,12 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.chloe.shopshare.collection.CollectionAdapter
-import com.chloe.shopshare.collection.OrderStatusType
-import com.chloe.shopshare.collection.PaymentStatusType
-import com.chloe.shopshare.collection.manage.MemberAdapter
-import com.chloe.shopshare.collection.manage.MemberProductAdapter
-import com.chloe.shopshare.data.Collections
+import com.chloe.shopshare.shop.ShopAdapter
+import com.chloe.shopshare.shop.OrderStatusType
+import com.chloe.shopshare.shop.PaymentStatusType
+import com.chloe.shopshare.manage.MemberAdapter
+import com.chloe.shopshare.manage.MemberProductAdapter
+import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.data.Notify
 import com.chloe.shopshare.data.Order
 import com.chloe.shopshare.data.Product
@@ -65,15 +65,15 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
 }
 
 @BindingAdapter("collections")
-fun bindRecyclerViewWithCollections(recyclerView: RecyclerView, collections: List<Collections>?) {
-    collections?.let {
+fun bindRecyclerViewWithCollections(recyclerView: RecyclerView, shop: List<Shop>?) {
+    shop?.let {
         recyclerView.adapter?.apply {
             when (this) {
                 is HomeHots1stAdapter -> submitList(it)
                 is HomeHots2ndAdapter -> submitList(it)
                 is HomeCollectAdapter -> submitList(it)
                 is HomeGridAdapter -> submitList(it)
-                is CollectionAdapter -> submitList(it)
+                is ShopAdapter -> submitList(it)
             }
         }
     }

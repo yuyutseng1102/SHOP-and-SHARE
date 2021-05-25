@@ -4,8 +4,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <variable name="item" type="com.chloe.shopshare.data.Collections" />
-        <variable name="viewModel" type="com.chloe.shopshare.collection.CollectionViewModel" />
+        <variable name="item" type="com.chloe.shopshare.data.Shop" />
+        <variable name="viewModel" type="com.chloe.shopshare.shop.ShopViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -79,7 +79,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:text="@{String.valueOf(item.id)}"
+            android:text="@{item.id}"
             app:layout_constraintBottom_toBottomOf="@+id/collection_id_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

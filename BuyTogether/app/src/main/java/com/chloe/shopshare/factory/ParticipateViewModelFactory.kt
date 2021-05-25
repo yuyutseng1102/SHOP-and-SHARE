@@ -2,7 +2,7 @@ package com.chloe.shopshare.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.chloe.shopshare.data.Collections
+import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.data.Product
 import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.detail.dialog.DetailOptionViewModel
@@ -12,7 +12,7 @@ import com.chloe.shopshare.participate.ParticipateViewModel
 @Suppress("UNCHECKED_CAST")
 class ParticipateViewModelFactory(
     private val repository: Repository,
-    private val collection: Collections,
+    private val collection: Shop,
     private val product: List<Product>
 ) : ViewModelProvider.Factory {
 

@@ -47,7 +47,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:scaleType="centerCrop"
-                        app:imageUrl="@{viewModel.collection.mainImage}"
+                        app:imageUrl="@{viewModel.shop.mainImage}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:srcCompat="@drawable/img_detail" />
@@ -60,7 +60,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="16dp"
                         android:maxLines="2"
-                        android:text="@{viewModel.collection.title}"
+                        android:text="@{viewModel.shop.title}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/product_list_image"

@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.chloe.shopshare.data.Collections
+import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.data.Order
 import com.chloe.shopshare.data.Product
 import com.chloe.shopshare.data.source.Repository
@@ -14,15 +14,15 @@ import kotlinx.coroutines.Job
 
 class DetailViewModel(
     private val repository: Repository,
-    private val arguments: Collections
+    private val arguments: Shop
 ):ViewModel() {
 
     // Detail has product data from arguments
-    private val _collection = MutableLiveData<Collections>().apply {
+    private val _shop = MutableLiveData<Shop>().apply {
         value = arguments
     }
-    val collection: LiveData<Collections>
-        get() = _collection
+    val shop: LiveData<Shop>
+        get() = _shop
 
     private val _order = MutableLiveData<Order>()
     val order: LiveData<Order>
@@ -92,13 +92,13 @@ class DetailViewModel(
 
 
     // 要傳給確定跟團頁面的
-    private val _navigateToParticipate = MutableLiveData<Collections>()
+    private val _navigateToParticipate = MutableLiveData<Shop>()
 
-    val navigateToParticipate: LiveData<Collections>
+    val navigateToParticipate: LiveData<Shop>
         get() = _navigateToParticipate
 
-    fun navigateToParticipate(collection: Collections) {
-        _navigateToParticipate.value = collection
+    fun navigateToParticipate(shop: Shop) {
+        _navigateToParticipate.value = shop
     }
 
     fun onParticipateNavigated() {

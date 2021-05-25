@@ -12,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.chloe.shopshare.NavigationDirections
 import com.chloe.shopshare.data.Product
-import com.chloe.shopshare.databinding.FragmentCollectionManageBinding
 import com.chloe.shopshare.databinding.FragmentDetailBinding
 import com.chloe.shopshare.detail.dialog.DetailOptionDialog
 import com.chloe.shopshare.detail.dialog.ProductListDialog
@@ -25,7 +24,7 @@ class DetailFragment : Fragment() {
 
     private val args: DetailFragmentArgs by navArgs()
 
-    private val viewModel by viewModels<DetailViewModel> { getVmFactory(args.collectionKey) }
+    private val viewModel by viewModels<DetailViewModel> { getVmFactory(args.shopKey) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -41,16 +40,16 @@ class DetailFragment : Fragment() {
 
         binding.viewpagerDetail.let{
             binding.tabsDetail.setupWithViewPager(it)
-            it.adapter = DetailPagerAdapter(childFragmentManager,viewModel.collection.value!!.description)
+            it.adapter = DetailPagerAdapter(childFragmentManager,viewModel.shop.value!!.description)
             it.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(binding.tabsDetail))
         }
 
         viewModel.navigateToOption.observe(viewLifecycleOwner, Observer {
             it?.let {
-                if (viewModel.collection.value !=null) {
+                if (viewModel.shop.value !=null) {
                     val dialog =
                         DetailOptionDialog(
-                            viewModel.collection.value!!,
+                            viewModel.shop.value!!,
                             it,
                             object : OptionSelector {
                                 override fun onOptionSelector(product: List<Product>) {
@@ -72,10 +71,10 @@ class DetailFragment : Fragment() {
         viewModel.navigateToProductList.observe(viewLifecycleOwner, Observer {
             it?.let {
                 Log.d("Chloe","navigateToProductList = $it")
-                if (viewModel.collection.value !=null){
+                if (viewModel.shop.value !=null){
                     val dialog =
                         ProductListDialog(
-                            viewModel.collection.value!!,
+                            viewModel.shop.value!!,
                             it,
                             object : ProductListCheck {
                                 override fun onProductListCheck(product: List<Product>) {

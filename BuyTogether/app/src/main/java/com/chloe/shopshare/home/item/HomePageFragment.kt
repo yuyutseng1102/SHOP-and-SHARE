@@ -35,6 +35,7 @@ class HomePageFragment : Fragment() {
                 findNavController().navigate(
                     NavigationDirections.navigateToDetailFragment(it)
                 )
+                viewModel.onDetailNavigated()
             }
         })
 

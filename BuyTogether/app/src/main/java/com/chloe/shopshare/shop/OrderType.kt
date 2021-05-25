@@ -1,4 +1,4 @@
-package com.chloe.shopshare.collection
+package com.chloe.shopshare.shop
 
 import com.chloe.shopshare.R
 import com.chloe.shopshare.util.Util.getString

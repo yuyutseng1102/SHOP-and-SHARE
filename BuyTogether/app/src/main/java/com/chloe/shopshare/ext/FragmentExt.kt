@@ -3,9 +3,9 @@ package com.chloe.shopshare.ext
 import android.icu.text.SimpleDateFormat
 import androidx.fragment.app.Fragment
 import com.chloe.shopshare.MyApplication
-import com.chloe.shopshare.data.Collections
+import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.data.Product
-import com.chloe.shopshare.factory.CollectViewModelFactory
+import com.chloe.shopshare.factory.ShopViewModelFactory
 import com.chloe.shopshare.factory.OptionViewModelFactory
 import com.chloe.shopshare.factory.ParticipateViewModelFactory
 import com.chloe.shopshare.factory.ViewModelFactory
@@ -25,17 +25,14 @@ fun Fragment.getVmFactory(option: List<String>?,isStandard:Boolean): OptionViewM
     return OptionViewModelFactory(repository, option, isStandard)
 }
 
-fun Fragment.getVmFactory(collection:Collections,product: List<Product>): ParticipateViewModelFactory {
+fun Fragment.getVmFactory(collection:Shop, product: List<Product>): ParticipateViewModelFactory {
     val repository = (requireContext().applicationContext as MyApplication).repository
     return ParticipateViewModelFactory(repository, collection,product)
 }
 
-fun Fragment.getVmFactory(collection:Collections): CollectViewModelFactory {
+fun Fragment.getVmFactory(shop:Shop): ShopViewModelFactory {
     val repository = (requireContext().applicationContext as MyApplication).repository
-    return CollectViewModelFactory(repository, collection)
+    return ShopViewModelFactory(repository, shop)
 }
 
 
-fun Long.toDisplayFormat(): String {
-    return SimpleDateFormat("yyyy/MM/dd", Locale.TAIWAN).format(this)
-}

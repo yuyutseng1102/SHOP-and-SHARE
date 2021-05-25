@@ -6,14 +6,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.chloe.shopshare.data.Collections
+import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.databinding.ItemHomeHotsBinding
 
-class HomeHots2ndAdapter(private val viewModel: HomePageViewModel): ListAdapter<Collections, HomeHots2ndAdapter.ViewHolder>(DiffCallback) {
+class HomeHots2ndAdapter(private val viewModel: HomePageViewModel): ListAdapter<Shop, HomeHots2ndAdapter.ViewHolder>(DiffCallback) {
 
     class ViewHolder(private var binding: ItemHomeHotsBinding):
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Collections, position: Int,viewModel: HomePageViewModel) {
+        fun bind(item: Shop, position: Int, viewModel: HomePageViewModel) {
             binding.item = item
             if (position<=3){
                 binding.markText.text = position.toString()
@@ -26,11 +26,11 @@ class HomeHots2ndAdapter(private val viewModel: HomePageViewModel): ListAdapter<
         }
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<Collections>() {
-        override fun areItemsTheSame(oldItem: Collections, newItem: Collections): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<Shop>() {
+        override fun areItemsTheSame(oldItem: Shop, newItem: Shop): Boolean {
             return oldItem === newItem
         }
-        override fun areContentsTheSame(oldItem: Collections, newItem: Collections): Boolean {
+        override fun areContentsTheSame(oldItem: Shop, newItem: Shop): Boolean {
             return oldItem == newItem
         }
     }

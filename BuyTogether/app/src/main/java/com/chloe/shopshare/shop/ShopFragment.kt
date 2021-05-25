@@ -1,4 +1,4 @@
-package com.chloe.shopshare.collection
+package com.chloe.shopshare.shop
 
 import android.os.Bundle
 import android.util.Log
@@ -9,24 +9,25 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.chloe.shopshare.NavigationDirections
-import com.chloe.shopshare.databinding.FragmentCollectionBinding
 import androidx.lifecycle.Observer
+import com.chloe.shopshare.databinding.FragmentShopBinding
 import com.chloe.shopshare.ext.getVmFactory
 
 
-class CollectionFragment : Fragment() {
+class ShopFragment : Fragment() {
 
-    private val viewModel by viewModels<CollectionViewModel> {getVmFactory()}
+    private val viewModel by viewModels<ShopViewModel> {getVmFactory()}
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val binding = FragmentCollectionBinding.inflate(inflater,container,false)
+        val binding = FragmentShopBinding.inflate(inflater,container,false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        viewModel.addMockData()
+//        viewModel.getMyShop(viewModel.mockUserId)
+//        viewModel.addMockData()
 
-        val adapter = CollectionAdapter(viewModel)
+        val adapter = ShopAdapter(viewModel)
         binding.recyclerCollection.adapter = adapter
 
         viewModel.navigateToManage.observe(viewLifecycleOwner, Observer {

@@ -17,8 +17,8 @@
         android:name="com.chloe.shopshare.detail.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail" >
-        <argument android:name="collectionKey"
-            app:argType="com.chloe.shopshare.data.Collections"
+        <argument android:name="shopKey"
+            app:argType="com.chloe.shopshare.data.Shop"
             app:nullable="false"/>
     </fragment>
 
@@ -33,8 +33,8 @@
         android:name="com.chloe.shopshare.participate.ParticipateFragment"
         android:label="ParticipateFragment"
         tools:layout="@layout/fragment_participate">
-        <argument android:name="collectionKey"
-        app:argType="com.chloe.shopshare.data.Collections"
+        <argument android:name="shopKey"
+        app:argType="com.chloe.shopshare.data.Shop"
         app:nullable="false"/>
         <argument android:name="productKey"
             app:argType="com.chloe.shopshare.data.Product[]"
@@ -55,18 +55,19 @@
 
     <fragment
         android:id="@+id/collectionFragment"
-        android:name="com.chloe.shopshare.collection.CollectionFragment"
+        android:name="com.chloe.shopshare.shop.ShopFragment"
         android:label="CollectionFragment"
-        tools:layout="@layout/fragment_collection" />
+        tools:layout="@layout/fragment_shop" />
 
     <fragment
-        android:id="@+id/collectionManageFragment"
-        android:name="com.chloe.shopshare.collection.manage.CollectionManageFragment"
-        android:label="CollectionManageFragment"
-        tools:layout="@layout/fragment_collection_manage">
-    <argument android:name="collectionKey"
-        app:argType="com.chloe.shopshare.data.Collections"
-        app:nullable="false"/>
+        android:id="@+id/manageFragment"
+        android:name="com.chloe.shopshare.manage.ManageFragment"
+        android:label="ManageFragment"
+        tools:layout="@layout/fragment_manage">
+        <argument
+            android:name="shopKey"
+            app:argType="com.chloe.shopshare.data.Shop"
+            app:nullable="false" />
     </fragment>
 
     <fragment
@@ -105,7 +106,7 @@
         app:popUpTo="@id/profileFragment"
         app:popUpToInclusive="false" />
 
-    <action android:id="@+id/navigate_to_collection_manage_fragment" app:destination="@id/collectionManageFragment"
+    <action android:id="@+id/navigate_to_collection_manage_fragment" app:destination="@id/manageFragment"
         app:popUpTo="@id/collectionFragment"
         app:popUpToInclusive="false" />
 

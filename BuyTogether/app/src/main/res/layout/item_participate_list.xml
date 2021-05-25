@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:maxLines="2"
-            android:text="@{item.productTitle}"
+            android:text="@{item.title}"
             tools:text="TextView"
             app:layout_constraintEnd_toStartOf="@+id/button_list_decrease"
             app:layout_constraintHorizontal_bias="0.0"

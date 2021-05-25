@@ -1,37 +1,36 @@
-package com.chloe.shopshare.collection
+package com.chloe.shopshare.shop
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.chloe.shopshare.data.Collections
-import com.chloe.shopshare.databinding.ItemCollectionListBinding
-import com.chloe.shopshare.databinding.ItemHomeCollectionBinding
+import com.chloe.shopshare.data.Shop
+import com.chloe.shopshare.databinding.ItemShopListBinding
 
-class CollectionAdapter(val viewModel: CollectionViewModel)  : ListAdapter<Collections, CollectionAdapter.ViewHolder>(DiffCallback) {
+class ShopAdapter(val viewModel: ShopViewModel)  : ListAdapter<Shop, ShopAdapter.ViewHolder>(DiffCallback) {
 
-    class ViewHolder(private var binding: ItemCollectionListBinding):
+    class ViewHolder(private var binding: ItemShopListBinding):
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Collections,viewModel: CollectionViewModel) {
+        fun bind(item: Shop, viewModel: ShopViewModel) {
             binding.item = item
             binding.viewModel = viewModel
             binding.executePendingBindings()
         }
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<Collections>() {
-        override fun areItemsTheSame(oldItem: Collections, newItem: Collections): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<Shop>() {
+        override fun areItemsTheSame(oldItem: Shop, newItem: Shop): Boolean {
             return oldItem === newItem
         }
-        override fun areContentsTheSame(oldItem: Collections, newItem: Collections): Boolean {
+        override fun areContentsTheSame(oldItem: Shop, newItem: Shop): Boolean {
             return oldItem == newItem
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            ItemCollectionListBinding.inflate(
+            ItemShopListBinding.inflate(
             LayoutInflater.from(parent.context), parent, false))
     }
 

@@ -1,4 +1,4 @@
-package com.chloe.shopshare.collection.manage
+package com.chloe.shopshare.manage
 
 
 import android.content.Context
@@ -10,13 +10,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.chloe.shopshare.data.Order
-import com.chloe.shopshare.databinding.ItemCollectionManageMemberBinding
+import com.chloe.shopshare.databinding.ItemManageMemberBinding
 
-class MemberAdapter(private val viewModel: CollectionManageViewModel) : ListAdapter<Order, MemberAdapter.ViewHolder>(DiffCallback) {
+class MemberAdapter(private val viewModel: ManageViewModel) : ListAdapter<Order, MemberAdapter.ViewHolder>(
+    DiffCallback
+) {
 
     private lateinit var context: Context
 
-    class ViewHolder(private var binding: ItemCollectionManageMemberBinding):
+    class ViewHolder(private var binding: ItemManageMemberBinding):
             RecyclerView.ViewHolder(binding.root), LifecycleOwner {
 
 
@@ -25,14 +27,15 @@ class MemberAdapter(private val viewModel: CollectionManageViewModel) : ListAdap
 
 
 
-        fun bind(item: Order, viewModel: CollectionManageViewModel, position:Int) {
+        fun bind(item: Order, viewModel: ManageViewModel, position:Int) {
             binding.lifecycleOwner = this
             binding.item = item
             binding.isChecked = item.isCheck
             livePosition.value = position
             Log.d("checkChloe","binding.isChecked = ${item.isCheck}")
 //            binding.memberNumber.text = (position + 1).toString()
-            binding.recyclerProduct.adapter = MemberProductAdapter()
+            binding.recyclerProduct.adapter =
+                MemberProductAdapter()
 
             binding.viewModel = viewModel
             binding.viewHolder = this
@@ -97,8 +100,9 @@ class MemberAdapter(private val viewModel: CollectionManageViewModel) : ListAdap
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
         return ViewHolder(
-                ItemCollectionManageMemberBinding.inflate(
-                        LayoutInflater.from(parent.context), parent, false)
+            ItemManageMemberBinding.inflate(
+                LayoutInflater.from(parent.context), parent, false
+            )
 
         )
     }

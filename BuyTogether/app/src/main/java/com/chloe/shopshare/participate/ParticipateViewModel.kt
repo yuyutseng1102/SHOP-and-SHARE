@@ -5,7 +5,7 @@ import android.widget.RadioButton
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.chloe.shopshare.data.Collections
+import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.data.Order
 import com.chloe.shopshare.data.Product
 import com.chloe.shopshare.data.source.Repository
@@ -15,16 +15,16 @@ import java.util.*
 
 class ParticipateViewModel(
     private val repository: Repository,
-    private val argsCollection: Collections,
+    private val argsShop: Shop,
     private val argsProduct: List<Product>
 ) :ViewModel() {
 
-    private val _collection = MutableLiveData<Collections>().apply {
-        value = argsCollection
+    private val _shop = MutableLiveData<Shop>().apply {
+        value = argsShop
     }
 
-    val collection: LiveData<Collections>
-        get() = _collection
+    val shop: LiveData<Shop>
+        get() = _shop
 
     private val _product= MutableLiveData<List<Product>>().apply {
         value = argsProduct
@@ -37,9 +37,9 @@ class ParticipateViewModel(
         get() = _order
 
     //order data
-    val orderId: Long = 19479203
+    val orderId = "19479203"
     val orderTime: Long= Calendar.getInstance().timeInMillis
-    val userId:Long = 193798
+    val userId = "193798"
     val name = MutableLiveData<String>()
     val price = MutableLiveData<Int>()
     val phone = MutableLiveData<String>()
@@ -71,7 +71,7 @@ class ParticipateViewModel(
     private fun updateProduct(productItem: Product) {
         if(_product.value!= null){
             for (item in _product.value!!){
-                if (item.productTitle == productItem.productTitle){
+                if (item.title == productItem.title){
                     item.quantity = productItem.quantity
                 }
             }
@@ -172,13 +172,13 @@ class ParticipateViewModel(
     }
     var orderList : MutableList<Order?> = mutableListOf()
     fun sendOrder(){
-        if (! _collection.value?.order.isNullOrEmpty()){
-            orderList = _collection.value?.order!!.toMutableList()
+        if (! _shop.value?.order.isNullOrEmpty()){
+            orderList = _shop.value?.order!!.toMutableList()
         }
 
         _order.value = Order(
-                orderId = orderId,
-                orderTime = orderTime,
+                id = orderId,
+                time = orderTime,
                 userId = userId,
                 product = _product.value!!,
                 price = price.value!!,
@@ -190,7 +190,7 @@ class ParticipateViewModel(
         )
 
         orderList.add( _order.value)
-        _collection.value?.order = orderList
+        _shop.value?.order = orderList
     }
 
 

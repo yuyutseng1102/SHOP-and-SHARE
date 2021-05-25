@@ -3,8 +3,8 @@ package com.chloe.shopshare.factory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.chloe.shopshare.MainViewModel
-import com.chloe.shopshare.collection.CollectionViewModel
-import com.chloe.shopshare.collection.groupmessage.GroupMessageViewModel
+import com.chloe.shopshare.shop.ShopViewModel
+import com.chloe.shopshare.manage.groupmessage.GroupMessageViewModel
 import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.detail.item.DetailDescriptionViewModel
 import com.chloe.shopshare.host.HostViewModel
@@ -40,8 +40,8 @@ class ViewModelFactory constructor(
                     isAssignableFrom(GatherConditionViewModel::class.java) ->
                         GatherConditionViewModel(repository)
 
-                    isAssignableFrom(CollectionViewModel::class.java) ->
-                        CollectionViewModel(repository)
+                    isAssignableFrom(ShopViewModel::class.java) ->
+                        ShopViewModel(repository)
 
                     isAssignableFrom(GroupMessageViewModel::class.java) ->
                         GroupMessageViewModel(repository)

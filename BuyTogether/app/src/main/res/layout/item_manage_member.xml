@@ -11,15 +11,15 @@
             type="Boolean" />
         <variable
             name="viewHolder"
-            type="com.chloe.shopshare.collection.manage.MemberAdapter.ViewHolder" />
+            type="com.chloe.shopshare.manage.MemberAdapter.ViewHolder" />
         <variable
             name="viewModel"
-            type="com.chloe.shopshare.collection.manage.CollectionManageViewModel" />
+            type="com.chloe.shopshare.manage.ManageViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:background="@drawable/bg_white_corner"
         android:elevation="2dp"
@@ -34,6 +34,7 @@
             android:background="@drawable/bg_green_top_corner"
             android:backgroundTint="@color/green_ACAD9C"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,7 +42,7 @@
             android:id="@+id/view_circle"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:background="@drawable/bg_circle"
             app:layout_constraintBottom_toBottomOf="@+id/view_top"
             app:layout_constraintStart_toStartOf="parent"
@@ -67,9 +68,9 @@
             style="@style/StatusTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="8dp"
             android:textColor="@color/black_3f3a3a"
-            android:visibility="@{viewModel.collectionStatus==0?View.GONE:View.VISIBLE}"
+            android:visibility="@{viewModel.shopStatus==0?View.GONE:View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@+id/view_top"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/view_top"
@@ -78,26 +79,28 @@
 
         <TextView
             android:id="@+id/order_id"
-            style="@style/Number"
-            android:layout_width="wrap_content"
+            style="@style/WhiteId"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@{String.valueOf(item.orderId)}"
-            app:layout_constraintBottom_toBottomOf="@+id/view_circle"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="@{item.id}"
+            app:layout_constraintBottom_toBottomOf="@+id/view_top"
+            app:layout_constraintEnd_toStartOf="@+id/button_member_check"
             app:layout_constraintStart_toEndOf="@+id/view_circle"
-            app:layout_constraintTop_toTopOf="@+id/view_circle"
-            tools:text="194772" />
+            app:layout_constraintTop_toTopOf="@+id/view_top"
+            tools:text="2TgmGprHsundCcuvHw8J" />
 
         <ToggleButton
             android:id="@+id/button_member_check"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="8dp"
             android:backgroundTint="@color/white"
             android:checked="@{isChecked}"
             android:textOff=""
             android:textOn=""
-            android:visibility="@{viewModel.collectionStatus==0?View.VISIBLE:View.GONE}"
+            android:visibility="@{viewModel.shopStatus==0?View.VISIBLE:View.GONE}"
             app:isMemberChecked="@{item.isCheck}"
             app:layout_constraintBottom_toBottomOf="@+id/view_top"
             app:layout_constraintEnd_toEndOf="parent"
@@ -105,15 +108,13 @@
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:fillViewport="true"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_top"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintTop_toBottomOf="@+id/view_top">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -125,7 +126,7 @@
                     style="@style/ProductTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="8dp"
                     android:ellipsize="end"
                     android:maxLines="2"
                     android:text="@{item.note}"
@@ -139,10 +140,10 @@
                     android:id="@+id/member_note_icon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/member_delivery"
+                    app:layout_constraintTop_toBottomOf="@+id/member_address"
                     app:srcCompat="@drawable/ic_baseline_message_24"
                     app:tint="@color/green_7A8277" />
 
@@ -151,7 +152,7 @@
                     style="@style/ProductTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="8dp"
                     android:text="Chloe"
                     app:layout_constraintBottom_toBottomOf="@+id/member_icon"
                     app:layout_constraintStart_toEndOf="@+id/member_icon"
@@ -162,7 +163,7 @@
                     android:id="@+id/member_icon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/member_price_icon"
@@ -182,11 +183,14 @@
                 <TextView
                     android:id="@+id/member_id"
                     style="@style/ProductTitle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="@{String.valueOf(item.userId)}"
+                    android:layout_marginEnd="8dp"
+                    android:text="@{item.userId}"
                     app:layout_constraintBottom_toBottomOf="@+id/view_separation"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/view_separation"
                     app:layout_constraintTop_toTopOf="@+id/view_separation"
                     tools:text="193798" />
@@ -195,7 +199,7 @@
                     android:id="@+id/member_product_icon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -206,8 +210,9 @@
                     android:id="@+id/recycler_product"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:maxWidth="250dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -219,7 +224,8 @@
                     android:id="@+id/member_price_icon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/recycler_product"
                     app:srcCompat="@drawable/ic_baseline_monetization_on_24"
@@ -228,11 +234,14 @@
                 <TextView
                     android:id="@+id/member_price"
                     style="@style/ProductTitle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:text='@{"NT$"+String.valueOf(item.price)}'
                     app:layout_constraintBottom_toBottomOf="@+id/member_price_icon"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/member_price_icon"
                     app:layout_constraintTop_toTopOf="@+id/member_price_icon"
                     tools:text="NT$3000" />
@@ -240,10 +249,13 @@
                 <TextView
                     android:id="@+id/member_phone"
                     style="@style/ProductTitle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
                     android:text="@{item.phone}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/member_name"
                     app:layout_constraintTop_toBottomOf="@+id/member_name"
                     tools:text="0988888888" />
@@ -254,13 +266,28 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:layout_marginEnd="16dp"
-                    android:text="@{item.delivery}"
+                    android:layout_marginEnd="8dp"
+                    app:deliveryToDisplay="@{item.delivery}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/member_name"
                     app:layout_constraintTop_toBottomOf="@+id/member_phone"
-                    tools:text="711 永和門市" />
+                    tools:text="711" />
+
+
+                <TextView
+                    android:id="@+id/member_address"
+                    style="@style/ProductTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@{item.address}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/member_name"
+                    app:layout_constraintTop_toBottomOf="@+id/member_delivery"
+                    tools:text="永和門市" />
 
                 <TextView
                     android:id="@+id/member_time"
@@ -268,13 +295,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/member_note"
                     app:layout_constraintVertical_bias="1.0"
-                    app:timeToDisplayFormat="@{item.orderTime}"
+                    app:timeToDisplayFormat="@{item.time}"
                     tools:text="124" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

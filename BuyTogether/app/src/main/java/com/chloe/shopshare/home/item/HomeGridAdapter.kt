@@ -5,25 +5,25 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.chloe.shopshare.data.Collections
+import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.databinding.ItemHomeGridBinding
 
-class HomeGridAdapter(private val  viewModel: HomePageViewModel)  : ListAdapter<Collections, HomeGridAdapter.ViewHolder>(DiffCallback) {
+class HomeGridAdapter(private val  viewModel: HomePageViewModel)  : ListAdapter<Shop, HomeGridAdapter.ViewHolder>(DiffCallback) {
 
     class ViewHolder(private var binding: ItemHomeGridBinding):
             RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Collections,viewModel: HomePageViewModel) {
+        fun bind(item: Shop, viewModel: HomePageViewModel) {
             binding.item = item
             binding.viewModel = viewModel
             binding.executePendingBindings()
         }
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<Collections>() {
-        override fun areItemsTheSame(oldItem: Collections, newItem: Collections): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<Shop>() {
+        override fun areItemsTheSame(oldItem: Shop, newItem: Shop): Boolean {
             return oldItem === newItem
         }
-        override fun areContentsTheSame(oldItem: Collections, newItem: Collections): Boolean {
+        override fun areContentsTheSame(oldItem: Shop, newItem: Shop): Boolean {
             return oldItem == newItem
         }
     }

@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="viewModel"
-            type="com.chloe.shopshare.collection.CollectionViewModel" />
+        <import type="android.view.View"/>
+        <variable name="viewModel" type="com.chloe.shopshare.shop.ShopViewModel" />
 
     </data>
 
@@ -14,16 +13,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/green_E7ECE5"
-        tools:context=".collection.CollectionFragment">
+        tools:context=".shop.ShopFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_collection"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingVertical="8dp"
-            app:collections="@{viewModel.collection}"
+            app:collections="@{viewModel.shop}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone" />
+
+        <TextView
+            android:id="@+id/default_text"
+            style="@style/DetailSubTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:visibility="@{viewModel.shop==null?View.VISIBLE:View.GONE}"
+            android:text="尚無團購紀錄"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

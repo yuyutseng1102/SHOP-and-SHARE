@@ -5,26 +5,26 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.chloe.shopshare.data.Collections
+import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.databinding.ItemHomeCollectionBinding
 import com.chloe.shopshare.databinding.ItemHomeHotsBinding
 
-class HomeCollectAdapter(private val viewModel: HomeCollectViewModel)  : ListAdapter<Collections, HomeCollectAdapter.ViewHolder>(DiffCallback) {
+class HomeCollectAdapter(private val viewModel: HomeCollectViewModel)  : ListAdapter<Shop, HomeCollectAdapter.ViewHolder>(DiffCallback) {
 
     class ViewHolder(private var binding: ItemHomeCollectionBinding):
             RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Collections,viewModel: HomeCollectViewModel) {
+        fun bind(item: Shop, viewModel: HomeCollectViewModel) {
             binding.item = item
             binding.viewModel = viewModel
             binding.executePendingBindings()
         }
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<Collections>() {
-        override fun areItemsTheSame(oldItem: Collections, newItem: Collections): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<Shop>() {
+        override fun areItemsTheSame(oldItem: Shop, newItem: Shop): Boolean {
             return oldItem === newItem
         }
-        override fun areContentsTheSame(oldItem: Collections, newItem: Collections): Boolean {
+        override fun areContentsTheSame(oldItem: Shop, newItem: Shop): Boolean {
             return oldItem == newItem
         }
     }

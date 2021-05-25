@@ -1,4 +1,4 @@
-package com.chloe.shopshare.collection.manage
+package com.chloe.shopshare.manage
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,11 +6,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.chloe.shopshare.data.Product
-import com.chloe.shopshare.databinding.ItemCollectionManageProductBinding
+import com.chloe.shopshare.databinding.ItemManageProductBinding
 
-class MemberProductAdapter: ListAdapter<Product, MemberProductAdapter.ViewHolder>(DiffCallback) {
+class MemberProductAdapter: ListAdapter<Product, MemberProductAdapter.ViewHolder>(
+    DiffCallback
+) {
 
-    class ViewHolder(private var binding: ItemCollectionManageProductBinding):
+    class ViewHolder(private var binding: ItemManageProductBinding):
             RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Product) {
             binding.item = item
@@ -29,8 +31,10 @@ class MemberProductAdapter: ListAdapter<Product, MemberProductAdapter.ViewHolder
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-                ItemCollectionManageProductBinding.inflate(
-                        LayoutInflater.from(parent.context), parent, false))
+            ItemManageProductBinding.inflate(
+                LayoutInflater.from(parent.context), parent, false
+            )
+        )
     }
 
     /**

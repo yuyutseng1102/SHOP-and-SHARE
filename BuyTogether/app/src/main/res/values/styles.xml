@@ -130,6 +130,13 @@
         <item name="android:letterSpacing">0.15</item>
         <item name="android:textColor">@color/white</item>
     </style>
+
+    <style name="WhiteId">
+        <item name="android:fontFamily">@font/noto_sans</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
     <style name="SeeDetailTitle">
         <item name="android:fontFamily">@font/noto_sans</item>
         <item name="android:textSize">14sp</item>

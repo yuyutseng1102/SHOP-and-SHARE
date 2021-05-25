@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ShopShare</string>
-
-
+    <!--Category-->
+    <string name="result_fail">Result Fail</string>
     <!--Home-->
     <string name="hot_collect">/ 熱門團購 Hot Collection /</string>
     <string name="new_collect">/ 最新上線 New Collection /</string>
@@ -64,7 +64,7 @@
     <string name="gather_success">已收團</string>
     <string name="order_success">主購已下單</string>
     <string name="shop_shipment">店家已出貨</string>
-    <string name="shipment_success">主購已下單</string>
+    <string name="shipment_success">主購已取貨</string>
     <string name="packaging">出貨準備中</string>
     <string name="shipment">商品已寄出</string>
     <string name="finish">團購結束</string>

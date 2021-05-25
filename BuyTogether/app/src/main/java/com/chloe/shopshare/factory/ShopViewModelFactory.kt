@@ -2,28 +2,31 @@ package com.chloe.shopshare.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.chloe.shopshare.collection.manage.CollectionManageViewModel
-import com.chloe.shopshare.data.Collections
+import com.chloe.shopshare.manage.ManageViewModel
+import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.detail.DetailViewModel
 
 @Suppress("UNCHECKED_CAST")
-class CollectViewModelFactory(
+class ShopViewModelFactory(
         private val repository: Repository,
-        private val collection:Collections
+        private val shop:Shop
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>) =
             with(modelClass) {
                 when {
-                    isAssignableFrom(CollectionManageViewModel::class.java) ->
-                        CollectionManageViewModel(repository, collection)
+                    isAssignableFrom(ManageViewModel::class.java) ->
+                        ManageViewModel(
+                            repository,
+                            shop
+                        )
 
                     isAssignableFrom(DetailViewModel::class.java) ->
-                        DetailViewModel(repository, collection)
+                        DetailViewModel(repository, shop)
 
                     isAssignableFrom(DetailViewModel::class.java) ->
-                        DetailViewModel(repository, collection)
+                        DetailViewModel(repository, shop)
 
 
 

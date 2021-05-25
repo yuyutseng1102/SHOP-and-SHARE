@@ -7,7 +7,7 @@
         <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="com.chloe.shopshare.collection.manage.CollectionManageViewModel" />
+            type="com.chloe.shopshare.manage.ManageViewModel" />
 
     </data>
 
@@ -51,7 +51,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/collection_date_title"
                     app:layout_constraintStart_toEndOf="@+id/collection_date_title"
                     app:layout_constraintTop_toTopOf="@+id/collection_date_title"
-                    app:timeToDisplayFormat="@{viewModel.collection.time}"
+                    app:timeToDisplayFormat="@{viewModel.shop.time}"
                     tools:text="2021/05/04" />
 
                 <TextView
@@ -72,7 +72,7 @@
                     android:layout_marginStart="24dp"
                     android:ellipsize="end"
                     android:maxLines="2"
-                    android:text="@{viewModel.collection.title}"
+                    android:text="@{viewModel.shop.title}"
                     app:layout_constraintBottom_toBottomOf="@+id/collection_name_title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -96,7 +96,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:text="@{String.valueOf(viewModel.collection.id)}"
+                    android:text="@{String.valueOf(viewModel.shop.id)}"
                     app:layout_constraintBottom_toBottomOf="@+id/collection_id_title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -122,9 +122,9 @@
                     android:layout_marginStart="24dp"
                     android:ellipsize="end"
                     android:maxLines="2"
-                    app:conditionToDisplay="@{viewModel.collection.condition}"
-                    app:conditionType="@{viewModel.collection.conditionType}"
-                    app:deadLineToDisplay="@{viewModel.collection.deadLine}"
+                    app:conditionToDisplay="@{viewModel.shop.condition}"
+                    app:conditionType="@{viewModel.shop.conditionType}"
+                    app:deadLineToDisplay="@{viewModel.shop.deadLine}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/collection_condition_title"
@@ -139,7 +139,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/collection_date"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/collection_date"
-                    app:orderStatusToDisplay="@{viewModel.collectionStatus}"
+                    app:orderStatusToDisplay="@{viewModel.shopStatus}"
                     tools:text="徵團中" />
 
                 <View
@@ -176,6 +176,7 @@
 
                     <TextView
                         android:id="@+id/progress_title"
+                        style="@style/ProductTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="團購進度"
@@ -188,7 +189,7 @@
                         android:layout_height="wrap_content"
                         android:text="更新進度"
                         android:clickable="@{viewModel.expectStatus == 0?false:true}"
-                        android:visibility="@{(viewModel.collectionStatus==0||viewModel.collectionStatus==7)?View.GONE:View.VISIBLE}"
+                        android:visibility="@{(viewModel.shopStatus==0||viewModel.shopStatus==7)?View.GONE:View.VISIBLE}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -197,7 +198,7 @@
                         android:layout_width="12dp"
                         android:layout_height="12dp"
                         android:background="@drawable/bg_white_circle"
-                        android:backgroundTint="@{(viewModel.collectionStatus==0)?@color/state_focus:@color/gray_888888}"
+                        android:backgroundTint="@{(viewModel.shopStatus==0)?@color/state_focus:@color/gray_888888}"
                         app:layout_constraintBottom_toBottomOf="@+id/progress_line"
                         app:layout_constraintEnd_toStartOf="@+id/point_gather_success"
                         app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -211,7 +212,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="32dp"
                         android:text="@string/gathering"
-                        android:textColor="@{(viewModel.collectionStatus==0)?@color/state_focus:@color/gray_888888}"
+                        android:textColor="@{(viewModel.shopStatus==0)?@color/state_focus:@color/gray_888888}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/point_gathering"
                         app:layout_constraintStart_toStartOf="@+id/progress_line"
@@ -229,7 +230,7 @@
                         app:layout_constraintTop_toTopOf="@+id/progress_line"
                         app:layout_constraintVertical_bias="0.5"
                         android:background="@drawable/bg_white_circle"
-                        android:backgroundTint="@{(viewModel.collectionStatus==1)?@color/state_focus:@color/gray_888888}"/>
+                        android:backgroundTint="@{(viewModel.shopStatus==1)?@color/state_focus:@color/gray_888888}"/>
 
                     <TextView
                         android:id="@+id/text_gather_success"
@@ -239,12 +240,12 @@
                         android:layout_marginBottom="32dp"
                         android:background="@drawable/bg_radio_button"
                         android:backgroundTint="@{(viewModel.expectStatus==1)?@color/state_click:@color/transparent}"
-                        android:clickable="@{(viewModel.collectionStatus==0||viewModel.collectionStatus>=1)?false:true}"
+                        android:clickable="@{(viewModel.shopStatus==0||viewModel.shopStatus>=1)?false:true}"
                         android:gravity="center"
                         android:onClick="@{()->viewModel.clickStatus(1)}"
                         android:padding="2dp"
                         android:text="@string/gather_success"
-                        android:textColor="@{(viewModel.collectionStatus==1)?@color/state_focus:@color/gray_888888}"
+                        android:textColor="@{(viewModel.shopStatus==1)?@color/state_focus:@color/gray_888888}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/point_gather_success"
                         app:layout_constraintStart_toStartOf="@+id/point_gather_success"
@@ -262,7 +263,7 @@
                         app:layout_constraintTop_toTopOf="@+id/progress_line"
                         app:layout_constraintVertical_bias="0.5"
                         android:background="@drawable/bg_white_circle"
-                        android:backgroundTint="@{(viewModel.collectionStatus==2)?@color/state_focus:@color/gray_888888}" />
+                        android:backgroundTint="@{(viewModel.shopStatus==2)?@color/state_focus:@color/gray_888888}" />
 
                     <TextView
                         android:id="@+id/text_order_success"
@@ -271,12 +272,12 @@
                         android:layout_marginTop="8dp"
                         android:background="@drawable/bg_radio_button"
                         android:backgroundTint="@{(viewModel.expectStatus==2)?@color/state_click:@color/transparent}"
-                        android:clickable="@{(viewModel.collectionStatus==0||viewModel.collectionStatus>=2)?false:true}"
+                        android:clickable="@{(viewModel.shopStatus==0||viewModel.shopStatus>=2)?false:true}"
                         android:gravity="center"
                         android:onClick="@{()->viewModel.clickStatus(2)}"
                         android:padding="2dp"
                         android:text="@string/order_success"
-                        android:textColor="@{(viewModel.collectionStatus==2)?@color/state_focus:@color/gray_888888}"
+                        android:textColor="@{(viewModel.shopStatus==2)?@color/state_focus:@color/gray_888888}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/point_order_success"
                         app:layout_constraintStart_toStartOf="@+id/point_order_success"
@@ -294,7 +295,7 @@
                         app:layout_constraintTop_toTopOf="@+id/progress_line"
                         app:layout_constraintVertical_bias="0.5"
                         android:background="@drawable/bg_white_circle"
-                        android:backgroundTint="@{(viewModel.collectionStatus==3)?@color/state_focus:@color/gray_888888}"/>
+                        android:backgroundTint="@{(viewModel.shopStatus==3)?@color/state_focus:@color/gray_888888}"/>
 
                     <TextView
                         android:id="@+id/text_shop_shipment"
@@ -303,12 +304,12 @@
                         android:layout_marginTop="8dp"
                         android:background="@drawable/bg_radio_button"
                         android:backgroundTint="@{(viewModel.expectStatus==3)?@color/state_click:@color/transparent}"
-                        android:clickable="@{(viewModel.collectionStatus==0||viewModel.collectionStatus>=3)?false:true}"
+                        android:clickable="@{(viewModel.shopStatus==0||viewModel.shopStatus>=3)?false:true}"
                         android:gravity="center"
                         android:onClick="@{()->viewModel.clickStatus(3)}"
                         android:padding="2dp"
                         android:text="@string/shop_shipment"
-                        android:textColor="@{(viewModel.collectionStatus==3)?@color/state_focus:@color/gray_888888}"
+                        android:textColor="@{(viewModel.shopStatus==3)?@color/state_focus:@color/gray_888888}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/point_shop_shipment"
                         app:layout_constraintStart_toStartOf="@+id/point_shop_shipment"
@@ -326,7 +327,7 @@
                         app:layout_constraintTop_toTopOf="@+id/progress_line"
                         app:layout_constraintVertical_bias="0.5"
                         android:background="@drawable/bg_white_circle"
-                        android:backgroundTint="@{(viewModel.collectionStatus==4)?@color/state_focus:@color/gray_888888}" />
+                        android:backgroundTint="@{(viewModel.shopStatus==4)?@color/state_focus:@color/gray_888888}" />
 
                     <TextView
                         android:id="@+id/text_shipment_success"
@@ -335,12 +336,12 @@
                         android:layout_marginTop="8dp"
                         android:background="@drawable/bg_radio_button"
                         android:backgroundTint="@{(viewModel.expectStatus==4)?@color/state_click:@color/transparent}"
-                        android:clickable="@{(viewModel.collectionStatus==0||viewModel.collectionStatus>=4)?false:true}"
+                        android:clickable="@{(viewModel.shopStatus==0||viewModel.shopStatus>=4)?false:true}"
                         android:gravity="center"
                         android:onClick="@{()->viewModel.clickStatus(4)}"
                         android:padding="2dp"
                         android:text="@string/shipment_success"
-                        android:textColor="@{(viewModel.collectionStatus==4)?@color/state_focus:@color/gray_888888}"
+                        android:textColor="@{(viewModel.shopStatus==4)?@color/state_focus:@color/gray_888888}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/point_shipment_success"
                         app:layout_constraintStart_toStartOf="@+id/point_shipment_success"
@@ -358,7 +359,7 @@
                         app:layout_constraintTop_toTopOf="@+id/progress_line"
                         app:layout_constraintVertical_bias="0.5"
                         android:background="@drawable/bg_white_circle"
-                        android:backgroundTint="@{(viewModel.collectionStatus==5)?@color/state_focus:@color/gray_888888}" />
+                        android:backgroundTint="@{(viewModel.shopStatus==5)?@color/state_focus:@color/gray_888888}" />
 
                     <TextView
                         android:id="@+id/text_packaging"
@@ -367,12 +368,12 @@
                         android:layout_marginTop="8dp"
                         android:background="@drawable/bg_radio_button"
                         android:backgroundTint="@{(viewModel.expectStatus==5)?@color/state_click:@color/transparent}"
-                        android:clickable="@{(viewModel.collectionStatus==0||viewModel.collectionStatus>=5)?false:true}"
+                        android:clickable="@{(viewModel.shopStatus==0||viewModel.shopStatus>=5)?false:true}"
                         android:gravity="center"
                         android:onClick="@{()->viewModel.clickStatus(5)}"
                         android:padding="2dp"
                         android:text="@string/packaging"
-                        android:textColor="@{(viewModel.collectionStatus==5)?@color/state_focus:@color/gray_888888}"
+                        android:textColor="@{(viewModel.shopStatus==5)?@color/state_focus:@color/gray_888888}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/point_packaging"
                         app:layout_constraintStart_toStartOf="@+id/point_packaging"
@@ -390,7 +391,7 @@
                         app:layout_constraintTop_toTopOf="@+id/progress_line"
                         app:layout_constraintVertical_bias="0.5"
                         android:background="@drawable/bg_white_circle"
-                        android:backgroundTint="@{(viewModel.collectionStatus==6)?@color/state_focus:@color/gray_888888}"/>
+                        android:backgroundTint="@{(viewModel.shopStatus==6)?@color/state_focus:@color/gray_888888}"/>
 
                     <TextView
                         android:id="@+id/text_shipment"
@@ -399,12 +400,12 @@
                         android:layout_marginTop="8dp"
                         android:background="@drawable/bg_radio_button"
                         android:backgroundTint="@{(viewModel.expectStatus==6)?@color/state_click:@color/transparent}"
-                        android:clickable="@{(viewModel.collectionStatus==0||viewModel.collectionStatus>=6)?false:true}"
+                        android:clickable="@{(viewModel.shopStatus==0||viewModel.shopStatus>=6)?false:true}"
                         android:gravity="center"
                         android:onClick="@{()->viewModel.clickStatus(6)}"
                         android:padding="2dp"
                         android:text="@string/shipment"
-                        android:textColor="@{(viewModel.collectionStatus==6)?@color/state_focus:@color/gray_888888}"
+                        android:textColor="@{(viewModel.shopStatus==6)?@color/state_focus:@color/gray_888888}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/point_shipment"
                         app:layout_constraintStart_toStartOf="@+id/point_shipment"
@@ -421,7 +422,7 @@
                         app:layout_constraintTop_toTopOf="@+id/progress_line"
                         app:layout_constraintVertical_bias="0.5"
                         android:background="@drawable/bg_white_circle"
-                        android:backgroundTint="@{(viewModel.collectionStatus==7)?@color/state_focus:@color/gray_888888}"/>
+                        android:backgroundTint="@{(viewModel.shopStatus==7)?@color/state_focus:@color/gray_888888}"/>
 
                     <TextView
                         android:id="@+id/text_finish"
@@ -429,13 +430,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:onClick="@{()->viewModel.clickStatus(7)}"
-                        android:clickable="@{(viewModel.collectionStatus==0||viewModel.collectionStatus>=7)?false:true}"
+                        android:clickable="@{(viewModel.shopStatus==0||viewModel.shopStatus>=7)?false:true}"
                         android:background="@drawable/bg_radio_button"
                         android:backgroundTint="@{(viewModel.expectStatus==7)?@color/state_click:@color/transparent}"
                         android:gravity="center"
                         android:padding="2dp"
                         android:text="@string/finish"
-                        android:textColor="@{(viewModel.collectionStatus==7)?@color/state_focus:@color/gray_888888}"
+                        android:textColor="@{(viewModel.shopStatus==7)?@color/state_focus:@color/gray_888888}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/point_finish"
                         app:layout_constraintStart_toStartOf="@+id/point_finish"
@@ -451,7 +452,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="團員名單"
+                    tools:text="團員名單"
+                    android:text='@{viewModel.order!=null?"團員名單("+String.valueOf(viewModel.order.size())+")":"團員名單(0)"}'
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/progress_block" />
 
@@ -461,9 +463,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:orientation="horizontal"
-                    android:minHeight="350dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/collection_member_title"
@@ -475,10 +475,22 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="2dp"
                     android:text="確定刪除"
-                    android:visibility="@{(viewModel.collectionStatus==0)?View.VISIBLE:View.GONE}"
+                    android:visibility="@{(viewModel.shopStatus==0&amp;&amp;viewModel.order.size()>0)?View.VISIBLE:View.GONE}"
                     app:layout_constraintBottom_toBottomOf="@+id/collection_member_title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/collection_member_title" />
+
+                <TextView
+                    android:id="@+id/dafault_text"
+                    style="@style/DetailSubTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="80dp"
+                    android:text="尚無人跟團"
+                    android:visibility="@{viewModel.order.size()&lt;1?View.VISIBLE:View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/collection_member_title" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -489,7 +501,7 @@
             android:id="@+id/layout_gather_bottom"
             android:layout_width="0dp"
             android:layout_height="@dimen/height_all_bottom_layout"
-            android:visibility="@{(viewModel.collectionStatus==0)?View.VISIBLE:View.GONE}"
+            android:visibility="@{(viewModel.shopStatus==0)?View.VISIBLE:View.GONE}"
             android:background="@color/white"
             android:paddingHorizontal="16dp"
             app:layout_constraintBottom_toBottomOf="parent"

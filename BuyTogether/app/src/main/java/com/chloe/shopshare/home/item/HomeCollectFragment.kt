@@ -12,12 +12,11 @@ import com.chloe.shopshare.MyApplication
 import com.chloe.shopshare.NavigationDirections
 import com.chloe.shopshare.R
 import com.chloe.shopshare.databinding.FragmentHomeCollectBinding
-import com.chloe.shopshare.databinding.FragmentHomePageBinding
 import com.chloe.shopshare.ext.getVmFactory
 import com.chloe.shopshare.home.HomeType
 
 
-class HomeCollectFragment(private val collectType: HomeType) : Fragment() {
+class HomeCollectFragment(private val homeType: HomeType) : Fragment() {
 
     private val viewModel by viewModels<HomeCollectViewModel> { getVmFactory() }
 
@@ -31,7 +30,7 @@ class HomeCollectFragment(private val collectType: HomeType) : Fragment() {
         binding.viewModel = viewModel
         binding.recyclerCollection.adapter = adapter
 
-        viewModel.addMockData(collectType)
+        viewModel.addMockData(homeType)
 
         binding.spinnerHome.adapter = HomeSpinnerAdapter(
                 MyApplication.instance.resources.getStringArray(R.array.sort_method_list))
@@ -41,6 +40,7 @@ class HomeCollectFragment(private val collectType: HomeType) : Fragment() {
                 findNavController().navigate(
                     NavigationDirections.navigateToDetailFragment(it)
                 )
+                viewModel.onDetailNavigated()
             }
         })
 
