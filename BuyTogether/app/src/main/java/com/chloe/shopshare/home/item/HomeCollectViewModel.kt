@@ -23,7 +23,6 @@ class HomeCollectViewModel(private val repository: Repository) : ViewModel() {
     val shop: LiveData<List<Shop>>
     get() = _shop
 
-    var liveShops = MutableLiveData<List<Shop>>()
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -37,17 +36,19 @@ class HomeCollectViewModel(private val repository: Repository) : ViewModel() {
     val error: LiveData<String>
         get() = _error
 
+    // status for the loading icon of swl
+    private val _refreshStatus = MutableLiveData<Boolean>()
+
+    val refreshStatus: LiveData<Boolean>
+        get() = _refreshStatus
+
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
 
     // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-    // status for the loading icon of swl
-    private val _refreshStatus = MutableLiveData<Boolean>()
 
-    val refreshStatus: LiveData<Boolean>
-        get() = _refreshStatus
 
     private val _navigateToDetail = MutableLiveData<String>()
 

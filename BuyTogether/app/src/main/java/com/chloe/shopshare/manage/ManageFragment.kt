@@ -20,7 +20,7 @@ class ManageFragment : Fragment() {
 
     private val args: ManageFragmentArgs by navArgs()
 
-    private val viewModel by viewModels<ManageViewModel> { getVmFactory(args.shopKey) }
+    private val viewModel by viewModels<ManageViewModel> { getVmFactory(args.shopIdKey) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -34,10 +34,19 @@ class ManageFragment : Fragment() {
 
 //        viewModel.getOrderOfShop("2TgmGprHsundCcuvHw8J")
 
-        viewModel.shop.value?.let {
-            viewModel.getOrderOfShop(it.id)
-            Log.d("Chloe","order is ${viewModel.order.value}")
+
+        binding.layoutSwipeRefreshManage.setOnRefreshListener {
+            viewModel.refresh()
+            Log.d("Chloe", "home status = ${viewModel.status.value}")
         }
+
+        viewModel.refreshStatus.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                binding.layoutSwipeRefreshManage.isRefreshing = it
+            }
+        })
+
+
 
 
 
@@ -50,12 +59,12 @@ class ManageFragment : Fragment() {
 
 
 
-    viewModel.order.observe(viewLifecycleOwner, Observer {
-        it?.let {
-            Log.d("Life", "order is change")
-            memberAdapter.notifyDataSetChanged()
-        }
-    })
+//    viewModel.order.observe(viewLifecycleOwner, Observer {
+//        it?.let {
+//            Log.d("Life", "order is change")
+//            memberAdapter.notifyDataSetChanged()
+//        }
+//    })
 
 
         binding.deleteButton.setOnClickListener {
@@ -74,7 +83,7 @@ class ManageFragment : Fragment() {
                         Log.d("Chloe","message dialog is Success!viewModel.messageContent.value = ${viewModel.messageContent.value}")
                     }},
 
-                status = viewModel.shopStatus.value?:0
+                status = viewModel.shop.value?.status?:0
             )
             dialog.show(childFragmentManager, "hiya")
         }
@@ -89,7 +98,7 @@ class ManageFragment : Fragment() {
                         Log.d("Chloe","message dialog is Success!viewModel.messageContent.value = ${viewModel.messageContent.value}")
                     }},
 
-                status = viewModel.shopStatus.value?:0
+                status = viewModel.shop.value?.status?:0
             )
             dialog.show(childFragmentManager, "hiya")
         }

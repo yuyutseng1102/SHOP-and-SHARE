@@ -64,9 +64,8 @@
         android:label="ManageFragment"
         tools:layout="@layout/fragment_manage">
         <argument
-            android:name="shopKey"
-            app:argType="com.chloe.shopshare.data.Shop"
-            app:nullable="false" />
+            android:name="shopIdKey"
+            app:argType="string" />
     </fragment>
 
     <fragment

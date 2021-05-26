@@ -17,10 +17,6 @@ fun Fragment.getVmFactory(): ViewModelFactory {
     return ViewModelFactory(repository)
 }
 
-fun Fragment.getVmFactory(id: String): IdViewModelFactory {
-    val repository = (requireContext().applicationContext as MyApplication).repository
-    return IdViewModelFactory(repository,id)
-}
 
 fun Fragment.getVmFactory(option: List<String>?,isStandard:Boolean): OptionViewModelFactory {
     val repository = (requireContext().applicationContext as MyApplication).repository
@@ -32,9 +28,9 @@ fun Fragment.getVmFactory(collection:Shop, product: List<Product>): ParticipateV
     return ParticipateViewModelFactory(repository, collection,product)
 }
 
-fun Fragment.getVmFactory(shop:Shop): ShopViewModelFactory {
+fun Fragment.getVmFactory(shopId: String): ShopViewModelFactory {
     val repository = (requireContext().applicationContext as MyApplication).repository
-    return ShopViewModelFactory(repository, shop)
+    return ShopViewModelFactory(repository, shopId)
 }
 
 

@@ -14,9 +14,6 @@ class LocalDataSource(val context: Context): DataSource {
         TODO("Not yet implemented")
     }
 
-    override fun getLiveShop(): MutableLiveData<Boolean> {
-        TODO("Not yet implemented")
-    }
 
     override suspend fun getDetailShop(shopId: String): Result<Shop> {
         TODO("Not yet implemented")
@@ -39,6 +36,10 @@ class LocalDataSource(val context: Context): DataSource {
     }
 
     override suspend fun deleteOrder(shopId: String, order: Order): Result<Boolean> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun updateShopStatus(shopId: String, shopStatus: Int): Result<Boolean> {
         TODO("Not yet implemented")
     }
 

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.chloe.shopshare.network.LoadApiStatus"/>
         <import type="android.view.View"/>
         <variable name="viewModel" type="com.chloe.shopshare.shop.ShopViewModel" />
 
@@ -15,18 +16,26 @@
         android:background="@color/green_E7ECE5"
         tools:context=".shop.ShopFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_collection"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/layout_swipe_refresh_shop"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingVertical="8dp"
-            app:collections="@{viewModel.shop}"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="gone" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_collection"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingVertical="8dp"
+                app:collections="@{viewModel.shop}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/default_text"
@@ -34,10 +43,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
-            android:visibility="@{viewModel.shop==null?View.VISIBLE:View.GONE}"
+            android:visibility="@{(viewModel.status == LoadApiStatus.DONE &amp;&amp; viewModel.shop == null)?View.VISIBLE:View.GONE}"
             android:text="尚無團購紀錄"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:theme="@style/ProgressTheme"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:setupApiStatus="@{viewModel.status}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:setupApiErrorMessage="@{viewModel.error}" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </layout>

@@ -27,6 +27,18 @@ class ShopFragment : Fragment() {
 //        viewModel.getMyShop(viewModel.mockUserId)
 //        viewModel.addMockData()
 
+        binding.layoutSwipeRefreshShop.setOnRefreshListener {
+            viewModel.refresh()
+            Log.d("Chloe", "home status = ${viewModel.status.value}")
+        }
+
+        viewModel.refreshStatus.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                binding.layoutSwipeRefreshShop.isRefreshing = it
+            }
+        })
+
+
         val adapter = ShopAdapter(viewModel)
         binding.recyclerCollection.adapter = adapter
 

@@ -10,17 +10,16 @@ import com.chloe.shopshare.detail.DetailViewModel
 @Suppress("UNCHECKED_CAST")
 class ShopViewModelFactory(
         private val repository: Repository,
-        private val shop:Shop
+        private val shopId: String
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>) =
             with(modelClass) {
                 when {
+                    isAssignableFrom(DetailViewModel::class.java) ->
+                        DetailViewModel(repository, shopId)
                     isAssignableFrom(ManageViewModel::class.java) ->
-                        ManageViewModel(
-                            repository,
-                            shop
-                        )
+                        ManageViewModel(repository, shopId)
 
 
                     else ->

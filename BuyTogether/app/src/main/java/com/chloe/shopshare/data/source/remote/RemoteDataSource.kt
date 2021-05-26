@@ -55,27 +55,6 @@ object RemoteDataSource : DataSource {
             }
     }
 
-    override fun getLiveShop(): MutableLiveData<Boolean> {
-        val shopDataBase = FirebaseFirestore.getInstance().collection(PATH_SHOP)
-        val liveData = MutableLiveData<Boolean>()
-
-        shopDataBase
-            .addSnapshotListener { _, exception ->
-
-                Log.i("Chloe", "addSnapshotListener detect")
-
-                exception?.let {
-                    Log.w(
-                        "Chloe",
-                        "[${this::class.simpleName}] Error getting documents. ${it.message}"
-                    )
-                }
-
-                liveData.value = true
-            }
-        return liveData
-    }
-
     override suspend fun getDetailShop(shopId: String): Result<Shop> =
         suspendCoroutine { continuation ->
             val shopDataBase =
@@ -301,13 +280,39 @@ object RemoteDataSource : DataSource {
 
                     continuation.resume(Result.Success(true))
                 }.addOnFailureListener {
-                    Log.d(
+                    Log.w(
                         "Chloe",
                         "[${this::class.simpleName}] Error getting documents. ${it.message}"
                     )
                     continuation.resume(Result.Error(it))
                 }
         }
+
+    override suspend fun updateShopStatus(shopId: String, shopStatus: Int): Result<Boolean> =
+        suspendCoroutine { continuation ->
+            val shopDataBase =
+                FirebaseFirestore.getInstance().collection(PATH_SHOP).document(shopId)
+            shopDataBase
+                .update("status", shopStatus)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.i("Chloe", "status is updated to : $shopStatus")
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        task.exception?.let {
+                            Log.w(
+                                "Chloe",
+                                "[${this::class.simpleName}] Error getting documents. ${it.message}"
+                            )
+
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
+                    }
+                }
+        }
+
 
     override suspend fun postShop(shop: Shop): Result<Boolean> = suspendCoroutine { continuation ->
         val shopDataBase = FirebaseFirestore.getInstance().collection(PATH_SHOP)

@@ -18,14 +18,17 @@ import kotlinx.coroutines.launch
 
 class ManageViewModel(
         private val repository: Repository,
-        private val arguments: Shop
+        private val arguments: String
 ):ViewModel() {
 
-
-    private val _shop = MutableLiveData<Shop>().apply {
+    private val _shopId = MutableLiveData<String>().apply {
+        Log.d("Chloe", "_shopId = $arguments")
         value = arguments
     }
+    val shopId: LiveData<String>
+        get() = _shopId
 
+    private var _shop = MutableLiveData<Shop>()
     val shop: LiveData<Shop>
         get() = _shop
 
@@ -41,11 +44,16 @@ class ManageViewModel(
     val isChecked: LiveData<Boolean>
         get() = _isChecked
 
-    private val _shopStatus = MutableLiveData<Int>()
-    val shopStatus: LiveData<Int>
-        get() = _shopStatus
+//    private val _shopStatus = MutableLiveData<Int>()
+//    val shopStatus: LiveData<Int>
+//        get() = _shopStatus
 
     val messageContent = MutableLiveData<String>()
+
+    private val _leave = MutableLiveData<Boolean>()
+
+    val leave: LiveData<Boolean>
+        get() = _leave
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -73,21 +81,59 @@ class ManageViewModel(
 
 
     init {
+        Log.i("Chloe", "Detail")
 
+        _shopId.value?.let {
 
-//        _order.value = _shop.value?.order
-        _shopStatus.value = _shop.value?.status
+                getDetailShop(it)
+                getOrderOfShop(it)
+            }
+
+        }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
     }
 
 
-//
-//    private val _paymentStatus = MutableLiveData<Int>()
-//    val paymentStatus: LiveData<Int>
-//        get() = _paymentStatus
+
+    private fun getDetailShop(shopId: String) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            val result = repository.getDetailShop(shopId)
+
+            _shop.value = when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    result.data
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value = MyApplication.instance.getString(R.string.result_fail)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
+            _refreshStatus.value = false
+        }
+    }
 
 
-
-    fun getOrderOfShop(shopId : String) {
+    private fun getOrderOfShop(shopId : String) {
 
         coroutineScope.launch {
             _status.value = LoadApiStatus.LOADING
@@ -117,58 +163,86 @@ class ManageViewModel(
             }
             _refreshStatus.value = false
         }
+
     }
 
-//    fun deleteOrder(shopId: String, order: Order) {
-//
-//        if (_order.value == null) {
-//            _error.value = "who r u?"
-//            _refreshStatus.value = false
-//            return
-//        }
-//
-//        coroutineScope.launch {
-//
-//            _status.value = LoadApiStatus.LOADING
-//
-//            when (val result = repository.deleteOrder(shopId,order)) {
-//                is Result.Success -> {
-//                    _error.value = null
-//                    _status.value = LoadApiStatus.DONE
-//                    refresh()
-//                }
-//                is Result.Fail -> {
-//                    _error.value = result.error
-//                    _status.value = LoadApiStatus.ERROR
-//                }
-//                is Result.Error -> {
-//                    _error.value = result.exception.toString()
-//                    _status.value = LoadApiStatus.ERROR
-//                }
-//                else -> {
-//                    _error.value = MyApplication.instance.getString(R.string.result_fail)
-//                    _status.value = LoadApiStatus.ERROR
-//                }
-//            }
-//            _refreshStatus.value = false
-//        }
-//    }
+    fun updateShopStatus(shopId: String, shopStatus: Int) {
 
-//    fun refresh() {
-//
-//        if (MyApplication.instance.isLiveDataDesign()) {
-//            _status.value = LoadApiStatus.DONE
-//            _refreshStatus.value = false
-//
-//        } else {
-//            if (status.value != LoadApiStatus.LOADING) {
-//                getArticlesResult()
-//            }
-//        }
-//    }
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            when (val result = repository.updateShopStatus(shopId,shopStatus)) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    refresh()
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                }
+                else -> {
+                    _error.value = MyApplication.instance.getString(R.string.result_fail)
+                    _status.value = LoadApiStatus.ERROR
+                }
+            }
+            _refreshStatus.value = false
+        }
+    }
 
 
 
+    private fun deleteOrder(shopId: String, order: Order) {
+
+        if (_order.value == null) {
+            _error.value = "who r u?"
+            _refreshStatus.value = false
+            return
+        }
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            when (val result = repository.deleteOrder(shopId,order)) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    refresh()
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                }
+                else -> {
+                    _error.value = MyApplication.instance.getString(R.string.result_fail)
+                    _status.value = LoadApiStatus.ERROR
+                }
+            }
+            _refreshStatus.value = false
+        }
+    }
+
+    fun refresh() {
+
+            if (status.value != LoadApiStatus.LOADING) {
+                _shop.value?.let {
+                    getDetailShop(it.id)
+                    getOrderOfShop(it.id)
+                }
+
+            }
+
+    }
 
 
     var checkedMemberPosition = MutableLiveData<Int?>()
@@ -193,13 +267,15 @@ private val deleteList: MutableList<Order>? = mutableListOf()
     }
 
     fun deleteMember() {
-
-        if(deleteList!=null){
-            val realList = _order.value?.toMutableList()
-            for(i in deleteList){
-                realList?.remove(i)
+        shop.value?.let {
+            if(deleteList!=null){
+//            val realList = _order.value?.toMutableList()
+                for(i in deleteList){
+                    deleteOrder(it.id, i)
+//realList?.remove(i)
+                }
+//            _order.value = realList
             }
-            _order.value = realList
         }
     }
 
@@ -219,9 +295,13 @@ private val deleteList: MutableList<Order>? = mutableListOf()
             _shop.value?.order =_order.value
             Log.d("Chloe","after update, now collection is ${_shop.value}")
         //更新collection的status
-        _shopStatus.value = 1
-        expectStatus.value = 0
-        Log.d("Chloe","after update, now status is ${_shopStatus.value}")
+
+        _shop.value?.let{
+            updateShopStatus(it.id, 1)
+            expectStatus.value = 0
+        }
+
+        Log.d("Chloe","after update, now status is ${_shop.value?.status}")
         }
 
     //按鈕改變團購狀態
@@ -235,16 +315,25 @@ private val deleteList: MutableList<Order>? = mutableListOf()
     }
 
     fun updateStatus(){
-        _shopStatus.value = expectStatus.value
-
+//        _shopStatus.value = expectStatus.value
+        _shop.value?.let{
+            updateShopStatus(it.id, expectStatus.value!!)
             expectStatus.value = 0
-        Log.d("Chloe","after update, now status is ${_shopStatus.value}")
+        }
+
+        Log.d("Chloe","after update, now status is $${_shop.value?.status}")
     }
 
 
-
-
+    fun leave(needRefresh: Boolean = false) {
+        _leave.value = needRefresh
     }
+
+    fun onLeft() {
+        _leave.value = null
+    }
+
+}
 
 
 

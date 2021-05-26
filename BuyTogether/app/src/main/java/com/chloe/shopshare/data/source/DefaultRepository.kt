@@ -14,9 +14,6 @@ class DefaultRepository (private val remoteDataSource: DataSource,
         return remoteDataSource.getOpeningShop()
     }
 
-    override fun getLiveShop(): MutableLiveData<Boolean>{
-        return remoteDataSource.getLiveShop()
-    }
 
 
     override suspend fun getDetailShop(shopId: String): Result<Shop> {
@@ -50,6 +47,10 @@ class DefaultRepository (private val remoteDataSource: DataSource,
 
     override suspend fun deleteOrder(shopId: String, order: Order): Result<Boolean>  {
         return remoteDataSource.deleteOrder(shopId,order)
+    }
+
+    override suspend fun updateShopStatus(shopId: String, shopStatus: Int): Result<Boolean> {
+        return remoteDataSource.updateShopStatus(shopId,shopStatus)
     }
 
     override suspend fun postShop(shop: Shop): Result<Boolean> {
