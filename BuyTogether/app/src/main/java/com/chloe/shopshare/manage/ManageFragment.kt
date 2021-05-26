@@ -94,10 +94,6 @@ class ManageFragment : Fragment() {
             dialog.show(childFragmentManager, "hiya")
         }
 
-        binding.collectionConditionTitle.setOnClickListener {
-            findNavController().navigate(NavigationDirections.navigateToDetailFragment(viewModel.shop.value!!))
-        }
-
 
 
 

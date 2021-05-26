@@ -17,9 +17,8 @@
         android:name="com.chloe.shopshare.detail.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail" >
-        <argument android:name="shopKey"
-            app:argType="com.chloe.shopshare.data.Shop"
-            app:nullable="false"/>
+        <argument android:name="shopIdKey"
+            app:argType="string" />
     </fragment>
 
     <fragment
@@ -54,9 +53,9 @@
         tools:layout="@layout/fragment_host"/>
 
     <fragment
-        android:id="@+id/collectionFragment"
+        android:id="@+id/shopFragment"
         android:name="com.chloe.shopshare.shop.ShopFragment"
-        android:label="CollectionFragment"
+        android:label="ShopFragment"
         tools:layout="@layout/fragment_shop" />
 
     <fragment
@@ -102,12 +101,12 @@
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true"/>
 
-    <action android:id="@+id/navigate_to_collection_fragment" app:destination="@id/collectionFragment"
+    <action android:id="@+id/navigate_to_collection_fragment" app:destination="@id/shopFragment"
         app:popUpTo="@id/profileFragment"
         app:popUpToInclusive="false" />
 
     <action android:id="@+id/navigate_to_collection_manage_fragment" app:destination="@id/manageFragment"
-        app:popUpTo="@id/collectionFragment"
+        app:popUpTo="@id/shopFragment"
         app:popUpToInclusive="false" />
 
     <action android:id="@+id/navigate_to_notify_fragment" app:destination="@id/notifyFragment"

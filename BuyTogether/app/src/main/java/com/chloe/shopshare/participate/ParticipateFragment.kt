@@ -64,7 +64,7 @@ class ParticipateFragment : Fragment() {
 
         binding.radioGroupDelivery.apply{
             orientation = RadioGroup.VERTICAL
-           addRadio(context,viewModel.shop.value!!.deliveryMethod)
+           addRadio(context,viewModel.shop.value!!.deliveryMethod?: listOf())
             setOnCheckedChangeListener { _ , checkedId ->
                 val radioButton: RadioButton = findViewById(checkedId)
                 viewModel.selectDelivery(radioButton)
@@ -88,13 +88,14 @@ class ParticipateFragment : Fragment() {
 
         binding.buttonParticipate.setOnClickListener {
             viewModel.readyToPost()
+
             viewModel.status.observe(viewLifecycleOwner, Observer {
                 it?.let {
                     if (it == LoadApiStatus.DONE) {
                         viewModel.sendOrder()
                         Log.d("Chloe","order is ready, this order = ${viewModel.order.value}")
                         Log.d("Chloe","order is ready, all order = ${viewModel.shop.value?.order}")
-
+                        viewModel.postOrder(viewModel.shop.value!!.id, viewModel.order.value!!)
                         successDialog.setContentView(view)
                         successDialog.show()
                         findNavController().navigate(

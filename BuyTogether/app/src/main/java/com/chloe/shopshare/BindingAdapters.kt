@@ -35,6 +35,7 @@ import com.chloe.shopshare.home.item.HomeHots1stAdapter
 import com.chloe.shopshare.home.item.HomeHots2ndAdapter
 import com.chloe.shopshare.host.DeliveryMethod
 import com.chloe.shopshare.host.HostImageAdapter
+import com.chloe.shopshare.network.LoadApiStatus
 import com.chloe.shopshare.notify.NotifyAdapter
 import com.chloe.shopshare.participate.ParticipateAdapter
 import com.chloe.shopshare.util.Util.getColor
@@ -93,8 +94,8 @@ fun bindRecyclerViewWithOptionStrings(recyclerView: RecyclerView, options: List<
 }
 
 @BindingAdapter("delivery")
-fun bindRecyclerViewWithDeliveryInt(recyclerView: RecyclerView, delivery: List<Int>) {
-    delivery.let {
+fun bindRecyclerViewWithDeliveryInt(recyclerView: RecyclerView, delivery: List<Int>?) {
+    delivery?.let {
         recyclerView.adapter?.apply {
             Log.d("Chloe","summit the delivery list is $delivery")
             when (this) {
@@ -323,23 +324,39 @@ fun bindEditorControllerStatus(imageButton: ImageButton, enabled: Boolean = fals
 }
 
 @BindingAdapter("optionIsStandard","shortOptionDisplay")
-fun bindDisplayShortOption(textView: TextView, isStandard:Boolean ,option: List<String>) {
-    textView.apply {
-        text =
-            when (isStandard) {
-                false -> {
-                    option[0]
+fun bindDisplayShortOption(textView: TextView, isStandard:Boolean,option: List<String>?) {
+    option?.let { option ->
+        textView.apply {
+            text =
+                when (isStandard) {
+                    false -> {
+                        option[0]
+                    }
+                    true -> if (option.size > 2) {
+                        "${option[0]}+${option[1]}...共${option.size}項"
+                    } else if (option.size == 2) {
+                        "${option[0]}+${option[1]}"
+                    } else if (option.size == 1) {
+                        option[0]
+                    } else {
+                        ""
+                    }
                 }
-                true -> if (option.size > 2) {
-                    "${option[0]}+${option[1]}...共${option.size}項"
-                } else if (option.size == 2) {
-                    "${option[0]}+${option[1]}"
-                } else if (option.size == 1) {
-                    option[0]
-                } else {
-                    ""
+        }
+    }
+
+}
+
+@BindingAdapter("memberNumberToDisplay")
+fun bindDisplayMemberNumber(textView: TextView, number: Int?) {
+    number?.let { number ->
+        textView.apply {
+            text =
+                when (number) {
+                    0 -> "尚無人跟團"
+                    else -> "已跟團 + ${number}"
                 }
-            }
+        }
     }
 }
 
@@ -392,6 +409,34 @@ fun bindEditorPriceStatus(editText: TextInputEditText, isInvalid: Int?, price: I
                 })
     }
 }
+
+/**
+ * According to [LoadApiStatus] to decide the visibility of [ProgressBar]
+ */
+@BindingAdapter("setupApiStatus")
+fun bindApiStatus(view: ProgressBar, status: LoadApiStatus?) {
+    when (status) {
+        LoadApiStatus.LOADING -> view.visibility = View.VISIBLE
+        LoadApiStatus.DONE, LoadApiStatus.ERROR -> view.visibility = View.GONE
+    }
+}
+
+/**
+ * According to [message] to decide the visibility of [ProgressBar]
+ */
+@BindingAdapter("setupApiErrorMessage")
+fun bindApiErrorMessage(view: TextView, message: String?) {
+    when (message) {
+        null, "" -> {
+            view.visibility = View.GONE
+        }
+        else -> {
+            view.text = message
+            view.visibility = View.VISIBLE
+        }
+    }
+}
+
 
 //
 //@BindingAdapter("selected")

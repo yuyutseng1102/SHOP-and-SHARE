@@ -5,10 +5,7 @@ import androidx.fragment.app.Fragment
 import com.chloe.shopshare.MyApplication
 import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.data.Product
-import com.chloe.shopshare.factory.ShopViewModelFactory
-import com.chloe.shopshare.factory.OptionViewModelFactory
-import com.chloe.shopshare.factory.ParticipateViewModelFactory
-import com.chloe.shopshare.factory.ViewModelFactory
+import com.chloe.shopshare.factory.*
 import java.util.*
 
 /**
@@ -18,6 +15,11 @@ import java.util.*
 fun Fragment.getVmFactory(): ViewModelFactory {
     val repository = (requireContext().applicationContext as MyApplication).repository
     return ViewModelFactory(repository)
+}
+
+fun Fragment.getVmFactory(id: String): IdViewModelFactory {
+    val repository = (requireContext().applicationContext as MyApplication).repository
+    return IdViewModelFactory(repository,id)
 }
 
 fun Fragment.getVmFactory(option: List<String>?,isStandard:Boolean): OptionViewModelFactory {

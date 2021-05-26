@@ -32,9 +32,9 @@ class HomePageFragment : Fragment() {
 
         viewModel.navigateToDetail.observe(viewLifecycleOwner, Observer {
             it?.let {
-                findNavController().navigate(
-                    NavigationDirections.navigateToDetailFragment(it)
-                )
+//                findNavController().navigate(
+//                    NavigationDirections.navigateToDetailFragment(it)
+//                )
                 viewModel.onDetailNavigated()
             }
         })

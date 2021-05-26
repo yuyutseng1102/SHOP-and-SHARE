@@ -20,9 +20,8 @@
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nestedScrollView"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:fillViewport="true"
-            app:layout_constraintBottom_toTopOf="@+id/bottom_block"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -39,7 +38,8 @@
                     android:background="#FFFFFF"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="gone">
 
                     <ImageView
                         android:id="@+id/detail_image"
@@ -82,6 +82,7 @@
 
                     <TextView
                         android:id="@+id/tag_category"
+                        style="@style/BlackContent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -97,6 +98,7 @@
 
                     <TextView
                         android:id="@+id/tag_country"
+                        style="@style/BlackContent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -122,7 +124,7 @@
 
                     <TextView
                         android:id="@+id/host_id"
-                        style="@style/DetailContent"
+                        style="@style/BlackContent"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
@@ -143,25 +145,117 @@
                         android:layout_marginTop="8dp"
                         android:text="成團條件"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/host_title" />
+                        app:layout_constraintTop_toBottomOf="@+id/host_time_title" />
 
                     <TextView
                         android:id="@+id/detail_condition_text"
-                        style="@style/DetailContent"
+                        style="@style/BlackContent"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="32dp"
+                        android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="16dp"
                         android:maxLines="2"
                         app:conditionToDisplay="@{viewModel.shop.condition}"
                         app:conditionType="@{viewModel.shop.conditionType}"
                         app:deadLineToDisplay="@{viewModel.shop.deadLine}"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/detail_condition_title"
                         app:layout_constraintTop_toTopOf="@+id/detail_condition_title"
                         tools:text="TextView" />
+
+                    <TextView
+                        android:id="@+id/host_time_title"
+                        style="@style/DetailSubTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="開團日期"
+                        app:layout_constraintStart_toStartOf="@+id/host_title"
+                        app:layout_constraintTop_toBottomOf="@+id/host_title" />
+
+                    <TextView
+                        android:id="@+id/host_time_text"
+                        style="@style/BlackContent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/host_time_title"
+                        app:layout_constraintStart_toEndOf="@+id/host_time_title"
+                        app:layout_constraintTop_toTopOf="@+id/host_time_title"
+                        app:timeToDisplayFormat="@{viewModel.shop.time}"
+                        tools:text="2021/05/09" />
+
+                    <View
+                        android:id="@+id/view_separation"
+                        android:layout_width="1dp"
+                        android:layout_height="14dp"
+                        android:layout_marginStart="16dp"
+                        android:background="@color/gray_cccccc"
+                        app:layout_constraintBottom_toBottomOf="@+id/host_time_text"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/host_time_text"
+                        app:layout_constraintTop_toTopOf="@+id/host_time_text"
+                        app:layout_constraintVertical_bias="0.5" />
+
+                    <TextView
+                        android:id="@+id/shop_status"
+                        style="@style/DetailSubTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:text='@{viewModel.shop.status == 0 ? "/ 開團中 /": "/ 已結團 /"}'
+                        android:textColor="@color/green_7A8277"
+                        app:layout_constraintBottom_toBottomOf="@+id/tag_country"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tag_country"
+                        tools:text="/ 已結團 /" />
+
+                    <TextView
+                        android:id="@+id/member_number_text"
+                        style="@style/BlackContent"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/host_time_text"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/view_separation"
+                        app:layout_constraintTop_toTopOf="@+id/host_time_text"
+                        app:memberNumberToDisplay="@{viewModel.orderList.size}"
+                        tools:text="已跟團 + 5" />
+
+
+                    <TextView
+                        android:id="@+id/source_title"
+                        style="@style/DetailSubTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:text="購買來源"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/detail_condition_text" />
+
+                    <TextView
+                        android:id="@+id/source_text"
+                        style="@style/BlackContent"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="@{viewModel.shop.source}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/source_title"
+                        app:layout_constraintTop_toTopOf="@+id/source_title"
+                        app:layout_constraintVertical_bias="0.0"
+                        tools:text="COSTCO" />
+
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -173,7 +267,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/detail_info_block">
+                    app:layout_constraintTop_toBottomOf="@+id/detail_info_block"
+                    tools:visibility="gone">
 
                     <TextView
                         android:id="@+id/deatil_option_title"
@@ -226,7 +321,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/option_block">
+                    app:layout_constraintTop_toBottomOf="@+id/option_block"
+                    tools:visibility="gone">
 
                     <TextView
                         android:id="@+id/deatil_delivery_title"
@@ -265,7 +361,8 @@
                     android:visibility="@{viewModel.isChecked==true?View.VISIBLE:View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/delivery_block">
+                    app:layout_constraintTop_toBottomOf="@+id/delivery_block"
+                    tools:visibility="gone">
 
                     <View
                         android:id="@+id/line_delivery_method"
@@ -295,10 +392,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:background="#FFFFFF"
-                    android:minHeight="200dp"
+                    android:minHeight="500dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/delivery_method_block">
+                    app:layout_constraintTop_toBottomOf="@+id/delivery_method_block"
+                    app:layout_constraintVertical_bias="0.0">
 
                     <androidx.viewpager.widget.ViewPager
                         android:id="@+id/viewpager_detail"

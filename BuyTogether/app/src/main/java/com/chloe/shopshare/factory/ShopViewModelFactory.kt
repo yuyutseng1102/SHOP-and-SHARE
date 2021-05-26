@@ -22,14 +22,6 @@ class ShopViewModelFactory(
                             shop
                         )
 
-                    isAssignableFrom(DetailViewModel::class.java) ->
-                        DetailViewModel(repository, shop)
-
-                    isAssignableFrom(DetailViewModel::class.java) ->
-                        DetailViewModel(repository, shop)
-
-
-
 
                     else ->
                         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

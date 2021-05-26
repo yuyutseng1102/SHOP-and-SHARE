@@ -17,6 +17,7 @@ import com.chloe.shopshare.detail.dialog.DetailOptionDialog
 import com.chloe.shopshare.detail.dialog.ProductListDialog
 import com.chloe.shopshare.detail.item.DetailDeliveryAdapter
 import com.chloe.shopshare.ext.getVmFactory
+import com.chloe.shopshare.network.LoadApiStatus
 import com.google.android.material.tabs.TabLayout
 
 
@@ -24,7 +25,7 @@ class DetailFragment : Fragment() {
 
     private val args: DetailFragmentArgs by navArgs()
 
-    private val viewModel by viewModels<DetailViewModel> { getVmFactory(args.shopKey) }
+    private val viewModel by viewModels<DetailViewModel> { getVmFactory(args.shopIdKey) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -36,13 +37,18 @@ class DetailFragment : Fragment() {
         val deliveryAdapter =  DetailDeliveryAdapter()
         binding.recyclerDeliveryList.adapter = deliveryAdapter
 
-
-
-        binding.viewpagerDetail.let{
+        binding.viewpagerDetail.let {
             binding.tabsDetail.setupWithViewPager(it)
-            it.adapter = DetailPagerAdapter(childFragmentManager,viewModel.shop.value!!.description)
             it.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(binding.tabsDetail))
         }
+
+        viewModel.shop.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                binding.viewpagerDetail.adapter = DetailPagerAdapter(childFragmentManager,it.description)
+            }
+        })
+
+
 
         viewModel.navigateToOption.observe(viewLifecycleOwner, Observer {
             it?.let {

@@ -1,6 +1,7 @@
 package com.chloe.shopshare.home.item
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -29,8 +30,21 @@ class HomeCollectFragment(private val homeType: HomeType) : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         binding.recyclerCollection.adapter = adapter
+        binding.isLiveDataDesign = MyApplication.instance.isLiveDataDesign()
 
-        viewModel.addMockData(homeType)
+//        viewModel.addMockData(homeType)
+
+        binding.layoutSwipeRefreshCollectionItem.setOnRefreshListener {
+            viewModel.refresh()
+            Log.d("Chloe", "home status = ${viewModel.status.value}")
+        }
+
+        viewModel.refreshStatus.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                binding.layoutSwipeRefreshCollectionItem.isRefreshing = it
+            }
+        })
+
 
         binding.spinnerHome.adapter = HomeSpinnerAdapter(
                 MyApplication.instance.resources.getStringArray(R.array.sort_method_list))

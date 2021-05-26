@@ -2,9 +2,10 @@ package com.chloe.shopshare.data
 
 import android.os.Parcelable
 import com.chloe.shopshare.ext.toDisplayFormat
+import com.google.firebase.firestore.IgnoreExtraProperties
 import kotlinx.android.parcel.Parcelize
 
-
+@IgnoreExtraProperties
 @Parcelize
 data class Shop(
     var id: String = "",
@@ -18,9 +19,10 @@ data class Shop(
     val category: Int = 0,
     val country: Int = 0,
     val source: String = "",
+    @field:JvmField
     val isStandard: Boolean = false,
-    val option:List<String> = listOf(""),
-    val deliveryMethod: List<Int> = listOf(),
+    var option:List<String> = listOf(""),
+    var deliveryMethod: List<Int> = listOf(),
     val conditionType: Int? = null,
     val deadLine: Long? =null,
     val condition: Int? = null,

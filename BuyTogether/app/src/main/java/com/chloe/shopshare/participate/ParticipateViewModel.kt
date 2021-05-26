@@ -5,12 +5,19 @@ import android.widget.RadioButton
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.chloe.shopshare.MyApplication
+import com.chloe.shopshare.R
 import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.data.Order
 import com.chloe.shopshare.data.Product
+import com.chloe.shopshare.data.Result
 import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.host.DeliveryMethod
 import com.chloe.shopshare.network.LoadApiStatus
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.util.*
 
 class ParticipateViewModel(
@@ -36,10 +43,61 @@ class ParticipateViewModel(
     val order: LiveData<Order>
         get() = _order
 
+    // status: The internal MutableLiveData that stores the status of the most recent request
+    private val _status = MutableLiveData<LoadApiStatus>()
+
+    val status: LiveData<LoadApiStatus>
+        get() = _status
+
+    // error: The internal MutableLiveData that stores the error of the most recent request
+    private val _error = MutableLiveData<String>()
+
+    val error: LiveData<String>
+        get() = _error
+
+    private val _leave = MutableLiveData<Boolean>()
+
+    val leave: LiveData<Boolean>
+        get() = _leave
+
+    // Create a Coroutine scope using a job to be able to cancel when needed
+    private var viewModelJob = Job()
+
+    // the Coroutine runs using the Main (UI) dispatcher
+    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
+
+    fun postOrder(shopId: String, order: Order) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            when (val result = repository.postOrder(shopId, order)) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    leave(true)
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                }
+                else -> {
+                    _error.value = MyApplication.instance.getString(R.string.result_fail)
+                    _status.value = LoadApiStatus.ERROR
+                }
+            }
+        }
+    }
+
     //order data
     val orderId = "19479203"
     val orderTime: Long= Calendar.getInstance().timeInMillis
-    val userId = "193798"
+    val userId = "chloe123"
     val name = MutableLiveData<String>()
     val price = MutableLiveData<Int>()
     val phone = MutableLiveData<String>()
@@ -138,10 +196,6 @@ class ParticipateViewModel(
         get() =  _isInvalid
 
 
-    private val _status = MutableLiveData<LoadApiStatus>()
-    val status: LiveData<LoadApiStatus>
-        get() = _status
-
     fun readyToPost() {
         //紅字訊息提醒
         _isInvalid.value =
@@ -177,8 +231,7 @@ class ParticipateViewModel(
         }
 
         _order.value = Order(
-                id = orderId,
-                time = orderTime,
+
                 userId = userId,
                 product = _product.value!!,
                 price = price.value!!,
@@ -191,6 +244,10 @@ class ParticipateViewModel(
 
         orderList.add( _order.value)
         _shop.value?.order = orderList
+    }
+
+    fun leave(needRefresh: Boolean = false) {
+        _leave.value = needRefresh
     }
 
 
