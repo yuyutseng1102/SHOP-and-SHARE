@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import com.chloe.shopshare.data.Order
 import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.data.Result
+import com.chloe.shopshare.data.User
+import com.google.firebase.auth.FirebaseAuth
 
 /**
  *
@@ -12,6 +14,9 @@ import com.chloe.shopshare.data.Result
  */
 
 interface Repository {
+
+    suspend fun signInWithGoogle(idToken: String): Result<User>
+    suspend fun getUserProfile(userId: String): Result<User>
 
     suspend fun getOpeningShop(): Result<List<Shop>>
 

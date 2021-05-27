@@ -10,6 +10,8 @@
     <string name="gather">發起團購</string>
     <string name="collection">開團查詢</string>
     <string name="collection_manage">團購管理</string>
+    <string name="participate">訂單填寫</string>
+    <string name="notify">通知清單</string>
 
     <!-- Sort Method-->
     <string name="select_sort">選擇排序方式</string>

@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import com.chloe.shopshare.data.Order
 import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.data.Result
+import com.chloe.shopshare.data.User
+import com.google.firebase.auth.FirebaseAuth
 
 /**
  *
@@ -12,18 +14,16 @@ import com.chloe.shopshare.data.Result
  */
 interface DataSource {
 
+    suspend fun signInWithGoogle(idToken: String): Result<User>
+    suspend fun getUserProfile(userId: String): Result<User>
+
     suspend fun getOpeningShop(): Result<List<Shop>>
 
     suspend fun getDetailShop(shopId: String): Result<Shop>
     fun getLiveDetailShop(shopId: String): MutableLiveData<Shop>
-//    suspend fun getLiveDetailShop(shopId: String): Result<Shop>
-
-
-
 
     suspend fun getOrderOfShop(shopId: String): Result<List<Order>>
     fun getLiveOrderOfShop(shopId: String): MutableLiveData<List<Order>>
-//    suspend fun getLiveOrderOfShop(shopId: String): Result<List<Order>>
 
     suspend fun getMyShop(userId:String): Result<List<Shop>>
     suspend fun deleteOrder(shopId: String, order: Order): Result<Boolean>

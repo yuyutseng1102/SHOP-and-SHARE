@@ -114,6 +114,11 @@ dependencies {
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-storage'
 
+    // Firebase Authentication (帳號驗證模組)
+    implementation 'com.google.firebase:firebase-auth:21.0.1'
+    // Firebase Auth UI (第三方登入畫面模組)
+    implementation 'com.firebaseui:firebase-ui-auth:6.4.0'
+    implementation 'com.google.android.material:material:1.3.0'
 
     testImplementation 'junit:junit:4.13'
     testImplementation 'androidx.test:core:1.2.0'

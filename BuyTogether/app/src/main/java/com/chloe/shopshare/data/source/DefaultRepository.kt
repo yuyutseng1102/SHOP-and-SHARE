@@ -5,11 +5,22 @@ import androidx.lifecycle.MutableLiveData
 import com.chloe.shopshare.data.Order
 import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.data.Result
+import com.chloe.shopshare.data.User
+import com.google.firebase.auth.FirebaseAuth
 
 
 class DefaultRepository (private val remoteDataSource: DataSource,
                          private val localDataSource: DataSource
 ) : Repository {
+    override suspend fun signInWithGoogle(idToken: String): Result<User> {
+        return remoteDataSource.signInWithGoogle(idToken)
+    }
+
+    override suspend fun getUserProfile(userId: String): Result<User> {
+        return remoteDataSource.getUserProfile(userId)
+    }
+
+
     override suspend fun getOpeningShop(): Result<List<Shop>> {
         return remoteDataSource.getOpeningShop()
     }

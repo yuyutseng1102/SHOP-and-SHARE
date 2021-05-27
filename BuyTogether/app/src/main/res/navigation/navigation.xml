@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -116,7 +116,11 @@
 
 
     <action android:id="@+id/navigate_to_success_dialog" app:destination="@id/successDialog"/>
-
+    <action android:id="@+id/navigate_to_login_fragment" app:destination="@id/loginFragment"/>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.chloe.shopshare.login.LoginFragment"
+        android:label="LoginFragment" />
 
 
 </navigation>
