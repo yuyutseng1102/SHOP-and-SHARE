@@ -7,11 +7,12 @@ import kotlinx.android.parcel.Parcelize
 @IgnoreExtraProperties
 @Parcelize
 data class Notify(
-    val id: String,
-    val shopId: String,
-    val time: Long,
-    val type: Int,
-    val content: String
+    var id: String = "",
+    val shopId: String = "",
+    val orderId: String? = null,
+    var time: Long = 0L,
+    val type: Int = 10,
+    val content: String? = null
 ): Parcelable {
     @field:JvmField
     @IgnoredOnParcel

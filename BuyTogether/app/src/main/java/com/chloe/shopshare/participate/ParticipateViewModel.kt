@@ -14,6 +14,7 @@ import com.chloe.shopshare.data.Result
 import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.host.DeliveryMethod
 import com.chloe.shopshare.network.LoadApiStatus
+import com.chloe.shopshare.util.UserManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -97,7 +98,7 @@ class ParticipateViewModel(
     //order data
     val orderId = "19479203"
     val orderTime: Long= Calendar.getInstance().timeInMillis
-    val userId = "chloe123"
+    val userId = UserManager.userId
     val name = MutableLiveData<String>()
     val price = MutableLiveData<Int>()
     val phone = MutableLiveData<String>()
@@ -232,7 +233,7 @@ class ParticipateViewModel(
 
         _order.value = Order(
 
-                userId = userId,
+                userId = userId!!,
                 product = _product.value!!,
                 price = price.value!!,
                 phone = phone.value!!,

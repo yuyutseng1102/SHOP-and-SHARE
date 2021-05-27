@@ -3,11 +3,8 @@ package com.chloe.shopshare.data.source.local
 import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
-import com.chloe.shopshare.data.Order
-import com.chloe.shopshare.data.Shop
+import com.chloe.shopshare.data.*
 import com.chloe.shopshare.data.source.DataSource
-import com.chloe.shopshare.data.Result
-import com.chloe.shopshare.data.User
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -65,6 +62,27 @@ class LocalDataSource(val context: Context): DataSource {
 
 
     override suspend fun uploadImage(uri: Uri, folder: String): Result<String> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun addSubscribe(userId: String, shopId: String): Result<Boolean> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun removeSubscribe(userId: String, shopId: String): Result<Boolean> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun postShopNotifyToMember(notify: Notify): Result<Boolean> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun postNotifyToHost(hostId: String, notify: Notify): Result<Boolean> {
+        TODO("Not yet implemented")
+    }
+
+
+    override fun getLiveNotify(userId: String): MutableLiveData<List<Notify>> {
         TODO("Not yet implemented")
     }
 }

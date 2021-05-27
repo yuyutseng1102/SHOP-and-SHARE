@@ -2,11 +2,7 @@ package com.chloe.shopshare.data.source
 
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
-import com.chloe.shopshare.data.Order
-import com.chloe.shopshare.data.Shop
-import com.chloe.shopshare.data.Result
-import com.chloe.shopshare.data.User
-import com.google.firebase.auth.FirebaseAuth
+import com.chloe.shopshare.data.*
 
 
 class DefaultRepository (private val remoteDataSource: DataSource,
@@ -74,6 +70,27 @@ class DefaultRepository (private val remoteDataSource: DataSource,
 
     override suspend fun uploadImage(uri: Uri,folder:String): Result<String> {
         return remoteDataSource.uploadImage(uri,folder)
+    }
+
+    override suspend fun addSubscribe(userId: String, shopId: String): Result<Boolean> {
+        return remoteDataSource.addSubscribe(userId,shopId)
+    }
+
+    override suspend fun removeSubscribe(userId: String, shopId: String): Result<Boolean> {
+        return remoteDataSource.removeSubscribe(userId,shopId)
+    }
+
+    override suspend fun postShopNotifyToMember(notify: Notify): Result<Boolean> {
+        return remoteDataSource.postShopNotifyToMember(notify)
+    }
+
+    override suspend fun postNotifyToHost(hostId: String, notify: Notify): Result<Boolean> {
+        return remoteDataSource.postNotifyToHost(hostId, notify)
+    }
+
+
+    override fun getLiveNotify(userId: String): MutableLiveData<List<Notify>> {
+        return remoteDataSource.getLiveNotify(userId)
     }
 
 
