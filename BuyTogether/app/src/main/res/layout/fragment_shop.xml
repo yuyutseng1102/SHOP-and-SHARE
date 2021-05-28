@@ -37,19 +37,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
         <TextView
             android:id="@+id/default_text"
             style="@style/DetailSubTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
-            android:visibility="@{(viewModel.status == LoadApiStatus.DONE &amp;&amp; viewModel.shop == null)?View.VISIBLE:View.GONE}"
             android:text="尚無團購紀錄"
+            android:visibility="@{viewModel.visible==true?View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <ProgressBar
             android:layout_width="wrap_content"

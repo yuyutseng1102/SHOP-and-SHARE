@@ -6,16 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.chloe.shopshare.MyApplication
 import com.chloe.shopshare.R
-import com.chloe.shopshare.data.Shop
-import com.chloe.shopshare.data.Order
-import com.chloe.shopshare.data.Product
+import com.chloe.shopshare.data.*
 import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.network.LoadApiStatus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import com.chloe.shopshare.data.Result
+import com.chloe.shopshare.util.UserManager
 import java.util.*
 
 class ShopViewModel(private val repository: Repository): ViewModel() {
@@ -31,10 +29,16 @@ class ShopViewModel(private val repository: Repository): ViewModel() {
         get() = _status
 
     // error: The internal MutableLiveData that stores the error of the most recent request
-    private val _error = MutableLiveData<String>()
+    private val _error = MutableLiveData<String?>()
 
-    val error: LiveData<String>
+    val error: LiveData<String?>
         get() = _error
+
+    // error: The internal MutableLiveData that stores the error of the most recent request
+    private val _visible = MutableLiveData<Boolean>()
+
+    val visible: LiveData<Boolean>
+        get() = _visible
 
     // status for the loading icon of swl
     private val _refreshStatus = MutableLiveData<Boolean>()
@@ -47,16 +51,21 @@ class ShopViewModel(private val repository: Repository): ViewModel() {
 
     // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
+    lateinit var userId : String
 
     init {
-        getMyShop("chloe123")
+        _visible.value = false
+        UserManager.userId?.let {
+            userId = it
+            getMyShop(userId)
+        }
     }
 
 
 
     // Handle navigation to manage
-    private val _navigateToManage = MutableLiveData<String>()
-    val navigateToManage: LiveData<String>
+    private val _navigateToManage = MutableLiveData<String?>()
+    val navigateToManage: LiveData<String?>
         get() = _navigateToManage
 
     fun navigateToManage(shopId: String) {
@@ -94,13 +103,17 @@ class ShopViewModel(private val repository: Repository): ViewModel() {
                     null
                 }
             }
+            Log.d("Shop","shop is ${_shop.value}")
+
+            _visible.value = _shop.value.isNullOrEmpty()
+            Log.d("Shop","visible is ${_visible.value}")
             _refreshStatus.value = false
         }
     }
 
     fun refresh() {
         if (status.value != LoadApiStatus.LOADING) {
-            getMyShop("chloe123")
+            getMyShop(userId)
         }
     }
 

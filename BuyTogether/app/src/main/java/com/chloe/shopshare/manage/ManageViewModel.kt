@@ -6,11 +6,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.chloe.shopshare.MyApplication
 import com.chloe.shopshare.R
+import com.chloe.shopshare.data.Notify
 import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.data.Order
 import com.chloe.shopshare.data.Result
 import com.chloe.shopshare.data.source.Repository
+import com.chloe.shopshare.ext.toDisplayNotifyContent
+import com.chloe.shopshare.ext.toDisplayNotifyMessage
 import com.chloe.shopshare.network.LoadApiStatus
+import com.chloe.shopshare.notify.NotifyType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -43,10 +47,6 @@ class ManageViewModel(
     private val _isChecked = MutableLiveData<Boolean>()
     val isChecked: LiveData<Boolean>
         get() = _isChecked
-
-//    private val _shopStatus = MutableLiveData<Int>()
-//    val shopStatus: LiveData<Int>
-//        get() = _shopStatus
 
     val messageContent = MutableLiveData<String>()
 
@@ -84,11 +84,10 @@ class ManageViewModel(
         Log.i("Chloe", "Detail")
 
         _shopId.value?.let {
-
-                getDetailShop(it)
-                getOrderOfShop(it)
+            Log.i("Order", "shopId = ${_shopId.value}")
+            getDetailShop(it)
+            getOrderOfShop(it)
             }
-
         }
 
     override fun onCleared() {
@@ -96,6 +95,115 @@ class ManageViewModel(
         viewModelJob.cancel()
     }
 
+    fun refresh() {
+            if (status.value != LoadApiStatus.LOADING) {
+                _shop.value?.let {
+                    getDetailShop(it.id)
+                    getOrderOfShop(it.id)
+                }
+            }
+    }
+
+
+    var checkedMemberPosition = MutableLiveData<Int?>()
+    private val deleteList: MutableList<Order>? = mutableListOf()
+
+
+
+    //打勾的是即將要刪除的團員
+    fun checkAgain(member: Order, position: Int){
+        checkedMemberPosition.value = position
+        Log.d("checkChloe","selectMember=$member, position=$position")
+        _member.value = member
+        if (_member.value!=null) {
+            if (_member.value!!.isCheck) {
+                deleteList?.add(_member.value!!)
+            }else if (!_member.value!!.isCheck){
+                deleteList?.remove(_member.value!!)
+            }
+            Log.d("checkChloe","deleteList=${deleteList}")
+        }
+    }
+
+    fun deleteMember() {
+        shop.value?.let {
+            if(deleteList!=null){
+                for(i in deleteList){
+                    deleteOrder(it.id, i)
+                }
+            }
+        }
+    }
+
+
+    //點選確定後
+    //把剩下的所有團員 狀態改為待付款
+
+    fun readyCollect(){
+        _shop.value?.let{
+            updateOrderStatus(it.id,1)
+            updateShopStatus(it.id, 1)
+            expectStatus.value = 0
+        }
+    }
+
+    //按鈕改變團購狀態
+
+    var expectStatus = MutableLiveData<Int>()
+
+
+    fun clickStatus(status:Int){
+        expectStatus.value = status
+        Log.d("Chloe","i want to change the status to $expectStatus")
+    }
+
+    fun updateStatus(){
+        _shop.value?.let{
+            updateShopStatus(it.id, expectStatus.value!!)
+            expectStatus.value = 0
+        }
+
+        Log.d("Chloe","after update, now status is $${_shop.value?.status}")
+    }
+
+    fun editShopNotify(){
+        var notify: Notify? = null
+        _shop.value?.let {
+            val notifyType : NotifyType =
+                when (it.status){
+                    1 -> NotifyType.STATUS_CHANGE_TO_GATHER_SUCCESS
+                    2 -> NotifyType.STATUS_CHANGE_TO_ORDER_SUCCESS
+                    3 -> NotifyType.STATUS_CHANGE_TO_SHOP_SHIPMENT
+                    4 -> NotifyType.STATUS_CHANGE_TO_SHIPMENT_SUCCESS
+                    5 -> NotifyType.STATUS_CHANGE_TO_PACKAGING
+                    6 -> NotifyType.STATUS_CHANGE_TO_SHIPMENT
+                    7 -> NotifyType.STATUS_CHANGE_TO_FINISH
+                    else -> NotifyType.STATUS_CHANGE_TO_GATHER_SUCCESS
+                }
+            if (!messageContent.value.isNullOrEmpty()){
+                notify = Notify(
+                    shopId = it.id,
+                    type = notifyType.type,
+                    title = notifyType.title,
+                    content = notifyType.toDisplayNotifyContent(_shop.value!!.title),
+                    message = messageContent.value
+                )
+            }else if (messageContent.value.isNullOrEmpty() && (it.status == 1 || it.status == 6 || it.status == 7)) {
+                notify = Notify(
+                    shopId = it.id,
+                    type = notifyType.type,
+                    title = notifyType.title,
+                    content = notifyType.toDisplayNotifyContent(_shop.value!!.title)
+                )
+            }else{
+                notify = null
+            }
+        }
+
+        notify?.let {
+            postShopNotifyToMember(it)
+        }
+    }
 
 
     private fun getDetailShop(shopId: String) {
@@ -110,6 +218,7 @@ class ManageViewModel(
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
+                    Log.i("Order", "shop result = ${result.data}")
                     result.data
                 }
                 is Result.Fail -> {
@@ -131,18 +240,18 @@ class ManageViewModel(
             _refreshStatus.value = false
         }
     }
-
 
     private fun getOrderOfShop(shopId : String) {
 
         coroutineScope.launch {
             _status.value = LoadApiStatus.LOADING
             val result = repository.getOrderOfShop(shopId)
+            Log.i("Order", "orderResult = $result")
             _order.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-                    Log.d("Chloe","result = ${result.data}")
+                    Log.i("Order", "orderResult = ${result.data}")
                     result.data
                 }
                 is Result.Fail -> {
@@ -165,37 +274,6 @@ class ManageViewModel(
         }
 
     }
-
-    fun updateShopStatus(shopId: String, shopStatus: Int) {
-
-        coroutineScope.launch {
-
-            _status.value = LoadApiStatus.LOADING
-
-            when (val result = repository.updateShopStatus(shopId,shopStatus)) {
-                is Result.Success -> {
-                    _error.value = null
-                    _status.value = LoadApiStatus.DONE
-                    refresh()
-                }
-                is Result.Fail -> {
-                    _error.value = result.error
-                    _status.value = LoadApiStatus.ERROR
-                }
-                is Result.Error -> {
-                    _error.value = result.exception.toString()
-                    _status.value = LoadApiStatus.ERROR
-                }
-                else -> {
-                    _error.value = MyApplication.instance.getString(R.string.result_fail)
-                    _status.value = LoadApiStatus.ERROR
-                }
-            }
-            _refreshStatus.value = false
-        }
-    }
-
-
 
     private fun deleteOrder(shopId: String, order: Order) {
 
@@ -232,195 +310,107 @@ class ManageViewModel(
         }
     }
 
-    fun refresh() {
+    private fun updateShopStatus(shopId: String, shopStatus: Int) {
 
-            if (status.value != LoadApiStatus.LOADING) {
-                _shop.value?.let {
-                    getDetailShop(it.id)
-                    getOrderOfShop(it.id)
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            when (val result = repository.updateShopStatus(shopId,shopStatus)) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    refresh()
                 }
-
-            }
-
-    }
-
-
-    var checkedMemberPosition = MutableLiveData<Int?>()
-//    var orderList: MutableList<Order>? = mutableListOf()
-private val deleteList: MutableList<Order>? = mutableListOf()
-
-
-
-    //打勾的是即將要刪除的團員
-    fun checkAgain(member: Order, position: Int){
-        checkedMemberPosition.value = position
-        Log.d("checkChloe","selectMember=$member, position=$position")
-        _member.value = member
-        if (_member.value!=null) {
-            if (_member.value!!.isCheck) {
-                deleteList?.add(_member.value!!)
-            }else if (!_member.value!!.isCheck){
-                deleteList?.remove(_member.value!!)
-            }
-            Log.d("checkChloe","deleteList=${deleteList}")
-        }
-    }
-
-    fun deleteMember() {
-        shop.value?.let {
-            if(deleteList!=null){
-//            val realList = _order.value?.toMutableList()
-                for(i in deleteList){
-                    deleteOrder(it.id, i)
-//realList?.remove(i)
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
                 }
-//            _order.value = realList
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                }
+                else -> {
+                    _error.value = MyApplication.instance.getString(R.string.result_fail)
+                    _status.value = LoadApiStatus.ERROR
+                }
+            }
+            _refreshStatus.value = false
+        }
+    }
+
+    private fun updateOrderStatus(shopId: String,paymentStatus: Int) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            when (val result = repository.updateOrderStatus(shopId,paymentStatus)) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    refresh()
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                }
+                else -> {
+                    _error.value = MyApplication.instance.getString(R.string.result_fail)
+                    _status.value = LoadApiStatus.ERROR
+                }
+            }
+            _refreshStatus.value = false
+        }
+    }
+
+    private fun postShopNotifyToMember(notify: Notify) {
+        coroutineScope.launch {
+            _status.value = LoadApiStatus.LOADING
+            when (val result = repository.postShopNotifyToMember(notify)) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                }
+                else -> {
+                    _error.value = MyApplication.instance.getString(R.string.result_fail)
+                    _status.value = LoadApiStatus.ERROR
+                }
             }
         }
-    }
-
-
-    //點選確定後
-    //把剩下的所有團員 狀態改為待付款
-
-    fun readyCollect(){
-
-        if (_order.value!=null){
-                for (i in _order.value!!){
-                    i?.paymentStatus = 1
-                }
-        }
-            Log.d("Chloe","after delete, order value is ${_order.value}")
-            //更新collection
-            _shop.value?.order =_order.value
-            Log.d("Chloe","after update, now collection is ${_shop.value}")
-        //更新collection的status
-
-        _shop.value?.let{
-            updateShopStatus(it.id, 1)
-            expectStatus.value = 0
-        }
-
-        Log.d("Chloe","after update, now status is ${_shop.value?.status}")
-        }
-
-    //按鈕改變團購狀態
-
-    var expectStatus = MutableLiveData<Int>()
-
-
-    fun clickStatus(status:Int){
-        expectStatus.value = status
-        Log.d("Chloe","i want to change the status to $expectStatus")
-    }
-
-    fun updateStatus(){
-//        _shopStatus.value = expectStatus.value
-        _shop.value?.let{
-            updateShopStatus(it.id, expectStatus.value!!)
-            expectStatus.value = 0
-        }
-
-        Log.d("Chloe","after update, now status is $${_shop.value?.status}")
-    }
-
-
-    fun leave(needRefresh: Boolean = false) {
-        _leave.value = needRefresh
-    }
-
-    fun onLeft() {
-        _leave.value = null
     }
 
 }
 
 
-
-
-
-
-//    private val _product = MutableLiveData<List<Product>>().apply {
-//        value = products
-//    }
-//    val product: LiveData<List<Product>>
-//        get() = _product
-
-
-
-//    val orderList: MutableList<Order> = mutableListOf()
-//    fun addMockData(){
-//
-//        orderList.add(Order(
-//                orderId, orderTime, userId, products, price, phone, delivery,note,mockPaymentStatus
-//        ))
-//        orderList.add(Order(
-//                orderId, orderTime, userId, products2, price, phone, delivery,note,mockPaymentStatus
-//        ))
-//        orderList.add(Order(
-//                orderId, orderTime, userId, products, price, phone, delivery,note,mockPaymentStatus
-//        ))
-//        _order.value = orderList
-//    }
-//if (orderList!=null) {
-//    for (i in orderList) {
-//        i.paymentStatus = 1
-//    }
-//    _order.value = orderList
-//
-//}else _order.value = null
-//
-//if (_order.value!=null) {
-//    for (i in _order.value!!) {
-//        _collection.value?.order = _collection.value?.order?.filter { it.orderId == i.orderId }
-//        Log.d("Chloe", "order value now is ${_collection.value?.order}")
-//    }
-//}else{
-//    _collection.value?.order = listOf()
-//}
-
-//    fun checkMember(member: Order, position: Int) {
-//        Log.d("checkChloe","selectMember=$member, position=$position")
-//        checkedMemberPosition.value = position
-//        _member.value = member
-//
-//        if(_member.value!=null){deleteList?.add(_member.value!!)}
-//        Log.d("checkChloe","_memberChecked.value=${_member.value}, paymentStatus=${_member.value?.paymentStatus}")
-//        Log.d("checkChloe","deleteList=${deleteList}")
-//    }
-//
-//    fun removeCheckMember(member: Order, position: Int) {
-//        Log.d("checkChloe","remove selectMember=$member, position=$position")
-//        checkedMemberPosition.value = position
-//        _member.value = member
-//        if(_member.value!=null){deleteList?.remove(_member.value!!)}
-//        Log.d("checkChloe","remove _memberChecked.value=${_member.value}, paymentStatus=${_member.value?.paymentStatus}")
-//        Log.d("checkChloe","deleteList=${deleteList}")
-//    }
-//fun check(){
-//    _isChecked.value = true
-//    _order.value!![checkedMemberPosition.value!!]
-//}
-//fun unCheck(){
-//    _isChecked.value = false
-//}
-//先把現有的order都加到list
-//        if (_order.value != null) {
-//             orderList = mutableListOf()
-//            if (orderList.isNullOrEmpty()) {
-//                for (i in _order.value!!) {
-//
-//                    orderList?.add(i!!)
+//fun readyCollect(){
+//        if (_order.value!=null){
+//                for (i in _order.value!!){
+//                    i?.paymentStatus = 1
 //                }
-//            }
-//                Log.d("Chloe", "after order value is $orderList")
-//                //再把上面有勾起來的都刪掉,並改變現有的order
-//                if (deleteList != null) {
-//                    for (i in deleteList) {
-//                        orderList?.remove(i)
-//                        deleteList.remove(i)
-//                        _order.value = orderList
-//                    }
+//        }
+//            Log.d("Chloe","after delete, order value is ${_order.value}")
+//            //更新collection
+//            _shop.value?.order =_order.value
+//            Log.d("Chloe","after update, now collection is ${_shop.value}")
+//        //更新collection的status
 //
-//                }
-//            }
+//    _shop.value?.let{
+//        updateOrderStatus(it.id,1)
+//        updateShopStatus(it.id, 1)
+//        expectStatus.value = 0
+//    }
+//}

@@ -3,7 +3,7 @@ package com.chloe.shopshare.notify
 import com.chloe.shopshare.R
 import com.chloe.shopshare.util.Util
 
-enum class NotifyType(type:Int, title: String) {
+enum class NotifyType(val type:Int, val title: String) {
 
     STATUS_CHANGE_TO_GATHER_SUCCESS(1001, Util.getString(R.string.status_change_to_gather_success)),
     STATUS_CHANGE_TO_ORDER_SUCCESS(1002,Util.getString(R.string.status_change)),
@@ -18,7 +18,8 @@ enum class NotifyType(type:Int, title: String) {
     QUANTITY_REACH_CONDITION(2102,Util.getString(R.string.reach_condition)),
     MEMBER_REACH_CONDITION(2103,Util.getString(R.string.reach_condition)),
     REACH_DEADLINE(2104,Util.getString(R.string.reach_deadline)),
-    SOON_TO_END(3001,Util.getString(R.string.soon_to_end))
+    SOON_TO_END(3001,Util.getString(R.string.soon_to_end)),
+    SYSTEM_NOTIFY(4000,"")
 
 }
 

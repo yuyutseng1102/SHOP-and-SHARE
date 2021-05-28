@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.util.*
+import com.chloe.shopshare.util.UserManager
 import com.chloe.shopshare.data.Result
 
 class HostViewModel(private val repository: Repository) : ViewModel() {
@@ -262,28 +263,29 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
 
 
     fun postGatherCollection(){
+        UserManager.userId?.let {
+            _shop.value = Shop(
+                userId = it,
+                type = method,
+                mainImage = image.value?.get(0) ?:"",
+                image = image.value?: listOf(),
+                title = title.value?:"",
+                description = description.value?:"",
+                category = category.value?:0,
+                country = country.value?:0,
+                source = source.value?:"",
+                isStandard = isStandard.value?:false,
+                option = option.value?: listOf(),
+                deliveryMethod = deliveryMethod.value?: listOf(),
+                conditionType = conditionType.value,
+                deadLine = deadLine.value,
+                condition = condition.value,
+                status = 0,
+                order = listOf()
+            )
+        }
 
-        _shop.value = Shop(
-//            id = "chloe123",
-            userId = "chloe123",
-//            time = Calendar.getInstance().timeInMillis,
-            type = method,
-            mainImage = image.value?.get(0) ?:"",
-            image = image.value?: listOf(),
-            title = title.value?:"",
-            description = description.value?:"",
-            category = category.value?:0,
-            country = country.value?:0,
-            source = source.value?:"",
-            isStandard = isStandard.value?:false,
-            option = option.value?: listOf(),
-            deliveryMethod = deliveryMethod.value?: listOf(),
-            conditionType = conditionType.value,
-            deadLine = deadLine.value,
-            condition = condition.value,
-            status = 0,
-            order = listOf()
-        )
+
         Log.d("Chloe","The collection posted is ${_shop.value}")
     }
 

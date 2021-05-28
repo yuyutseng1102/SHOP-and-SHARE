@@ -43,6 +43,7 @@ class DefaultRepository (private val remoteDataSource: DataSource,
         return remoteDataSource.getOrderOfShop(shopId)
     }
 
+
 //    override suspend fun getLiveOrderOfShop(shopId: String): Result<List<Order>> {
 //        return remoteDataSource.getLiveOrderOfShop(shopId)
 //    }
@@ -60,11 +61,15 @@ class DefaultRepository (private val remoteDataSource: DataSource,
         return remoteDataSource.updateShopStatus(shopId,shopStatus)
     }
 
+    override suspend fun updateOrderStatus(shopId: String, paymentStatus: Int): Result<Boolean> {
+        return remoteDataSource.updateOrderStatus(shopId,paymentStatus)
+    }
+
     override suspend fun postShop(shop: Shop): Result<Boolean> {
         return remoteDataSource.postShop(shop)
     }
 
-    override suspend fun postOrder(shopId: String, order: Order): Result<Boolean> {
+    override suspend fun postOrder(shopId: String, order: Order): Result<PostOrderResult> {
         return remoteDataSource.postOrder(shopId, order)
     }
 

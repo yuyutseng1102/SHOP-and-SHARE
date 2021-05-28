@@ -1,5 +1,6 @@
 package com.chloe.shopshare.data
 
+import android.os.Message
 import android.os.Parcelable
 import com.google.firebase.firestore.IgnoreExtraProperties
 import kotlinx.android.parcel.IgnoredOnParcel
@@ -12,7 +13,9 @@ data class Notify(
     val orderId: String? = null,
     var time: Long = 0L,
     val type: Int = 10,
-    val content: String? = null
+    val title: String = "",
+    val content: String =  "",
+    val message: String? = null
 ): Parcelable {
     @field:JvmField
     @IgnoredOnParcel

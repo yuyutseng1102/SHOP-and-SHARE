@@ -25,10 +25,11 @@ interface DataSource {
     suspend fun getMyShop(userId:String): Result<List<Shop>>
     suspend fun deleteOrder(shopId: String, order: Order): Result<Boolean>
     suspend fun updateShopStatus(shopId: String, shopStatus:Int): Result<Boolean>
+    suspend fun updateOrderStatus(shopId: String, paymentStatus: Int): Result<Boolean>
 
 
     suspend fun postShop(shop: Shop): Result<Boolean>
-    suspend fun postOrder(shopId: String, order: Order): Result<Boolean>
+    suspend fun postOrder(shopId: String, order: Order): Result<PostOrderResult>
 
     suspend fun uploadImage(uri: Uri,folder:String): Result<String>
 

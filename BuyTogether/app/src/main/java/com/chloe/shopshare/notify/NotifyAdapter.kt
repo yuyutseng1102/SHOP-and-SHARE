@@ -18,18 +18,20 @@ class NotifyAdapter(private val viewModel: NotifyViewModel) : ListAdapter<Notify
             binding.item = item
             binding.viewModel = viewModel
             binding.notifyExpandButton.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked){
-                    item.isCheck = isChecked
-                    Log.d("checkChloe", "isChecked")
-                    binding.messageBlock.visibility = View.VISIBLE
-                    NotifyAdapter(viewModel).notifyDataSetChanged()
+                when (isChecked){
+                    true ->{
+                        item.isCheck = true
+                        Log.d("checkChloe", "isChecked = ${item.isCheck}")
+                        binding.messageBlock.visibility = View.VISIBLE
+                        NotifyAdapter(viewModel).notifyDataSetChanged()}
+                    else->{
+                        item.isCheck = false
+                        Log.d("checkChloe", "isUnChecked = ${item.isCheck}")
+                        binding.messageBlock.visibility = View.GONE
+                        NotifyAdapter(viewModel).notifyDataSetChanged()
+                    }
                 }
-                else{
-                    item.isCheck = false
-                    Log.d("checkChloe", "isUnChecked")
-                    binding.messageBlock.visibility = View.GONE
-                    NotifyAdapter(viewModel).notifyDataSetChanged()
-                }
+
 
             }
             binding.executePendingBindings()

@@ -80,169 +80,21 @@ class DetailViewModel(
         Log.i("Chloe", "Detail")
         isChecked.value = false
         _shopId.value?.let {
-            if (MyApplication.instance.isLiveDataDesign()) {
-                getLiveDetailShop(it)
-                getLiveOrderOfShop(it)
-                Log.i("Chloe", "_shop is ${_shop.value}")
-            } else {
-                getDetailShop(it)
-                getOrderOfShop(it)
-            }
-        }
-    }
-//
-//    init {
-//        Log.d("Chloe", "Detail")
-//        isChecked.value = false
-//
-//        _shopId.value?.let { getDetailShop(it) }
-//
-//        _shop.value?.let { getOrderOfShop(it.id) }
-//
-//    }
-
-
-//    private fun getDetailShop(shopId: String) {
-//
-//        coroutineScope.launch {
-//
-//            _status.value = LoadApiStatus.LOADING
-//
-//            val result = repository.getLiveDetailShop(shopId)
-//
-//            _shop.value = when (result) {
-//                is Result.Success -> {
-//                    _error.value = null
-//                    _status.value = LoadApiStatus.DONE
-//                    result.data
-//                }
-//                is Result.Fail -> {
-//                    _error.value = result.error
-//                    _status.value = LoadApiStatus.ERROR
-//                    null
-//                }
-//                is Result.Error -> {
-//                    _error.value = result.exception.toString()
-//                    _status.value = LoadApiStatus.ERROR
-//                    null
-//                }
-//                else -> {
-//                    _error.value = MyApplication.instance.getString(R.string.result_fail)
-//                    _status.value = LoadApiStatus.ERROR
-//                    null
-//                }
-//            }
-//            _refreshStatus.value = false
-//        }
-//    }
-
-
-
-    private fun getDetailShop(shopId: String) {
-
-        coroutineScope.launch {
-
-            _status.value = LoadApiStatus.LOADING
-
-            val result = repository.getDetailShop(shopId)
-
-            _shop.value = when (result) {
-                is Result.Success -> {
-                    _error.value = null
-                    _status.value = LoadApiStatus.DONE
-                    result.data
-                }
-                is Result.Fail -> {
-                    _error.value = result.error
-                    _status.value = LoadApiStatus.ERROR
-                    null
-                }
-                is Result.Error -> {
-                    _error.value = result.exception.toString()
-                    _status.value = LoadApiStatus.ERROR
-                    null
-                }
-                else -> {
-                    _error.value = MyApplication.instance.getString(R.string.result_fail)
-                    _status.value = LoadApiStatus.ERROR
-                    null
-                }
-            }
-            _refreshStatus.value = false
+            getLiveDetailShop(it)
+            getLiveOrderOfShop(it)
+            Log.i("Chloe", "_shop is ${_shop.value}")
         }
     }
 
     private fun getLiveDetailShop(shopId: String) {
+        _status.value = LoadApiStatus.LOADING
         _shop = repository.getLiveDetailShop(shopId)
         _status.value = LoadApiStatus.DONE
         _refreshStatus.value = false
     }
 
-//    private fun getOrderOfShop(shopId : String) {
-//
-//        coroutineScope.launch {
-//            _status.value = LoadApiStatus.LOADING
-//            val result = repository.getLiveOrderOfShop(shopId)
-//            _orderList.value = when (result) {
-//                is Result.Success -> {
-//                    _error.value = null
-//                    _status.value = LoadApiStatus.DONE
-//                    Log.d("Chloe","result = ${result.data}")
-//                    result.data
-//                }
-//                is Result.Fail -> {
-//                    _error.value = result.error
-//                    _status.value = LoadApiStatus.ERROR
-//                    null
-//                }
-//                is Result.Error -> {
-//                    _error.value = result.exception.toString()
-//                    _status.value = LoadApiStatus.ERROR
-//                    null
-//                }
-//                else -> {
-//                    _error.value = MyApplication.instance.getString(R.string.result_fail)
-//                    _status.value = LoadApiStatus.ERROR
-//                    null
-//                }
-//            }
-//            _refreshStatus.value = false
-//        }
-//    }
-
-    fun getOrderOfShop(shopId : String) {
-
-        coroutineScope.launch {
-            _status.value = LoadApiStatus.LOADING
-            val result = repository.getOrderOfShop(shopId)
-            _orderList.value = when (result) {
-                is Result.Success -> {
-                    _error.value = null
-                    _status.value = LoadApiStatus.DONE
-                    Log.d("Chloe","result = ${result.data}")
-                    result.data
-                }
-                is Result.Fail -> {
-                    _error.value = result.error
-                    _status.value = LoadApiStatus.ERROR
-                    null
-                }
-                is Result.Error -> {
-                    _error.value = result.exception.toString()
-                    _status.value = LoadApiStatus.ERROR
-                    null
-                }
-                else -> {
-                    _error.value = MyApplication.instance.getString(R.string.result_fail)
-                    _status.value = LoadApiStatus.ERROR
-                    null
-                }
-            }
-            _refreshStatus.value = false
-        }
-    }
-
     private fun getLiveOrderOfShop(shopId: String) {
+        _status.value = LoadApiStatus.LOADING
         _orderList = repository.getLiveOrderOfShop(shopId)
         _status.value = LoadApiStatus.DONE
         _refreshStatus.value = false
@@ -262,16 +114,6 @@ class DetailViewModel(
         _navigateToOption.value = null
     }
 
-//mock
-//    private val orderId : Int = 1222
-//    private val orderTime: Long= java.util.Calendar.getInstance().timeInMillis
-//    private val userId:Long = 10000002
-//
-//    private val price: Int = 2000
-//    private val phone:String = "0988888888"
-//    private val delivery: String = "711永和門市"
-//    private val note: String? = "無"
-//    private val mockPaymentStatus: Int = 0
 
     // 要傳給商品清單頁面的
     private val _navigateToProductList = MutableLiveData<List<Product>>()
@@ -284,22 +126,6 @@ class DetailViewModel(
 
     fun onProductListNavigated() {
         _navigateToProductList.value = null
-    }
-
-
-
-    // 要傳給確定跟團頁面的
-    private val _navigateToParticipate = MutableLiveData<Shop>()
-
-    val navigateToParticipate: LiveData<Shop>
-        get() = _navigateToParticipate
-
-    fun navigateToParticipate(shop: Shop) {
-        _navigateToParticipate.value = shop
-    }
-
-    fun onParticipateNavigated() {
-        _navigateToParticipate.value = null
     }
 
 
@@ -316,9 +142,97 @@ class DetailViewModel(
     }
 
 
-
-
-
-
-
 }
+
+
+//mock
+//    private val orderId : Int = 1222
+//    private val orderTime: Long= java.util.Calendar.getInstance().timeInMillis
+//    private val userId:Long = 10000002
+//
+//    private val price: Int = 2000
+//    private val phone:String = "0988888888"
+//    private val delivery: String = "711永和門市"
+//    private val note: String? = "無"
+//    private val mockPaymentStatus: Int = 0
+
+//private fun getDetailShop(shopId: String) {
+//
+//    coroutineScope.launch {
+//
+//        _status.value = LoadApiStatus.LOADING
+//
+//        val result = repository.getDetailShop(shopId)
+//
+//        _shop.value = when (result) {
+//            is Result.Success -> {
+//                _error.value = null
+//                _status.value = LoadApiStatus.DONE
+//                result.data
+//            }
+//            is Result.Fail -> {
+//                _error.value = result.error
+//                _status.value = LoadApiStatus.ERROR
+//                null
+//            }
+//            is Result.Error -> {
+//                _error.value = result.exception.toString()
+//                _status.value = LoadApiStatus.ERROR
+//                null
+//            }
+//            else -> {
+//                _error.value = MyApplication.instance.getString(R.string.result_fail)
+//                _status.value = LoadApiStatus.ERROR
+//                null
+//            }
+//        }
+//        _refreshStatus.value = false
+//    }
+//}
+
+// 要傳給確定跟團頁面的
+//private val _navigateToParticipate = MutableLiveData<Shop>()
+//
+//val navigateToParticipate: LiveData<Shop>
+//    get() = _navigateToParticipate
+//
+//fun navigateToParticipate(shop: Shop) {
+//    _navigateToParticipate.value = shop
+//}
+//
+//fun onParticipateNavigated() {
+//    _navigateToParticipate.value = null
+//}
+
+
+//fun getOrderOfShop(shopId : String) {
+//
+//    coroutineScope.launch {
+//        _status.value = LoadApiStatus.LOADING
+//        val result = repository.getOrderOfShop(shopId)
+//        _orderList.value = when (result) {
+//            is Result.Success -> {
+//                _error.value = null
+//                _status.value = LoadApiStatus.DONE
+//                Log.d("Chloe","result = ${result.data}")
+//                result.data
+//            }
+//            is Result.Fail -> {
+//                _error.value = result.error
+//                _status.value = LoadApiStatus.ERROR
+//                null
+//            }
+//            is Result.Error -> {
+//                _error.value = result.exception.toString()
+//                _status.value = LoadApiStatus.ERROR
+//                null
+//            }
+//            else -> {
+//                _error.value = MyApplication.instance.getString(R.string.result_fail)
+//                _status.value = LoadApiStatus.ERROR
+//                null
+//            }
+//        }
+//        _refreshStatus.value = false
+//    }
+//}
