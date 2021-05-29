@@ -1,21 +1,16 @@
 package com.chloe.shopshare.home
 
 import android.os.Bundle
-import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.chloe.shopshare.NavigationDirections
-import com.chloe.shopshare.data.Order
-import com.chloe.shopshare.data.Shop
+import com.chloe.shopshare.R
 import com.chloe.shopshare.databinding.FragmentHomeBinding
+import com.google.android.material.internal.NavigationMenu
 import com.google.android.material.tabs.TabLayout
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObjects
+import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter
+
 
 class HomeFragment : Fragment() {
 
@@ -82,10 +77,24 @@ class HomeFragment : Fragment() {
             it.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(binding.tabsHome))
         }
 
-        binding.floatingCollect.setOnClickListener {
-            findNavController().navigate(NavigationDirections.navigateToHostFragment())
-        }
+//        binding.floatingCollect.setOnClickListener {
+//            findNavController().navigate(NavigationDirections.navigateToHostFragment())
+//        }
 
+
+
+        binding.floatingActionButton.setMenuListener(object : SimpleMenuListenerAdapter() {
+
+            override fun onPrepareMenu(navigationMenu: NavigationMenu?): Boolean {
+                return true
+            }
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                when(menuItem.itemId){
+                    R.id.navigate_to_host -> findNavController().navigate(NavigationDirections.navigateToHostFragment())
+                }
+                return true
+            }
+        })
 
 
         return binding.root
