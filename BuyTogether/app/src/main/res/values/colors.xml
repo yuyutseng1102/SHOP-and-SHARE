@@ -72,5 +72,12 @@
     <color name="transparent">#00000000</color>
     <color name="translucent_80">#cc000000</color>
 
+    <color name="stroke_tint">
+    <selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <item android:color="?attr/colorOnSurface" android:state_checked="true"/>
+        <item android:color="@color/shrine_pink_100"/>
+    </selector>
+    </color>
 
 </resources>

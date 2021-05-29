@@ -89,6 +89,10 @@ class DefaultRepository (private val remoteDataSource: DataSource,
         return remoteDataSource.postShopNotifyToMember(notify)
     }
 
+    override suspend fun postOrderNotifyToMember(orderList: List<Order>, notify: Notify): Result<Boolean> {
+        return remoteDataSource.postOrderNotifyToMember(orderList, notify)
+    }
+
     override suspend fun postNotifyToHost(hostId: String, notify: Notify): Result<Boolean> {
         return remoteDataSource.postNotifyToHost(hostId, notify)
     }

@@ -8,6 +8,8 @@ import com.chloe.shopshare.MyApplication
 import com.chloe.shopshare.R
 import com.chloe.shopshare.data.*
 import com.chloe.shopshare.data.source.DataSource
+import com.chloe.shopshare.ext.toDisplayNotifyMessage
+import com.chloe.shopshare.notify.NotifyType
 import com.google.common.io.Files.getFileExtension
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
@@ -618,6 +620,38 @@ object RemoteDataSource : DataSource {
                     }
                 }
         }
+
+    override suspend fun postOrderNotifyToMember(orderList: List<Order>, notify: Notify): Result<Boolean> =
+        suspendCoroutine {
+            val shopId = notify.shopId
+            val userDataBase = FirebaseFirestore.getInstance().collection(PATH_USER)
+
+            notify.time = Calendar.getInstance().timeInMillis
+
+            for (order in orderList){
+                notify.orderId = order.id
+                notify.message = NotifyType.ORDER_FAIL.toDisplayNotifyMessage(order)
+                val memberId = order.userId
+                userDataBase.document(memberId).collection(PATH_NOTIFY).document()
+                    .set(notify)
+                    .addOnCompleteListener { notifyTask ->
+                        if (notifyTask.isSuccessful) {
+                            Log.i("Notify", "Notify: ${notifyTask.result}")
+                            Result.Success(true)
+                        } else {notifyTask.exception?.let {
+                            Log.i(
+                                "Notify",
+                                "[${this::class.simpleName}] Error getting documents. ${it.message}"
+                            )
+                            Result.Error(it)
+                            return@addOnCompleteListener
+                        }
+                        }
+                        Result.Fail(MyApplication.instance.getString(R.string.result_fail))
+                    }
+            }
+        }
+
 
     override suspend fun postNotifyToHost(hostId: String, notify: Notify): Result<Boolean> =
         suspendCoroutine { continuation ->

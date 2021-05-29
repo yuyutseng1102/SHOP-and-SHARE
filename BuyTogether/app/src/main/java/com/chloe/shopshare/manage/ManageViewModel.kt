@@ -48,7 +48,11 @@ class ManageViewModel(
     val isChecked: LiveData<Boolean>
         get() = _isChecked
 
-    val messageContent = MutableLiveData<String>()
+    private val _deleteSuccess = MutableLiveData<Boolean>()
+    val deleteSuccess: LiveData<Boolean>
+        get() = _deleteSuccess
+
+    val messageContent = MutableLiveData<String?>()
 
     private val _leave = MutableLiveData<Boolean>()
 
@@ -79,6 +83,9 @@ class ManageViewModel(
     // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
+    var checkedMemberPosition = MutableLiveData<Int?>()
+    var deleteList = MutableLiveData<List<Order>>()
+
 
     init {
         Log.i("Chloe", "Detail")
@@ -88,6 +95,8 @@ class ManageViewModel(
             getDetailShop(it)
             getOrderOfShop(it)
             }
+
+        deleteList.value = listOf()
         }
 
     override fun onCleared() {
@@ -105,8 +114,7 @@ class ManageViewModel(
     }
 
 
-    var checkedMemberPosition = MutableLiveData<Int?>()
-    private val deleteList: MutableList<Order>? = mutableListOf()
+
 
 
 
@@ -115,25 +123,34 @@ class ManageViewModel(
         checkedMemberPosition.value = position
         Log.d("checkChloe","selectMember=$member, position=$position")
         _member.value = member
+        val list = deleteList.value?.toMutableList()?: mutableListOf()
         if (_member.value!=null) {
             if (_member.value!!.isCheck) {
-                deleteList?.add(_member.value!!)
+                list.add(_member.value!!)
             }else if (!_member.value!!.isCheck){
-                deleteList?.remove(_member.value!!)
+                list.remove(_member.value!!)
             }
-            Log.d("checkChloe","deleteList=${deleteList}")
+            Log.d("checkChloe","deleteList=${list}")
+            deleteList.value = list
         }
     }
 
     fun deleteMember() {
-        shop.value?.let {
-            if(deleteList!=null){
-                for(i in deleteList){
-                    deleteOrder(it.id, i)
+        if (shop.value != null) {
+            deleteList.value?.let {
+                for (i in it) {
+                    deleteOrder(shop.value!!.id, i)
                 }
             }
         }
     }
+
+    fun onFailNotifySend(){
+        _deleteSuccess.value = null
+        deleteList.value = null
+    }
+
+
 
 
     //點選確定後
@@ -205,6 +222,22 @@ class ManageViewModel(
         }
     }
 
+    fun editOrderNotify(orderList:List<Order>){
+        var notify: Notify? = null
+        _shop.value?.let {
+            notify = Notify(
+                shopId = it.id,
+                type = NotifyType.ORDER_FAIL.type,
+                title = NotifyType.ORDER_FAIL.title,
+                content = NotifyType.ORDER_FAIL.toDisplayNotifyContent(_shop.value!!.title)
+            )
+        }
+
+        notify?.let {
+            postOrderNotifyToMember(orderList,it)
+        }
+    }
+
 
     private fun getDetailShop(shopId: String) {
 
@@ -240,6 +273,8 @@ class ManageViewModel(
             _refreshStatus.value = false
         }
     }
+
+
 
     private fun getOrderOfShop(shopId : String) {
 
@@ -286,24 +321,29 @@ class ManageViewModel(
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
-
-            when (val result = repository.deleteOrder(shopId,order)) {
+            val result = repository.deleteOrder(shopId,order)
+            _deleteSuccess.value =
+            when (result) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
                     refresh()
+                    true
                 }
                 is Result.Fail -> {
                     _error.value = result.error
                     _status.value = LoadApiStatus.ERROR
+                    false
                 }
                 is Result.Error -> {
                     _error.value = result.exception.toString()
                     _status.value = LoadApiStatus.ERROR
+                    false
                 }
                 else -> {
                     _error.value = MyApplication.instance.getString(R.string.result_fail)
                     _status.value = LoadApiStatus.ERROR
+                    false
                 }
             }
             _refreshStatus.value = false
@@ -372,6 +412,31 @@ class ManageViewModel(
         coroutineScope.launch {
             _status.value = LoadApiStatus.LOADING
             when (val result = repository.postShopNotifyToMember(notify)) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                }
+                else -> {
+                    _error.value = MyApplication.instance.getString(R.string.result_fail)
+                    _status.value = LoadApiStatus.ERROR
+                }
+            }
+        }
+    }
+
+    private fun postOrderNotifyToMember(orderList: List<Order>, notify: Notify) {
+        coroutineScope.launch {
+            _status.value = LoadApiStatus.LOADING
+            when (val result = repository.postOrderNotifyToMember(orderList,notify)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE

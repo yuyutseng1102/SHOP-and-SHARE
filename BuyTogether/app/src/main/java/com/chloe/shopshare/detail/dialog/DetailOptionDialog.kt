@@ -20,6 +20,7 @@ import com.chloe.shopshare.detail.OptionSelector
 import com.chloe.shopshare.ext.getVmFactory
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
 
 
@@ -43,7 +44,10 @@ class DetailOptionDialog(private val shop:Shop, private val productList: List<Pr
         val viewId = 0
 
         fun ChipGroup.addChip(context: Context?, option: List<String>) {
+
+
             for (i in option.indices) {
+                val drawable = ChipDrawable.createFromAttributes(requireContext(), null, 0, R.style.WidgetAppChipChoice)
                 Chip(context).apply {
                     id = viewId+i
                     text = option[i]
@@ -51,6 +55,7 @@ class DetailOptionDialog(private val shop:Shop, private val productList: List<Pr
                     isCloseIconVisible = false
                     isFocusable = true
                     setBackgroundColor(R.drawable.bg_radio_button)
+                    setChipDrawable(drawable)
                     addView(this)
                 }
                 Log.d("Chloe","elements is ${i} to ${option[i]}")

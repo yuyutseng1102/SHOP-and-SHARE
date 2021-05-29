@@ -43,6 +43,10 @@ fun NotifyType.toDisplayNotifyMessage(order: Order): String {
         NotifyType.ORDER_INCREASE -> "訂單編號 : ${order.id}\n" +
                 "商品明細 : ${getProductList(order.product)}\n" +
                 "訂單金額 : NT\$${order.price}\n"
+        NotifyType.ORDER_FAIL ->  "訂單編號 : ${order.id}\n" +
+                "商品明細 : ${getProductList(order.product)}\n" +
+                "訂單金額 : NT\$${order.price}\n"
+
         else -> ""
     }
 }

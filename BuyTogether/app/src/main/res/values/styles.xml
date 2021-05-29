@@ -7,7 +7,6 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="materialCalendarTheme">@style/DatePicker</item>
-        <item name="chipStyle">@style/Widget.App.Chip.Choice</item>
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.MaterialComponents.SmallComponent</item>
         <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.MaterialComponents.MediumComponent</item>
     </style>
@@ -187,7 +186,7 @@
 
 
 
-    <style name="Widget.App.Chip" parent="Widget.MaterialComponents.Chip.Entry">
+    <style name="CheckChip" parent="Widget.MaterialComponents.Chip.Entry">
         <item name="chipIconTint">@color/colorPrimaryDark</item>
         <item name="chipBackgroundColor">@color/white</item>
         <item name="chipStrokeWidth">2dp</item>
@@ -196,8 +195,15 @@
         <item name="shapeAppearanceOverlay">@null</item>
     </style>
 
+    <style name="WidgetAppChip" parent="Widget.MaterialComponents.Chip.Entry">
+        <item name="chipBackgroundColor">@color/white</item>
+        <item name="chipStrokeWidth">2dp</item>
+        <item name="chipStrokeColor">@color/colorPrimaryDark</item>
+        <item name="checkedIconVisible">false</item>
+        <item name="shapeAppearanceOverlay">@null</item>
+    </style>
 
-    <style name="Widget.App.Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
+    <style name="WidgetAppChipChoice" parent="Widget.MaterialComponents.Chip.Choice">
         <item name="chipIconTint">@color/colorPrimaryDark</item>
         <item name="chipBackgroundColor">@color/white</item>
         <item name="chipStrokeWidth">2dp</item>

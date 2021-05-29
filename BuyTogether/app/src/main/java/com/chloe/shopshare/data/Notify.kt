@@ -10,12 +10,12 @@ import kotlinx.android.parcel.Parcelize
 data class Notify(
     var id: String = "",
     val shopId: String = "",
-    val orderId: String? = null,
+    var orderId: String? = null,
     var time: Long = 0L,
     val type: Int = 10,
     val title: String = "",
     val content: String =  "",
-    val message: String? = null
+    var message: String? = null
 ): Parcelable {
     @field:JvmField
     @IgnoredOnParcel

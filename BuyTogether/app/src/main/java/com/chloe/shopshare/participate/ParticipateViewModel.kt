@@ -128,6 +128,7 @@ class ParticipateViewModel(
             userId = userId,
             product = _product.value!!,
             price = price.value!!,
+            name = name.value!!,
             phone = phone.value!!,
             delivery = delivery.value!!,
             address = address.value!!,

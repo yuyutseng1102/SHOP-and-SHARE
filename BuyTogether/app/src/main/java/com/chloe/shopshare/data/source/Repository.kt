@@ -44,7 +44,7 @@ interface Repository {
     suspend fun addSubscribe(userId: String, shopId: String): Result<Boolean>
     suspend fun removeSubscribe(userId: String, shopId: String): Result<Boolean>
     suspend fun postShopNotifyToMember(notify: Notify): Result<Boolean>
-//    suspend fun postOrderNotifyToMember(notify: Notify): Result<Boolean>
+    suspend fun postOrderNotifyToMember(orderList: List<Order>, notify: Notify): Result<Boolean>
     suspend fun postNotifyToHost(hostId: String, notify: Notify): Result<Boolean>
     fun getLiveNotify(userId: String): MutableLiveData<List<Notify>>
 

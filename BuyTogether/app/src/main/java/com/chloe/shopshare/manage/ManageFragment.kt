@@ -93,7 +93,20 @@ class ManageFragment : Fragment() {
             }
         })
 
+        viewModel.deleteSuccess.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if(it){
+                    viewModel.deleteList.observe(viewLifecycleOwner, Observer {
+                        it?.let {
+                            viewModel.editOrderNotify(it)
+                            viewModel.onFailNotifySend()
+                        }
+                    })
 
+                }
+
+            }
+        })
 
 
 

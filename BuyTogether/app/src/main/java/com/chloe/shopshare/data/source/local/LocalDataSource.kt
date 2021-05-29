@@ -85,6 +85,13 @@ class LocalDataSource(val context: Context): DataSource {
         TODO("Not yet implemented")
     }
 
+    override suspend fun postOrderNotifyToMember(
+        orderList: List<Order>,
+        notify: Notify
+    ): Result<Boolean> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun postNotifyToHost(hostId: String, notify: Notify): Result<Boolean> {
         TODO("Not yet implemented")
     }
