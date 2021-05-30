@@ -7,21 +7,21 @@
         <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="com.chloe.shopshare.detail.DetailViewModel" />
+            type="com.chloe.shopshare.requestdetail.RequestDetailViewModel" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/color_background"
-        tools:context=".detail.DetailFragment">
+        android:background="@color/color_background">
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nestedScrollView"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:fillViewport="true"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_block"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -38,7 +38,8 @@
                     android:background="#FFFFFF"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="gone">
 
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -52,7 +53,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:strings="@{viewModel.shop.image}" />
+                        app:strings="@{viewModel.request.image}" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_detail_circles"
@@ -63,23 +64,11 @@
                         android:layout_marginBottom="16dp"
                         android:orientation="horizontal"
                         app:addDecoration="@{viewModel.decoration}"
-                        app:count="@{viewModel.shop.image.size}"
+                        app:count="@{viewModel.request.image.size}"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintBottom_toBottomOf="@+id/recycler_detail_image"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
-
-
-                    <!--                    <ImageView-->
-                    <!--                        android:id="@+id/detail_image"-->
-                    <!--                        android:layout_width="0dp"-->
-                    <!--                        android:layout_height="0dp"-->
-                    <!--                        app:imageUrl="@{viewModel.shop.mainImage}"-->
-                    <!--                        app:layout_constraintDimensionRatio="1:1"-->
-                    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
-                    <!--                        app:layout_constraintStart_toStartOf="parent"-->
-                    <!--                        app:layout_constraintTop_toTopOf="parent"-->
-                    <!--                        tools:srcCompat="@drawable/img_detail" />-->
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -103,7 +92,7 @@
                         android:layout_marginEnd="16dp"
                         android:maxLines="2"
                         android:padding="1dp"
-                        android:text="@{viewModel.shop.title}"
+                        android:text="@{viewModel.request.title}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tag_category"
@@ -120,7 +109,7 @@
                         android:backgroundTint="@color/tag_category"
                         android:paddingHorizontal="8dp"
                         android:paddingVertical="1dp"
-                        app:categoryToDisplay="@{viewModel.shop.category}"
+                        app:categoryToDisplay="@{viewModel.request.category}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="女裝" />
@@ -135,7 +124,7 @@
                         android:backgroundTint="@color/tag_country"
                         android:paddingHorizontal="8dp"
                         android:paddingVertical="1dp"
-                        app:countryToDisplay="@{viewModel.shop.country}"
+                        app:countryToDisplay="@{viewModel.request.country}"
                         app:layout_constraintStart_toEndOf="@+id/tag_category"
                         app:layout_constraintTop_toTopOf="@+id/tag_category"
                         tools:text="日本" />
@@ -147,7 +136,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
-                        android:text="主購"
+                        android:text="ID"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/detail_title" />
 
@@ -158,39 +147,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
                         android:text="@{viewModel.user.name}"
-                        app:layout_constraintBottom_toBottomOf="@+id/host_title"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="@+id/detail_condition_text"
+                        app:layout_constraintStart_toStartOf="@+id/host_time_text"
                         app:layout_constraintTop_toTopOf="@+id/host_title"
                         tools:text="chloe193798" />
 
-                    <TextView
-                        android:id="@+id/detail_condition_title"
-                        style="@style/DetailSubTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:text="成團條件"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/host_time_title" />
-
-                    <TextView
-                        android:id="@+id/detail_condition_text"
-                        style="@style/BlackContent"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:maxLines="2"
-                        app:conditionToDisplay="@{viewModel.shop.condition}"
-                        app:conditionType="@{viewModel.shop.conditionType}"
-                        app:deadLineToDisplay="@{viewModel.shop.deadLine}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/detail_condition_title"
-                        app:layout_constraintTop_toTopOf="@+id/detail_condition_title"
-                        tools:text="TextView" />
 
                     <TextView
                         android:id="@+id/host_time_title"
@@ -198,9 +160,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="開團日期"
+                        android:text="徵團日期"
                         app:layout_constraintStart_toStartOf="@+id/host_title"
-                        app:layout_constraintTop_toBottomOf="@+id/host_title" />
+                        app:layout_constraintTop_toBottomOf="@+id/host_id" />
 
                     <TextView
                         android:id="@+id/host_time_text"
@@ -211,7 +173,7 @@
                         app:layout_constraintBottom_toBottomOf="@+id/host_time_title"
                         app:layout_constraintStart_toEndOf="@+id/host_time_title"
                         app:layout_constraintTop_toTopOf="@+id/host_time_title"
-                        app:timeToDisplayFormat="@{viewModel.shop.time}"
+                        app:timeToDisplayFormat="@{viewModel.request.time}"
                         tools:text="2021/05/09" />
 
                     <View
@@ -233,12 +195,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
-                        android:text='@{viewModel.shop.status == 0 ? "/ 開團中 /": "/ 已結團 /"}'
+                        android:text='@{viewModel.request.host == null ? "/ 徵團中 /": "/ 已經開團囉 /"}'
                         android:textColor="@color/green_7A8277"
                         app:layout_constraintBottom_toBottomOf="@+id/tag_country"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/tag_country"
-                        tools:text="/ 已結團 /" />
+                        tools:text="/ 已經開團囉 /" />
 
                     <TextView
                         android:id="@+id/member_number_text"
@@ -252,8 +214,8 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/view_separation"
                         app:layout_constraintTop_toTopOf="@+id/host_time_text"
-                        app:requestNumberToDisplay="@{viewModel.orderList.size}"
-                        tools:text="已跟團 + 5" />
+                        app:requestNumberToDisplay="@{viewModel.request.member.size}"
+                        tools:text="有興趣 + 5" />
 
 
                     <TextView
@@ -265,7 +227,7 @@
                         android:layout_marginTop="8dp"
                         android:text="購買來源"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/detail_condition_text" />
+                        app:layout_constraintTop_toBottomOf="@+id/host_time_text" />
 
                     <TextView
                         android:id="@+id/source_text"
@@ -275,7 +237,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp"
-                        android:text="@{viewModel.shop.source}"
+                        android:text="@{viewModel.request.source}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -288,7 +250,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/option_block"
+                    android:id="@+id/description_block"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -296,160 +258,68 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/detail_info_block"
-                    tools:visibility="gone">
+                    app:layout_constraintTop_toBottomOf="@+id/detail_info_block">
 
-                    <TextView
-                        android:id="@+id/deatil_option_title"
-                        style="@style/DetailSubTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:text="商品選項"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.0" />
-
-                    <ImageButton
-                        android:id="@+id/option_expand_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:background="@drawable/ic_baseline_chevron_right_24"
-                        android:backgroundTint="@color/gray_888888"
-                        android:onClick="@{() -> viewModel.navigateToOption(viewModel.product)}"
-                        app:layout_constraintBottom_toBottomOf="@+id/deatil_option_title"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/deatil_option_title" />
-
-                    <TextView
-                        android:id="@+id/short_option_text"
-                        style="@style/DetailContent"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/description_title_block"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="32dp"
-                        android:layout_marginEnd="16dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/deatil_option_title"
-                        app:layout_constraintEnd_toStartOf="@+id/option_expand_button"
-                        app:layout_constraintStart_toEndOf="@+id/deatil_option_title"
-                        app:layout_constraintTop_toTopOf="@+id/deatil_option_title"
-                        app:optionIsStandard="@{viewModel.shop.isStandard}"
-                        app:shortOptionDisplay="@{viewModel.shop.option}"
-                        tools:text="全網站皆可" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/delivery_block"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:background="#FFFFFF"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/option_block"
-                    tools:visibility="gone">
-
-                    <TextView
-                        android:id="@+id/deatil_delivery_title"
-                        style="@style/DetailSubTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:text="寄送方式"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.0" />
-
-                    <ToggleButton
-                        android:id="@+id/delivery_expand_button"
-                        style="?attr/materialButtonToggleGroupStyle"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginEnd="16dp"
-                        android:backgroundTint="@color/gray_888888"
-                        android:textOff=""
-                        android:textOn=""
-                        app:isExpandChecked="@{viewModel.isChecked}"
-                        app:layout_constraintBottom_toBottomOf="@+id/deatil_delivery_title"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/deatil_delivery_title" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/delivery_method_block"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:background="#FFFFFF"
-                    android:visibility="@{viewModel.isChecked==true?View.VISIBLE:View.GONE}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/delivery_block"
-                    tools:visibility="gone">
-
-                    <View
-                        android:id="@+id/line_delivery_method"
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:background="@color/gray_cccccc"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_delivery_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="8dp"
-                        app:delivery="@{viewModel.shop.deliveryMethod}"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/line_delivery_method" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/pager_block"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:background="#FFFFFF"
-                    android:minHeight="500dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/delivery_method_block"
-                    app:layout_constraintVertical_bias="0.0">
-
-                    <androidx.viewpager.widget.ViewPager
-                        android:id="@+id/viewpager_detail"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_height="@dimen/height_home_tab"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <com.google.android.material.tabs.TabLayout
-                            android:id="@+id/tabs_detail"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/height_home_tab"
-                            app:tabIndicatorColor="@color/black_3f3a3a"
-                            app:tabSelectedTextColor="@color/black_3f3a3a"
-                            app:tabTextColor="@color/gray_888888">
+                        <TextView
+                            android:id="@+id/deatail_description_title"
+                            style="@style/DetailSubTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:text="徵團描述"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                        </com.google.android.material.tabs.TabLayout>
+                        <View
+                            android:id="@+id/line_description"
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:background="@color/gray_cccccc"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    </androidx.viewpager.widget.ViewPager>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/description_text_block"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/description_title_block">
+
+                        <TextView
+                            android:id="@+id/description_text"
+                            style="@style/DetailContent"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:maxLines="99"
+                            android:text="@{viewModel.request.description}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="全網站皆可" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
@@ -487,13 +357,12 @@
                 app:tint="@drawable/bottom_nav_item_selector" />
 
             <Button
-                android:id="@+id/button_product_list"
+                android:id="@+id/button_host"
                 style="@style/WhiteButtonName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:onClick="@{() -> viewModel.navigateToProductList(viewModel.product)}"
-                android:text="查看清單"
+                android:text="我要開團"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintStart_toEndOf="@+id/nav_follow"
@@ -501,17 +370,19 @@
                 app:layout_constraintVertical_bias="0.5" />
 
             <Button
-                android:id="@+id/button_participate"
+                android:id="@+id/button_member"
                 style="@style/WhiteButtonName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:onClick="@{() -> viewModel.navigateToOption(viewModel.product)}"
-                android:text="我要跟團"
+                android:layout_marginEnd="16dp"
+                android:onClick="@{()->viewModel.updateRequestMember(viewModel.request.id,viewModel.userId)}"
+                android:text="我有興趣"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/button_product_list"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/button_host"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.625" />
+                app:layout_constraintVertical_bias="0.5" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

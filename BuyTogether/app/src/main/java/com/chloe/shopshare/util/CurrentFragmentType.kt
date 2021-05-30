@@ -12,5 +12,7 @@ enum class CurrentFragmentType(val value: String) {
     DETAIL(""),
     PARTICIPATE(getString(R.string.participate)),
     NOTIFY(getString(R.string.notify)),
+    REQUEST(getString(R.string.request_title)),
+    REQUEST_DETAIL(""),
     LOGIN("")
 }

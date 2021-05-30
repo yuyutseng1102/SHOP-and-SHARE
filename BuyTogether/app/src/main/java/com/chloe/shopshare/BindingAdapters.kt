@@ -14,31 +14,31 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.chloe.shopshare.data.*
 import com.chloe.shopshare.shop.ShopAdapter
 import com.chloe.shopshare.shop.OrderStatusType
 import com.chloe.shopshare.shop.PaymentStatusType
 import com.chloe.shopshare.manage.MemberAdapter
 import com.chloe.shopshare.manage.MemberProductAdapter
-import com.chloe.shopshare.data.Shop
-import com.chloe.shopshare.data.Notify
-import com.chloe.shopshare.data.Order
-import com.chloe.shopshare.data.Product
 import com.chloe.shopshare.detail.dialog.ProductListAdapter
+import com.chloe.shopshare.detail.item.DetailCircleAdapter
 import com.chloe.shopshare.detail.item.DetailDeliveryAdapter
+import com.chloe.shopshare.detail.item.DetailImageAdapter
+import com.chloe.shopshare.ext.getProductList
 import com.chloe.shopshare.ext.toDisplayFormat
+import com.chloe.shopshare.home.item.*
 import com.chloe.shopshare.host.CategoryType
 import com.chloe.shopshare.host.CountryType
 import com.chloe.shopshare.host.item.GatherOptionAdapter
-import com.chloe.shopshare.home.item.HomeCollectAdapter
-import com.chloe.shopshare.home.item.HomeGridAdapter
-import com.chloe.shopshare.home.item.HomeHots1stAdapter
-import com.chloe.shopshare.home.item.HomeHots2ndAdapter
 import com.chloe.shopshare.host.DeliveryMethod
 import com.chloe.shopshare.host.HostImageAdapter
 import com.chloe.shopshare.network.LoadApiStatus
 import com.chloe.shopshare.notify.NotifyAdapter
 import com.chloe.shopshare.notify.NotifyType
 import com.chloe.shopshare.participate.ParticipateAdapter
+import com.chloe.shopshare.request.RequestImageAdapter
+import com.chloe.shopshare.requestdetail.RequestDetailCircleAdapter
+import com.chloe.shopshare.requestdetail.RequestDetailImageAdapter
 import com.chloe.shopshare.util.Util.getColor
 import com.google.android.material.textfield.TextInputEditText
 
@@ -73,9 +73,20 @@ fun bindRecyclerViewWithCollections(recyclerView: RecyclerView, shop: List<Shop>
             when (this) {
                 is HomeHots1stAdapter -> submitList(it)
                 is HomeHots2ndAdapter -> submitList(it)
-                is HomeCollectAdapter -> submitList(it)
+                is HomeHostingAdapter -> submitList(it)
                 is HomeGridAdapter -> submitList(it)
                 is ShopAdapter -> submitList(it)
+            }
+        }
+    }
+}
+
+@BindingAdapter("request")
+fun bindRecyclerViewWithRequest(recyclerView: RecyclerView, request: List<Request>?) {
+    request?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is HomeRequestingAdapter -> submitList(it)
             }
         }
     }
@@ -89,9 +100,56 @@ fun bindRecyclerViewWithOptionStrings(recyclerView: RecyclerView, options: List<
             when (this) {
                 is GatherOptionAdapter -> submitList(it)
                 is HostImageAdapter -> submitList(it)
+                is DetailImageAdapter -> submitImages(it)
+                is RequestImageAdapter -> submitList(it)
+                is RequestDetailImageAdapter ->  submitImages(it)
             }
         }
     }
+}
+
+@BindingAdapter("count")
+fun bindRecyclerViewByCount(recyclerView: RecyclerView, count: Int?) {
+    count?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is DetailCircleAdapter ->  submitCount(it)
+                is RequestDetailCircleAdapter ->  submitCount(it)
+            }
+        }
+    }
+}
+
+@BindingAdapter("circleStatus")
+fun bindDetailCircleStatus(imageView: ImageView, isSelected: Boolean = false) {
+    imageView.background = ShapeDrawable(object : Shape() {
+        override fun draw(canvas: Canvas, paint: Paint) {
+
+            paint.color = getColor(R.color.white)
+            paint.isAntiAlias = true
+
+            when (isSelected) {
+                true -> {
+                    paint.style = Paint.Style.FILL
+                }
+                false -> {
+                    paint.style = Paint.Style.STROKE
+                    paint.strokeWidth = MyApplication.instance.resources
+                        .getDimensionPixelSize(R.dimen.edge_detail_circle).toFloat()
+                }
+            }
+
+            canvas.drawCircle(this.width / 2, this.height / 2,
+                MyApplication.instance.resources
+                    .getDimensionPixelSize(R.dimen.radius_detail_circle).toFloat(), paint)
+        }
+    })
+}
+
+
+@BindingAdapter("addDecoration")
+fun bindDecoration(recyclerView: RecyclerView, decoration: RecyclerView.ItemDecoration?) {
+    decoration?.let { recyclerView.addItemDecoration(it) }
 }
 
 @BindingAdapter("delivery")
@@ -173,9 +231,12 @@ fun bindDisplayCondition(textView: TextView,deadLine:Long?,conditionType:Int?,co
         } else if (condition == null) {
             deadLineToDisplay
         } else {
-            deadLineToDisplay + "或" + conditionToDisplay
+            "${deadLineToDisplay}\n" +
+            "${conditionToDisplay}\n"
         }
 }
+
+
 
 @BindingAdapter("categoryToDisplay")
 fun bindDisplayCategory(textView:TextView,category:Int) {
@@ -365,13 +426,26 @@ fun bindDisplayShortOption(textView: TextView, isStandard:Boolean,option: List<S
 }
 
 @BindingAdapter("memberNumberToDisplay")
-fun bindDisplayMemberNumber(textView: TextView, number: Int?) {
+fun bindDisplayHostMemberNumber(textView: TextView, number: Int?) {
     number?.let { number ->
         textView.apply {
             text =
                 when (number) {
                     0 -> "尚無人跟團"
-                    else -> "已跟團 + ${number}"
+                    else -> "已跟團+${number}"
+                }
+        }
+    }
+}
+
+@BindingAdapter("requestNumberToDisplay")
+fun bindDisplayRequestMemberNumber(textView: TextView, number: Int?) {
+    number?.let { nember ->
+        textView.apply {
+            text =
+                when (number) {
+                    0 -> "尚無人有興趣"
+                    else -> "有興趣+${number}"
                 }
         }
     }

@@ -32,4 +32,12 @@
 
     <!-- Product List Dialog -->
     <dimen name="size_product_list_quantity">32dp</dimen>
+
+
+    <!-- Detail -->
+    <dimen name="space_detail_circle">8dp</dimen>
+    <dimen name="size_detail_close">44dp</dimen>
+    <dimen name="size_detail_circle">6dp</dimen>
+    <dimen name="radius_detail_circle">3dp</dimen>
+    <dimen name="edge_detail_circle">1px</dimen>
 </resources>

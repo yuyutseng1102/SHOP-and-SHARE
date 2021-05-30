@@ -23,6 +23,7 @@ import kotlin.coroutines.suspendCoroutine
 
 
 object RemoteDataSource : DataSource {
+    private const val PATH_REQUEST = "request"
     private const val PATH_USER = "user"
     private const val PATH_ORDER = "order"
     private const val PATH_SHOP = "shop"
@@ -51,6 +52,7 @@ object RemoteDataSource : DataSource {
                                 .addOnCompleteListener { documents ->
                                     if (documents.isSuccessful) {
                                         for (document in documents.result!!) {
+                                            document.id == user.uid
                                             if (document.id == user.uid) {
                                                 userProfile = document.toObject(User::class.java)
                                             } else {
@@ -124,6 +126,14 @@ object RemoteDataSource : DataSource {
                     for (document in task.result!!) {
                         Log.d("Chloe", document.id + " => " + document.data)
                         val shop = document.toObject(Shop::class.java)
+                        shopDataBase.document(shop.id).collection(PATH_ORDER)
+                            .get()
+                            .addOnCompleteListener { orderTask ->
+                                if (orderTask.isSuccessful){
+                                    val memberNumber = orderTask.result!!.size()
+                                    shop.member = memberNumber
+                                }
+                            }
                         shopList.add(shop)
                     }
                     continuation.resume(Result.Success(shopList))
@@ -134,6 +144,33 @@ object RemoteDataSource : DataSource {
                             "Chloe",
                             "[${this::class.simpleName}] Error getting documents. ${it.message}"
                         )
+                        continuation.resume(Result.Error(it))
+                        return@addOnCompleteListener
+                    }
+                    continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
+                }
+
+            }
+    }
+
+    override suspend fun getAllRequest(): Result<List<Request>> = suspendCoroutine { continuation ->
+        val shopDataBase = FirebaseFirestore.getInstance().collection(PATH_REQUEST)
+        shopDataBase
+//            .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
+            .get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val requestList = mutableListOf<Request>()
+                    for (document in task.result!!) {
+                        Log.d("HomeTag", document.id + " => " + document.data)
+                        val request = document.toObject(Request::class.java)
+                        requestList.add(request)
+                    }
+                    continuation.resume(Result.Success(requestList))
+                } else {
+                    task.exception?.let {
+
+                        Log.w("HomeTag", "[${this::class.simpleName}] Error getting documents. ${it.message}")
                         continuation.resume(Result.Error(it))
                         return@addOnCompleteListener
                     }
@@ -300,6 +337,29 @@ object RemoteDataSource : DataSource {
         return liveData
     }
 
+    override fun getLiveDetailRequest(requestId: String): MutableLiveData<Request> {
+
+        val liveData = MutableLiveData<Request>()
+
+        val shopDataBase = FirebaseFirestore.getInstance().collection(PATH_REQUEST).document(requestId)
+        shopDataBase
+            .addSnapshotListener { snapshot, exception ->
+
+                Log.i("RequestDetailTag", "addSnapshotListener detect")
+
+                exception?.let {
+                    Log.w(
+                        "RequestDetailTag", "[${this::class.simpleName}] Error getting documents. ${it.message}"
+                    )
+                }
+                val request = snapshot?.toObject(Request::class.java)
+                request?.let { liveData.value = it }
+                Log.d("RequestDetailTag", snapshot!!.id + " => " + snapshot.data)
+            }
+        Log.d("RequestDetailTag", "livedata = ${liveData.value}")
+        return liveData
+    }
+
 
     override suspend fun deleteOrder(shopId: String, order: Order): Result<Boolean> =
         suspendCoroutine { continuation ->
@@ -404,20 +464,79 @@ object RemoteDataSource : DataSource {
                 }
         }
 
+    override suspend fun postRequest(request: Request): Result<Boolean> = suspendCoroutine { continuation ->
+        val requestDataBase = FirebaseFirestore.getInstance().collection(PATH_REQUEST)
+        val document = requestDataBase.document()
 
-    override suspend fun postShop(shop: Shop): Result<Boolean> = suspendCoroutine { continuation ->
+        request.id = document.id
+        request.time = Calendar.getInstance().timeInMillis
+
+        document
+            .set(request)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.i("RequestTag", "postRequest: $request")
+                    continuation.resume(Result.Success(true))
+                } else {
+                    task.exception?.let {
+                        Log.i("RequestTag","[${this::class.simpleName}] Error getting documents. ${it.message}")
+                        continuation.resume(Result.Error(it))
+                        return@addOnCompleteListener
+                    }
+                    continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
+                }
+            }
+    }
+
+    override suspend fun updateRequestHost(requestId: String, hostId: String): Result<Boolean> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun updateRequestMember(requestId: String, memberId: String): Result<Boolean> =
+    suspendCoroutine { continuation ->
+        val userDataBase = FirebaseFirestore.getInstance().collection(PATH_REQUEST).document(requestId)
+
+        userDataBase
+            .update("member", FieldValue.arrayUnion(memberId))
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.i("RequestDetailTag", "addMember: $memberId")
+                    continuation.resume(Result.Success(true))
+                } else {
+                    task.exception?.let {
+
+                        Log.i(
+                            "RequestDetailTag",
+                            "[${this::class.simpleName}] Error getting documents. ${it.message}"
+                        )
+                        continuation.resume(Result.Error(it))
+                        return@addOnCompleteListener
+                    }
+                    continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
+                }
+            }
+    }
+
+    override suspend fun getMyRequest(userId: String): Result<List<Request>> {
+        TODO("Not yet implemented")
+    }
+
+
+    override suspend fun postShop(shop: Shop): Result<PostHostResult> = suspendCoroutine { continuation ->
         val shopDataBase = FirebaseFirestore.getInstance().collection(PATH_SHOP)
         val document = shopDataBase.document()
 
         shop.id = document.id
         shop.time = Calendar.getInstance().timeInMillis
 
+        val postHostResult = PostHostResult(document.id)
+
         document
             .set(shop)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.i("Chloe", "postShop: $shop")
-                    continuation.resume(Result.Success(true))
+                    continuation.resume(Result.Success(postHostResult))
                 } else {
                     task.exception?.let {
 

@@ -21,15 +21,15 @@ class DefaultRepository (private val remoteDataSource: DataSource,
         return remoteDataSource.getOpeningShop()
     }
 
+    override suspend fun getAllRequest(): Result<List<Request>> {
+        return remoteDataSource.getAllRequest()
+    }
 
 
     override suspend fun getDetailShop(shopId: String): Result<Shop> {
         return remoteDataSource.getDetailShop(shopId)
     }
 
-//    override suspend fun getLiveDetailShop(shopId: String): Result<Shop> {
-//        return remoteDataSource.getLiveDetailShop(shopId)
-//    }
 
     override fun getLiveDetailShop(shopId: String): MutableLiveData<Shop> {
         return remoteDataSource.getLiveDetailShop(shopId)
@@ -44,12 +44,12 @@ class DefaultRepository (private val remoteDataSource: DataSource,
     }
 
 
-//    override suspend fun getLiveOrderOfShop(shopId: String): Result<List<Order>> {
-//        return remoteDataSource.getLiveOrderOfShop(shopId)
-//    }
-
     override fun getLiveOrderOfShop(shopId: String): MutableLiveData<List<Order>> {
         return remoteDataSource.getLiveOrderOfShop(shopId)
+    }
+
+    override fun getLiveDetailRequest(requestId: String): MutableLiveData<Request> {
+        return remoteDataSource.getLiveDetailRequest(requestId)
     }
 
 
@@ -65,7 +65,23 @@ class DefaultRepository (private val remoteDataSource: DataSource,
         return remoteDataSource.updateOrderStatus(shopId,paymentStatus)
     }
 
-    override suspend fun postShop(shop: Shop): Result<Boolean> {
+    override suspend fun postRequest(request: Request): Result<Boolean> {
+        return remoteDataSource.postRequest(request)
+    }
+
+    override suspend fun updateRequestHost(requestId: String, hostId: String): Result<Boolean> {
+        return remoteDataSource.updateRequestHost(requestId, hostId)
+    }
+
+    override suspend fun updateRequestMember(requestId: String, memberId: String): Result<Boolean> {
+        return remoteDataSource.updateRequestMember(requestId, memberId)
+    }
+
+    override suspend fun getMyRequest(userId: String): Result<List<Request>> {
+        return remoteDataSource.getMyRequest(userId)
+    }
+
+    override suspend fun postShop(shop: Shop): Result<PostHostResult> {
         return remoteDataSource.postShop(shop)
     }
 

@@ -1,18 +1,20 @@
 package com.chloe.shopshare.detail
 
+import android.graphics.Rect
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.LinearSnapHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.chloe.shopshare.MyApplication
 import com.chloe.shopshare.R
-import com.chloe.shopshare.data.Shop
-import com.chloe.shopshare.data.Order
-import com.chloe.shopshare.data.Product
-import com.chloe.shopshare.data.Result
+import com.chloe.shopshare.data.*
 import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.data.source.remote.RemoteDataSource.getLiveDetailShop
 import com.chloe.shopshare.network.LoadApiStatus
+import com.chloe.shopshare.util.UserManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -48,6 +50,10 @@ class DetailViewModel(
     val product: LiveData<List<Product>?>
         get() = _product
 
+    private var _user = MutableLiveData<User>()
+    val user: LiveData<User>
+        get() = _user
+
     val isChecked = MutableLiveData<Boolean>()
 
     // status: The internal MutableLiveData that stores the status of the most recent request
@@ -74,9 +80,18 @@ class DetailViewModel(
     val refreshStatus: LiveData<Boolean>
         get() = _refreshStatus
 
+    // it for gallery circles design
+    private val _snapPosition = MutableLiveData<Int>()
+
+    val snapPosition: LiveData<Int>
+        get() = _snapPosition
+
     val productItem = MutableLiveData<Product?>()
 
     init {
+        UserManager.userId?.let {
+            getUserProfile(it)
+        }
         Log.i("Chloe", "Detail")
         isChecked.value = false
         _shopId.value?.let {
@@ -140,6 +155,86 @@ class DetailViewModel(
             Log.d("Chloe","Product is update to new =${_product.value} ,  product from selector is ${product}}")
         }
     }
+
+    val decoration = object : RecyclerView.ItemDecoration() {
+        override fun getItemOffsets(
+            outRect: Rect,
+            view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State
+        ) {
+            super.getItemOffsets(outRect, view, parent, state)
+
+            // Add top margin only for the first item to avoid double space between items
+            if (parent.getChildLayoutPosition(view) == 0) {
+                outRect.left = 0
+            } else {
+                outRect.left =
+                    MyApplication.instance.resources.getDimensionPixelSize(R.dimen.space_detail_circle)
+            }
+        }
+    }
+
+
+    /**
+     * When the gallery scroll, at the same time circles design will switch.
+     */
+    fun onGalleryScrollChange(
+        layoutManager: RecyclerView.LayoutManager?,
+        linearSnapHelper: LinearSnapHelper
+    ) {
+        val snapView = linearSnapHelper.findSnapView(layoutManager)
+        snapView?.let {
+            layoutManager?.getPosition(snapView)?.let {
+                if (it != snapPosition.value) {
+                    _snapPosition.value = it
+                }
+            }
+        }
+    }
+
+    init {
+        if (_user.value == null) {
+            UserManager.userId?.let {
+                getUserProfile(it)
+            }
+        }
+    }
+
+
+
+    private fun getUserProfile(userId: String) {
+
+        coroutineScope.launch {
+            _status.value = LoadApiStatus.LOADING
+            val result = repository.getUserProfile(userId)
+            // It will return Result object after Deferred flow
+            _user.value =
+                when (result) {
+                    is Result.Success -> {
+                        _error.value = null
+                        _status.value = LoadApiStatus.DONE
+                        result.data
+                    }
+                    is Result.Fail -> {
+                        _error.value = result.error
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                    is Result.Error -> {
+                        _error.value = result.exception.toString()
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                    else -> {
+                        _error.value = MyApplication.instance.getString(R.string.result_fail)
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                }
+        }
+    }
+
 
 
 }

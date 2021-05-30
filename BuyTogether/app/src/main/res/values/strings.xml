@@ -152,5 +152,6 @@
     <string name="reach_deadline">已達預定日期</string>
     <!-- To_Subscriber-->
     <string name="soon_to_end">團購即將結束</string>
+    <string name="request_title">徵團準備</string>
 
 </resources>

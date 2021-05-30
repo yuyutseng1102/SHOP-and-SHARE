@@ -6,7 +6,7 @@
         android:title="我要開團" />
 
     <item
-        android:id="@+id/navigate_to_seek"
+        android:id="@+id/navigate_to_request"
         android:icon="@drawable/ic_baseline_campaign_24"
         android:title="我要徵團" />
 </menu>

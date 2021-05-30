@@ -97,6 +97,8 @@ class MainActivity : BaseActivity() {
                 R.id.participateFragment -> CurrentFragmentType.PARTICIPATE
                 R.id.loginFragment -> CurrentFragmentType.LOGIN
                 R.id.notifyFragment -> CurrentFragmentType.NOTIFY
+                R.id.requestFragment -> CurrentFragmentType.REQUEST
+                R.id.requestDetailFragment -> CurrentFragmentType.REQUEST_DETAIL
                 else -> viewModel.currentFragmentType.value
             }
         }

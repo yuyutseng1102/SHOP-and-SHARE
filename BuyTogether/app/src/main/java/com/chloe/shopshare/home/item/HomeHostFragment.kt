@@ -12,28 +12,27 @@ import androidx.navigation.fragment.findNavController
 import com.chloe.shopshare.MyApplication
 import com.chloe.shopshare.NavigationDirections
 import com.chloe.shopshare.R
-import com.chloe.shopshare.databinding.FragmentHomeCollectBinding
+import com.chloe.shopshare.databinding.FragmentHomeHostBinding
 import com.chloe.shopshare.ext.getVmFactory
 import com.chloe.shopshare.home.HomeType
 
 
-class HomeCollectFragment(private val homeType: HomeType) : Fragment() {
+class HomeHostFragment() : Fragment() {
 
-    private val viewModel by viewModels<HomeCollectViewModel> { getVmFactory() }
+    private val viewModel by viewModels<HomeHostViewModel> { getVmFactory() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentHomeCollectBinding.inflate(inflater,container,false)
-        val adapter = HomeCollectAdapter(viewModel)
+        val binding = FragmentHomeHostBinding.inflate(inflater,container,false)
+
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        binding.recyclerCollection.adapter = adapter
+
+        binding.recyclerCollection.adapter = HomeHostingAdapter(viewModel)
+
         binding.isLiveDataDesign = MyApplication.instance.isLiveDataDesign()
-
-//        viewModel.addMockData(homeType)
-
         binding.layoutSwipeRefreshCollectionItem.setOnRefreshListener {
             viewModel.refresh()
             Log.d("Chloe", "home status = ${viewModel.status.value}")

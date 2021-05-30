@@ -22,7 +22,7 @@ import com.chloe.shopshare.data.Result
 
 class HostViewModel(private val repository: Repository) : ViewModel() {
 
-    val userId = "193798"
+//    val userId = "193798"
 
 
     private val _shop = MutableLiveData<Shop>()

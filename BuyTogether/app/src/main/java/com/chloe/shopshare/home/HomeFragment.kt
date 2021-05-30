@@ -23,65 +23,11 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
 
-
-//        val orderList = MutableLiveData<List<Order>>()
-//        val shopList = MutableLiveData<List<Shop>>()
-//        fun getShop(){
-//
-//            val shop = FirebaseFirestore.getInstance().collection("shop")
-////            val document = shop.document("jsKOIUxVx9f6nvPArJn3")
-//            shop.get().addOnSuccessListener { documents ->
-//                var shopClass = documents.toObjects<Shop>()
-//                Log.d("Chloe", "shop = $shopClass")
-//                for (document in documents) {
-//                    Log.d("Chloe", "${document.id} => ${document.data}")
-//
-//                    val messageRef = shop.document(document.id)
-//                        .collection("order").get().addOnSuccessListener { subDocuments ->
-//                            val orderClass = subDocuments.toObjects<Order>()
-//                            for (i in shopClass) {
-//                                if (i.id == document.id) {
-//                                    i.order = orderClass
-//                                    Log.d("Chloe", "orderClass = $orderClass")
-//                                    Log.d("Chloe", "shopClass = $shopClass")
-//                                    Log.d("Chloe", "i.id = ${i.order}")
-//                                    shopClass = shopClass
-//                                    shopList.value = shopClass
-//
-//                                }
-//
-//                            }
-//
-//                            for (subDocument in subDocuments) {
-//                                Log.d("Chloe", "${subDocument.id} => ${subDocument.data}")
-//                            }
-//
-//                            }
-//                }
-//
-//
-//            }
-//                .addOnFailureListener { exception ->
-//                    Log.w("Chloe", "Error getting documents: ", exception)
-//                }
-//        }
-//
-//        getShop()
-//        shopList.observe(viewLifecycleOwner, Observer {
-//            Log.d("Chloe", "shopList = ${shopList.value}")
-//        })
-
         binding.viewpagerHome.let{
             binding.tabsHome.setupWithViewPager(it)
             it.adapter = HomeAdapter(childFragmentManager)
             it.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(binding.tabsHome))
         }
-
-//        binding.floatingCollect.setOnClickListener {
-//            findNavController().navigate(NavigationDirections.navigateToHostFragment())
-//        }
-
-
 
         binding.floatingActionButton.setMenuListener(object : SimpleMenuListenerAdapter() {
 
@@ -91,6 +37,7 @@ class HomeFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 when(menuItem.itemId){
                     R.id.navigate_to_host -> findNavController().navigate(NavigationDirections.navigateToHostFragment())
+                    R.id.navigate_to_request -> findNavController().navigate(NavigationDirections.navigateToRequestFragment())
                 }
                 return true
             }
