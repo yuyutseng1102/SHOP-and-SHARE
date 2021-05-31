@@ -512,7 +512,7 @@
             android:id="@+id/layout_gather_bottom"
             android:layout_width="0dp"
             android:layout_height="@dimen/height_all_bottom_layout"
-            android:visibility="@{(viewModel.order.size>1 &amp;&amp; viewModel.shop.status==0)?View.VISIBLE:View.GONE}"
+            android:visibility="@{(viewModel.order.size>0 &amp;&amp; viewModel.shop.status==0)?View.VISIBLE:View.GONE}"
             android:background="@color/white"
             android:paddingHorizontal="16dp"
             app:layout_constraintBottom_toBottomOf="parent"

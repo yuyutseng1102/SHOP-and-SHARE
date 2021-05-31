@@ -252,7 +252,7 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/view_separation"
                         app:layout_constraintTop_toTopOf="@+id/host_time_text"
-                        app:requestNumberToDisplay="@{viewModel.orderList.size}"
+                        app:memberNumberToDisplay="@{viewModel.orderList.size}"
                         tools:text="已跟團 + 5" />
 
 

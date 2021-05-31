@@ -62,8 +62,10 @@ class DetailFragment : Fragment() {
             it?.let {
                 binding.viewModel = viewModel
                 binding.viewpagerDetail.adapter = DetailPagerAdapter(childFragmentManager,it.description)
+                viewModel.getUserProfile(it.userId)
             }
         })
+
 
 
 

@@ -83,6 +83,12 @@ class RequestViewModel(private val repository: Repository) : ViewModel() {
     val source = MutableLiveData<String>()
     private lateinit var imageList: MutableList<String>
 
+    init {
+        _status.value = LoadApiStatus.DONE
+        _isInvalid.value = null
+    }
+
+
     fun pickImages(uri:Uri){
         imageList =
             if (image.value!= null){

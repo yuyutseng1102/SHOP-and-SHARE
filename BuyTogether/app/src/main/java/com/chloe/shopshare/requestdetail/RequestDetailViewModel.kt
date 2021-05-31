@@ -74,12 +74,10 @@ class RequestDetailViewModel(private val repository: Repository, private val arg
         get() = _snapPosition
 
     init {
-        UserManager.userId?.let {
-            getUserProfile(it)
-        }
         _requestId.value?.let {
             getLiveDetailRequest(it)
         }
+
     }
 
     private fun getLiveDetailRequest(requestId: String) {
@@ -108,11 +106,11 @@ class RequestDetailViewModel(private val repository: Repository, private val arg
         }
     }
 
-    lateinit var userId : String
+    lateinit var memberId : String
 
     init {
         UserManager.userId?.let {
-            userId = it
+            memberId = it
         }
     }
 
@@ -151,7 +149,7 @@ class RequestDetailViewModel(private val repository: Repository, private val arg
     }
 }
 
-    private fun getUserProfile(userId: String) {
+    fun getUserProfile(userId: String) {
 
         coroutineScope.launch {
             _status.value = LoadApiStatus.LOADING

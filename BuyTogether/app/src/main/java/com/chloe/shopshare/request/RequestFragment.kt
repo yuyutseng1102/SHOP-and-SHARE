@@ -94,14 +94,16 @@ class RequestFragment : Fragment() {
 
         viewModel.successPost.observe(viewLifecycleOwner, Observer {
             it?.let {
-                val successDialog = Dialog(this.requireContext())
-                val view = layoutInflater.inflate(R.layout.dialog_success, null)
-                successDialog.setContentView(view)
-                successDialog.show()
+                if (it) {
+                    val successDialog = Dialog(this.requireContext())
+                    val view = layoutInflater.inflate(R.layout.dialog_success, null)
+                    successDialog.setContentView(view)
+                    successDialog.show()
 
-                findNavController().navigate(
-                    NavigationDirections.navigateToHomeFragment()
-                )
+                    findNavController().navigate(
+                        NavigationDirections.navigateToHomeFragment()
+                    )
+                }
             }
         })
 

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearSnapHelper
@@ -48,6 +49,12 @@ class RequestDetailFragment : Fragment() {
                 linearSnapHelper
             )
         }
+
+        viewModel.request.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                viewModel.getUserProfile(it.userId)
+            }
+        })
 
         binding.buttonHost.setOnClickListener {
             findNavController().navigate(NavigationDirections.navigateToHostFragment())

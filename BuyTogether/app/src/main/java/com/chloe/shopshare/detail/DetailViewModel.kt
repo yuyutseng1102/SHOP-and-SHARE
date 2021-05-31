@@ -89,9 +89,8 @@ class DetailViewModel(
     val productItem = MutableLiveData<Product?>()
 
     init {
-        UserManager.userId?.let {
-            getUserProfile(it)
-        }
+
+
         Log.i("Chloe", "Detail")
         isChecked.value = false
         _shopId.value?.let {
@@ -99,6 +98,7 @@ class DetailViewModel(
             getLiveOrderOfShop(it)
             Log.i("Chloe", "_shop is ${_shop.value}")
         }
+
     }
 
     private fun getLiveDetailShop(shopId: String) {
@@ -193,17 +193,9 @@ class DetailViewModel(
         }
     }
 
-    init {
-        if (_user.value == null) {
-            UserManager.userId?.let {
-                getUserProfile(it)
-            }
-        }
-    }
 
 
-
-    private fun getUserProfile(userId: String) {
+    fun getUserProfile(userId: String) {
 
         coroutineScope.launch {
             _status.value = LoadApiStatus.LOADING
