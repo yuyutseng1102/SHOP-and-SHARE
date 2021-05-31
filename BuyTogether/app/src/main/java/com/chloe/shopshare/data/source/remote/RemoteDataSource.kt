@@ -31,14 +31,12 @@ object RemoteDataSource : DataSource {
     private const val KEY_CREATED_TIME = "time"
     private const val FIREBASE_STORAGE_PATH = "gs://shopshare-592fa.appspot.com/"
 
-
     override suspend fun signInWithGoogle(idToken: String): Result<User> =
         suspendCoroutine { continuation ->
             val credential = GoogleAuthProvider.getCredential(idToken, null)
             val auth = FirebaseAuth.getInstance()
             val userDataBase = FirebaseFirestore.getInstance().collection(PATH_USER)
             var userProfile = User()
-
 
             auth.signInWithCredential(credential)
                 .addOnCompleteListener { task ->
@@ -48,27 +46,37 @@ object RemoteDataSource : DataSource {
                         val user = auth.currentUser
                         user?.let {
                             userDataBase
+                                .whereEqualTo("id",user.uid)
                                 .get()
                                 .addOnCompleteListener { documents ->
                                     if (documents.isSuccessful) {
-                                        for (document in documents.result!!) {
-                                            document.id == user.uid
-                                            if (document.id == user.uid) {
+                                        if (documents.result!!.isEmpty){
+                                            userProfile = User(
+                                                provider = "google",
+                                                id = user.uid,
+                                                name = user.displayName ?: "UserName",
+                                                email = user.email,
+                                                photo = user.photoUrl.toString()
+                                            )
+                                            userDataBase.document(user.uid).set(userProfile)
+                                        }else{
+                                            for (document in documents.result!!) {
                                                 userProfile = document.toObject(User::class.java)
-                                            } else {
-                                                userProfile = User(
-                                                    provider = "google",
-                                                    id = user.uid,
-                                                    name = user.displayName ?: "UserName",
-                                                    email = user.email,
-                                                    photo = user.photoUrl.toString()
-                                                )
-                                                userDataBase.document(user.uid).set(userProfile)
                                             }
+                                            userProfile = userProfile
                                         }
-                                        userProfile = userProfile
                                         Log.d("Login", "userProfile = $userProfile")
                                         continuation.resume(Result.Success(userProfile))
+                                    }else {
+                                        task.exception?.let {
+                                            Log.w(
+                                                "Login",
+                                                "[${this::class.simpleName}] Error getting documents. ${it.message}"
+                                            )
+                                            continuation.resume(Result.Error(it))
+                                            return@addOnCompleteListener
+                                        }
+                                        continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
                                     }
                                 }
                         }
@@ -85,6 +93,61 @@ object RemoteDataSource : DataSource {
                     }
                 }
         }
+
+
+//    override suspend fun signInWithGoogle(idToken: String): Result<User> =
+//        suspendCoroutine { continuation ->
+//            val credential = GoogleAuthProvider.getCredential(idToken, null)
+//            val auth = FirebaseAuth.getInstance()
+//            val userDataBase = FirebaseFirestore.getInstance().collection(PATH_USER)
+//            var userProfile = User()
+//
+//
+//            auth.signInWithCredential(credential)
+//                .addOnCompleteListener { task ->
+//                    if (task.isSuccessful) {
+//                        // Sign in success, update UI with the signed-in user's information
+//                        Log.d("Login", "signInWithCredential:success")
+//                        val user = auth.currentUser
+//                        user?.let {
+//                            userDataBase
+//                                .get()
+//                                .addOnCompleteListener { documents ->
+//                                    if (documents.isSuccessful) {
+//                                        for (document in documents.result!!) {
+//                                            document.id == user.uid
+//                                            if (document.id == user.uid) {
+//                                                userProfile = document.toObject(User::class.java)
+//                                            } else {
+//                                                userProfile = User(
+//                                                    provider = "google",
+//                                                    id = user.uid,
+//                                                    name = user.displayName ?: "UserName",
+//                                                    email = user.email,
+//                                                    photo = user.photoUrl.toString()
+//                                                )
+//                                                userDataBase.document(user.uid).set(userProfile)
+//                                            }
+//                                        }
+//                                        userProfile = userProfile
+//                                        Log.d("Login", "userProfile = $userProfile")
+//                                        continuation.resume(Result.Success(userProfile))
+//                                    }
+//                                }
+//                        }
+//                    } else {
+//                        task.exception?.let {
+//                            Log.w(
+//                                "Login",
+//                                "[${this::class.simpleName}] Error getting documents. ${it.message}"
+//                            )
+//                            continuation.resume(Result.Error(it))
+//                            return@addOnCompleteListener
+//                        }
+//                        continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
+//                    }
+//                }
+//        }
 
     override suspend fun getUserProfile(userId: String): Result<User> =
         suspendCoroutine { continuation ->

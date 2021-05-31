@@ -50,12 +50,19 @@ class RequestFragment : Fragment() {
             viewModel.selectCountry()
         })
 
+
+
+
+
+
         val imageAdapter = RequestImageAdapter(viewModel)
         binding.recyclerImage.adapter = imageAdapter
         viewModel.image.observe(viewLifecycleOwner, Observer {
             Log.d("Chloe","notify imageAdapter the image change to ${viewModel.image.value}")
             imageAdapter.notifyDataSetChanged()
         })
+
+
         binding.pickImageButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
                 type = "image/*"
@@ -63,29 +70,32 @@ class RequestFragment : Fragment() {
             startActivityForResult(intent, pickImageFile)
         }
 
-        viewModel.imageUri.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                Log.d("Chloe","imgUri is change to ${viewModel.imageUri.value}")
-                viewModel.pickImages()
-            }
-        })
 
         binding.buttonPostRequest.setOnClickListener {
             viewModel.checkRequest()
             viewModel.isInvalid.observe(viewLifecycleOwner, Observer {
                 if(it == null){
-                    viewModel.editRequest()
+                    viewModel.image.value?.let {
+                        viewModel.uploadImages(it)
+                    }
                 }else{
                     Toast.makeText(context, "尚未輸入完整內容", Toast.LENGTH_SHORT).show()
                 }
             })
         }
 
-        val successDialog = Dialog(this.requireContext())
-        val view = layoutInflater.inflate(R.layout.dialog_success, null)
+        //上傳圖片完畢送出
+        viewModel.uploadDone.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if (it) { viewModel.editRequest()}
+            } })
+
+
 
         viewModel.successPost.observe(viewLifecycleOwner, Observer {
             it?.let {
+                val successDialog = Dialog(this.requireContext())
+                val view = layoutInflater.inflate(R.layout.dialog_success, null)
                 successDialog.setContentView(view)
                 successDialog.show()
 
@@ -104,7 +114,7 @@ class RequestFragment : Fragment() {
         when (requestCode) {
             pickImageFile -> {
                 if (resultCode == Activity.RESULT_OK && resultData != null)
-                    resultData.data?.let { uri -> viewModel.uploadImages(uri)}
+                    resultData.data?.let { uri -> viewModel.pickImages(uri)}
             }
         }
     }

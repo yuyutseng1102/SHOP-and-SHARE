@@ -2,14 +2,16 @@ package com.chloe.shopshare.host
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.chloe.shopshare.databinding.ItemHostImageBinding
 import com.chloe.shopshare.databinding.ItemHostOptionBinding
+import kotlinx.android.synthetic.main.item_home_grid.view.*
 
 class HostImageAdapter(private val viewModel: HostViewModel) : ListAdapter<String, HostImageAdapter.ViewHolder>(DiffCallback) {
-
+    var imageView: ImageView? = null
     class ViewHolder(private var binding: ItemHostImageBinding):
             RecyclerView.ViewHolder(binding.root) {
         fun bind(item: String,viewModel: HostViewModel) {

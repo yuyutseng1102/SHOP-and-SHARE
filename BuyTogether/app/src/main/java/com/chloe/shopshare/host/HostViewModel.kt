@@ -3,6 +3,7 @@ package com.chloe.shopshare.host
 
 import android.net.Uri
 import android.util.Log
+import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -42,13 +43,22 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
         get() = _error
 
     private val _leave = MutableLiveData<Boolean>()
-
     val leave: LiveData<Boolean>
         get() = _leave
+
+    private val _uploadDone = MutableLiveData<Boolean>()
+    val uploadDone: LiveData<Boolean>
+        get() = _uploadDone
+
 
     private val _image = MutableLiveData<List<String>>()
     val image: LiveData<List<String>>
         get() =  _image
+
+    private val _postImage = MutableLiveData<List<String>>()
+    val postImage: LiveData<List<String>>
+        get() =  _postImage
+
 
 
     // Create a Coroutine scope using a job to be able to cancel when needed
@@ -89,7 +99,7 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
 
 
     init {
-//        image.value = listOf("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn2O7C-ZPE_D1GshuECEOcxjqIMmnXSxo0fA&usqp=CAU")
+        _status.value = LoadApiStatus.DONE
         _isInvalid.value = null
         _isConditionDone.value = false
     }
@@ -105,18 +115,20 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
         }
 
     //add uri downloaded from storage and display on layout
-    private lateinit var imageList : MutableList<String>
-    fun pickImages(){
+    var imageList : MutableList<String> = mutableListOf()
+
+    fun pickImages(uri:Uri){
         imageList =
-        if (image.value!= null){
-            image.value?.toMutableList()?: mutableListOf()
-        }else{
-            mutableListOf()
-        }
-        imageList.add(imageUri.value!!)
+            if (image.value!= null){
+                image.value?.toMutableList()?: mutableListOf()
+            }else{
+                mutableListOf()
+            }
+        imageList.add(uri.toString())
         _image.value = imageList
-        Log.d("Chloe","imageList add $imageUri , the list change to ${_image.value} ")
+        Log.d("Chloe","imageList add $uri , the list change to ${_image.value} ")
     }
+
 
     fun postShop(shop: Shop) {
 
@@ -147,35 +159,56 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
     }
 
 
+    fun uploadImages(uriList: List<String>) {
+        val list : MutableList<String> = mutableListOf()
 
 
-    fun uploadImages(uri: Uri) {
+        Log.d("Chloe","uriList = ${uriList} ")
 
-        coroutineScope.launch {
-
+        for (item in uriList) {
             _status.value = LoadApiStatus.LOADING
 
-            when (val result = repository.uploadImage(uri,"host")) {
-                is Result.Success -> {
-                    _error.value = null
-                    _status.value = LoadApiStatus.DONE
-                    imageUri.value = result.data
-                    leave(true)
+            coroutineScope.launch {
+
+                _status.value = LoadApiStatus.LOADING
+                val result = repository.uploadImage(item.toUri(), "host")
+
+                    when (result) {
+                    is Result.Success -> {
+                        _error.value = null
+                        _status.value = LoadApiStatus.DONE
+                        Log.d("Chloe","download uri is ${result.data}")
+                        imageUri.value =result.data
+                        list.add(imageUri.value!!)
+
+                    }
+                    is Result.Fail -> {
+                        _error.value = result.error
+                        _status.value = LoadApiStatus.ERROR
+                        imageUri.value = null
+                    }
+                    is Result.Error -> {
+                        _error.value = result.exception.toString()
+                        _status.value = LoadApiStatus.ERROR
+                        imageUri.value = null
+                    }
+                    else -> {
+                        _error.value = MyApplication.instance.getString(R.string.result_fail)
+                        _status.value = LoadApiStatus.ERROR
+                        imageUri.value = null
+                    }
                 }
-                is Result.Fail -> {
-                    _error.value = result.error
-                    _status.value = LoadApiStatus.ERROR
-                }
-                is Result.Error -> {
-                    _error.value = result.exception.toString()
-                    _status.value = LoadApiStatus.ERROR
-                }
-                else -> {
-                    _error.value = MyApplication.instance.getString(R.string.result_fail)
-                    _status.value = LoadApiStatus.ERROR
-                }
+
+                Log.d("Chloe","list.value = ${list} ")
+                _uploadDone.value = (list.size == uriList.size)
+                _postImage.value = list
+                Log.d("Chloe","_image.value = ${_image.value} ")
+
             }
+
         }
+
+        _status.value = LoadApiStatus.DONE
     }
 
 
@@ -185,6 +218,11 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
         _image.value = imageList
         Log.d("Chloe","imageList remove $item , the list change to ${_image.value} ")
     }
+//    fun removeImages(item:String){
+//        imageList.remove(item)
+//        _image.value = imageList
+//        Log.d("Chloe","imageList remove $item , the list change to ${_image.value} ")
+//    }
 
     //select gather category
     val selectedCategoryPosition = MutableLiveData<Int>()
@@ -222,14 +260,18 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
         deliveryMethod.value = deliveryList
     }
 
+    lateinit var uriList : List<Uri>
+
 
 
     fun readyToPost() {
+
+
         //紅字訊息提醒
         _isInvalid.value =
             when {
                 selectedMethodRadio.value == 0 -> INVALID_FORMAT_METHOD_EMPTY
-                image.value.isNullOrEmpty() -> INVALID_FORMAT_IMAGE_EMPTY
+                _image.value.isNullOrEmpty() -> INVALID_FORMAT_IMAGE_EMPTY
                 title.value.isNullOrEmpty() -> INVALID_FORMAT_TITLE_EMPTY
                 description.value.isNullOrEmpty() -> INVALID_FORMAT_DESCRIPTION_EMPTY
                 source.value.isNullOrEmpty() -> INVALID_FORMAT_SOURCE_EMPTY
@@ -241,12 +283,13 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
 
         //是否有東西尚未輸入
 
-        if (_isInvalid.value != null){
-            _status.value = LoadApiStatus.LOADING
-            Log.d("Chloe","The input is invalid, the value is ${_isInvalid.value}")
-        }else{
-            _status.value = LoadApiStatus.DONE
-        }
+//        if (_isInvalid.value != null){
+//            _status.value = LoadApiStatus.LOADING
+//            Log.d("Chloe","The input is invalid, the value is ${_isInvalid.value}")
+//        }
+//        else{
+//            _status.value = LoadApiStatus.DONE
+//        }
 
         Log.d("Chloe","The selectedMethodRadio.value is valid ${selectedMethodRadio.value}")
         Log.d("Chloe","The image.value is valid${image.value}")
@@ -267,8 +310,8 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
             _shop.value = Shop(
                 userId = it,
                 type = method,
-                mainImage = image.value?.get(0) ?:"",
-                image = image.value?: listOf(),
+                mainImage = _postImage.value?.get(0) ?:"",
+                image = _postImage.value?: listOf(),
                 title = title.value?:"",
                 description = description.value?:"",
                 category = category.value?:0,
@@ -285,7 +328,9 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
             )
         }
 
-
+        _shop.value?.let{
+            postShop(it)
+        }
         Log.d("Chloe","The collection posted is ${_shop.value}")
     }
 
@@ -324,3 +369,14 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
 }
 
 
+//    fun pickImages(){
+//        imageList =
+//        if (image.value!= null){
+//            image.value?.toMutableList()?: mutableListOf()
+//        }else{
+//            mutableListOf()
+//        }
+//        imageList.add(imageUri.value!!)
+//        _image.value = imageList
+//        Log.d("Chloe","imageList add $imageUri , the list change to ${_image.value} ")
+//    }

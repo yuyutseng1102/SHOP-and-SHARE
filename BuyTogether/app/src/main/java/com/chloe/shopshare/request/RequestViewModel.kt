@@ -2,6 +2,7 @@ package com.chloe.shopshare.request
 
 import android.net.Uri
 import android.util.Log
+import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -48,9 +49,17 @@ class RequestViewModel(private val repository: Repository) : ViewModel() {
     val leave: LiveData<Boolean>
         get() = _leave
 
+    private val _uploadDone = MutableLiveData<Boolean>()
+    val uploadDone: LiveData<Boolean>
+        get() = _uploadDone
+
     private val _image = MutableLiveData<List<String>>()
     val image: LiveData<List<String>>
         get() = _image
+
+    private val _postImage = MutableLiveData<List<String>>()
+    val postImage: LiveData<List<String>>
+        get() =  _postImage
 
     private val _isInvalid = MutableLiveData<Int>()
     val isInvalid: LiveData<Int>
@@ -67,7 +76,6 @@ class RequestViewModel(private val repository: Repository) : ViewModel() {
     //gather information
 
     val mainImage = MutableLiveData<String?>()
-    val imageUri = MutableLiveData<String>()
     val title = MutableLiveData<String>()
     val description = MutableLiveData<String>()
     val category = MutableLiveData<Int>()
@@ -75,17 +83,18 @@ class RequestViewModel(private val repository: Repository) : ViewModel() {
     val source = MutableLiveData<String>()
     private lateinit var imageList: MutableList<String>
 
-    fun pickImages() {
+    fun pickImages(uri:Uri){
         imageList =
-            if (image.value != null) {
-                image.value?.toMutableList() ?: mutableListOf()
-            } else {
+            if (image.value!= null){
+                image.value?.toMutableList()?: mutableListOf()
+            }else{
                 mutableListOf()
             }
-        imageList.add(imageUri.value!!)
+        imageList.add(uri.toString())
         _image.value = imageList
-        Log.d("Request", "imageList add $imageUri , the list change to ${_image.value} ")
+        Log.d("Chloe","imageList add $uri , the list change to ${_image.value} ")
     }
+
 
     //delete photo
     fun removeImages(item: String) {
@@ -133,8 +142,8 @@ class RequestViewModel(private val repository: Repository) : ViewModel() {
         UserManager.userId?.let {
             _request.value = Request(
                 userId = it,
-                mainImage = image.value?.get(0) ?: "",
-                image = image.value ?: listOf(),
+                mainImage = _postImage.value?.get(0) ?: "",
+                image = _postImage.value ?: listOf(),
                 title = title.value ?: "",
                 description = description.value ?: "",
                 category = category.value ?: 0,
@@ -188,33 +197,49 @@ class RequestViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
-    fun uploadImages(uri: Uri) {
-
-        coroutineScope.launch {
-
+    fun uploadImages(uriList: List<String>) {
+        val list : MutableList<String> = mutableListOf()
+        Log.d("Chloe","uriList = $uriList ")
+        val imageUri = MutableLiveData<String>()
+        for (item in uriList) {
+            coroutineScope.launch {
             _status.value = LoadApiStatus.LOADING
+                val result = repository.uploadImage(item.toUri(), "request")
+                    when (result) {
+                        is Result.Success -> {
+                            _error.value = null
+                            _status.value = LoadApiStatus.DONE
+                            Log.d("Chloe","download uri is ${result.data}")
+                            imageUri.value =result.data
+                            list.add(imageUri.value!!)
+                        }
+                        is Result.Fail -> {
+                            _error.value = result.error
+                            _status.value = LoadApiStatus.ERROR
+                            imageUri.value = null
+                        }
+                        is Result.Error -> {
+                            _error.value = result.exception.toString()
+                            _status.value = LoadApiStatus.ERROR
+                            imageUri.value = null
+                        }
+                        else -> {
+                            _error.value = MyApplication.instance.getString(R.string.result_fail)
+                            _status.value = LoadApiStatus.ERROR
+                            imageUri.value = null
+                        }
+                    }
 
-            when (val result = repository.uploadImage(uri, "request")) {
-                is Result.Success -> {
-                    _error.value = null
-                    _status.value = LoadApiStatus.DONE
-                    imageUri.value = result.data
-                    leave(true)
-                }
-                is Result.Fail -> {
-                    _error.value = result.error
-                    _status.value = LoadApiStatus.ERROR
-                }
-                is Result.Error -> {
-                    _error.value = result.exception.toString()
-                    _status.value = LoadApiStatus.ERROR
-                }
-                else -> {
-                    _error.value = MyApplication.instance.getString(R.string.result_fail)
-                    _status.value = LoadApiStatus.ERROR
-                }
+                Log.d("Chloe","list.value = ${list} ")
+                _uploadDone.value = (list.size == uriList.size)
+                _postImage.value = list
+                Log.d("Chloe","_image.value = ${_image.value} ")
+
             }
+
         }
+
+        _status.value = LoadApiStatus.DONE
     }
 
     companion object {
