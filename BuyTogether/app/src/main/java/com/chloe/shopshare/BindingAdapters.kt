@@ -215,13 +215,13 @@ fun bindDisplayFormatTime(textView: TextView, time: Long?) {
 @BindingAdapter("deadLineToDisplay","conditionType","conditionToDisplay")
 fun bindDisplayCondition(textView: TextView,deadLine:Long?,conditionType:Int?,condition:Int?) {
 
-    val deadLineToDisplay: String? = "預計${deadLine?.toDisplayFormat()}收團"
+    val deadLineToDisplay: String? = "預計 ${deadLine?.toDisplayFormat()} 收團"
 
     val conditionToDisplay: String? =
         when (conditionType) {
-            0 -> "滿額NT$${condition}止"
-            1 -> "徵滿${condition}份止"
-            2 -> "徵滿${condition}人止"
+            0 -> "滿額 NT$${condition} 止"
+            1 -> "徵滿 ${condition}份 止"
+            2 -> "徵滿 ${condition}人 止"
             else -> ""
         }
 

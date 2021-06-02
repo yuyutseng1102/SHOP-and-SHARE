@@ -6,6 +6,7 @@
     <data>
         <import type="android.view.View" />
         <variable name="item" type="com.chloe.shopshare.data.Notify" />
+        <variable name="isCheck" type="Boolean" />
         <variable name="viewModel" type="com.chloe.shopshare.notify.NotifyViewModel" />
 
     </data>
@@ -74,16 +75,15 @@
                 app:timeToDisplayFormat="@{item.time}"
                 tools:text="2021/05/11 12:30" />
 
-            <ToggleButton
+            <CheckBox
                 android:id="@+id/notify_expand_button"
                 style="?attr/materialButtonToggleGroupStyle"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:button="@drawable/sl_expand"
                 android:backgroundTint="@color/gray_888888"
-                android:textOff=""
-                android:textOn=""
+                android:checked="@{isCheck}"
                 android:visibility='@{(item.message == null || item.message == "")? View.GONE:View.VISIBLE}'
-                app:isExpandChecked="@{item.isCheck}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 

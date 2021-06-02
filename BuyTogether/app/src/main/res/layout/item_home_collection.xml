@@ -110,7 +110,7 @@
                 android:button="@drawable/sl_like_24dp"
                 android:buttonTint="@color/green_97B6A8"
                 android:clickable="true"
-                android:checked="@={isShopLiked}"
+                android:checked="@{isShopLiked}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:useMaterialThemeColors="false" />

@@ -21,11 +21,13 @@ class NotifyAdapter(private val viewModel: NotifyViewModel) : ListAdapter<Notify
                 when (isChecked){
                     true ->{
                         item.isCheck = true
+                        binding.isCheck = isChecked
                         Log.d("checkChloe", "isChecked = ${item.isCheck}")
                         binding.messageBlock.visibility = View.VISIBLE
                         NotifyAdapter(viewModel).notifyDataSetChanged()}
                     else->{
                         item.isCheck = false
+                        binding.isCheck = isChecked
                         Log.d("checkChloe", "isUnChecked = ${item.isCheck}")
                         binding.messageBlock.visibility = View.GONE
                         NotifyAdapter(viewModel).notifyDataSetChanged()

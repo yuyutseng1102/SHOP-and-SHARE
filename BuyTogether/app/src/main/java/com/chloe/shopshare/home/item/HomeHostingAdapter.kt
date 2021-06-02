@@ -3,6 +3,7 @@ package com.chloe.shopshare.home.item
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Adapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -22,13 +23,20 @@ class HomeHostingAdapter(private val viewModel: HomeHostViewModel)  : ListAdapte
             binding.item = item
             binding.viewModel = viewModel
             binding.isShopLiked = isShopLiked(item, viewModel.shopLikedList.value?: listOf())
+            HomeHostingAdapter(viewModel).notifyDataSetChanged()
             binding.checkBoxLike.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    Log.d("LikeTag","add = viewModel.userId=${viewModel.userId}, item.id = ${item.id}")
-                    viewModel.addShopLiked(viewModel.userId,item.id)
-                }else{
-                    Log.d("LikeTag","remove = viewModel.userId=${viewModel.userId}, item.id = ${item.id}")
-                    viewModel.removeShopLiked(viewModel.userId,item.id)
+                Log.d("LikeTag", "check")
+                when (isChecked) {
+                    true -> {
+//                        binding.isShopLiked = isChecked
+                        Log.d("LikeTag", "add = viewModel.userId=${viewModel.userId}, item.id = ${item.id}")
+                        viewModel.addShopLiked(viewModel.userId, item.id)
+                    }
+                    else -> {
+//                        binding.isShopLiked = isChecked
+                        Log.d("LikeTag", "remove = viewModel.userId=${viewModel.userId}, item.id = ${item.id}")
+                        viewModel.removeShopLiked(viewModel.userId, item.id)
+                    }
                 }
             }
             binding.executePendingBindings()
@@ -37,6 +45,7 @@ class HomeHostingAdapter(private val viewModel: HomeHostViewModel)  : ListAdapte
         private fun isShopLiked(item: Shop, likeList: List<String>):Boolean{
             var like  = ""
             for (shop in likeList){
+                Log.d("LikeTag","shop loop = ${shop}")
                 if (shop == item.id){
                     like =  shop
                 }

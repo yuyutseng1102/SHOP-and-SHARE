@@ -1,6 +1,7 @@
 package com.chloe.shopshare.home.item
 
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -32,9 +33,15 @@ class HomeHostViewModel(private val repository: Repository) : ViewModel() {
     val shopLikedList : LiveData<List<String>>
         get() = _shopLikedList
 
-    private val _isShopLiked = MutableLiveData<Boolean>()
-    val isShopLiked: LiveData<Boolean>
-        get() = _isShopLiked
+
+
+    private val _successGetLikeList = MutableLiveData<Boolean?>()
+    val successGetLikeList: LiveData<Boolean?>
+        get() = _successGetLikeList
+
+//    private val _isShopLiked = MutableLiveData<Boolean>()
+//    val isShopLiked: LiveData<Boolean>
+//        get() = _isShopLiked
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -84,6 +91,7 @@ class HomeHostViewModel(private val repository: Repository) : ViewModel() {
     lateinit var userId : String
 
     init {
+        Log.d("LikeTag","UserManager.userId = ${UserManager.userId}")
         UserManager.userId?.let {
             userId = it
         }
@@ -94,6 +102,14 @@ class HomeHostViewModel(private val repository: Repository) : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
+    }
+
+    fun getLikeList(){
+        getUserProfile(userId)
+    }
+
+    fun onLikeListGet(){
+        _successGetLikeList.value = null
     }
 
     private fun getOpeningShop() {
@@ -142,21 +158,25 @@ class HomeHostViewModel(private val repository: Repository) : ViewModel() {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
+                    _successGetLikeList.value = true
                     result.data.like
                 }
                 is Result.Fail -> {
                     _error.value = result.error
                     _status.value = LoadApiStatus.ERROR
+                    _successGetLikeList.value = null
                     null
                 }
                 is Result.Error -> {
                     _error.value = result.exception.toString()
                     _status.value = LoadApiStatus.ERROR
+                    _successGetLikeList.value = null
                     null
                 }
                 else -> {
                     _error.value = MyApplication.instance.getString(R.string.result_fail)
                     _status.value = LoadApiStatus.ERROR
+                    _successGetLikeList.value = null
                     null
                 }
             }

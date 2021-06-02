@@ -111,7 +111,10 @@
         android:name="com.chloe.shopshare.myrequest.MyRequestFragment"
         android:label="fragment_my_request"
         tools:layout="@layout/fragment_my_request" />
-
+    <fragment
+        android:id="@+id/likeFragment"
+        android:name="com.chloe.shopshare.like.LikeFragment"
+        android:label="LikeFragment" />
 
 
 
@@ -126,6 +129,10 @@
         app:popUpToInclusive="true"/>
 
     <action android:id="@+id/navigate_to_profile_fragment" app:destination="@id/profileFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
+
+    <action android:id="@+id/navigate_to_like_fragment" app:destination="@id/likeFragment"
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true" />
 
