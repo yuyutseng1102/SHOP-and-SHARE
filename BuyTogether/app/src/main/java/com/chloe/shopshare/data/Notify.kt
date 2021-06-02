@@ -11,6 +11,7 @@ data class Notify(
     var id: String = "",
     val shopId: String = "",
     var orderId: String? = null,
+    val requestId: String? = null,
     var time: Long = 0L,
     val type: Int = 10,
     val title: String = "",

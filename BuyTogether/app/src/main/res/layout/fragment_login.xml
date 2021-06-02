@@ -13,21 +13,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/green_E6E4D7"
+        android:background="@color/white"
         tools:context=".login.LoginFragment">
 
         <!-- TODO: Update blank fragment layout -->
-
-        <TextView
-            android:id="@+id/sing_in_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="112dp"
-            android:text="Hi! 請先登入Google帳號"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/sign_in_google_button"
@@ -40,7 +29,23 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.345" />
+            app:layout_constraintVertical_bias="0.67" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="224dp"
+            android:layout_marginBottom="24dp"
+            android:fontFamily="@font/bad_script"
+            android:text="Shop &amp; Share"
+            android:textColor="@color/bottom_navigation_item_selected"
+            android:textSize="36sp"
+            app:layout_constraintBottom_toTopOf="@+id/sign_in_google_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

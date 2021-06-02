@@ -1,16 +1,11 @@
 package com.chloe.shopshare.ext
 
 import android.icu.text.SimpleDateFormat
-import android.icu.util.Calendar
-import android.os.Parcelable
 import android.util.Log
 import com.chloe.shopshare.data.Order
 import com.chloe.shopshare.data.Product
 import com.chloe.shopshare.notify.NotifyType
 import com.chloe.shopshare.shop.OrderStatusType
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.parcel.IgnoredOnParcel
-import kotlinx.android.parcel.Parcelize
 import java.util.*
 
 fun Long.toDisplayFormat(): String {
@@ -33,7 +28,8 @@ fun NotifyType.toDisplayNotifyContent(shopTitle:String): String {
         NotifyType.QUANTITY_REACH_CONDITION -> "您的團購 : $shopTitle 總件數已達OOO , 快去團購管理確認吧 ! "
         NotifyType.MEMBER_REACH_CONDITION -> "您的團購 : $shopTitle 跟團人數已達OOO , 快去團購管理確認吧 ! "
         NotifyType.REACH_DEADLINE -> "您的團購 : $shopTitle 已達預定成團日囉 , 快去團購管理確認吧 ! "
-        NotifyType.SOON_TO_END -> "您追蹤的團購 : $shopTitle 即將成團囉 ! 趕快把握機會+1吧 ! "
+        NotifyType.REQUEST_SUCCESS_REQUESTER -> "您的徵團文 : $shopTitle 已經有人開團囉 ! 快去看看吧 ! "
+        NotifyType.REQUEST_SUCCESS_MEMBER -> "您有興趣的徵團文 : $shopTitle 已經有人開團囉 ! 快去看看吧 ! "
         NotifyType.SYSTEM_NOTIFY -> ""
     }
 }

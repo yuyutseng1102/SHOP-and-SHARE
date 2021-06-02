@@ -72,7 +72,7 @@ class LocalDataSource(val context: Context): DataSource {
         TODO("Not yet implemented")
     }
 
-    override suspend fun updateRequestHost(requestId: String, hostId: String): Result<Boolean> {
+    override suspend fun updateRequestHost(requestId: String, shopId: String , hostId: String): Result<Boolean> {
         TODO("Not yet implemented")
     }
 
@@ -92,20 +92,28 @@ class LocalDataSource(val context: Context): DataSource {
         TODO("Not yet implemented")
     }
 
+    override suspend fun increaseOrderSize(shopId: String): Result<Boolean> {
+        TODO("Not yet implemented")
+    }
+
 
     override suspend fun uploadImage(uri: Uri, folder: String): Result<String> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun addSubscribe(userId: String, shopId: String): Result<Boolean> {
+    override suspend fun addShopLiked(userId: String, shopId: String): Result<Boolean> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun removeSubscribe(userId: String, shopId: String): Result<Boolean> {
+    override suspend fun removeShopLiked(userId: String, shopId: String): Result<Boolean> {
         TODO("Not yet implemented")
     }
 
     override suspend fun postShopNotifyToMember(notify: Notify): Result<Boolean> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun postRequestNotifyToMember(notify: Notify): Result<Boolean> {
         TODO("Not yet implemented")
     }
 

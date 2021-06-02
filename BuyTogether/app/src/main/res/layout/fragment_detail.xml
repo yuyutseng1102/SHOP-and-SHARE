@@ -14,7 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/color_background"
+        android:background="@color/gray_f5f5f5"
         tools:context=".detail.DetailFragment">
 
         <androidx.core.widget.NestedScrollView
@@ -38,7 +38,8 @@
                     android:background="#FFFFFF"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="gone">
 
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -69,22 +70,26 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
 
-
-                    <!--                    <ImageView-->
-                    <!--                        android:id="@+id/detail_image"-->
-                    <!--                        android:layout_width="0dp"-->
-                    <!--                        android:layout_height="0dp"-->
-                    <!--                        app:imageUrl="@{viewModel.shop.mainImage}"-->
-                    <!--                        app:layout_constraintDimensionRatio="1:1"-->
-                    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
-                    <!--                        app:layout_constraintStart_toStartOf="parent"-->
-                    <!--                        app:layout_constraintTop_toTopOf="parent"-->
-                    <!--                        tools:srcCompat="@drawable/img_detail" />-->
-
+                    <TextView
+                        android:id="@+id/shop_status"
+                        style="@style/DetailSubTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:background="#99FFFFFF"
+                        android:gravity="bottom|center"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="4dp"
+                        android:text='@{viewModel.shop.status == 0 ? "開團中": "已結團"}'
+                        android:textColor="@color/black_3f3a3a"
+                        android:textIsSelectable="true"
+                        app:layout_constrainedHeight="false"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="已結團" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/detail_info_block"
+                    android:id="@+id/detail_title_block"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#FFFFFF"
@@ -92,18 +97,19 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/detail_img_block">
 
-
                     <TextView
                         android:id="@+id/detail_title"
                         style="@style/DetailTitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginStart="8dp"
                         android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="16dp"
                         android:maxLines="2"
                         android:padding="1dp"
                         android:text="@{viewModel.shop.title}"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tag_category"
@@ -114,7 +120,7 @@
                         style="@style/BlackContent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginStart="8dp"
                         android:layout_marginTop="16dp"
                         android:background="@drawable/bg_tag"
                         android:backgroundTint="@color/tag_category"
@@ -141,48 +147,48 @@
                         tools:text="日本" />
 
                     <TextView
-                        android:id="@+id/host_title"
+                        android:id="@+id/member_number_text"
                         style="@style/DetailSubTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:text="主購"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/detail_title" />
-
-                    <TextView
-                        android:id="@+id/host_id"
-                        style="@style/BlackContent"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:text="@{viewModel.user.name}"
-                        app:layout_constraintBottom_toBottomOf="@+id/host_title"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="@+id/detail_condition_text"
-                        app:layout_constraintTop_toTopOf="@+id/host_title"
-                        tools:text="chloe193798" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:memberNumberToDisplay="@{viewModel.orderList.size}"
+                        tools:text="已跟團 + 5" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/detail_info_block"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_title_block">
+
 
                     <TextView
                         android:id="@+id/detail_condition_title"
                         style="@style/DetailSubTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="16dp"
                         android:text="成團條件"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/host_time_title" />
+                        app:layout_constraintStart_toStartOf="@+id/host_image"
+                        app:layout_constraintTop_toBottomOf="@+id/host_image" />
 
                     <TextView
                         android:id="@+id/detail_condition_text"
                         style="@style/BlackContent"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="8dp"
                         android:maxLines="2"
                         app:conditionToDisplay="@{viewModel.shop.condition}"
                         app:conditionType="@{viewModel.shop.conditionType}"
@@ -193,67 +199,17 @@
                         tools:text="TextView" />
 
                     <TextView
-                        android:id="@+id/host_time_title"
-                        style="@style/DetailSubTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="開團日期"
-                        app:layout_constraintStart_toStartOf="@+id/host_title"
-                        app:layout_constraintTop_toBottomOf="@+id/host_title" />
-
-                    <TextView
                         android:id="@+id/host_time_text"
-                        style="@style/BlackContent"
+                        style="@style/UserName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/host_time_title"
-                        app:layout_constraintStart_toEndOf="@+id/host_time_title"
-                        app:layout_constraintTop_toTopOf="@+id/host_time_title"
+                        android:layout_marginEnd="8dp"
+                        android:textColor="@color/gray_999999"
+                        app:layout_constraintBottom_toBottomOf="@+id/host_id"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/host_id"
                         app:timeToDisplayFormat="@{viewModel.shop.time}"
                         tools:text="2021/05/09" />
-
-                    <View
-                        android:id="@+id/view_separation"
-                        android:layout_width="1dp"
-                        android:layout_height="14dp"
-                        android:layout_marginStart="16dp"
-                        android:background="@color/gray_cccccc"
-                        app:layout_constraintBottom_toBottomOf="@+id/host_time_text"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toEndOf="@+id/host_time_text"
-                        app:layout_constraintTop_toTopOf="@+id/host_time_text"
-                        app:layout_constraintVertical_bias="0.5" />
-
-                    <TextView
-                        android:id="@+id/shop_status"
-                        style="@style/DetailSubTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:text='@{viewModel.shop.status == 0 ? "/ 開團中 /": "/ 已結團 /"}'
-                        android:textColor="@color/green_7A8277"
-                        app:layout_constraintBottom_toBottomOf="@+id/tag_country"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/tag_country"
-                        tools:text="/ 已結團 /" />
-
-                    <TextView
-                        android:id="@+id/member_number_text"
-                        style="@style/BlackContent"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/host_time_text"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toEndOf="@+id/view_separation"
-                        app:layout_constraintTop_toTopOf="@+id/host_time_text"
-                        app:memberNumberToDisplay="@{viewModel.orderList.size}"
-                        tools:text="已跟團 + 5" />
 
 
                     <TextView
@@ -261,10 +217,9 @@
                         style="@style/DetailSubTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="16dp"
                         android:text="購買來源"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/detail_condition_title"
                         app:layout_constraintTop_toBottomOf="@+id/detail_condition_text" />
 
                     <TextView
@@ -272,8 +227,8 @@
                         style="@style/BlackContent"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="8dp"
                         android:layout_marginBottom="16dp"
                         android:text="@{viewModel.shop.source}"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -281,8 +236,35 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/source_title"
                         app:layout_constraintTop_toTopOf="@+id/source_title"
-                        app:layout_constraintVertical_bias="0.0"
                         tools:text="COSTCO" />
+
+
+                    <ImageView
+                        android:id="@+id/host_image"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:foreground="@drawable/bg_photo_radius"
+                        android:scaleType="fitXY"
+                        app:imageUrl="@{viewModel.user.photo}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:srcCompat="@tools:sample/avatars" />
+
+                    <TextView
+                        android:id="@+id/host_id"
+                        style="@style/UserName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:maxLines="1"
+                        android:text="@{viewModel.user.name}"
+                        android:textColor="@color/green_7A8277"
+                        app:layout_constraintBottom_toBottomOf="@+id/host_image"
+                        app:layout_constraintStart_toEndOf="@+id/host_image"
+                        app:layout_constraintTop_toTopOf="@+id/host_image"
+                        tools:text="chloe193798" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -296,15 +278,14 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/detail_info_block"
-                    tools:visibility="gone">
+                    app:layout_constraintTop_toBottomOf="@+id/detail_info_block">
 
                     <TextView
                         android:id="@+id/deatil_option_title"
                         style="@style/DetailSubTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginStart="8dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="16dp"
                         android:text="商品選項"
@@ -317,7 +298,7 @@
                         android:id="@+id/option_expand_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginEnd="8dp"
                         android:background="@drawable/ic_baseline_chevron_right_24"
                         android:backgroundTint="@color/gray_888888"
                         android:onClick="@{() -> viewModel.navigateToOption(viewModel.product)}"
@@ -327,11 +308,11 @@
 
                     <TextView
                         android:id="@+id/short_option_text"
-                        style="@style/DetailContent"
+                        style="@style/BlackContent"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="32dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginEnd="8dp"
                         app:layout_constraintBottom_toBottomOf="@+id/deatil_option_title"
                         app:layout_constraintEnd_toStartOf="@+id/option_expand_button"
                         app:layout_constraintStart_toEndOf="@+id/deatil_option_title"
@@ -350,15 +331,14 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/option_block"
-                    tools:visibility="gone">
+                    app:layout_constraintTop_toBottomOf="@+id/option_block">
 
                     <TextView
                         android:id="@+id/deatil_delivery_title"
                         style="@style/DetailSubTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginStart="8dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="16dp"
                         android:text="寄送方式"
@@ -372,7 +352,7 @@
                         style="?attr/materialButtonToggleGroupStyle"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginEnd="8dp"
                         android:backgroundTint="@color/gray_888888"
                         android:textOff=""
                         android:textOn=""
@@ -390,8 +370,7 @@
                     android:visibility="@{viewModel.isChecked==true?View.VISIBLE:View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/delivery_block"
-                    tools:visibility="gone">
+                    app:layout_constraintTop_toBottomOf="@+id/delivery_block">
 
                     <View
                         android:id="@+id/line_delivery_method"
@@ -441,7 +420,7 @@
                             android:id="@+id/tabs_detail"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/height_home_tab"
-                            app:tabIndicatorColor="@color/black_3f3a3a"
+                            app:tabIndicatorColor="@color/colorPrimaryDark"
                             app:tabSelectedTextColor="@color/black_3f3a3a"
                             app:tabTextColor="@color/gray_888888">
 

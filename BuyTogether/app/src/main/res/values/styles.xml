@@ -47,14 +47,12 @@
 
     <!-- / 熱門團購 Hot Collection / -->
     <style name="TitleHots">
-        <item name="android:fontFamily">@font/noto_sans</item>
         <item name="android:textSize">18sp</item>
         <item name="android:letterSpacing">0.15</item>
         <item name="android:textColor">@color/green_7A8277</item>
     </style>
 
     <style name="DetailTitle">
-        <item name="android:fontFamily">@font/noto_sans</item>
         <item name="android:textSize">18sp</item>
         <item name="android:maxLines">2</item>
         <item name="android:letterSpacing">0.15</item>
@@ -62,22 +60,27 @@
     </style>
 
     <style name="DetailSubTitle">
-        <item name="android:fontFamily">@font/noto_sans</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:letterSpacing">0.15</item>
         <item name="android:textColor">@color/gray_888888</item>
     </style>
 
+
+    <style name="UserName">
+        <item name="android:textSize">12sp</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
+    </style>
+
+
     <style name="BlackContent">
-        <item name="android:fontFamily">@font/noto_sans</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:letterSpacing">0.15</item>
         <item name="android:maxLines">2</item>
         <item name="android:textColor">@color/black_3f3a3a</item>
     </style>
 
     <style name="DetailContent">
-        <item name="android:fontFamily">@font/noto_sans</item>
         <item name="android:textSize">16sp</item>
         <item name="android:letterSpacing">0.15</item>
         <item name="android:maxLines">2</item>
@@ -85,74 +88,69 @@
     </style>
 
     <style name="SubTitle">
-        <item name="android:fontFamily">@font/noto_sans</item>
         <item name="android:textSize">14sp</item>
         <item name="android:letterSpacing">0.15</item>
         <item name="android:textColor">@color/green_7A8277</item>
     </style>
     <style name="HomeProductTitle">
-        <item name="android:fontFamily">@font/noto_sans</item>
         <item name="android:textSize">12sp</item>
         <item name="android:maxLines">2</item>
         <item name="android:letterSpacing">0.15</item>
         <item name="android:textColor">@color/black_3f3a3a</item>
     </style>
     <style name="ProductTitle">
-        <item name="android:fontFamily">@font/noto_sans</item>
         <item name="android:textSize">14sp</item>
         <item name="android:maxLines">2</item>
         <item name="android:letterSpacing">0.15</item>
         <item name="android:textColor">@color/black_3f3a3a</item>
     </style>
-    state_focus
+
+    <style name="ProductTitleSingle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
+    </style>
+
     <style name="NewStatusContent">
-        <item name="android:fontFamily">@font/noto_sans</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/orange_9A4747</item>
     </style>
 
     <style name="OtherStatusContent">
-        <item name="android:fontFamily">@font/noto_sans</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/gray_888888</item>
     </style>
 
     <style name="WhiteButtonName" >
-        <item name="android:fontFamily">@font/noto_sans</item>
         <item name="android:letterSpacing">0.15</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">16sp</item>
     </style>
 
     <style name="ProductContent">
-        <item name="android:fontFamily">@font/noto_sans</item>
         <item name="android:textSize">12sp</item>
         <item name="android:letterSpacing">0.15</item>
         <item name="android:textColor">@color/gray_888888</item>
     </style>
     <style name="Number">
-        <item name="android:fontFamily">@font/noto_sans</item>
         <item name="android:textSize">18sp</item>
         <item name="android:letterSpacing">0.15</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="WhiteId">
-        <item name="android:fontFamily">@font/noto_sans</item>
         <item name="android:textSize">12sp</item>
         <item name="android:letterSpacing">0.15</item>
         <item name="android:textColor">@color/white</item>
     </style>
     <style name="SeeDetailTitle">
-        <item name="android:fontFamily">@font/noto_sans</item>
         <item name="android:textSize">14sp</item>
         <item name="android:letterSpacing">0.15</item>
         <item name="android:textColor">@color/green_7A8277</item>
     </style>
 
     <style name="StatusTitle">
-        <item name="android:fontFamily">@font/noto_sans</item>
         <item name="android:textSize">14sp</item>
         <item name="android:letterSpacing">0.15</item>
         <item name="android:textColor">@color/orange_E0B291</item>
@@ -160,7 +158,6 @@
 
     <!-- / 開團 / -->
     <style name="GatherTitle">
-        <item name="android:fontFamily">@font/noto_sans</item>
         <item name="android:textSize">16sp</item>
         <item name="android:letterSpacing">0.15</item>
         <item name="android:textColor">@color/black_3f3a3a</item>
@@ -214,6 +211,16 @@
         <item name="shapeAppearanceOverlay">@null</item>
     </style>
 
+    <style name="WidgetAppChipChoiceNoIcon" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipIconTint">@color/colorPrimaryDark</item>
+        <item name="chipBackgroundColor">@color/white</item>
+        <item name="chipStrokeWidth">2dp</item>
+        <item name="chipStrokeColor">@color/colorPrimaryDark</item>
+        <item name="checkedIconVisible">false</item>
+        <item name="checkedIconTint">@color/colorPrimaryDark</item>
+        <item name="closeIconVisible">false</item>
+        <item name="shapeAppearanceOverlay">@null</item>
+    </style>
 
 </resources>
 

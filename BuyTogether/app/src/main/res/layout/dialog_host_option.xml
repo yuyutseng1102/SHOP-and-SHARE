@@ -40,6 +40,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
+            android:buttonTint="@color/colorPrimary"
             android:checked="@={viewModel.isStandard}"
             android:text="是否新增商品規格"
             app:layout_constraintEnd_toEndOf="parent"

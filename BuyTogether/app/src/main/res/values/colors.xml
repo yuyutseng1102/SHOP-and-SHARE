@@ -80,4 +80,22 @@
     </selector>
     </color>
 
+    <color name="check_chip_tint">
+    <selector xmlns:android="http://schemas.android.com/apk/res/android">
+        <item android:color="@color/white" android:state_checked="false"/>
+        <item android:color="@color/colorPrimary" android:state_checked="true"/>
+    </selector>
+    </color>
+
+
+    <color name="check_chip_text_tint">
+    <selector xmlns:android="http://schemas.android.com/apk/res/android">
+        <item android:color="@color/white" android:state_enabled="true" android:state_selected="true"/>
+        <item android:color="@color/white" android:state_enabled="true" android:state_checked="true"/>
+        <!-- 87% opacity. -->
+        <item android:alpha="0.87" android:color="?attr/colorOnSurface" android:state_enabled="true"/>
+        <!-- 38% of 87% opacity. -->
+        <item android:alpha="0.33" android:color="?attr/colorOnSurface"/>
+    </selector>
+    </color>
 </resources>

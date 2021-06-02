@@ -10,7 +10,7 @@ data class User(
     val name: String = "",
     val email: String?= null,
     val photo: String?= null,
-    val subscribe: List<Long>? = null
+    val like: List<String>? = null
 ): Parcelable {
 }
 

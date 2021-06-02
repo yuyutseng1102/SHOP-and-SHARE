@@ -46,11 +46,11 @@
                         android:id="@+id/recycler_detail_image"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:layout_marginBottom="24dp"
                         android:orientation="horizontal"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintDimensionRatio="1:1"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:strings="@{viewModel.request.image}" />
@@ -70,16 +70,63 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
 
+                    <TextView
+                        android:id="@+id/shop_status"
+                        style="@style/DetailSubTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:background="#99FFFFFF"
+                        android:gravity="bottom|center"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="4dp"
+                        android:text='@{viewModel.request.host == null ? "徵團中": "已經開團囉"}'
+                        android:textColor="@color/black_3f3a3a"
+                        android:textIsSelectable="true"
+                        app:layout_constrainedHeight="false"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="已經開團囉" />
+
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/detail_info_block"
-                    android:layout_width="match_parent"
+                    android:id="@+id/detail_profile_block"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:background="#FFFFFF"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/detail_img_block">
+
+                    <ImageView
+                        android:id="@+id/host_image"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:foreground="@drawable/bg_photo_radius"
+                        android:scaleType="fitXY"
+                        app:imageUrl="@{viewModel.user.photo}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:srcCompat="@tools:sample/avatars" />
+
+                    <TextView
+                        android:id="@+id/host_id"
+                        style="@style/UserName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:maxLines="1"
+                        android:text="@{viewModel.user.name}"
+                        android:textColor="@color/green_7A8277"
+                        app:layout_constraintBottom_toBottomOf="@+id/host_image"
+                        app:layout_constraintStart_toEndOf="@+id/host_image"
+                        app:layout_constraintTop_toTopOf="@+id/host_image"
+                        tools:text="chloe193798" />
 
 
                     <TextView
@@ -87,15 +134,14 @@
                         style="@style/DetailTitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginEnd="8dp"
                         android:maxLines="2"
                         android:padding="1dp"
                         android:text="@{viewModel.request.title}"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tag_category"
+                        app:layout_constraintStart_toStartOf="@+id/host_image"
+                        app:layout_constraintTop_toBottomOf="@+id/host_id"
                         tools:text="2WAY證背面兩穿小荷葉領短袖上衣-五色" />
 
                     <TextView
@@ -103,15 +149,16 @@
                         style="@style/BlackContent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
                         android:background="@drawable/bg_tag"
                         android:backgroundTint="@color/tag_category"
                         android:paddingHorizontal="8dp"
                         android:paddingVertical="1dp"
                         app:categoryToDisplay="@{viewModel.request.category}"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/detail_title"
+                        app:layout_constraintTop_toBottomOf="@+id/detail_title"
                         tools:text="女裝" />
 
                     <TextView
@@ -125,97 +172,48 @@
                         android:paddingHorizontal="8dp"
                         android:paddingVertical="1dp"
                         app:countryToDisplay="@{viewModel.request.country}"
+                        app:layout_constraintBottom_toBottomOf="@+id/tag_category"
                         app:layout_constraintStart_toEndOf="@+id/tag_category"
                         app:layout_constraintTop_toTopOf="@+id/tag_category"
+                        app:layout_constraintVertical_bias="0.0"
                         tools:text="日本" />
 
                     <TextView
-                        android:id="@+id/host_title"
-                        style="@style/DetailSubTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:text="ID"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/detail_title" />
-
-                    <TextView
-                        android:id="@+id/host_id"
-                        style="@style/BlackContent"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:text="@{viewModel.user.name}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="@+id/host_time_text"
-                        app:layout_constraintTop_toTopOf="@+id/host_title"
-                        tools:text="chloe193798" />
-
-
-                    <TextView
-                        android:id="@+id/host_time_title"
-                        style="@style/DetailSubTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="徵團日期"
-                        app:layout_constraintStart_toStartOf="@+id/host_title"
-                        app:layout_constraintTop_toBottomOf="@+id/host_id" />
-
-                    <TextView
                         android:id="@+id/host_time_text"
-                        style="@style/BlackContent"
+                        style="@style/UserName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/host_time_title"
-                        app:layout_constraintStart_toEndOf="@+id/host_time_title"
-                        app:layout_constraintTop_toTopOf="@+id/host_time_title"
+                        android:textColor="@color/gray_999999"
+                        app:layout_constraintBottom_toBottomOf="@+id/tag_country"
+                        app:layout_constraintStart_toEndOf="@+id/tag_country"
+                        app:layout_constraintTop_toTopOf="@+id/tag_country"
                         app:timeToDisplayFormat="@{viewModel.request.time}"
                         tools:text="2021/05/09" />
 
-                    <View
-                        android:id="@+id/view_separation"
-                        android:layout_width="1dp"
-                        android:layout_height="14dp"
-                        android:layout_marginStart="16dp"
-                        android:background="@color/gray_cccccc"
-                        app:layout_constraintBottom_toBottomOf="@+id/host_time_text"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toEndOf="@+id/host_time_text"
-                        app:layout_constraintTop_toTopOf="@+id/host_time_text"
-                        app:layout_constraintVertical_bias="0.5" />
-
-                    <TextView
-                        android:id="@+id/shop_status"
-                        style="@style/DetailSubTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:text='@{viewModel.request.host == null ? "/ 徵團中 /": "/ 已經開團囉 /"}'
-                        android:textColor="@color/green_7A8277"
-                        app:layout_constraintBottom_toBottomOf="@+id/tag_country"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/tag_country"
-                        tools:text="/ 已經開團囉 /" />
-
                     <TextView
                         android:id="@+id/member_number_text"
-                        style="@style/BlackContent"
+                        style="@style/DetailSubTitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/host_time_text"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toEndOf="@+id/view_separation"
-                        app:layout_constraintTop_toTopOf="@+id/host_time_text"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:requestNumberToDisplay="@{viewModel.request.member.size}"
                         tools:text="有興趣 + 5" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/detail_info_block"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#FFFFFF"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_profile_block">
 
 
                     <TextView
@@ -224,10 +222,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:text="購買來源"
+                        android:text="參考來源"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/host_time_text" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/source_text"
@@ -253,7 +250,6 @@
                     android:id="@+id/description_block"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:background="#FFFFFF"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
@@ -264,6 +260,7 @@
                         android:id="@+id/description_title_block"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/height_home_tab"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
@@ -301,7 +298,7 @@
 
                         <TextView
                             android:id="@+id/description_text"
-                            style="@style/DetailContent"
+                            style="@style/BlackContent"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"

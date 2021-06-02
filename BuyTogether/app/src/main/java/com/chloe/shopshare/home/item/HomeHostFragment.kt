@@ -29,8 +29,9 @@ class HomeHostFragment() : Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
+        val adapter = HomeHostingAdapter(viewModel)
 
-        binding.recyclerCollection.adapter = HomeHostingAdapter(viewModel)
+        binding.recyclerCollection.adapter = adapter
 
         binding.isLiveDataDesign = MyApplication.instance.isLiveDataDesign()
         binding.layoutSwipeRefreshCollectionItem.setOnRefreshListener {
@@ -43,6 +44,18 @@ class HomeHostFragment() : Fragment() {
                 binding.layoutSwipeRefreshCollectionItem.isRefreshing = it
             }
         })
+
+        viewModel.refreshProfile.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                viewModel.refreshProfile()
+            }
+        })
+
+//        viewModel.orderSize.observe(viewLifecycleOwner, Observer {
+//            it?.let {
+//
+//            }
+//        })
 
 
         binding.spinnerHome.adapter = HomeSpinnerAdapter(

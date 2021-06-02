@@ -1,10 +1,11 @@
 package com.chloe.shopshare.util
 
+import android.graphics.Color
 import com.chloe.shopshare.R
 import com.chloe.shopshare.util.Util.getString
 
 enum class CurrentFragmentType(val value: String) {
-    HOME(getString(R.string.app_name)),
+    HOME(""),
     PROFILE(getString(R.string.profile)),
     HOST(getString(R.string.gather)),
     SHOP(getString(R.string.collection)),

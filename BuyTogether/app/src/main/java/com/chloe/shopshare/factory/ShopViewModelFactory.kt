@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.chloe.shopshare.manage.ManageViewModel
 import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.detail.DetailViewModel
+import com.chloe.shopshare.host.HostViewModel
 import com.chloe.shopshare.request.RequestViewModel
 import com.chloe.shopshare.requestdetail.RequestDetailViewModel
 
@@ -23,7 +24,6 @@ class ShopViewModelFactory(
                         ManageViewModel(repository, id)
                     isAssignableFrom(RequestDetailViewModel::class.java) ->
                         RequestDetailViewModel(repository, id)
-
                     else ->
                         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
                 }

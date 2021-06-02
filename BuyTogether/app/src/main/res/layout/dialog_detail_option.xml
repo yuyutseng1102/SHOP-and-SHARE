@@ -47,7 +47,6 @@
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chip_group_option"
-
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -115,6 +114,7 @@
             android:layout_marginEnd="16dp"
             android:background="@drawable/icons_24px_add01"
             android:onClick="@{()->viewModel.increaseQuantity()}"
+            android:padding="8dp"
             app:editorControllerStatus="@{viewModel.isEnable}"
             app:layout_constraintBottom_toBottomOf="@+id/edit_quantity_editor"
             app:layout_constraintDimensionRatio="h,1:1"

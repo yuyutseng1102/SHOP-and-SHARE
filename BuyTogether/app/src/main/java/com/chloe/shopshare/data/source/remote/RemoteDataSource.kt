@@ -245,14 +245,6 @@ object RemoteDataSource : DataSource {
                     for (document in task.result!!) {
                         Log.d("Chloe", document.id + " => " + document.data)
                         val shop = document.toObject(Shop::class.java)
-                        shopDataBase.document(shop.id).collection(PATH_ORDER)
-                            .get()
-                            .addOnCompleteListener { orderTask ->
-                                if (orderTask.isSuccessful){
-                                    val memberNumber = orderTask.result!!.size()
-                                    shop.member = memberNumber
-                                }
-                            }
                         shopList.add(shop)
                     }
                     continuation.resume(Result.Success(shopList))
@@ -271,6 +263,7 @@ object RemoteDataSource : DataSource {
 
             }
     }
+
 
     override suspend fun getAllRequest(): Result<List<Request>> = suspendCoroutine { continuation ->
         val shopDataBase = FirebaseFirestore.getInstance().collection(PATH_REQUEST)
@@ -536,7 +529,7 @@ object RemoteDataSource : DataSource {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         val totalTaskCount = task.result!!.size()
-                        var count = 1
+                        var count = 0
                         for (document in task.result!!) {
                             Log.d("Manage", document.id + " => " + document.data)
                             orderDataBase
@@ -598,15 +591,34 @@ object RemoteDataSource : DataSource {
             }
     }
 
-    override suspend fun updateRequestHost(requestId: String, hostId: String): Result<Boolean> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun updateRequestHost(requestId: String, shopId: String , hostId: String): Result<Boolean> =
+        suspendCoroutine { continuation ->
+            val requestDataBase = FirebaseFirestore.getInstance().collection(PATH_REQUEST).document(requestId)
+            requestDataBase
+                .update("host", hostId, "shopId", shopId)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.i("RequestTag", "addHost: $hostId")
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        task.exception?.let {
+                            Log.i(
+                                "RequestTag",
+                                "[${this::class.simpleName}] Error getting documents. ${it.message}"
+                            )
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
+                    }
+                }
+        }
 
     override suspend fun updateRequestMember(requestId: String, memberId: String): Result<Boolean> =
     suspendCoroutine { continuation ->
-        val userDataBase = FirebaseFirestore.getInstance().collection(PATH_REQUEST).document(requestId)
+        val requestDataBase = FirebaseFirestore.getInstance().collection(PATH_REQUEST).document(requestId)
 
-        userDataBase
+        requestDataBase
             .update("member", FieldValue.arrayUnion(memberId))
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -696,6 +708,27 @@ object RemoteDataSource : DataSource {
 
         }
 
+    override suspend fun increaseOrderSize(shopId: String): Result<Boolean> =suspendCoroutine { continuation ->
+        val shopDataBase = FirebaseFirestore.getInstance().collection(PATH_SHOP).document(shopId)
+        shopDataBase
+            .update("orderSize", FieldValue.increment(1))
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    continuation.resume(Result.Success(true))
+                } else {
+                    task.exception?.let {
+                        Log.i(
+                            "Chloe",
+                            "[${this::class.simpleName}] Error getting documents. ${it.message}"
+                        )
+                        continuation.resume(Result.Error(it))
+                        return@addOnCompleteListener
+                    }
+                    continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
+                }
+            }
+    }
+
     override suspend fun uploadImage(uri: Uri, folder: String): Result<String> =
         suspendCoroutine { continuation ->
 
@@ -731,13 +764,13 @@ object RemoteDataSource : DataSource {
                 }
         }
 
-    override suspend fun addSubscribe(userId: String, shopId: String): Result<Boolean> =
+    override suspend fun addShopLiked(userId: String, shopId: String): Result<Boolean> =
         suspendCoroutine { continuation ->
             val userDataBase = FirebaseFirestore.getInstance().collection(PATH_USER)
                 .document(userId)
 
             userDataBase
-                .update("subscribe", FieldValue.arrayUnion(shopId))
+                .update("like", FieldValue.arrayUnion(shopId))
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Log.i("Notify", "addSubscribe: $shopId")
@@ -757,13 +790,13 @@ object RemoteDataSource : DataSource {
                 }
         }
 
-    override suspend fun removeSubscribe(userId: String, shopId: String): Result<Boolean> =
+    override suspend fun removeShopLiked(userId: String, shopId: String): Result<Boolean> =
         suspendCoroutine { continuation ->
             val userDataBase = FirebaseFirestore.getInstance().collection(PATH_USER)
                 .document(userId)
 
             userDataBase
-                .update("subscribe", FieldValue.arrayRemove(shopId))
+                .update("like", FieldValue.arrayRemove(shopId))
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Log.i("Notify", "addSubscribe: $shopId")
@@ -797,7 +830,7 @@ object RemoteDataSource : DataSource {
                 .addOnCompleteListener { orderTask ->
                     if (orderTask.isSuccessful) {
                         val totalCount = orderTask.result!!.size()
-                        var count = 1
+                        var count = 0
 
                         for (document in orderTask.result!!) {
                             Log.d("Notify", document.id + " => " + document.data)
@@ -845,8 +878,68 @@ object RemoteDataSource : DataSource {
                 }
         }
 
+    override suspend fun postRequestNotifyToMember(notify: Notify): Result<Boolean> =
+        suspendCoroutine { continuation ->
+            val requestId = notify.requestId
+            val userDataBase = FirebaseFirestore.getInstance().collection(PATH_USER)
+            val requestDataBase = FirebaseFirestore.getInstance().collection(PATH_REQUEST).document(requestId!!)
 
-//    override suspend fun postShopNotifyToMember(notify: Notify): Result<Boolean> =
+            notify.time = Calendar.getInstance().timeInMillis
+
+            requestDataBase
+                .get()
+                .addOnCompleteListener { requestTask ->
+                    if (requestTask.isSuccessful) {
+                        val request = requestTask.result!!.toObject(Request::class.java)
+                        val memberList = request!!.member
+                        if (memberList != null) {
+                            val totalCount = memberList.size
+                            var count = 0
+                            for (member in memberList){
+                                val notifyDocument = userDataBase.document(member).collection(PATH_NOTIFY).document()
+                                notify.id = notifyDocument.id
+                                notifyDocument
+                                    .set(notify)
+                                    .addOnCompleteListener { notifyTask ->
+                                        if (notifyTask.isSuccessful) {
+                                            Log.i("Notify", "Notify: ${notifyTask.result}")
+                                            count += 1
+//                                        continuation.resume(Result.Success(true))
+                                        } else {
+                                            notifyTask.exception?.let {
+                                                Log.i("Notify", "[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                                count += 1
+                                            }
+                                        }
+                                        if (count == totalCount){
+                                            continuation.resume(Result.Success(true))
+                                            Log.d("Notify", "count: count == totalCoun")
+                                        }
+                                    }
+                            }
+                        }
+                    } else {
+                        requestTask.exception?.let {
+                            Log.i(
+                                "Notify",
+                                "[${this::class.simpleName}] Error getting documents. ${it.message}"
+                            )
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(
+                            Result.Fail(
+                                MyApplication.instance.getString(
+                                    R.string.result_fail
+                                )
+                            )
+                        )
+                    }
+                }
+        }
+
+
+    //    override suspend fun postShopNotifyToMember(notify: Notify): Result<Boolean> =
 //        suspendCoroutine { continuation ->
 //            val shopId = notify.shopId
 //            val userDataBase = FirebaseFirestore.getInstance().collection(PATH_USER)
@@ -920,7 +1013,7 @@ override suspend fun postOrderNotifyToMember(orderList: List<Order>, notify: Not
         notify.time = Calendar.getInstance().timeInMillis
 
         val totalCount = orderList.size
-        var count = 1
+        var count = 0
         for (order in orderList){
             notify.orderId = order.id
             notify.message = NotifyType.ORDER_FAIL.toDisplayNotifyMessage(order)
