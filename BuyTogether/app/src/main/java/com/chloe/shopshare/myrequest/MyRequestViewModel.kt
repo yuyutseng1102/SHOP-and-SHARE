@@ -35,7 +35,6 @@ class MyRequestViewModel(private val repository: Repository): ViewModel() {
 
 
     private val _visible = MutableLiveData<Boolean>()
-
     val visible: LiveData<Boolean>
         get() = _visible
 
@@ -49,6 +48,12 @@ class MyRequestViewModel(private val repository: Repository): ViewModel() {
     private val _successGetShop = MutableLiveData<Boolean?>()
     val successGetShop: LiveData<Boolean?>
         get() = _successGetShop
+
+    private val _navigateToDetail = MutableLiveData<String>()
+
+    val navigateToDetail: LiveData<String>
+        get() = _navigateToDetail
+
 
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
@@ -66,6 +71,17 @@ class MyRequestViewModel(private val repository: Repository): ViewModel() {
             getMyRequest(userId)
         }
     }
+
+
+
+    fun navigateToDetail(request: Request){
+        _navigateToDetail.value = request.id
+    }
+
+    fun onDetailNavigated(){
+        _navigateToDetail.value = null
+    }
+
 
     private fun getMyRequest(userId : String) {
 

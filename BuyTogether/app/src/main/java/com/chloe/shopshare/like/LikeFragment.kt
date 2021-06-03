@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import com.chloe.shopshare.NavigationDirections
 import com.chloe.shopshare.R
 import com.chloe.shopshare.databinding.FragmentLikeBinding
 import com.chloe.shopshare.databinding.FragmentShopBinding
@@ -51,7 +53,14 @@ class LikeFragment : Fragment() {
             }
         })
 
-
+        viewModel.navigateToDetail.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                findNavController().navigate(
+                    NavigationDirections.navigateToDetailFragment(it)
+                )
+                viewModel.onDetailNavigated()
+            }
+        })
 
 
         return binding.root

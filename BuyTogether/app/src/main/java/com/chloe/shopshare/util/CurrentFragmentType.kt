@@ -15,5 +15,8 @@ enum class CurrentFragmentType(val value: String) {
     NOTIFY(getString(R.string.notify)),
     REQUEST(getString(R.string.request_title)),
     REQUEST_DETAIL(""),
+    LiKE(getString(R.string.like)),
+    MY_ORDER(getString(R.string.my_order)),
+    MY_REQUEST(getString(R.string.my_request)),
     LOGIN("")
 }

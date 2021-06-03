@@ -32,6 +32,7 @@ import com.chloe.shopshare.host.CountryType
 import com.chloe.shopshare.host.item.GatherOptionAdapter
 import com.chloe.shopshare.host.DeliveryMethod
 import com.chloe.shopshare.host.HostImageAdapter
+import com.chloe.shopshare.myrequest.MyRequestAdapter
 import com.chloe.shopshare.network.LoadApiStatus
 import com.chloe.shopshare.notify.NotifyAdapter
 import com.chloe.shopshare.notify.NotifyType
@@ -87,6 +88,7 @@ fun bindRecyclerViewWithRequest(recyclerView: RecyclerView, request: List<Reques
         recyclerView.adapter?.apply {
             when (this) {
                 is HomeRequestingAdapter -> submitList(it)
+                is MyRequestAdapter -> submitList(it)
             }
         }
     }

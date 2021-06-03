@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.chloe.shopshare.MyApplication
 import com.chloe.shopshare.R
+import com.chloe.shopshare.data.Request
 import com.chloe.shopshare.data.Result
 import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.data.source.Repository
@@ -47,6 +48,12 @@ class LikeViewModel(private val repository: Repository): ViewModel() {
     val successGetShop: LiveData<Boolean?>
         get() = _successGetShop
 
+    private val _navigateToDetail = MutableLiveData<String>()
+
+    val navigateToDetail: LiveData<String>
+        get() = _navigateToDetail
+
+
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
 
@@ -61,19 +68,23 @@ class LikeViewModel(private val repository: Repository): ViewModel() {
             getLikeList(userId)
         }
     }
+
+
+    fun navigateToDetail(shop: Shop){
+        _navigateToDetail.value = shop.id
+    }
+
+    fun onDetailNavigated(){
+        _navigateToDetail.value = null
+    }
+
+
     fun getShopLikedDetail(){
         Log.d("LikeTag","getShopLiked = ${_likeList.value}")
 
         getShopLiked(_likeList.value?: listOf())
     }
 
-    private fun isListNotEmpty(){
-        _isListNotEmpty.value =
-        when (_likeList.value.isNullOrEmpty()){
-            true -> false
-            else -> true
-        }
-    }
 
     fun onShopLikedDetailGet(){
         _successGetShop.value = null
@@ -109,8 +120,10 @@ class LikeViewModel(private val repository: Repository): ViewModel() {
                     null
                 }
             }
+
+            _isListNotEmpty.value = !_likeList.value.isNullOrEmpty()
         }
-        isListNotEmpty()
+
     }
 
     private fun getShopLiked(shopIdList : List<String>) {

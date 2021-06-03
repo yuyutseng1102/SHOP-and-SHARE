@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
             android:text="目前沒有追蹤的團購"
-            android:visibility="@{viewModel.isListNotEmpty == true? View.GONE: View.VISIBLE}"
+            android:visibility="@{viewModel.isListNotEmpty == false? View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
