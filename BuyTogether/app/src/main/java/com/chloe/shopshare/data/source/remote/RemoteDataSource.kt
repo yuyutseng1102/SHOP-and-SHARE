@@ -94,61 +94,6 @@ object RemoteDataSource : DataSource {
                 }
         }
 
-
-//    override suspend fun signInWithGoogle(idToken: String): Result<User> =
-//        suspendCoroutine { continuation ->
-//            val credential = GoogleAuthProvider.getCredential(idToken, null)
-//            val auth = FirebaseAuth.getInstance()
-//            val userDataBase = FirebaseFirestore.getInstance().collection(PATH_USER)
-//            var userProfile = User()
-//
-//
-//            auth.signInWithCredential(credential)
-//                .addOnCompleteListener { task ->
-//                    if (task.isSuccessful) {
-//                        // Sign in success, update UI with the signed-in user's information
-//                        Log.d("Login", "signInWithCredential:success")
-//                        val user = auth.currentUser
-//                        user?.let {
-//                            userDataBase
-//                                .get()
-//                                .addOnCompleteListener { documents ->
-//                                    if (documents.isSuccessful) {
-//                                        for (document in documents.result!!) {
-//                                            document.id == user.uid
-//                                            if (document.id == user.uid) {
-//                                                userProfile = document.toObject(User::class.java)
-//                                            } else {
-//                                                userProfile = User(
-//                                                    provider = "google",
-//                                                    id = user.uid,
-//                                                    name = user.displayName ?: "UserName",
-//                                                    email = user.email,
-//                                                    photo = user.photoUrl.toString()
-//                                                )
-//                                                userDataBase.document(user.uid).set(userProfile)
-//                                            }
-//                                        }
-//                                        userProfile = userProfile
-//                                        Log.d("Login", "userProfile = $userProfile")
-//                                        continuation.resume(Result.Success(userProfile))
-//                                    }
-//                                }
-//                        }
-//                    } else {
-//                        task.exception?.let {
-//                            Log.w(
-//                                "Login",
-//                                "[${this::class.simpleName}] Error getting documents. ${it.message}"
-//                            )
-//                            continuation.resume(Result.Error(it))
-//                            return@addOnCompleteListener
-//                        }
-//                        continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
-//                    }
-//                }
-//        }
-
     override suspend fun getUserProfile(userId: String): Result<User> =
         suspendCoroutine { continuation ->
             val userDocument =
@@ -178,60 +123,6 @@ object RemoteDataSource : DataSource {
                 }
         }
 
-//    override suspend fun getOpeningShop(): Result<List<Shop>> = suspendCoroutine { continuation ->
-//        val shopDataBase = FirebaseFirestore.getInstance().collection(PATH_SHOP)
-//        shopDataBase
-////            .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
-//            .get()
-//            .addOnCompleteListener { task ->
-//                if (task.isSuccessful) {
-//                    var shopList = mutableListOf<Shop>()
-//                    val totalTaskCount = task.result!!.size()
-//                    Log.d("HomeTag"," totalTaskCount = ${totalTaskCount}")
-//                    var count = 0
-//                    for (document in task.result!!) {
-//                        Log.d("HomeTag", document.id + " => " + document.data)
-//                        val shop = document.toObject(Shop::class.java)
-//
-//                        while (count < totalTaskCount){
-//                            shopDataBase.document(shop.id).collection(PATH_ORDER)
-//                                .get()
-//                                .addOnCompleteListener { orderTask ->
-//                                    if (orderTask.isSuccessful){
-//                                        val memberNumber = orderTask.result!!.size()
-//                                        Log.d("HomeTag"," memberNumber = ${orderTask.result!!.size()}")
-//                                        shop.member = memberNumber
-//                                        Log.d("HomeTag"," shop = ${shop.member}")
-//                                        shopList.add(shop)
-//
-//                                    }
-//                                    Log.d("HomeTag"," count = ${count}")
-//                                }
-//                        }
-//                        count++
-//                        if (count == totalTaskCount){
-//                            shopList = shopList
-//                            Log.d("HomeTag"," shopList = ${shopList}")
-//                            continuation.resume(Result.Success(shopList))
-//                    }
-//                    }
-//
-//
-//                } else {
-//                    task.exception?.let {
-//
-//                        Log.w(
-//                            "Chloe",
-//                            "[${this::class.simpleName}] Error getting documents. ${it.message}"
-//                        )
-//                        continuation.resume(Result.Error(it))
-//                        return@addOnCompleteListener
-//                    }
-//                    continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
-//                }
-//
-//            }
-//    }
 
 
     override suspend fun getOpeningShop(): Result<List<Shop>> = suspendCoroutine { continuation ->
@@ -639,9 +530,107 @@ object RemoteDataSource : DataSource {
             }
     }
 
-    override suspend fun getMyRequest(userId: String): Result<List<Request>> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getMyRequest(userId: String): Result<List<Request>> =
+        suspendCoroutine { continuation ->
+            val requestDataBase = FirebaseFirestore.getInstance().collection(PATH_REQUEST)
+            requestDataBase
+                .whereEqualTo("userId", userId)
+                .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val requestList = mutableListOf<Request>()
+                        for (document in task.result!!) {
+                            Log.d("MyRequestTag", document.id + " => " + document.data)
+                            val request = document.toObject(Request::class.java)
+                            requestList.add(request)
+                        }
+                        continuation.resume(Result.Success(requestList))
+                    } else {
+                        task.exception?.let {
+
+                            Log.w(
+                                "MyRequestTag",
+                                "[${this::class.simpleName}] Error getting documents. ${it.message}"
+                            )
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
+                    }
+
+                }
+        }
+
+    override suspend fun getMyFinishedRequest(userId: String): Result<List<Request>> =
+        suspendCoroutine { continuation ->
+            val requestDataBase = FirebaseFirestore.getInstance().collection(PATH_REQUEST)
+
+            requestDataBase
+                .whereEqualTo("userId", userId)
+                .whereNotEqualTo("host",null)
+                .whereNotEqualTo("host","")
+                .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val requestList = mutableListOf<Request>()
+                        for (document in task.result!!) {
+                            Log.d("MyRequestTag", document.id + " => " + document.data)
+                            val request = document.toObject(Request::class.java)
+                            requestList.add(request)
+                        }
+                        continuation.resume(Result.Success(requestList))
+                    } else {
+                        task.exception?.let {
+
+                            Log.w(
+                                "MyRequestTag",
+                                "[${this::class.simpleName}] Error getting documents. ${it.message}"
+                            )
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
+                    }
+
+                }
+        }
+
+    override suspend fun getMyOngoingRequest(userId: String): Result<List<Request>> =
+        suspendCoroutine { continuation ->
+            val requestDataBase = FirebaseFirestore.getInstance().collection(PATH_REQUEST)
+
+            requestDataBase
+                .whereEqualTo("userId", userId)
+                .whereEqualTo("host", null)
+                .whereEqualTo("host","")
+                .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val requestList = mutableListOf<Request>()
+                        for (document in task.result!!) {
+                            Log.d("MyRequestTag", document.id + " => " + document.data)
+                            val request = document.toObject(Request::class.java)
+                            requestList.add(request)
+                        }
+                        continuation.resume(Result.Success(requestList))
+                    } else {
+                        task.exception?.let {
+
+                            Log.w(
+                                "MyRequestTag",
+                                "[${this::class.simpleName}] Error getting documents. ${it.message}"
+                            )
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
+                    }
+
+                }
+        }
 
 
     override suspend fun postShop(shop: Shop): Result<PostHostResult> = suspendCoroutine { continuation ->
@@ -728,6 +717,39 @@ object RemoteDataSource : DataSource {
                 }
             }
     }
+
+    override suspend fun getShopDetailLiked(shopIdList: List<String>): Result<List<Shop>>  =
+        suspendCoroutine { continuation ->
+            val shopDataBase = FirebaseFirestore.getInstance().collection(PATH_SHOP)
+            shopDataBase
+                .whereIn("id",shopIdList)
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val shopList = mutableListOf<Shop>()
+                        for (document in task.result!!) {
+                            Log.d("Chloe", document.id + " => " + document.data)
+                            val shop = document.toObject(Shop::class.java)
+                            shopList.add(shop)
+                        }
+                        continuation.resume(Result.Success(shopList))
+                    } else {
+                        task.exception?.let {
+
+                            Log.w(
+                                "Chloe",
+                                "[${this::class.simpleName}] Error getting documents. ${it.message}"
+                            )
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
+                    }
+
+                }
+        }
+
+
 
     override suspend fun uploadImage(uri: Uri, folder: String): Result<String> =
         suspendCoroutine { continuation ->
@@ -939,72 +961,7 @@ object RemoteDataSource : DataSource {
         }
 
 
-    //    override suspend fun postShopNotifyToMember(notify: Notify): Result<Boolean> =
-//        suspendCoroutine { continuation ->
-//            val shopId = notify.shopId
-//            val userDataBase = FirebaseFirestore.getInstance().collection(PATH_USER)
-//            val orderDataBase =
-//                FirebaseFirestore.getInstance().collection(PATH_SHOP).document(shopId)
-//                    .collection(PATH_ORDER)
-//            notify.time = Calendar.getInstance().timeInMillis
-//
-//            orderDataBase
-//                .get()
-//                .addOnCompleteListener { orderTask ->
-//                    if (orderTask.isSuccessful) {
-//                        for (document in orderTask.result!!) {
-//                            Log.d("Notify", document.id + " => " + document.data)
-//                            val order = document.toObject(Order::class.java)
-//                            val memberId = order.userId
-//                            val notifyDocument =
-//                                userDataBase.document(memberId).collection(PATH_NOTIFY).document()
-//                            notify.id = document.id
-//                            notifyDocument
-//                                .set(notify)
-//                                .addOnCompleteListener { notifyTask ->
-//                                    if (notifyTask.isSuccessful) {
-//                                        Log.i("Notify", "Notify: ${notifyTask.result}")
-////                                        continuation.resume(Result.Success(true))
-////                                    } else {
-////                                        notifyTask.exception?.let {
-////                                            Log.i(
-////                                                "Notify",
-////                                                "[${this::class.simpleName}] Error getting documents. ${it.message}"
-////                                            )
-////                                            continuation.resume(Result.Error(it))
-////                                            return@addOnCompleteListener
-////                                        }
-////                                        continuation.resume(
-////                                            Result.Fail(
-////                                                MyApplication.instance.getString(
-////                                                    R.string.result_fail
-////                                                )
-////                                            )
-////                                        )
-//                                    }
-//                                }
-//                        }
-//
-//                        continuation.resume(Result.Success(true))
-//                    } else {
-//                        orderTask.exception?.let {
-//                            Log.i(
-//                                "Notify",
-//                                "[${this::class.simpleName}] Error getting documents. ${it.message}"
-//                            )
-//                            continuation.resume(Result.Error(it))
-//                            return@addOnCompleteListener
-//                        }
-//                        continuation.resume(
-//                            Result.Fail(
-//                                MyApplication.instance.getString(
-//                                    R.string.result_fail
-//                                )
-//                            )
-//                        )
-//                    }
-//                }
-//        }
+
 override suspend fun postOrderNotifyToMember(orderList: List<Order>, notify: Notify): Result<Boolean> =
     suspendCoroutine { continuation ->
         val shopId = notify.shopId
@@ -1141,3 +1098,184 @@ override suspend fun postOrderNotifyToMember(orderList: List<Order>, notify: Not
         return liveData
     }
 }
+
+
+
+
+//    override suspend fun signInWithGoogle(idToken: String): Result<User> =
+//        suspendCoroutine { continuation ->
+//            val credential = GoogleAuthProvider.getCredential(idToken, null)
+//            val auth = FirebaseAuth.getInstance()
+//            val userDataBase = FirebaseFirestore.getInstance().collection(PATH_USER)
+//            var userProfile = User()
+//
+//
+//            auth.signInWithCredential(credential)
+//                .addOnCompleteListener { task ->
+//                    if (task.isSuccessful) {
+//                        // Sign in success, update UI with the signed-in user's information
+//                        Log.d("Login", "signInWithCredential:success")
+//                        val user = auth.currentUser
+//                        user?.let {
+//                            userDataBase
+//                                .get()
+//                                .addOnCompleteListener { documents ->
+//                                    if (documents.isSuccessful) {
+//                                        for (document in documents.result!!) {
+//                                            document.id == user.uid
+//                                            if (document.id == user.uid) {
+//                                                userProfile = document.toObject(User::class.java)
+//                                            } else {
+//                                                userProfile = User(
+//                                                    provider = "google",
+//                                                    id = user.uid,
+//                                                    name = user.displayName ?: "UserName",
+//                                                    email = user.email,
+//                                                    photo = user.photoUrl.toString()
+//                                                )
+//                                                userDataBase.document(user.uid).set(userProfile)
+//                                            }
+//                                        }
+//                                        userProfile = userProfile
+//                                        Log.d("Login", "userProfile = $userProfile")
+//                                        continuation.resume(Result.Success(userProfile))
+//                                    }
+//                                }
+//                        }
+//                    } else {
+//                        task.exception?.let {
+//                            Log.w(
+//                                "Login",
+//                                "[${this::class.simpleName}] Error getting documents. ${it.message}"
+//                            )
+//                            continuation.resume(Result.Error(it))
+//                            return@addOnCompleteListener
+//                        }
+//                        continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
+//                    }
+//                }
+//        }
+
+
+//    override suspend fun getOpeningShop(): Result<List<Shop>> = suspendCoroutine { continuation ->
+//        val shopDataBase = FirebaseFirestore.getInstance().collection(PATH_SHOP)
+//        shopDataBase
+////            .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
+//            .get()
+//            .addOnCompleteListener { task ->
+//                if (task.isSuccessful) {
+//                    var shopList = mutableListOf<Shop>()
+//                    val totalTaskCount = task.result!!.size()
+//                    Log.d("HomeTag"," totalTaskCount = ${totalTaskCount}")
+//                    var count = 0
+//                    for (document in task.result!!) {
+//                        Log.d("HomeTag", document.id + " => " + document.data)
+//                        val shop = document.toObject(Shop::class.java)
+//
+//                        while (count < totalTaskCount){
+//                            shopDataBase.document(shop.id).collection(PATH_ORDER)
+//                                .get()
+//                                .addOnCompleteListener { orderTask ->
+//                                    if (orderTask.isSuccessful){
+//                                        val memberNumber = orderTask.result!!.size()
+//                                        Log.d("HomeTag"," memberNumber = ${orderTask.result!!.size()}")
+//                                        shop.member = memberNumber
+//                                        Log.d("HomeTag"," shop = ${shop.member}")
+//                                        shopList.add(shop)
+//
+//                                    }
+//                                    Log.d("HomeTag"," count = ${count}")
+//                                }
+//                        }
+//                        count++
+//                        if (count == totalTaskCount){
+//                            shopList = shopList
+//                            Log.d("HomeTag"," shopList = ${shopList}")
+//                            continuation.resume(Result.Success(shopList))
+//                    }
+//                    }
+//
+//
+//                } else {
+//                    task.exception?.let {
+//
+//                        Log.w(
+//                            "Chloe",
+//                            "[${this::class.simpleName}] Error getting documents. ${it.message}"
+//                        )
+//                        continuation.resume(Result.Error(it))
+//                        return@addOnCompleteListener
+//                    }
+//                    continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
+//                }
+//
+//            }
+//    }
+
+
+//    override suspend fun postShopNotifyToMember(notify: Notify): Result<Boolean> =
+//        suspendCoroutine { continuation ->
+//            val shopId = notify.shopId
+//            val userDataBase = FirebaseFirestore.getInstance().collection(PATH_USER)
+//            val orderDataBase =
+//                FirebaseFirestore.getInstance().collection(PATH_SHOP).document(shopId)
+//                    .collection(PATH_ORDER)
+//            notify.time = Calendar.getInstance().timeInMillis
+//
+//            orderDataBase
+//                .get()
+//                .addOnCompleteListener { orderTask ->
+//                    if (orderTask.isSuccessful) {
+//                        for (document in orderTask.result!!) {
+//                            Log.d("Notify", document.id + " => " + document.data)
+//                            val order = document.toObject(Order::class.java)
+//                            val memberId = order.userId
+//                            val notifyDocument =
+//                                userDataBase.document(memberId).collection(PATH_NOTIFY).document()
+//                            notify.id = document.id
+//                            notifyDocument
+//                                .set(notify)
+//                                .addOnCompleteListener { notifyTask ->
+//                                    if (notifyTask.isSuccessful) {
+//                                        Log.i("Notify", "Notify: ${notifyTask.result}")
+////                                        continuation.resume(Result.Success(true))
+////                                    } else {
+////                                        notifyTask.exception?.let {
+////                                            Log.i(
+////                                                "Notify",
+////                                                "[${this::class.simpleName}] Error getting documents. ${it.message}"
+////                                            )
+////                                            continuation.resume(Result.Error(it))
+////                                            return@addOnCompleteListener
+////                                        }
+////                                        continuation.resume(
+////                                            Result.Fail(
+////                                                MyApplication.instance.getString(
+////                                                    R.string.result_fail
+////                                                )
+////                                            )
+////                                        )
+//                                    }
+//                                }
+//                        }
+//
+//                        continuation.resume(Result.Success(true))
+//                    } else {
+//                        orderTask.exception?.let {
+//                            Log.i(
+//                                "Notify",
+//                                "[${this::class.simpleName}] Error getting documents. ${it.message}"
+//                            )
+//                            continuation.resume(Result.Error(it))
+//                            return@addOnCompleteListener
+//                        }
+//                        continuation.resume(
+//                            Result.Fail(
+//                                MyApplication.instance.getString(
+//                                    R.string.result_fail
+//                                )
+//                            )
+//                        )
+//                    }
+//                }
+//        }

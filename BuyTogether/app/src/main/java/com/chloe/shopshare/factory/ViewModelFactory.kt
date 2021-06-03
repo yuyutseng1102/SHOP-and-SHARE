@@ -13,6 +13,7 @@ import com.chloe.shopshare.home.item.HomePageViewModel
 import com.chloe.shopshare.home.item.HomeRequestViewModel
 import com.chloe.shopshare.like.LikeViewModel
 import com.chloe.shopshare.login.LoginViewModel
+import com.chloe.shopshare.myrequest.MyRequestViewModel
 import com.chloe.shopshare.notify.NotifyViewModel
 import com.chloe.shopshare.profile.ProfileViewModel
 import com.chloe.shopshare.request.RequestViewModel
@@ -67,6 +68,9 @@ class ViewModelFactory constructor(
 
                     isAssignableFrom(RequestViewModel::class.java) ->
                         RequestViewModel(repository)
+
+                    isAssignableFrom(MyRequestViewModel::class.java) ->
+                        MyRequestViewModel(repository)
 
 
 

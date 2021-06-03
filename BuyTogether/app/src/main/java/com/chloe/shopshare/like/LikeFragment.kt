@@ -31,8 +31,10 @@ class LikeFragment : Fragment() {
 
         viewModel.likeList.observe(viewLifecycleOwner, Observer {
             it?.let {
-                Log.d("LikeTag","likeList observe= ${viewModel.likeList.value}")
-                viewModel.getShopLikedDetail()
+                if (it.isNotEmpty()){
+                    Log.d("LikeTag","likeList observe= ${viewModel.likeList.value}")
+                    viewModel.getShopLikedDetail()
+                }
             }
         })
 

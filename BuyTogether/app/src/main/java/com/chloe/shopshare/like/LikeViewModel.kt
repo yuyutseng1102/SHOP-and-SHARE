@@ -26,6 +26,10 @@ class LikeViewModel(private val repository: Repository): ViewModel() {
     val likeList: LiveData<List<String>>
         get() = _likeList
 
+    private val _isListNotEmpty = MutableLiveData<Boolean>()
+    val isListNotEmpty: LiveData<Boolean>
+        get() = _isListNotEmpty
+
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
 
@@ -57,11 +61,18 @@ class LikeViewModel(private val repository: Repository): ViewModel() {
             getLikeList(userId)
         }
     }
-
     fun getShopLikedDetail(){
         Log.d("LikeTag","getShopLiked = ${_likeList.value}")
 
         getShopLiked(_likeList.value?: listOf())
+    }
+
+    private fun isListNotEmpty(){
+        _isListNotEmpty.value =
+        when (_likeList.value.isNullOrEmpty()){
+            true -> false
+            else -> true
+        }
     }
 
     fun onShopLikedDetailGet(){
@@ -99,62 +110,101 @@ class LikeViewModel(private val repository: Repository): ViewModel() {
                 }
             }
         }
+        isListNotEmpty()
     }
 
     private fun getShopLiked(shopIdList : List<String>) {
-        Log.d("LikeTag","shopIdList = ${shopIdList}")
-        val totalCount = shopIdList.size
-        var count = 0
-        val shopList = mutableListOf<Shop>()
 
-        var shop : Shop?
-
-        for(shopId in shopIdList) {
-            Log.d("LikeTag","shopId = ${shopId}")
             coroutineScope.launch {
                 _status.value = LoadApiStatus.LOADING
-                val result = repository.getDetailShop(shopId)
-                shop = when (result) {
+                val result = repository.getShopDetailLiked(shopIdList)
+                _shop.value = when (result) {
                     is Result.Success -> {
                         _error.value = null
                         _status.value = LoadApiStatus.DONE
-                        count++
-                        Log.d("LikeTag","inside count  = ${count}")
+                        _successGetShop.value = true
                         result.data
                     }
                     is Result.Fail -> {
                         _error.value = result.error
                         _status.value = LoadApiStatus.ERROR
-                        count++
+                        _successGetShop.value = null
                         null
                     }
                     is Result.Error -> {
                         _error.value = result.exception.toString()
                         _status.value = LoadApiStatus.ERROR
-                        count++
+                        _successGetShop.value = null
                         null
                     }
                     else -> {
                         _error.value = MyApplication.instance.getString(R.string.result_fail)
                         _status.value = LoadApiStatus.ERROR
-                        count++
+                        _successGetShop.value = null
                         null
                     }
                 }
-                Log.d("LikeTag","count  = ${count}")
-                shop?.let {
-                    shopList.add(it)
                 }
-
-                if (count == totalCount){
-                    _shop.value = shopList
-                    Log.d("LikeTag", "count == totalCount , shop = ${_shop.value}")
-                    _successGetShop.value = true
-                }
-
             }
-        }
+
     }
+//    fun getShopLikedDetail(){
+//        Log.d("LikeTag","getShopLiked = ${_likeList.value}")
+//
+//        getShopLiked(_likeList.value?: listOf())
+//    }
 
-
-}
+//    private fun getShopLiked(shopIdList : List<String>) {
+//        Log.d("LikeTag","shopIdList = ${shopIdList}")
+//        val totalCount = shopIdList.size
+//        var count = 0
+//        val shopList = mutableListOf<Shop>()
+//
+//        var shop : Shop?
+//
+//        for(shopId in shopIdList) {
+//            Log.d("LikeTag","shopId = ${shopId}")
+//            coroutineScope.launch {
+//                _status.value = LoadApiStatus.LOADING
+//                val result = repository.getDetailShop(shopId)
+//                shop = when (result) {
+//                    is Result.Success -> {
+//                        _error.value = null
+//                        _status.value = LoadApiStatus.DONE
+//                        count++
+//                        Log.d("LikeTag","inside count  = ${count}")
+//                        result.data
+//                    }
+//                    is Result.Fail -> {
+//                        _error.value = result.error
+//                        _status.value = LoadApiStatus.ERROR
+//                        count++
+//                        null
+//                    }
+//                    is Result.Error -> {
+//                        _error.value = result.exception.toString()
+//                        _status.value = LoadApiStatus.ERROR
+//                        count++
+//                        null
+//                    }
+//                    else -> {
+//                        _error.value = MyApplication.instance.getString(R.string.result_fail)
+//                        _status.value = LoadApiStatus.ERROR
+//                        count++
+//                        null
+//                    }
+//                }
+//                Log.d("LikeTag","count  = ${count}")
+//                shop?.let {
+//                    shopList.add(it)
+//                }
+//
+//                if (count == totalCount){
+//                    _shop.value = shopList
+//                    Log.d("LikeTag", "count == totalCount , shop = ${_shop.value}")
+//                    _successGetShop.value = true
+//                }
+//
+//            }
+//        }
+//    }
