@@ -7,13 +7,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.chloe.shopshare.data.Shop
-import com.chloe.shopshare.databinding.ItemHomeHotsBinding
+import com.chloe.shopshare.databinding.ItemHomeLinearBinding
 
-class HomeHots1stAdapter(private val  viewModel: HomePageViewModel): ListAdapter<Shop, HomeHots1stAdapter.ViewHolder>(DiffCallback) {
+class HomeMainLinearAdapter(private val  viewModel: HomeMainViewModel): ListAdapter<Shop, HomeMainLinearAdapter.ViewHolder>(DiffCallback) {
 
-    class ViewHolder(private var binding: ItemHomeHotsBinding):
+    class ViewHolder(private var binding: ItemHomeLinearBinding):
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Shop, position: Int, viewModel: HomePageViewModel) {
+        fun bind(item: Shop, position: Int, viewModel: HomeMainViewModel) {
             binding.item = item
             if (position<=3){
                 binding.markText.text = position.toString()
@@ -36,7 +36,7 @@ class HomeHots1stAdapter(private val  viewModel: HomePageViewModel): ListAdapter
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemHomeHotsBinding.inflate(
+        return ViewHolder(ItemHomeLinearBinding.inflate(
             LayoutInflater.from(parent.context), parent, false))
     }
 

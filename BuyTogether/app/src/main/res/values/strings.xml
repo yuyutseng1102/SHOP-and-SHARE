@@ -159,10 +159,13 @@
     <string name="request_title">徵團準備</string>
 
 
-
     <!-- My REQUEST-->
     <string name="all_request">全部</string>
+    <string name="opening_order">開團中</string>
     <string name="ongoing_request">進行中</string>
     <string name="finished_request">已完成</string>
+    <string name="process">處理中</string>
+    <string name="shipment_way">待出貨</string>
+    <string name="already_ship">已出貨</string>
 
 </resources>

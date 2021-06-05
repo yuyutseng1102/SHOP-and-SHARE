@@ -40,6 +40,10 @@ class LocalDataSource(val context: Context): DataSource {
         TODO("Not yet implemented")
     }
 
+    override suspend fun getMyShopByStatus(userId: String, status: List<Int>): Result<List<Shop>> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getOrderOfShop(shopId: String): Result<List<Order>> {
         TODO("Not yet implemented")
     }
@@ -77,6 +81,18 @@ class LocalDataSource(val context: Context): DataSource {
     }
 
     override suspend fun updateRequestMember(requestId: String, memberId: String): Result<Boolean> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getMyOrder(userId: String, status:List<Int>): Result<List<MyOrder>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getDetailOrder(shopId: String, orderId: String): Result<Order> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getShopByOrder(orderId:String): Result<List<Shop>> {
         TODO("Not yet implemented")
     }
 

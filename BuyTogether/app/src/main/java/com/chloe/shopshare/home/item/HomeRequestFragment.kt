@@ -12,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import com.chloe.shopshare.MyApplication
 import com.chloe.shopshare.NavigationDirections
 import com.chloe.shopshare.R
-import com.chloe.shopshare.databinding.FragmentHomeHostBinding
 import com.chloe.shopshare.databinding.FragmentHomeRequestBinding
 import com.chloe.shopshare.ext.getVmFactory
 
@@ -30,7 +29,7 @@ class HomeRequestFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        binding.recyclerRequest.adapter = HomeRequestingAdapter(viewModel)
+        binding.recyclerRequest.adapter = HomeRequestAdapter(viewModel)
 
         binding.isLiveDataDesign = MyApplication.instance.isLiveDataDesign()
         binding.layoutSwipeRefreshCollectionItem.setOnRefreshListener {

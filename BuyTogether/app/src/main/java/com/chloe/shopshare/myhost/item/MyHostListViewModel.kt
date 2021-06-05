@@ -1,4 +1,4 @@
-package com.chloe.shopshare.shop
+package com.chloe.shopshare.myhost.item
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -8,15 +8,16 @@ import com.chloe.shopshare.MyApplication
 import com.chloe.shopshare.R
 import com.chloe.shopshare.data.*
 import com.chloe.shopshare.data.source.Repository
+import com.chloe.shopshare.myhost.MyHostType
+import com.chloe.shopshare.myorder.MyOrderType
 import com.chloe.shopshare.network.LoadApiStatus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import com.chloe.shopshare.util.UserManager
-import java.util.*
 
-class ShopViewModel(private val repository: Repository): ViewModel() {
+class MyHostListViewModel(private val repository: Repository,private val myHostType: MyHostType): ViewModel() {
 
     private val _shop = MutableLiveData<List<Shop>>()
     val shop: LiveData<List<Shop>>
@@ -57,11 +58,19 @@ class ShopViewModel(private val repository: Repository): ViewModel() {
         _visible.value = false
         UserManager.userId?.let {
             userId = it
-            getMyShop(userId)
+            getShop()
         }
     }
 
-
+    private fun getShop(){
+        when(myHostType){
+            MyHostType.ALL_SHOP -> getMyShop(userId)
+            MyHostType.OPENING_SHOP -> getMyShopByStatus(userId, MyHostType.OPENING_SHOP.status)
+            MyHostType.PROCESS_SHOP -> getMyShopByStatus(userId, MyHostType.PROCESS_SHOP.status)
+            MyHostType.SHIPMENT_SHOP -> getMyShopByStatus(userId, MyHostType.SHIPMENT_SHOP.status)
+            MyHostType.FINISH_SHOP -> getMyShopByStatus(userId, MyHostType.FINISH_SHOP.status)
+        }
+    }
 
     // Handle navigation to manage
     private val _navigateToManage = MutableLiveData<String?>()
@@ -111,9 +120,45 @@ class ShopViewModel(private val repository: Repository): ViewModel() {
         }
     }
 
+    private fun getMyShopByStatus(userId : String, status: List<Int>) {
+
+        coroutineScope.launch {
+            _status.value = LoadApiStatus.LOADING
+            val result = repository.getMyShopByStatus(userId,status)
+            _shop.value = when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    result.data
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value = MyApplication.instance.getString(R.string.result_fail)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
+            Log.d("Shop","shop is ${_shop.value}")
+
+            _visible.value = _shop.value.isNullOrEmpty()
+            Log.d("Shop","visible is ${_visible.value}")
+            _refreshStatus.value = false
+        }
+    }
+
+
     fun refresh() {
         if (status.value != LoadApiStatus.LOADING) {
-            getMyShop(userId)
+            getShop()
         }
     }
 

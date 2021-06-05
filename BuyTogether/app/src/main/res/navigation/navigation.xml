@@ -65,10 +65,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/shopFragment"
-        android:name="com.chloe.shopshare.shop.ShopFragment"
+        android:id="@+id/myHostListFragment"
+        android:name="com.chloe.shopshare.myhost.item.MyHostListFragment"
         android:label="ShopFragment"
-        tools:layout="@layout/fragment_shop" />
+        tools:layout="@layout/fragment_my_host_list" />
 
     <fragment
         android:id="@+id/manageFragment"
@@ -101,16 +101,25 @@
         android:label="RequestFragment" />
 
     <fragment
-        android:id="@+id/myOrderFragment"
-        android:name="com.chloe.shopshare.myorder.MyOrderFragment"
+        android:id="@+id/myOrderListFragment"
+        android:name="com.chloe.shopshare.myorder.item.MyOrderListFragment"
         android:label="fragment_my_order"
-        tools:layout="@layout/fragment_my_order" />
+        tools:layout="@layout/fragment_my_order_list" />
 
     <fragment
-        android:id="@+id/myRequestFragment"
-        android:name="com.chloe.shopshare.myrequest.MyRequestFragment"
+        android:id="@+id/orderDetailFragment"
+        android:name="com.chloe.shopshare.orderdetail.OrderDetailFragment"
+        android:label="OrderDetailFragment" >
+        <argument
+            android:name="myOrderDetailKey"
+            app:argType="com.chloe.shopshare.data.MyOrderDetailKey" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/myRequestListFragment"
+        android:name="com.chloe.shopshare.myrequest.item.MyRequestListFragment"
         android:label="fragment_my_request"
-        tools:layout="@layout/fragment_my_request" />
+        tools:layout="@layout/fragment_my_request_list" />
     <fragment
         android:id="@+id/likeFragment"
         android:name="com.chloe.shopshare.like.LikeFragment"
@@ -130,7 +139,7 @@
 
     <action android:id="@+id/navigate_to_profile_fragment" app:destination="@id/profileFragment"
         app:popUpTo="@id/navigation"
-        app:popUpToInclusive="true" />
+        app:popUpToInclusive="false" />
 
     <action android:id="@+id/navigate_to_like_fragment" app:destination="@id/likeFragment"
         app:popUpTo="@id/navigation"
@@ -142,21 +151,30 @@
 
     <action android:id="@+id/navigate_to_request_detail_fragment" app:destination="@id/requestDetailFragment"/>
 
-    <action android:id="@+id/navigate_to_collection_fragment" app:destination="@id/shopFragment" />
-
-    <action android:id="@+id/navigate_to_collection_manage_fragment" app:destination="@id/manageFragment" />
+    <action android:id="@+id/navigate_to_my_host_fragment" app:destination="@id/myHostFragment" />
+    <action android:id="@+id/navigate_to_manage_fragment" app:destination="@id/manageFragment" />
     <action android:id="@+id/navigate_to_my_order_fragment" app:destination="@id/myOrderFragment" />
     <action android:id="@+id/navigate_to_my_request_fragment" app:destination="@id/myRequestFragment" />
-
-
     <action android:id="@+id/navigate_to_notify_fragment" app:destination="@id/notifyFragment"/>
-
-
-
-
+    <action android:id="@+id/navigate_to_order_detail_fragment" app:destination="@id/orderDetailFragment"/>
     <action android:id="@+id/navigate_to_success_dialog" app:destination="@id/successDialog"/>
     <action android:id="@+id/navigate_to_login_fragment" app:destination="@id/loginFragment"/>
-
+    <fragment
+        android:id="@+id/myRequestFragment"
+        android:name="com.chloe.shopshare.myrequest.MyRequestFragment"
+        android:label="MyRequestFragment" />
+    <fragment
+        android:id="@+id/homeMainFragment"
+        android:name="com.chloe.shopshare.home.item.HomeMainFragment"
+        android:label="HomeMainFragment" />
+    <fragment
+        android:id="@+id/myOrderFragment"
+        android:name="com.chloe.shopshare.myorder.MyOrderFragment"
+        android:label="MyOrderFragment" />
+    <fragment
+        android:id="@+id/myHostFragment"
+        android:name="com.chloe.shopshare.myhost.MyHostFragment"
+        android:label="MyHostFragment" />
 
 
 </navigation>

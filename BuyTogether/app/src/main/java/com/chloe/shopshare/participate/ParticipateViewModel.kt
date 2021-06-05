@@ -132,6 +132,7 @@ class ParticipateViewModel(
 
     var order = Order()
     fun sendOrder() {
+        Log.d("Chloe","_product.value!! = ${_product.value!!}")
         order = Order(
             userId = userId,
             product = _product.value!!,
@@ -149,6 +150,7 @@ class ParticipateViewModel(
         }
     }
     fun editNotify(){
+
         val notify = Notify(
             shopId = _shop.value!!.id,
             type = NotifyType.ORDER_INCREASE.type,
@@ -156,7 +158,8 @@ class ParticipateViewModel(
             content = NotifyType.ORDER_INCREASE.toDisplayNotifyContent(_shop.value!!.title),
             message = NotifyType.ORDER_INCREASE.toDisplayNotifyMessage(order)
         )
-
+        Log.d("Chloe","order.value!! = ${order}")
+        Log.d("Chloe","notify.value!! = ${notify.message}")
         _shop.value?.let {
             postNotifyToHost(it.userId, notify)
         }

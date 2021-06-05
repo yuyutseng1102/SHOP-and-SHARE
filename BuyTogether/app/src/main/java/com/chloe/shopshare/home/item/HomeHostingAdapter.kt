@@ -3,18 +3,16 @@ package com.chloe.shopshare.home.item
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Adapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.chloe.shopshare.data.Shop
-import com.chloe.shopshare.data.ShopItem
-import com.chloe.shopshare.databinding.ItemHomeCollectionBinding
+import com.chloe.shopshare.databinding.ItemHomeHostBinding
 
 class HomeHostingAdapter(private val viewModel: HomeHostViewModel)  : ListAdapter<Shop, HomeHostingAdapter.ViewHolder>(DiffCallback) {
 
 
-    class ViewHolder(private var binding: ItemHomeCollectionBinding):
+    class ViewHolder(private var binding: ItemHomeHostBinding):
             RecyclerView.ViewHolder(binding.root) {
 
 
@@ -65,7 +63,7 @@ class HomeHostingAdapter(private val viewModel: HomeHostViewModel)  : ListAdapte
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemHomeCollectionBinding.inflate(
+        return ViewHolder(ItemHomeHostBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false))
     }
 

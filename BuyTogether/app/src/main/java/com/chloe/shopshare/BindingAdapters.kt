@@ -15,27 +15,29 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.chloe.shopshare.data.*
-import com.chloe.shopshare.shop.ShopAdapter
-import com.chloe.shopshare.shop.OrderStatusType
-import com.chloe.shopshare.shop.PaymentStatusType
+import com.chloe.shopshare.myhost.item.MyHostListAdapter
+import com.chloe.shopshare.myhost.OrderStatusType
+import com.chloe.shopshare.myhost.PaymentStatusType
 import com.chloe.shopshare.manage.MemberAdapter
 import com.chloe.shopshare.manage.MemberProductAdapter
 import com.chloe.shopshare.detail.dialog.ProductListAdapter
 import com.chloe.shopshare.detail.item.DetailCircleAdapter
 import com.chloe.shopshare.detail.item.DetailDeliveryAdapter
 import com.chloe.shopshare.detail.item.DetailImageAdapter
-import com.chloe.shopshare.ext.getProductList
-import com.chloe.shopshare.ext.toDisplayFormat
+import com.chloe.shopshare.ext.toDisplayDateFormat
+import com.chloe.shopshare.ext.toDisplayDateTimeFormat
 import com.chloe.shopshare.home.item.*
 import com.chloe.shopshare.host.CategoryType
 import com.chloe.shopshare.host.CountryType
 import com.chloe.shopshare.host.item.GatherOptionAdapter
 import com.chloe.shopshare.host.DeliveryMethod
 import com.chloe.shopshare.host.HostImageAdapter
-import com.chloe.shopshare.myrequest.MyRequestAdapter
+import com.chloe.shopshare.myorder.item.MyOrderListAdapter
+import com.chloe.shopshare.myrequest.item.MyRequestListAdapter
 import com.chloe.shopshare.network.LoadApiStatus
 import com.chloe.shopshare.notify.NotifyAdapter
 import com.chloe.shopshare.notify.NotifyType
+import com.chloe.shopshare.orderdetail.OrderDetailProductAdapter
 import com.chloe.shopshare.participate.ParticipateAdapter
 import com.chloe.shopshare.request.RequestImageAdapter
 import com.chloe.shopshare.requestdetail.RequestDetailCircleAdapter
@@ -72,11 +74,11 @@ fun bindRecyclerViewWithCollections(recyclerView: RecyclerView, shop: List<Shop>
     shop?.let {
         recyclerView.adapter?.apply {
             when (this) {
-                is HomeHots1stAdapter -> submitList(it)
+                is HomeMainLinearAdapter -> submitList(it)
                 is HomeHots2ndAdapter -> submitList(it)
                 is HomeHostingAdapter -> submitList(it)
-                is HomeGridAdapter -> submitList(it)
-                is ShopAdapter -> submitList(it)
+                is HomeMainGridAdapter -> submitList(it)
+                is MyHostListAdapter -> submitList(it)
             }
         }
     }
@@ -87,8 +89,19 @@ fun bindRecyclerViewWithRequest(recyclerView: RecyclerView, request: List<Reques
     request?.let {
         recyclerView.adapter?.apply {
             when (this) {
-                is HomeRequestingAdapter -> submitList(it)
-                is MyRequestAdapter -> submitList(it)
+                is HomeRequestAdapter -> submitList(it)
+                is MyRequestListAdapter -> submitList(it)
+            }
+        }
+    }
+}
+
+@BindingAdapter("myOrderDetail")
+fun bindRecyclerViewWithMyOrderDetail(recyclerView: RecyclerView, myOrder: List<MyOrder>?) {
+    myOrder?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is MyOrderListAdapter -> submitList(it)
             }
         }
     }
@@ -189,6 +202,7 @@ fun bindRecyclerViewWithProducts(recyclerView: RecyclerView, products: List<Prod
                 is MemberProductAdapter -> submitList(it)
                 is ProductListAdapter -> submitList(it)
                 is ParticipateAdapter -> submitList(it)
+                is OrderDetailProductAdapter -> submitList(it)
             }
         }
     }
@@ -210,14 +224,19 @@ fun bindRecyclerViewWithNotify(recyclerView: RecyclerView, notify: List<Notify>?
 
 @BindingAdapter("timeToDisplayFormat")
 fun bindDisplayFormatTime(textView: TextView, time: Long?) {
-    textView.text = time?.toDisplayFormat()
+    textView.text = time?.toDisplayDateFormat()
+}
+
+@BindingAdapter("dateTimeToDisplayFormat")
+fun bindDisplayFormatDateTime(textView: TextView, time: Long?) {
+    textView.text = time?.toDisplayDateTimeFormat()
 }
 
 
 @BindingAdapter("deadLineToDisplay","conditionType","conditionToDisplay")
 fun bindDisplayCondition(textView: TextView,deadLine:Long?,conditionType:Int?,condition:Int?) {
 
-    val deadLineToDisplay: String? = "預計 ${deadLine?.toDisplayFormat()} 收團"
+    val deadLineToDisplay: String? = "預計 ${deadLine?.toDisplayDateFormat()} 收團"
 
     val conditionToDisplay: String? =
         when (conditionType) {
@@ -238,7 +257,33 @@ fun bindDisplayCondition(textView: TextView,deadLine:Long?,conditionType:Int?,co
         }
 }
 
+@BindingAdapter("shopStatusToDisplayInShort")
+fun bindDisplayShopStatusInShort(textView:TextView,status:Int) {
 
+    fun getTitle(status:Int): String {
+        for (type in OrderStatusType.values()) {
+            if (type.status == status) {
+                return type.shortTitle
+            }
+        }
+        return ""
+    }
+
+    textView.text = getTitle(status)
+    textView.backgroundTintList = ColorStateList.valueOf(
+        getColor(
+            when (status) {
+                OrderStatusType.GATHERING.status -> R.color.state_opening
+                OrderStatusType.GATHER_SUCCESS.status -> R.color.state_process
+                OrderStatusType.ORDER_SUCCESS.status -> R.color.state_process
+                OrderStatusType.SHOP_SHIPMENT.status -> R.color.state_process
+                OrderStatusType.SHIPMENT_SUCCESS.status -> R.color.state_wait
+                OrderStatusType.PACKAGING.status -> R.color.state_wait
+                OrderStatusType.SHIPMENT.status -> R.color.state_ship
+                OrderStatusType.FINISH.status -> R.color.state_finish
+                else -> R.color.state_opening
+            }))
+}
 
 @BindingAdapter("categoryToDisplay")
 fun bindDisplayCategory(textView:TextView,category:Int) {

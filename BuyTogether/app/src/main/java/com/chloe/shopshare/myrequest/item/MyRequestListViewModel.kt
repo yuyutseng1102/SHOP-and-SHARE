@@ -1,6 +1,5 @@
-package com.chloe.shopshare.myrequest
+package com.chloe.shopshare.myrequest.item
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +8,7 @@ import com.chloe.shopshare.R
 import com.chloe.shopshare.data.Request
 import com.chloe.shopshare.data.Result
 import com.chloe.shopshare.data.source.Repository
+import com.chloe.shopshare.myrequest.MyRequestType
 import com.chloe.shopshare.network.LoadApiStatus
 import com.chloe.shopshare.util.UserManager
 import kotlinx.coroutines.CoroutineScope
@@ -16,7 +16,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class MyRequestViewModel(private val repository: Repository): ViewModel() {
+class MyRequestListViewModel(
+
+    private val repository: Repository,
+    private val myRequestType: MyRequestType
+
+): ViewModel() {
     private val _request = MutableLiveData<List<Request>>()
     val request: LiveData<List<Request>>
         get() = _request
@@ -68,7 +73,7 @@ class MyRequestViewModel(private val repository: Repository): ViewModel() {
         _visible.value = false
         UserManager.userId?.let {
             userId = it
-            getMyRequest(userId)
+            getRequest()
         }
     }
 
@@ -83,7 +88,16 @@ class MyRequestViewModel(private val repository: Repository): ViewModel() {
     }
 
 
-    private fun getMyRequest(userId : String) {
+    private fun getRequest(){
+        when(myRequestType){
+            MyRequestType.ALL_REQUEST -> getMyAllRequest(userId)
+            MyRequestType.ONGOING_REQUEST -> getMyOngoingRequest(userId)
+            MyRequestType.FINISHED_REQUEST -> getMyFinishedRequest(userId)
+        }
+    }
+
+
+    private fun getMyAllRequest(userId : String) {
 
         coroutineScope.launch {
             _status.value = LoadApiStatus.LOADING
@@ -184,7 +198,7 @@ class MyRequestViewModel(private val repository: Repository): ViewModel() {
 
     fun refresh() {
         if (status.value != LoadApiStatus.LOADING) {
-            getMyRequest(userId)
+            getRequest()
         }
     }
 

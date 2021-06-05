@@ -91,7 +91,7 @@ class MainActivity : BaseActivity() {
                 R.id.homeFragment -> CurrentFragmentType.HOME
                 R.id.profileFragment -> CurrentFragmentType.PROFILE
                 R.id.hostFragment -> CurrentFragmentType.HOST
-                R.id.shopFragment -> CurrentFragmentType.SHOP
+                R.id.myHostFragment -> CurrentFragmentType.SHOP
                 R.id.manageFragment -> CurrentFragmentType.MANAGE
                 R.id.detailFragment -> CurrentFragmentType.DETAIL
                 R.id.participateFragment -> CurrentFragmentType.PARTICIPATE

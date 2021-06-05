@@ -72,7 +72,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/notify_content"
                 app:layout_constraintTop_toBottomOf="@+id/notify_content"
-                app:timeToDisplayFormat="@{item.time}"
+                app:dateTimeToDisplayFormat="@{item.time}"
                 tools:text="2021/05/11 12:30" />
 
             <CheckBox

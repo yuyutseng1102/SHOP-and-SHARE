@@ -25,7 +25,7 @@ class ProfileFragment : Fragment() {
         binding.viewModel = viewModel
 
         binding.hostBlock.setOnClickListener {
-            findNavController().navigate(NavigationDirections.navigateToCollectionFragment())
+            findNavController().navigate(NavigationDirections.navigateToMyHostFragment())
         }
 
         binding.notifyBlock.setOnClickListener {

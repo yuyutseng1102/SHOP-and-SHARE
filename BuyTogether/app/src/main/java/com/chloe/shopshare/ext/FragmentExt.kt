@@ -2,10 +2,14 @@ package com.chloe.shopshare.ext
 
 import androidx.fragment.app.Fragment
 import com.chloe.shopshare.MyApplication
+import com.chloe.shopshare.data.MyOrderDetailKey
 import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.data.Product
 import com.chloe.shopshare.data.Request
 import com.chloe.shopshare.factory.*
+import com.chloe.shopshare.myhost.MyHostType
+import com.chloe.shopshare.myorder.MyOrderType
+import com.chloe.shopshare.myrequest.MyRequestType
 
 /**
  *
@@ -35,7 +39,27 @@ fun Fragment.getVmFactory(shopId: String): ShopViewModelFactory {
     fun Fragment.getVmFactory(request: Request?): HostViewModelFactory {
         val repository = (requireContext().applicationContext as MyApplication).repository
         return HostViewModelFactory(repository, request)
+}
 
+
+fun Fragment.getVmFactory(orderDetail: MyOrderDetailKey): OrderDetailViewModelFactory {
+    val repository = (requireContext().applicationContext as MyApplication).repository
+    return OrderDetailViewModelFactory(repository, orderDetail)
+}
+
+fun Fragment.getVmFactory(myRequestType: MyRequestType): MyRequestViewModelFactory {
+    val repository = (requireContext().applicationContext as MyApplication).repository
+    return MyRequestViewModelFactory(repository, myRequestType)
+}
+
+fun Fragment.getVmFactory(myOrderType: MyOrderType): MyOrderViewModelFactory {
+    val repository = (requireContext().applicationContext as MyApplication).repository
+    return MyOrderViewModelFactory(repository, myOrderType)
+}
+
+fun Fragment.getVmFactory(myHostType: MyHostType): MyHostViewModelFactory {
+    val repository = (requireContext().applicationContext as MyApplication).repository
+    return MyHostViewModelFactory(repository, myHostType)
 }
 
 

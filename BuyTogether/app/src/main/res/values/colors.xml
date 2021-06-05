@@ -14,9 +14,11 @@
 
     <color name="state_focus">@color/orange_DD894D</color>
     <color name="state_click">@color/green_E6E4D7</color>
-    <color name="state_alert">@color/orange_FFAFA0</color>
-    <color name="state_unAlert">@color/gray_cccccc</color>
-
+    <color name="state_opening">@color/orange_FFAFA0</color>
+    <color name="state_process">@color/purple_CEB6DA</color>
+    <color name="state_wait">@color/blue_A1C9CD</color>
+    <color name="state_ship">@color/brown_C5BBAF</color>
+    <color name="state_finish">@color/gray_cccccc</color>
     <!-- Tag Navigation -->
     <color name="tag_category">@color/yellow_FFF499</color>
     <color name="tag_country">@color/blue_9EBFBE</color>
@@ -46,7 +48,8 @@
     <color name="green_E7ECE5">#E7ECE5</color>
     <color name="green_7A8277">#7A8277</color>
     <color name="green_97B6A8">#97B6A8</color>
-
+    <!-- Brown Series -->
+    <color name="brown_C5BBAF">#C5BBAF</color>
 <!--    orange Series-->
     <color name="orange_E0B291">#E0B291</color>
     <color name="orange_9A4747">#9A4747</color>
@@ -62,12 +65,15 @@
 
 
     <!-- Deep Purple Series -->
+    <color name="purple_CEB6DA">#CEB6DA</color>
     <color name="deep_purple_500">#673ab7</color>
     <color name="deep_purple_500_light">#9a67ea</color>
     <color name="deep_purple_500_dark">#320b86</color>
     <color name="blue_72A6A5">#72A6A5</color>
     <color name="blue_81AAA9">#81AAA9</color>
     <color name="blue_9EBFBE">#9EBFBE</color>
+    <color name="blue_A1C9CD">#A1C9CD</color>
+
 
 
     <color name="indigo_500">#3f51b5</color>

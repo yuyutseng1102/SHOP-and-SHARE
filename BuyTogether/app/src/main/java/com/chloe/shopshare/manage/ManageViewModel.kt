@@ -6,10 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.chloe.shopshare.MyApplication
 import com.chloe.shopshare.R
-import com.chloe.shopshare.data.Notify
-import com.chloe.shopshare.data.Shop
-import com.chloe.shopshare.data.Order
-import com.chloe.shopshare.data.Result
+import com.chloe.shopshare.data.*
 import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.ext.toDisplayNotifyContent
 import com.chloe.shopshare.ext.toDisplayNotifyMessage
@@ -77,6 +74,10 @@ class ManageViewModel(
     val refreshStatus: LiveData<Boolean>
         get() = _refreshStatus
 
+    private val _navigateToDetail = MutableLiveData<String>()
+    val navigateToDetail: LiveData<String>
+        get() = _navigateToDetail
+
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
 
@@ -113,8 +114,13 @@ class ManageViewModel(
             }
     }
 
+    fun navigateToDetail(shopId: String){
+        _navigateToDetail.value = shopId
+    }
 
-
+    fun onDetailNavigate(){
+        _navigateToDetail.value = null
+    }
 
 
 

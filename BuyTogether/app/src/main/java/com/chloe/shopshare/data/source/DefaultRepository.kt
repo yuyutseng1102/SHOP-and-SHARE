@@ -39,6 +39,10 @@ class DefaultRepository (private val remoteDataSource: DataSource,
         return remoteDataSource.getMyShop(userId)
     }
 
+    override suspend fun getMyShopByStatus(userId: String, status: List<Int>): Result<List<Shop>> {
+        return remoteDataSource.getMyShopByStatus(userId, status)
+    }
+
     override suspend fun getOrderOfShop(shopId: String): Result<List<Order>> {
         return remoteDataSource.getOrderOfShop(shopId)
     }
@@ -75,6 +79,18 @@ class DefaultRepository (private val remoteDataSource: DataSource,
 
     override suspend fun updateRequestMember(requestId: String, memberId: String): Result<Boolean> {
         return remoteDataSource.updateRequestMember(requestId, memberId)
+    }
+
+    override suspend fun getMyOrder(userId: String, status:List<Int>): Result<List<MyOrder>> {
+        return remoteDataSource.getMyOrder(userId, status)
+    }
+
+    override suspend fun getDetailOrder(shopId: String, orderId: String): Result<Order> {
+        return remoteDataSource.getDetailOrder(shopId, orderId)
+    }
+
+    override suspend fun getShopByOrder(orderId:String): Result<List<Shop>> {
+        return remoteDataSource.getShopByOrder(orderId)
     }
 
     override suspend fun getMyRequest(userId: String): Result<List<Request>> {
