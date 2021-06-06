@@ -354,17 +354,37 @@
                 app:tint="@drawable/bottom_nav_item_selector" />
 
             <Button
+                android:id="@+id/button_ending"
+                style="@style/WhiteButtonName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="24dp"
+                android:onClick="@{()->viewModel.navigateToHostDetail(viewModel.request)}"
+                android:text="查看團購頁面"
+                android:visibility="@{viewModel.request.host!=null?View.VISIBLE:View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toEndOf="@+id/nav_follow"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5"
+                tools:visibility="visible" />
+
+            <Button
                 android:id="@+id/button_host"
                 style="@style/WhiteButtonName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:text="我要開團"
+                android:visibility="@{viewModel.request.host==null?View.VISIBLE:View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintStart_toEndOf="@+id/nav_follow"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.5" />
+                app:layout_constraintVertical_bias="0.5"
+                tools:visibility="gone" />
 
             <Button
                 android:id="@+id/button_member"
@@ -375,11 +395,13 @@
                 android:layout_marginEnd="16dp"
                 android:onClick="@{()->viewModel.updateRequestMember(viewModel.request.id,viewModel.memberId)}"
                 android:text="我有興趣"
+                android:visibility="@{viewModel.request.host==null?View.VISIBLE:View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/button_host"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.5" />
+                app:layout_constraintVertical_bias="0.5"
+                tools:visibility="gone" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

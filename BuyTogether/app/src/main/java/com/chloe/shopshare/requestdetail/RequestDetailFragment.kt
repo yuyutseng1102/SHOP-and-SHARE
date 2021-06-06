@@ -52,6 +52,13 @@ class RequestDetailFragment : Fragment() {
             )
         }
 
+        viewModel.navigateToHostDetail.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                findNavController().navigate(NavigationDirections.navigateToDetailFragment(it))
+                viewModel.onHostDetailNavigated()
+            }
+        })
+
         viewModel.request.observe(viewLifecycleOwner, Observer {
             it?.let {
                 viewModel.getUserProfile(it.userId)

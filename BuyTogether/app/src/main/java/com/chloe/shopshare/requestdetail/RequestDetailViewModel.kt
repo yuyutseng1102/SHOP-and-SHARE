@@ -12,6 +12,7 @@ import com.chloe.shopshare.MyApplication
 import com.chloe.shopshare.R
 import com.chloe.shopshare.data.Request
 import com.chloe.shopshare.data.Result
+import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.data.User
 import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.network.LoadApiStatus
@@ -33,6 +34,10 @@ class RequestDetailViewModel(private val repository: Repository, private val arg
     private var _request = MutableLiveData<Request>()
     val request: LiveData<Request>
         get() = _request
+
+    private val _navigateToHostDetail = MutableLiveData<String>()
+    val navigateToHostDetail: LiveData<String>
+        get() = _navigateToHostDetail
 
     private var _successUpdateMember = MutableLiveData<Boolean>()
     val successUpdateMember: LiveData<Boolean>
@@ -73,12 +78,26 @@ class RequestDetailViewModel(private val repository: Repository, private val arg
     val snapPosition: LiveData<Int>
         get() = _snapPosition
 
+    lateinit var memberId : String
     init {
         _requestId.value?.let {
             getLiveDetailRequest(it)
         }
-
+        UserManager.userId?.let {
+            memberId = it
+        }
     }
+
+    fun navigateToHostDetail(request: Request){
+        request.shopId?.let{
+            _navigateToHostDetail.value = it
+        }
+    }
+
+    fun onHostDetailNavigated(){
+        _navigateToHostDetail.value = null
+    }
+
 
     private fun getLiveDetailRequest(requestId: String) {
         _status.value = LoadApiStatus.LOADING
@@ -106,13 +125,6 @@ class RequestDetailViewModel(private val repository: Repository, private val arg
         }
     }
 
-    lateinit var memberId : String
-
-    init {
-        UserManager.userId?.let {
-            memberId = it
-        }
-    }
 
     fun updateRequestMember(requestId: String, memberId: String) {
 

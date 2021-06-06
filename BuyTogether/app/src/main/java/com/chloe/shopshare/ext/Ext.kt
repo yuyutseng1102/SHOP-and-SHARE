@@ -1,6 +1,8 @@
 package com.chloe.shopshare.ext
 
 import android.icu.text.SimpleDateFormat
+import android.text.Spannable
+import android.text.SpannableString
 import android.util.Log
 import com.chloe.shopshare.data.Order
 import com.chloe.shopshare.data.Product
@@ -36,9 +38,11 @@ fun NotifyType.toDisplayNotifyContent(shopTitle:String): String {
         NotifyType.REQUEST_SUCCESS_MEMBER -> "您有興趣的徵團文 : $shopTitle 已經有人開團囉 ! 快去看看吧 ! "
         NotifyType.SYSTEM_NOTIFY -> ""
     }
+
 }
 
 fun NotifyType.toDisplayNotifyMessage(order: Order): String {
+
     Log.d("Chloe","getProductList(order.product) = ${order.product}")
     return when(this){
         NotifyType.ORDER_INCREASE -> "訂單編號 : ${order.id}\n" +

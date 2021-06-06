@@ -263,6 +263,23 @@
         <item name="cornerSize">4dp</item>
     </style>
 
+    <style name="Widget.App.ExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.ExposedDropdownMenu</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent.menu</item>
+        <item name="hintTextColor">?attr/colorOnSurface</item>
+        <item name="endIconTint">?attr/colorOnSurface</item>
+    </style>
+
+        <style name="ThemeOverlay.App.ExposedDropdownMenu" parent="">
+            <item name="colorPrimary">@color/colorPrimary</item>
+            <item name="colorOnSurface">@color/black_3f3a3a</item>
+        </style>
+
+    <style name="ShapeAppearance.App.SmallComponent.menu" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+
 
 </resources>
 
