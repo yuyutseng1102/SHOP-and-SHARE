@@ -280,6 +280,26 @@
         <item name="cornerSize">4dp</item>
     </style>
 
+    <style name="ShapeAppearanceOverlay.App.Card.Media.Medium" parent="">
+        <item name="cornerSize">28dp</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.App.Card.Media.Small" parent="">
+        <item name="cornerSize">15dp</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+
+    <style name="Widget.App.Toolbar.Chat.Room" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Toolbar</item>
+        <item name="android:windowSoftInputMode">adjustPan</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Toolbar" parent="">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/black_3f3a3a</item>
+    </style>
 
 </resources>
 

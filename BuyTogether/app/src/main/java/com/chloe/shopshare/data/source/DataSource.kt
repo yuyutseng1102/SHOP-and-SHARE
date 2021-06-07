@@ -61,6 +61,7 @@ interface DataSource {
     /** Participate **/
     suspend fun postOrder(shopId: String, order: Order): Result<PostOrderResult>
     suspend fun increaseOrderSize(shopId: String): Result<Boolean>
+    suspend fun decreaseOrderSize(shopId: String, orderSize: Int): Result<Boolean>
 
     /** Like **/
     suspend fun getShopDetailLiked(shopIdList: List<String>): Result<List<Shop>>
@@ -73,4 +74,9 @@ interface DataSource {
     suspend fun postOrderNotifyToMember(orderList: List<Order>, notify: Notify): Result<Boolean>
     suspend fun postNotifyToHost(hostId: String, notify: Notify): Result<Boolean>
     fun getLiveNotify(userId: String): MutableLiveData<List<Notify>>
+
+    /** CHAT ROOM **/
+    suspend fun getChatRoom(myId: String, friendId: String): Result<ChatRoom>
+    fun getRoomMessage(roomId: String): MutableLiveData<List<Message>>
+    suspend fun sendMessage(chatRoomId: String, message: Message): Result<Boolean>
 }

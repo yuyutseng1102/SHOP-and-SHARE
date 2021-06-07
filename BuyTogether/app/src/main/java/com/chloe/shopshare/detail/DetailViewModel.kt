@@ -54,6 +54,10 @@ class DetailViewModel(
     val user: LiveData<User>
         get() = _user
 
+    private val _chatRoom = MutableLiveData<ChatRoom>()
+    val chatRoom: LiveData<ChatRoom>
+        get() = _chatRoom
+
     val isChecked = MutableLiveData<Boolean>()
 
     // status: The internal MutableLiveData that stores the status of the most recent request
@@ -126,6 +130,24 @@ class DetailViewModel(
     fun onOptionNavigated() {
         _navigateToOption.value = null
     }
+
+    // 要傳給聊天頁面的
+    private val _navigateToChatRoom = MutableLiveData<ChatRoomKey>()
+    val navigateToChatRoom: LiveData<ChatRoomKey>
+        get() = _navigateToChatRoom
+
+    fun navigateToChatRoom(chatRoom: ChatRoom) {
+        Log.d("Chloe","chatRoomKey : myId = ${UserManager.userId!!},friendId = ${_shop.value?.userId},chatRoomId = ${chatRoom.id}")
+        _shop.value?.let {
+            _navigateToChatRoom.value = ChatRoomKey(myId = UserManager.userId!!,friendId = it.userId,chatRoomId = chatRoom.id)
+        }
+
+    }
+
+    fun onChatRoomNavigated() {
+        _navigateToChatRoom.value = null
+    }
+
 
 
     // 要傳給商品清單頁面的
@@ -225,7 +247,36 @@ class DetailViewModel(
         }
     }
 
+    fun getChatRoom(myId: String, friendId: String) {
 
+        coroutineScope.launch {
+            _status.value = LoadApiStatus.LOADING
+            val result = repository.getChatRoom(myId, friendId)
+            _chatRoom.value =
+                when (result) {
+                    is Result.Success -> {
+                        _error.value = null
+                        _status.value = LoadApiStatus.DONE
+                        result.data
+                    }
+                    is Result.Fail -> {
+                        _error.value = result.error
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                    is Result.Error -> {
+                        _error.value = result.exception.toString()
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                    else -> {
+                        _error.value = MyApplication.instance.getString(R.string.result_fail)
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                }
+        }
+    }
 
 }
 

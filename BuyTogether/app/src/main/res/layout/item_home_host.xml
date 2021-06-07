@@ -7,8 +7,6 @@
         <variable
             name="item" type="com.chloe.shopshare.data.Shop" />
         <variable
-            name="shopItem" type="com.chloe.shopshare.data.ShopItem" />
-        <variable
             name="isShopLiked" type="Boolean" />
         <variable
             name="orderSize" type="Integer" />

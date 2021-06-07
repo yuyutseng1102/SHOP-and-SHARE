@@ -159,6 +159,7 @@
     <action android:id="@+id/navigate_to_order_detail_fragment" app:destination="@id/orderDetailFragment"/>
     <action android:id="@+id/navigate_to_success_dialog" app:destination="@id/successDialog"/>
     <action android:id="@+id/navigate_to_login_fragment" app:destination="@id/loginFragment"/>
+    <action android:id="@+id/navigate_to_chat_room_fragment" app:destination="@id/chatRoomFragment"/>
     <fragment
         android:id="@+id/myRequestFragment"
         android:name="com.chloe.shopshare.myrequest.MyRequestFragment"
@@ -175,6 +176,24 @@
         android:id="@+id/myHostFragment"
         android:name="com.chloe.shopshare.myhost.MyHostFragment"
         android:label="MyHostFragment" />
+    <fragment
+        android:id="@+id/chatRoomFragment"
+        android:name="com.chloe.shopshare.chatroom.ChatRoomFragment"
+        android:label="ChatRoomFragment" >
+        <argument
+            android:name="myId"
+            app:argType="string" />
+        <argument
+            android:name="friendId"
+            app:argType="string" />
+        <argument
+            android:name="chatRoomId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.chloe.shopshare.chat.ChatFragment"
+        android:label="ChatFragment" />
 
 
 </navigation>

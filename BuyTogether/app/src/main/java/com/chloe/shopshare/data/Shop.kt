@@ -33,11 +33,5 @@ data class Shop(
     var member : Int = 0
 }
 
-@IgnoreExtraProperties
-@Parcelize
-data class ShopItem(
-    val shopItem : Shop,
-    val orderSize : Int?
-) : Parcelable
 
 

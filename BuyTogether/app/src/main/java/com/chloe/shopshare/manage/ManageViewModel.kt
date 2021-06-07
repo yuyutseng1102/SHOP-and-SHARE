@@ -49,6 +49,10 @@ class ManageViewModel(
     val deleteSuccess: LiveData<Boolean>
         get() = _deleteSuccess
 
+    private val _successDecreaseOrder = MutableLiveData<Boolean>()
+    val successDecreaseOrder: LiveData<Boolean>
+        get() = _successDecreaseOrder
+
     val messageContent = MutableLiveData<String?>()
 
     private val _leave = MutableLiveData<Boolean>()
@@ -316,6 +320,7 @@ class ManageViewModel(
 
     }
 
+
     private fun deleteOrder(shopId: String, order: Order) {
 
         if (_order.value == null) {
@@ -355,6 +360,48 @@ class ManageViewModel(
             _refreshStatus.value = false
         }
     }
+
+    fun onSuccessDeleteOrder() {
+        _deleteSuccess.value = null
+    }
+
+    fun decreaseOrderSize(shopId: String, orderSize: Int) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+            val result = repository.decreaseOrderSize(shopId, orderSize)
+            _successDecreaseOrder.value =
+                when (result) {
+                    is Result.Success -> {
+                        _error.value = null
+                        _status.value = LoadApiStatus.DONE
+                        true
+
+                    }
+                    is Result.Fail -> {
+                        _error.value = result.error
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                    is Result.Error -> {
+                        _error.value = result.exception.toString()
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                    else -> {
+                        _error.value = MyApplication.instance.getString(R.string.result_fail)
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                }
+        }
+    }
+
+    fun onSuccessDecreaseOrder() {
+        _successDecreaseOrder.value = null
+    }
+
 
     private fun updateShopStatus(shopId: String, shopStatus: Int) {
 

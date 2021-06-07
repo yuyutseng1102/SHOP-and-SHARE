@@ -117,7 +117,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/host_date_text"
                 app:layout_constraintTop_toTopOf="@+id/host_date_text"
-                app:timeToDisplayFormat="@{item.time}"
+                app:dateToDisplayFormat="@{item.time}"
                 tools:text="2021/05/04" />
             <TextView
                 android:id="@+id/collection_condition_title"

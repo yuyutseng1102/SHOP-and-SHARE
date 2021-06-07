@@ -14,6 +14,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.chloe.shopshare.chatroom.ChatRoomMessageAdapter
 import com.chloe.shopshare.data.*
 import com.chloe.shopshare.myhost.item.MyHostListAdapter
 import com.chloe.shopshare.myhost.OrderStatusType
@@ -26,6 +27,7 @@ import com.chloe.shopshare.detail.item.DetailDeliveryAdapter
 import com.chloe.shopshare.detail.item.DetailImageAdapter
 import com.chloe.shopshare.ext.toDisplayDateFormat
 import com.chloe.shopshare.ext.toDisplayDateTimeFormat
+import com.chloe.shopshare.ext.toDisplayTimeFormat
 import com.chloe.shopshare.home.item.*
 import com.chloe.shopshare.host.CategoryType
 import com.chloe.shopshare.host.CountryType
@@ -106,6 +108,31 @@ fun bindRecyclerViewWithMyOrderDetail(recyclerView: RecyclerView, myOrder: List<
         }
     }
 }
+
+@BindingAdapter("messageList")
+fun bindRecyclerViewWithMessage(recyclerView: RecyclerView, message: List<Message>?) {
+    message?.let {
+        Log.d("Chat","summit the message is ${message}")
+        recyclerView.adapter?.apply {
+            when (this) {
+                is ChatRoomMessageAdapter -> submitList(it)
+            }
+        }
+    }
+}
+
+//@BindingAdapter("messageList")
+//fun bindRecyclerViewWithMessage(recyclerView: RecyclerView, message: List<MessageItem>?) {
+//    message?.let {
+//        recyclerView.adapter?.apply {
+//            Log.d("Chat","summit the message is ${message}")
+//            when (this) {
+//                is ChatRoomMessageAdapter -> submitList(it)
+//            }
+//        }
+//    }
+//}
+
 
 @BindingAdapter("strings")
 fun bindRecyclerViewWithOptionStrings(recyclerView: RecyclerView, options: List<String>?) {
@@ -222,10 +249,16 @@ fun bindRecyclerViewWithNotify(recyclerView: RecyclerView, notify: List<Notify>?
 }
 
 
-@BindingAdapter("timeToDisplayFormat")
-fun bindDisplayFormatTime(textView: TextView, time: Long?) {
+@BindingAdapter("dateToDisplayFormat")
+fun bindDisplayFormatDate(textView: TextView, time: Long?) {
     textView.text = time?.toDisplayDateFormat()
 }
+
+@BindingAdapter("timeToDisplayFormat")
+fun bindDisplayFormatTime(textView: TextView, time: Long?) {
+    textView.text = time?.toDisplayTimeFormat()
+}
+
 
 @BindingAdapter("dateTimeToDisplayFormat")
 fun bindDisplayFormatDateTime(textView: TextView, time: Long?) {

@@ -23,7 +23,7 @@
                 <action android:name="android.intent.action.MAIN"
                     android:theme="@style/AppTheme.NoActionBar"
                     android:screenOrientation="sensorPortrait"
-                    android:windowSoftInputMode="stateHidden|adjustPan"
+                    android:windowSoftInputMode="adjustPan"
                     tools:ignore="LockedOrientationActivity"/>
 
                 <category android:name="android.intent.category.LAUNCHER" />

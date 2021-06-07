@@ -23,6 +23,8 @@ import kotlin.coroutines.suspendCoroutine
 
 
 object RemoteDataSource : DataSource {
+    private const val PATH_CHAT_ROOM = "chatRoom"
+    private const val PATH_MESSAGE = "message"
     private const val PATH_REQUEST = "request"
     private const val PATH_USER = "user"
     private const val PATH_ORDER = "order"
@@ -987,6 +989,26 @@ object RemoteDataSource : DataSource {
             }
     }
 
+    override suspend fun decreaseOrderSize(shopId: String, orderSize: Int): Result<Boolean> =suspendCoroutine { continuation ->
+        val shopDataBase = FirebaseFirestore.getInstance().collection(PATH_SHOP).document(shopId)
+        shopDataBase
+            .update("orderSize", orderSize)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    continuation.resume(Result.Success(true))
+                } else {
+                    task.exception?.let {
+                        Log.i(
+                            "Chloe",
+                            "[${this::class.simpleName}] Error getting documents. ${it.message}"
+                        )
+                        continuation.resume(Result.Error(it))
+                        return@addOnCompleteListener
+                    }
+                    continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
+                }
+            }
+    }
     override suspend fun getShopDetailLiked(shopIdList: List<String>): Result<List<Shop>>  =
         suspendCoroutine { continuation ->
             val shopDataBase = FirebaseFirestore.getInstance().collection(PATH_SHOP)
@@ -1366,6 +1388,111 @@ override suspend fun postOrderNotifyToMember(orderList: List<Order>, notify: Not
         Log.d("Notify", "livedata = ${liveData.value}")
         return liveData
     }
+
+    override suspend fun getChatRoom(myId: String, friendId: String): Result<ChatRoom> =
+        suspendCoroutine { continuation ->
+            val chatRoomDataBase = FirebaseFirestore.getInstance().collection(PATH_CHAT_ROOM)
+            var chatRoom = ChatRoom()
+            chatRoomDataBase
+                .whereArrayContainsAny("talker", listOf(myId,friendId))
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        if (task.result!!.isEmpty){
+                            Log.d("Chat", "fun getChatRoom result size is empty = ${task.result!!.size()}")
+                            val document = chatRoomDataBase.document()
+                            chatRoom = ChatRoom(id = document.id, talker = listOf(myId, friendId))
+                            document
+                                .set(chatRoom)
+                                .addOnCompleteListener { nawChatTask ->
+                                    if (nawChatTask.isSuccessful) {
+                                        continuation.resume(Result.Success(chatRoom))
+                                    } else {
+                                        nawChatTask.exception?.let {
+                                            Log.i("Chat", "[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                            continuation.resume(Result.Error(it))
+                                            return@addOnCompleteListener
+                                        }
+                                        continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
+                                    }
+                                }
+                        }else{
+                            Log.d("Chat", "fun getChatRoom result size is not empty  = ${task.result!!.size()}")
+                            for (document in task.result!!) {
+                                Log.d("Chat", document.id + " => " + document.data)
+                                chatRoom = document.toObject(ChatRoom::class.java)
+                            }
+                            chatRoom = chatRoom
+                            continuation.resume(Result.Success(chatRoom))
+                        }
+                    } else {
+                        task.exception?.let {
+                            Log.w(
+                                "Chat",
+                                "[${this::class.simpleName}] Error getting documents. ${it.message}"
+                            )
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
+                    }
+                }
+        }
+
+    override fun getRoomMessage(roomId: String): MutableLiveData<List<Message>> {
+        val liveData = MutableLiveData<List<Message>>()
+        val messageDataBase = FirebaseFirestore.getInstance().collection(PATH_CHAT_ROOM).document(roomId).collection(PATH_MESSAGE)
+        messageDataBase
+            .orderBy(KEY_CREATED_TIME, Query.Direction.ASCENDING)
+            .addSnapshotListener { snapshot, exception ->
+                Log.i("Chat", "addSnapshotListener detect")
+                exception?.let {
+                    Log.w("Chat", "[${this::class.simpleName}] Error getting documents. ${it.message}")
+                }
+                var messageList = mutableListOf<Message>()
+                for (document in snapshot!!) {
+                    Log.d("Chat", document.id + " => " + document.data)
+                    val message = document.toObject(Message::class.java)
+                    messageList.add(message)
+                }
+                messageList = messageList
+                liveData.value = messageList
+                Log.i("Chat", "liveData.value = ${liveData.value}")
+            }
+        Log.d("Chat", "livedata = ${liveData.value}")
+        return liveData
+    }
+
+    override suspend fun sendMessage(chatRoomId: String, message: Message): Result<Boolean> =
+        suspendCoroutine { continuation ->
+            val messageDataBase =
+                FirebaseFirestore.getInstance().collection(PATH_CHAT_ROOM).document(chatRoomId)
+                    .collection(PATH_MESSAGE)
+
+            val document = messageDataBase.document()
+            message.id = document.id
+            message.time = Calendar.getInstance().timeInMillis
+
+            document
+                .set(message)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.i("Message", "postMessage: $message")
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        task.exception?.let {
+                            Log.i(
+                                "Message",
+                                "[${this::class.simpleName}] Error getting documents. ${it.message}"
+                            )
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
+                    }
+                }
+        }
+
 }
 
 

@@ -188,7 +188,7 @@
                         app:layout_constraintBottom_toBottomOf="@+id/tag_country"
                         app:layout_constraintStart_toEndOf="@+id/tag_country"
                         app:layout_constraintTop_toTopOf="@+id/tag_country"
-                        app:timeToDisplayFormat="@{viewModel.request.time}"
+                        app:dateToDisplayFormat="@{viewModel.request.time}"
                         tools:text="2021/05/09" />
 
                     <TextView

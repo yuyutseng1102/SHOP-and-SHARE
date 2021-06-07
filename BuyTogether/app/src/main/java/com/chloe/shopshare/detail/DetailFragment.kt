@@ -21,6 +21,7 @@ import com.chloe.shopshare.detail.item.DetailDeliveryAdapter
 import com.chloe.shopshare.detail.item.DetailImageAdapter
 import com.chloe.shopshare.ext.getVmFactory
 import com.chloe.shopshare.network.LoadApiStatus
+import com.chloe.shopshare.util.UserManager
 import com.google.android.material.tabs.TabLayout
 
 
@@ -127,6 +128,20 @@ class DetailFragment : Fragment() {
             )
         }
 
+        viewModel.chatRoom.observe(viewLifecycleOwner, Observer {
+            Log.d("Chloe","chatRoom = ${viewModel.chatRoom.value}")
+            it?.let {
+                viewModel.navigateToChatRoom(it)
+            }
+        })
+
+        viewModel.navigateToChatRoom.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                findNavController().navigate(NavigationDirections.navigateToChatRoomFragment(it.myId,it.friendId,it.chatRoomId))
+                viewModel.onChatRoomNavigated()
+            }
+        })
+
 
 
         binding.navHome.setOnClickListener {
@@ -134,7 +149,10 @@ class DetailFragment : Fragment() {
         }
 
         binding.navFollow.setOnClickListener {
-            findNavController().navigate(NavigationDirections.navigateToHomeFragment())
+            viewModel.shop.value?.let {
+                viewModel.getChatRoom(UserManager.userId?:"",it.userId)
+                Log.d("Chat","UserManager.userId = ${UserManager.userId},friendId = ${it.userId}")
+            }
         }
 
 //        viewModel.productItem.observe(viewLifecycleOwner, Observer {

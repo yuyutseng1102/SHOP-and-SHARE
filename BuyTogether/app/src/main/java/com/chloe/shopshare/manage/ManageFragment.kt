@@ -96,17 +96,32 @@ class ManageFragment : Fragment() {
         viewModel.deleteSuccess.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if(it){
+                    viewModel.apply {
+                        order.value?.let {
+                            decreaseOrderSize(shop.value!!.id,it.size.minus(viewModel.deleteList.value?.size?:0))
+                        }
+                        onSuccessDeleteOrder()
+                    }
+                }
+
+            }
+        })
+
+        viewModel.successDecreaseOrder.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if (it) {
                     viewModel.deleteList.observe(viewLifecycleOwner, Observer {
                         it?.let {
                             viewModel.editOrderNotify(it)
                             viewModel.onFailNotifySend()
                         }
                     })
-
+                    viewModel.onSuccessDecreaseOrder()
                 }
-
             }
-        })
+        }
+            )
+
 
         viewModel.navigateToDetail.observe(viewLifecycleOwner, Observer {
             it?.let {

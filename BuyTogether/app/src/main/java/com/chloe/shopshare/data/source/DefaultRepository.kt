@@ -125,6 +125,10 @@ class DefaultRepository (private val remoteDataSource: DataSource,
         return remoteDataSource.increaseOrderSize(shopId)
     }
 
+    override suspend fun decreaseOrderSize(shopId: String, orderSize: Int): Result<Boolean> {
+        return remoteDataSource.decreaseOrderSize(shopId, orderSize)
+    }
+
     override suspend fun getShopDetailLiked(shopIdList: List<String>): Result<List<Shop>> {
         return remoteDataSource.getShopDetailLiked(shopIdList)
     }
@@ -160,6 +164,18 @@ class DefaultRepository (private val remoteDataSource: DataSource,
 
     override fun getLiveNotify(userId: String): MutableLiveData<List<Notify>> {
         return remoteDataSource.getLiveNotify(userId)
+    }
+
+    override suspend fun getChatRoom(myId: String, friendId: String): Result<ChatRoom> {
+        return remoteDataSource.getChatRoom(myId, friendId)
+    }
+
+    override fun getRoomMessage(roomId: String): MutableLiveData<List<Message>> {
+        return remoteDataSource.getRoomMessage(roomId)
+    }
+
+    override suspend fun sendMessage(chatRoomId: String, message: Message): Result<Boolean> {
+        return remoteDataSource.sendMessage(chatRoomId, message)
     }
 
 

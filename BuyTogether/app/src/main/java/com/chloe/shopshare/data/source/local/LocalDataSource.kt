@@ -130,6 +130,10 @@ class LocalDataSource(val context: Context): DataSource {
         TODO("Not yet implemented")
     }
 
+    override suspend fun decreaseOrderSize(shopId: String, orderSize: Int): Result<Boolean> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getShopDetailLiked(shopIdList: List<String>): Result<List<Shop>> {
         TODO("Not yet implemented")
     }
@@ -168,6 +172,18 @@ class LocalDataSource(val context: Context): DataSource {
 
 
     override fun getLiveNotify(userId: String): MutableLiveData<List<Notify>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getChatRoom(myId: String, friendId: String): Result<ChatRoom> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getRoomMessage(roomId: String): MutableLiveData<List<Message>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun sendMessage(chatRoomId: String, message: Message): Result<Boolean> {
         TODO("Not yet implemented")
     }
 }
