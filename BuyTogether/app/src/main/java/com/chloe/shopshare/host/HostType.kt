@@ -42,11 +42,11 @@ enum class ConditionType(val positionOnSpinner: Int) {
     BY_MEMBER(2)
 }
 
-enum class DeliveryMethod(val delivery: Int,val title:String) {
-    SEVEN_ELEVEN(10,getString(R.string.seven_eleven)),
-    FAMILY_MART(11,getString(R.string.family_mart)),
-    HI_LIFE(12,getString(R.string.hi_life)),
-    OK(13,getString(R.string.ok)),
-    HOME_DELIVERY(20,getString(R.string.home_delivery)),
-    BY_HAND(21,getString(R.string.by_hand))
+enum class DeliveryMethod(val delivery: Int,val title:String, val hint: String) {
+    SEVEN_ELEVEN(10,getString(R.string.seven_eleven),"選擇門市"),
+    FAMILY_MART(11,getString(R.string.family_mart),"選擇門市"),
+    HI_LIFE(12,getString(R.string.hi_life),"選擇門市"),
+    OK(13,getString(R.string.ok),"選擇門市"),
+    HOME_DELIVERY(20,getString(R.string.home_delivery),"收件地址"),
+    BY_HAND(21,getString(R.string.by_hand),"時間/地點")
 }

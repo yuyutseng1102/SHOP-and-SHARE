@@ -45,6 +45,10 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(NavigationDirections.navigateToLoginFragment())
         }
 
+        binding.messageBlock.setOnClickListener {
+            findNavController().navigate(NavigationDirections.navigateToChatFragment())
+        }
+
         return binding.root
     }
 

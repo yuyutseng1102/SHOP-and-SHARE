@@ -22,6 +22,11 @@ interface Repository {
     suspend fun getAllRequest(): Result<List<Request>>
     suspend fun getAllFinishedRequest(): Result<List<Request>>
 
+    /** Category **/
+    suspend fun getShopByCategory(category: Int): Result<List<Shop>>
+    suspend fun getShopByCountry(country: Int): Result<List<Shop>>
+    suspend fun getShopByCategoryAndCountry(category: Int, country: Int): Result<List<Shop>>
+
     /** Detail Shop **/
     suspend fun getDetailShop(shopId: String): Result<Shop>
     fun getLiveDetailShop(shopId: String): MutableLiveData<Shop>
@@ -78,6 +83,7 @@ interface Repository {
     fun getLiveNotify(userId: String): MutableLiveData<List<Notify>>
 
     /** CHAT ROOM **/
+    fun getMyAllChatRoom(myId: String): MutableLiveData<List<ChatRoom>>
     suspend fun getChatRoom(myId: String, friendId: String): Result<ChatRoom>
     fun getRoomMessage(roomId: String): MutableLiveData<List<Message>>
     suspend fun sendMessage(chatRoomId: String, message: Message): Result<Boolean>

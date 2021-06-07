@@ -33,6 +33,21 @@ class DefaultRepository (private val remoteDataSource: DataSource,
         return remoteDataSource.getAllFinishedRequest()
     }
 
+    override suspend fun getShopByCategory(category: Int): Result<List<Shop>> {
+        return remoteDataSource.getShopByCategory(category)
+    }
+
+    override suspend fun getShopByCountry(country: Int): Result<List<Shop>> {
+        return remoteDataSource.getShopByCountry(country)
+    }
+
+    override suspend fun getShopByCategoryAndCountry(
+        category: Int,
+        country: Int
+    ): Result<List<Shop>> {
+        return remoteDataSource.getShopByCategoryAndCountry(category, country)
+    }
+
 
     override suspend fun getDetailShop(shopId: String): Result<Shop> {
         return remoteDataSource.getDetailShop(shopId)
@@ -164,6 +179,10 @@ class DefaultRepository (private val remoteDataSource: DataSource,
 
     override fun getLiveNotify(userId: String): MutableLiveData<List<Notify>> {
         return remoteDataSource.getLiveNotify(userId)
+    }
+
+    override fun getMyAllChatRoom(myId: String): MutableLiveData<List<ChatRoom>> {
+        return remoteDataSource.getMyAllChatRoom(myId)
     }
 
     override suspend fun getChatRoom(myId: String, friendId: String): Result<ChatRoom> {

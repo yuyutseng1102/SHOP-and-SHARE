@@ -59,6 +59,8 @@ class ParticipateViewModel(
         get() = _status
 
 
+
+
     private val _error = MutableLiveData<String>()
     val error: LiveData<String>
         get() = _error

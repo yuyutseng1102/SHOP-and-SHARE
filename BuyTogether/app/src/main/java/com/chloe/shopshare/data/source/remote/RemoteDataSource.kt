@@ -242,6 +242,104 @@ object RemoteDataSource : DataSource {
 
             }
     }
+
+    override suspend fun getShopByCategory(category: Int): Result<List<Shop>> = suspendCoroutine { continuation ->
+        val shopDataBase = FirebaseFirestore.getInstance().collection(PATH_SHOP)
+        shopDataBase
+            .whereEqualTo("status",OrderStatusType.GATHERING.status)
+            .whereEqualTo("category",category)
+            .get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val shopList = mutableListOf<Shop>()
+                    for (document in task.result!!) {
+                        Log.d("Chloe", document.id + " => " + document.data)
+                        val shop = document.toObject(Shop::class.java)
+                        shopList.add(shop)
+                    }
+                    continuation.resume(Result.Success(shopList))
+                } else {
+                    task.exception?.let {
+
+                        Log.w(
+                            "Chloe",
+                            "[${this::class.simpleName}] Error getting documents. ${it.message}"
+                        )
+                        continuation.resume(Result.Error(it))
+                        return@addOnCompleteListener
+                    }
+                    continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
+                }
+
+            }
+    }
+
+    override suspend fun getShopByCountry(country: Int): Result<List<Shop>> = suspendCoroutine { continuation ->
+        val shopDataBase = FirebaseFirestore.getInstance().collection(PATH_SHOP)
+        shopDataBase
+            .whereEqualTo("status",OrderStatusType.GATHERING.status)
+            .whereEqualTo("country",country)
+            .get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val shopList = mutableListOf<Shop>()
+                    for (document in task.result!!) {
+                        Log.d("Chloe", document.id + " => " + document.data)
+                        val shop = document.toObject(Shop::class.java)
+                        shopList.add(shop)
+                    }
+                    continuation.resume(Result.Success(shopList))
+                } else {
+                    task.exception?.let {
+
+                        Log.w(
+                            "Chloe",
+                            "[${this::class.simpleName}] Error getting documents. ${it.message}"
+                        )
+                        continuation.resume(Result.Error(it))
+                        return@addOnCompleteListener
+                    }
+                    continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
+                }
+
+            }
+    }
+
+    override suspend fun getShopByCategoryAndCountry(
+        category: Int,
+        country: Int
+    ): Result<List<Shop>> = suspendCoroutine { continuation ->
+        val shopDataBase = FirebaseFirestore.getInstance().collection(PATH_SHOP)
+        shopDataBase
+            .whereEqualTo("status",OrderStatusType.GATHERING.status)
+            .whereEqualTo("category",category)
+            .whereEqualTo("country",country)
+            .get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val shopList = mutableListOf<Shop>()
+                    for (document in task.result!!) {
+                        Log.d("Chloe", document.id + " => " + document.data)
+                        val shop = document.toObject(Shop::class.java)
+                        shopList.add(shop)
+                    }
+                    continuation.resume(Result.Success(shopList))
+                } else {
+                    task.exception?.let {
+
+                        Log.w(
+                            "Chloe",
+                            "[${this::class.simpleName}] Error getting documents. ${it.message}"
+                        )
+                        continuation.resume(Result.Error(it))
+                        return@addOnCompleteListener
+                    }
+                    continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
+                }
+
+            }
+    }
+
     override suspend fun getDetailShop(shopId: String): Result<Shop> =
         suspendCoroutine { continuation ->
             val shopDataBase =
@@ -1388,6 +1486,71 @@ override suspend fun postOrderNotifyToMember(orderList: List<Order>, notify: Not
         Log.d("Notify", "livedata = ${liveData.value}")
         return liveData
     }
+
+    override fun getMyAllChatRoom(myId: String): MutableLiveData<List<ChatRoom>> {
+        val liveData = MutableLiveData<List<ChatRoom>>()
+        val chatRoomDataBase = FirebaseFirestore.getInstance().collection(PATH_CHAT_ROOM)
+        chatRoomDataBase
+//            .whereArrayContains("talker", myId)
+            .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
+            .addSnapshotListener { snapshot, exception ->
+                Log.i("Chat", "addSnapshotListener detect")
+                exception?.let {
+                    Log.w("Chat", "[${this::class.simpleName}] Error getting documents. ${it.message}")
+                }
+                var chatList = mutableListOf<ChatRoom>()
+                for (document in snapshot!!) {
+                    Log.d("Chat", document.id + " => " + document.data)
+                    val chat = document.toObject(ChatRoom::class.java)
+//                    val userDocument = FirebaseFirestore.getInstance().collection(PATH_USER).document(chat.talker.filterNot {it == myId}[0])
+//                    userDocument
+//                        .get()
+//                        .addOnCompleteListener { task ->
+//                            if (task.isSuccessful) {
+//                                val document = task.result
+//                                val user: User? = document?.toObject(User::class.java)
+//                                user?.let {
+//                                    chat.friendInfo = it
+//                                }
+//                            }
+//                        }
+                    chatList.add(chat)
+                }
+                liveData.value = chatList
+                Log.i("Chat", "liveData.value = ${liveData.value}")
+            }
+        Log.d("Chat", "livedata = ${liveData.value}")
+        return liveData
+    }
+
+//    override suspend fun getMyAllChatRoom(myId: String): Result<List<ChatRoom>> =
+//        suspendCoroutine { continuation ->
+//            val chatRoomDataBase = FirebaseFirestore.getInstance().collection(PATH_CHAT_ROOM)
+//            chatRoomDataBase
+//                .whereArrayContains("talker", myId)
+//                .get()
+//                .addOnCompleteListener { task ->
+//                    if (task.isSuccessful) {
+//                        val chatRoomList = mutableListOf<ChatRoom>()
+//                            for (document in task.result!!) {
+//                                Log.d("Chat", document.id + " => " + document.data)
+//                                var chatRoom = document.toObject(ChatRoom::class.java)
+//                                chatRoomList.add(chatRoom)
+//                            }
+//                            continuation.resume(Result.Success(chatRoomList))
+//                    } else {
+//                        task.exception?.let {
+//                            Log.w(
+//                                "Chat",
+//                                "[${this::class.simpleName}] Error getting documents. ${it.message}"
+//                            )
+//                            continuation.resume(Result.Error(it))
+//                            return@addOnCompleteListener
+//                        }
+//                        continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
+//                    }
+//                }
+//        }
 
     override suspend fun getChatRoom(myId: String, friendId: String): Result<ChatRoom> =
         suspendCoroutine { continuation ->

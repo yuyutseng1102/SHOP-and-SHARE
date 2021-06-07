@@ -14,6 +14,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.chloe.shopshare.chat.ChatAdapter
 import com.chloe.shopshare.chatroom.ChatRoomMessageAdapter
 import com.chloe.shopshare.data.*
 import com.chloe.shopshare.myhost.item.MyHostListAdapter
@@ -65,8 +66,8 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
             .load(imgUri)
             .apply(
                 RequestOptions()
-                    .placeholder(R.drawable.ic_placeholder)
-                    .error(R.drawable.ic_placeholder))
+                    .placeholder(R.drawable.loading_logo)
+                    .error(R.drawable.loading_logo))
             .into(imgView)
     }
 }
@@ -121,13 +122,26 @@ fun bindRecyclerViewWithMessage(recyclerView: RecyclerView, message: List<Messag
     }
 }
 
-//@BindingAdapter("messageList")
-//fun bindRecyclerViewWithMessage(recyclerView: RecyclerView, message: List<MessageItem>?) {
-//    message?.let {
+@BindingAdapter("chat")
+fun bindRecyclerViewWithChat(recyclerView: RecyclerView, chat: List<ChatRoom>?) {
+    chat?.let {
+        recyclerView.adapter?.apply {
+            Log.d("Chat","summit the chat is ${chat}")
+            when (this) {
+                is ChatAdapter -> submitList(it)
+            }
+        }
+    }
+}
+
+
+//@BindingAdapter("chatDetail")
+//fun bindRecyclerViewWithChatDetail(recyclerView: RecyclerView, chat: List<ChatDetail>?) {
+//    chat?.let {
 //        recyclerView.adapter?.apply {
-//            Log.d("Chat","summit the message is ${message}")
+//            Log.d("Chat","summit the chat is ${chat}")
 //            when (this) {
-//                is ChatRoomMessageAdapter -> submitList(it)
+//                is ChatAdapter -> submitList(it)
 //            }
 //        }
 //    }

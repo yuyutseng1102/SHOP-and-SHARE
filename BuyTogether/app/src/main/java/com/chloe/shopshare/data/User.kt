@@ -1,7 +1,10 @@
 package com.chloe.shopshare.data
 
 import android.os.Parcelable
+import androidx.lifecycle.MutableLiveData
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
+import kotlinx.android.parcel.RawValue
 
 @Parcelize
 data class User(
@@ -18,8 +21,12 @@ data class User(
 @Parcelize
 data class ChatRoom(
     var id: String = "",
-    val talker: List<String> = listOf()
-): Parcelable
+    val talker: List<String> = listOf(),
+    val lastMessage: String = "",
+    val time: Long = 0L
+): Parcelable{
+    var friendInfo : User? = null
+}
 
 
 @Parcelize
@@ -35,10 +42,11 @@ data class Message(
 }
 
 @Parcelize
+
 data class ChatDetail(
     var chatRoom: ChatRoom? = null,
     val friendProfile: User? = null,
-    val message: List<Message>? = null
+    var message: List<Message>? = null
 ): Parcelable{
 
 

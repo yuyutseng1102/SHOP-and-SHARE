@@ -107,7 +107,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="92dp"
-                android:background="#FFFFFF"
+                android:background="@color/transparent"
                 android:onClick="@{()->viewModel.decreaseQuantity()}"
                 android:src="@drawable/icons_24px_subtract01"
                 app:editorControllerStatus="@{viewModel.quantity>1}"

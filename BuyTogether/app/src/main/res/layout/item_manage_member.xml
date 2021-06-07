@@ -201,20 +201,40 @@
                     app:layout_constraintTop_toTopOf="@+id/member_icon"
                     tools:text="Chloe" />
 
+                <View
+                    android:id="@+id/view_separation_member"
+                    android:layout_width="1dp"
+                    android:layout_height="14dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@color/gray_cccccc"
+                    app:layout_constraintBottom_toBottomOf="@+id/member_name"
+                    app:layout_constraintStart_toEndOf="@+id/member_name"
+                    app:layout_constraintTop_toTopOf="@+id/member_name" />
+
                 <TextView
                     android:id="@+id/member_id"
                     style="@style/DetailSubTitle"
-                    android:layout_width="0dp"
+                    android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
                     android:singleLine="true"
                     android:text="@{item.userId}"
-                    app:layout_constraintBottom_toBottomOf="@+id/member_name"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/member_name"
-                    app:layout_constraintTop_toTopOf="@+id/member_name"
+                    app:layout_constraintBottom_toBottomOf="@+id/view_separation_member"
+                    app:layout_constraintStart_toEndOf="@+id/view_separation_member"
+                    app:layout_constraintTop_toTopOf="@+id/view_separation_member"
                     tools:text="193798frfkrokpfokrofkrokfoerkfopkrofkrokfore" />
+
+                <ImageView
+                    android:id="@+id/message_icon"
+                    android:onClick="@{()->viewModel.getChatRoom(viewModel.myId,item.userId)}"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/member_id"
+                    app:layout_constraintStart_toEndOf="@+id/member_id"
+                    app:layout_constraintTop_toTopOf="@+id/member_id"
+                    app:srcCompat="@drawable/ic_baseline_message_24"
+                    app:tint="@color/green_7A8277" />
 
                 <TextView
                     android:id="@+id/member_phone"

@@ -35,6 +35,21 @@ class LocalDataSource(val context: Context): DataSource {
         TODO("Not yet implemented")
     }
 
+    override suspend fun getShopByCategory(category: Int): Result<List<Shop>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getShopByCountry(country: Int): Result<List<Shop>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getShopByCategoryAndCountry(
+        category: Int,
+        country: Int
+    ): Result<List<Shop>> {
+        TODO("Not yet implemented")
+    }
+
 
     override suspend fun getDetailShop(shopId: String): Result<Shop> {
         TODO("Not yet implemented")
@@ -172,6 +187,10 @@ class LocalDataSource(val context: Context): DataSource {
 
 
     override fun getLiveNotify(userId: String): MutableLiveData<List<Notify>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getMyAllChatRoom(myId: String): MutableLiveData<List<ChatRoom>> {
         TODO("Not yet implemented")
     }
 

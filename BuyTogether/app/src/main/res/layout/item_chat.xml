@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <variable name="item" type="com.chloe.shopshare.data.ChatDetail" />
+        <variable name="item" type="com.chloe.shopshare.data.ChatRoom" />
         <variable name="viewModel" type="com.chloe.shopshare.chat.ChatViewModel" />
     </data>
 
@@ -27,10 +27,11 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/image_shop"
+                android:id="@+id/image_friend"
                 android:layout_width="60dp"
                 android:layout_height="0dp"
                 android:scaleType="centerCrop"
+                app:imageUrl="@{item.friendInfo.photo}"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -40,7 +41,7 @@
 
 
             <TextView
-                android:id="@+id/collection_name"
+                android:id="@+id/friend_name"
                 style="@style/ProductTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -49,8 +50,9 @@
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/host_date"
-                app:layout_constraintStart_toEndOf="@+id/image_shop"
+                android:text="@{item.friendInfo.name}"
+                app:layout_constraintEnd_toStartOf="@+id/message_date"
+                app:layout_constraintStart_toEndOf="@+id/image_friend"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Chloe Tseng" />
 
@@ -61,19 +63,21 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:singleLine="true"
+                android:text="@{item.lastMessage}"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/collection_name"
-                app:layout_constraintTop_toBottomOf="@+id/host_date"
+                app:layout_constraintStart_toStartOf="@+id/friend_name"
+                app:layout_constraintTop_toBottomOf="@+id/message_date"
                 tools:text="安安你好在ㄇ" />
 
             <TextView
-                android:id="@+id/host_date"
+                android:id="@+id/message_date"
                 style="@style/DetailSubTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="2021/05/04" />
+                tools:text="2021/05/04"
+                app:dateTimeToDisplayFormat="@{item.time}"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/detail_button_block"
