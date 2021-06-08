@@ -63,13 +63,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
-                        android:text="@string/makeup"
+                        android:text="@{viewModel.categoryTypeToDisplayTop.title}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/title_hots" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_hots_1st"
-                        collections="@{viewModel.shop1st}"
+                        collections="@{viewModel.shopLinearTop}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -89,13 +89,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
-                        android:text="@string/living"
+                        android:text="@{viewModel.categoryTypeToDisplayBottom.title}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/recycler_hots_1st" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_hots_2nd"
-                        collections="@{viewModel.shop2nd}"
+                        collections="@{viewModel.shopLinearBottom}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"

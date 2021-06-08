@@ -37,7 +37,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Hi ! Chloe" />
 
-            <<com.google.android.material.imageview.ShapeableImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/profile_photo"
                 android:layout_width="60dp"
                 android:layout_height="60dp"

@@ -66,8 +66,8 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
             .load(imgUri)
             .apply(
                 RequestOptions()
-                    .placeholder(R.drawable.loading_logo)
-                    .error(R.drawable.loading_logo))
+                    .placeholder(R.drawable.ic_loading_image)
+                    .error(R.drawable.ic_loading_image))
             .into(imgView)
     }
 }
@@ -77,8 +77,11 @@ fun bindRecyclerViewWithCollections(recyclerView: RecyclerView, shop: List<Shop>
     shop?.let {
         recyclerView.adapter?.apply {
             when (this) {
-                is HomeMainLinearAdapter -> submitList(it)
-                is HomeHots2ndAdapter -> submitList(it)
+                is HomeMainLinearAdapter -> {
+                    Log.d("HomeTag","Summit shop is $shop")
+                    submitList(it)
+                }
+//                is HomeHots2ndAdapter -> submitList(it)
                 is HomeHostingAdapter -> submitList(it)
                 is HomeMainGridAdapter -> submitList(it)
                 is MyHostListAdapter -> submitList(it)

@@ -13,51 +13,29 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
+        android:background="@color/color_background"
         tools:context=".login.LoginFragment">
-
-        <!-- TODO: Update blank fragment layout -->
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="224dp"
-            android:layout_marginBottom="24dp"
-            android:fontFamily="@font/bad_script"
-            android:text="Shop &amp; Share"
-            android:textColor="@color/bottom_navigation_item_selected"
-            android:textSize="36sp"
-            app:layout_constraintBottom_toTopOf="@+id/sign_in_google_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="400dp"
-            android:layout_height="400dp"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/biglogo_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.454"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/image_login" />
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/sign_in_google_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_marginBottom="109dp"
+            android:layout_marginBottom="32dp"
             app:buttonSize="wide"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView3"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

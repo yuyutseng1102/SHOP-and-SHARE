@@ -12,10 +12,10 @@
         android:icon="@drawable/ic_follow"
         android:title="" />
 
-    <item
-        android:id="@+id/navigation_discuss"
-        android:icon="@drawable/ic_discuss"
-        android:title="" />
+<!--    <item-->
+<!--        android:id="@+id/navigation_discuss"-->
+<!--        android:icon="@drawable/ic_discuss"-->
+<!--        android:title="" />-->
 
     <item
         android:id="@+id/navigation_search"

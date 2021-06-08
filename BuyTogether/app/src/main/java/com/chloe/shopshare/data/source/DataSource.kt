@@ -18,6 +18,8 @@ interface DataSource {
     /** HOME **/
     suspend fun getAllShop(): Result<List<Shop>>
     suspend fun getAllOpeningShop(): Result<List<Shop>>
+    suspend fun getHotShopByType(category: Int): Result<List<Shop>>
+    suspend fun getNewShop(): Result<List<Shop>>
     suspend fun getAllRequest(): Result<List<Request>>
     suspend fun getAllFinishedRequest(): Result<List<Request>>
 

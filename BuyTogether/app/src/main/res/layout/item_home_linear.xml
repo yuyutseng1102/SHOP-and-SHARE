@@ -20,7 +20,7 @@
 
         <ImageView
             android:id="@+id/product_image"
-            imageUrl="@{item.mainImage}"
+            app:imageUrl="@{item.mainImage}"
             android:layout_width="105dp"
             android:layout_height="105dp"
             android:background="@color/cardview_light_background"

@@ -133,9 +133,7 @@
 
     <action android:id="@+id/navigate_to_detail_fragment" app:destination="@id/detailFragment"/>
 
-    <action android:id="@+id/navigate_to_participate_fragment" app:destination="@id/participateFragment"
-        app:popUpTo="@id/navigation"
-        app:popUpToInclusive="true"/>
+    <action android:id="@+id/navigate_to_participate_fragment" app:destination="@id/participateFragment"/>
 
     <action android:id="@+id/navigate_to_profile_fragment" app:destination="@id/profileFragment"
         app:popUpTo="@id/navigation"

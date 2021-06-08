@@ -27,6 +27,14 @@ class LocalDataSource(val context: Context): DataSource {
         TODO("Not yet implemented")
     }
 
+    override suspend fun getHotShopByType(category: Int): Result<List<Shop>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getNewShop(): Result<List<Shop>> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getAllRequest(): Result<List<Request>> {
         TODO("Not yet implemented")
     }

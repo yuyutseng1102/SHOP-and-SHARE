@@ -7,10 +7,11 @@
 <!--    <color name="color_background">@color/green_E7ECE5</color>-->
     <color name="colorPrimary">@color/green_BDCCC5</color>
     <color name="colorPrimaryDark">@color/green_BDCCC5</color>
-    <color name="color_background">@color/green_E7ECE5</color>
+    <color name="color_background">@color/white_FFF9F3</color>
+<!--    <color name="color_background">@color/green_E7ECE5</color>-->
     <!-- Bottom Navigation -->
     <color name="bottom_navigation_item_normal">@color/green_E6E4D7</color>
-    <color name="bottom_navigation_item_selected">@color/green_ADC9A0</color>
+    <color name="bottom_navigation_item_selected">@color/green_97B6A8</color>
 
     <color name="translucent_40">#66000000</color>
 
@@ -27,10 +28,14 @@
 
     <!-- White Series -->
     <color name="white">#ffffff</color>
+    <color name="white_FFF9F3">#FFF9F3</color>
+    <color name="white_F1F0F0">#F1F0F0</color>
 
     <!-- Black Series -->
     <color name="black">#000000</color>
     <color name="black_3f3a3a">#3f3a3a</color>
+    <color name="black_545454">#545454</color>
+    <color name="black_272727">#272727</color>
 
     <!-- Gray Series -->
 

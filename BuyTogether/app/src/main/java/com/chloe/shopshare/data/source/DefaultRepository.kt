@@ -25,6 +25,14 @@ class DefaultRepository (private val remoteDataSource: DataSource,
         return remoteDataSource.getAllOpeningShop()
     }
 
+    override suspend fun getHotShopByType(category: Int): Result<List<Shop>> {
+        return remoteDataSource.getHotShopByType(category)
+    }
+
+    override suspend fun getNewShop(): Result<List<Shop>> {
+        return remoteDataSource.getNewShop()
+    }
+
     override suspend fun getAllRequest(): Result<List<Request>> {
         return remoteDataSource.getAllRequest()
     }

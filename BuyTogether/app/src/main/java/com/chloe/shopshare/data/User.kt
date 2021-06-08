@@ -17,16 +17,13 @@ data class User(
 ): Parcelable {
 }
 
-
-@Parcelize
-data class ChatRoom(
-    var id: String = "",
-    val talker: List<String> = listOf(),
-    val lastMessage: String = "",
-    val time: Long = 0L
-): Parcelable{
-    var friendInfo : User? = null
-}
+//
+//@Parcelize
+//data class ChatRoom(
+//    var id: String = "",
+//    val talker: List<String> = listOf()
+//): Parcelable{
+//}
 
 
 @Parcelize
@@ -60,3 +57,15 @@ data class ChatRoomKey(
 ): Parcelable
 
 
+
+
+
+@Parcelize
+data class ChatRoom(
+    var id: String = "",
+    val talker: List<String> = listOf(),
+    val lastMessage: String = "",
+    val time: Long = 0L
+): Parcelable{
+    var friendInfo : User? = null
+}

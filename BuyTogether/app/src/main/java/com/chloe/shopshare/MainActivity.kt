@@ -11,6 +11,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.chloe.shopshare.databinding.ActivityMainBinding
 import com.chloe.shopshare.ext.getVmFactory
 import com.chloe.shopshare.util.CurrentFragmentType
@@ -37,11 +39,11 @@ class MainActivity : BaseActivity() {
                 findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToLikeFragment())
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_discuss -> {
-
-                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToHomeFragment())
-                return@OnNavigationItemSelectedListener true
-            }
+//            R.id.navigation_discuss -> {
+//
+//                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToHomeFragment())
+//                return@OnNavigationItemSelectedListener true
+//            }
             R.id.navigation_search -> {
 
                 findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToSearchFragment())
@@ -79,8 +81,12 @@ class MainActivity : BaseActivity() {
         setupNavController()
 
 
-    }
+//        val navHostFragment = supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as NavHostFragment
+//        val navController = navHostFragment.navController
+//        findViewById<BottomNavigationView>(R.id.bottomNavView).setupWithNavController(navController)
 
+
+    }
 
 
 
