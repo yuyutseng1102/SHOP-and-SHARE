@@ -32,29 +32,29 @@ open class BaseActivity : AppCompatActivity(), CoroutineScope {
      * Get cutout height from [DisplayCutout]
      * @notice if device has cutout, the status bar height will be same as cutout height.
      */
-    suspend fun getCutoutHeight(): Int {
-        return withContext(Dispatchers.IO) {
-            when {
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.P -> {
-
-                    window?.let {
-                        val displayCutout: DisplayCutout? = it.decorView.rootWindowInsets.displayCutout
-                        Log.d("Chloe","displayCutout?.safeInsetTop=${displayCutout?.safeInsetTop}")
-                        Log.d("Chloe","displayCutout?.safeInsetBottom=${displayCutout?.safeInsetBottom}")
-                        Log.d("Chloe","displayCutout?.safeInsetLeft=${displayCutout?.safeInsetLeft}")
-                        Log.d("Chloe","displayCutout?.safeInsetRight=${displayCutout?.safeInsetRight}")
-
-                        val rects: List<Rect>? = displayCutout?.boundingRects
-                        Log.d("Chloe","rects?.size=${rects?.size}")
-                        Log.d("Chloe","rects=$rects")
-
-                        displayCutout?.safeInsetTop ?: 0
-                    } ?: 0
-                }
-                else -> 0
-            }
-        }
-    }
+//    suspend fun getCutoutHeight(): Int {
+//        return withContext(Dispatchers.IO) {
+//            when {
+//                Build.VERSION.SDK_INT >= Build.VERSION_CODES.P -> {
+//
+//                    window?.let {
+//                        val displayCutout: DisplayCutout? = it.decorView.rootWindowInsets.displayCutout
+//                        Log.d("Chloe","displayCutout?.safeInsetTop=${displayCutout?.safeInsetTop}")
+//                        Log.d("Chloe","displayCutout?.safeInsetBottom=${displayCutout?.safeInsetBottom}")
+//                        Log.d("Chloe","displayCutout?.safeInsetLeft=${displayCutout?.safeInsetLeft}")
+//                        Log.d("Chloe","displayCutout?.safeInsetRight=${displayCutout?.safeInsetRight}")
+//
+//                        val rects: List<Rect>? = displayCutout?.boundingRects
+//                        Log.d("Chloe","rects?.size=${rects?.size}")
+//                        Log.d("Chloe","rects=$rects")
+//
+//                        displayCutout?.safeInsetTop ?: 0
+//                    } ?: 0
+//                }
+//                else -> 0
+//            }
+//        }
+//    }
 
     /**
      * Set up status bar to transparent
