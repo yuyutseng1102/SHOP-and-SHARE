@@ -81,7 +81,7 @@ fun bindRecyclerViewWithCollections(recyclerView: RecyclerView, shop: List<Shop>
                     Log.d("HomeTag","Summit shop is $shop")
                     submitList(it)
                 }
-//                is HomeHots2ndAdapter -> submitList(it)
+                is HomeHots2ndAdapter -> submitList(it)
                 is HomeHostingAdapter -> submitList(it)
                 is HomeMainGridAdapter -> submitList(it)
                 is MyHostListAdapter -> submitList(it)

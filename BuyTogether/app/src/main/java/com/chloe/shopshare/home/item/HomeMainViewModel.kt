@@ -81,20 +81,20 @@ class HomeMainViewModel(private val repository: Repository) :ViewModel() {
     val categoryTypeToDisplayBottom = CategoryType.LIVING
 
     init {
-//        _shopLinearTop.value = getHotShopByType(categoryTypeToDisplayTop.category)
-//        _shopLinearBottom.value = getHotShopByType(categoryTypeToDisplayBottom.category)
+        getHotShopByTypeTop(categoryTypeToDisplayTop.category)
+        getHotShopByTypeBottom(categoryTypeToDisplayBottom.category)
         getNewShop()
     }
 
-    private fun getHotShopByType(category: Int):List<Shop>? {
-        var shop : List<Shop>? = null
+    private fun getHotShopByTypeTop(category: Int) {
+
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
             val result = repository.getHotShopByType(category)
 
-            shop =
+            _shopLinearTop.value =
             when (result) {
                 is Result.Success -> {
                     _error.value = null
@@ -119,8 +119,41 @@ class HomeMainViewModel(private val repository: Repository) :ViewModel() {
             }
             _refreshStatus.value = false
         }
-        Log.d("HomeTag","shop is $shop")
-            return shop
+    }
+
+    private fun getHotShopByTypeBottom(category: Int) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            val result = repository.getHotShopByType(category)
+
+            _shopLinearBottom.value =
+                when (result) {
+                    is Result.Success -> {
+                        _error.value = null
+                        _status.value = LoadApiStatus.DONE
+                        result.data
+                    }
+                    is Result.Fail -> {
+                        _error.value = result.error
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                    is Result.Error -> {
+                        _error.value = result.exception.toString()
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                    else -> {
+                        _error.value = MyApplication.instance.getString(R.string.result_fail)
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                }
+            _refreshStatus.value = false
+        }
     }
 
 
@@ -160,8 +193,8 @@ class HomeMainViewModel(private val repository: Repository) :ViewModel() {
 
     fun refresh() {
         if (status.value != LoadApiStatus.LOADING) {
-            _shopLinearTop.value = getHotShopByType(categoryTypeToDisplayTop.category)
-            _shopLinearTop.value = getHotShopByType(categoryTypeToDisplayBottom.category)
+            getHotShopByTypeTop(categoryTypeToDisplayTop.category)
+            getHotShopByTypeBottom(categoryTypeToDisplayBottom.category)
             getNewShop()
         }
     }
