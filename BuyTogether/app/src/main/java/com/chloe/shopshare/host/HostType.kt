@@ -4,6 +4,12 @@ import com.chloe.shopshare.R
 import com.chloe.shopshare.util.Util.getString
 
 
+enum class ShopType(val shopType: Int,val title:String) {
+    AGENT(0, getString(R.string.purchase_agent)),
+    GATHER(1, getString(R.string.purchase_gather)),
+    PRIVATE(2, getString(R.string.purchase_private))
+}
+
 enum class CategoryType(val positionOnSpinner: Int,val category: Int,val title:String) {
     WOMAN(0, 101,getString(R.string.woman)),
     MAN(1, 102,getString(R.string.man)),

@@ -178,9 +178,9 @@ class HostViewModel(private val repository: Repository,private val argument: Req
     val selectedMethodRadio = MutableLiveData<Int>()
     private val method : Int
         get() = when (selectedMethodRadio.value) {
-            R.id.radio_agent -> 0
-            R.id.radio_gather -> 1
-            R.id.radio_private -> 2
+            R.id.radio_agent -> ShopType.AGENT.shopType
+            R.id.radio_gather -> ShopType.GATHER.shopType
+            R.id.radio_private -> ShopType.PRIVATE.shopType
             else -> 1
         }
 

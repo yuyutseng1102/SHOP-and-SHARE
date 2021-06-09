@@ -9,6 +9,7 @@ import com.chloe.shopshare.R
 import com.chloe.shopshare.data.*
 import com.chloe.shopshare.data.source.DataSource
 import com.chloe.shopshare.ext.toDisplayNotifyMessage
+import com.chloe.shopshare.host.ShopType
 import com.chloe.shopshare.myhost.OrderStatusType
 import com.chloe.shopshare.notify.NotifyType
 import com.google.common.io.Files.getFileExtension
@@ -130,6 +131,7 @@ object RemoteDataSource : DataSource {
     override suspend fun getAllShop(): Result<List<Shop>> = suspendCoroutine { continuation ->
         val shopDataBase = FirebaseFirestore.getInstance().collection(PATH_SHOP)
         shopDataBase
+            .whereIn("type", listOf(ShopType.AGENT.shopType,ShopType.GATHER.shopType))
 //            .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
             .get()
             .addOnCompleteListener { task ->
@@ -161,6 +163,7 @@ object RemoteDataSource : DataSource {
         val shopDataBase = FirebaseFirestore.getInstance().collection(PATH_SHOP)
         shopDataBase
             .whereEqualTo("status",OrderStatusType.GATHERING.status)
+            .whereIn("type", listOf(ShopType.AGENT.shopType,ShopType.GATHER.shopType))
 //            .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
             .get()
             .addOnCompleteListener { task ->
@@ -193,6 +196,7 @@ object RemoteDataSource : DataSource {
         shopDataBase
             .whereEqualTo("status",OrderStatusType.GATHERING.status)
             .whereEqualTo("category",category)
+            .whereIn("type", listOf(ShopType.AGENT.shopType,ShopType.GATHER.shopType))
             .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
             .limit(10)
             .get()
@@ -226,6 +230,7 @@ object RemoteDataSource : DataSource {
         val shopDataBase = FirebaseFirestore.getInstance().collection(PATH_SHOP)
         shopDataBase
             .whereEqualTo("status",OrderStatusType.GATHERING.status)
+            .whereIn("type", listOf(ShopType.AGENT.shopType,ShopType.GATHER.shopType))
             .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
             .limit(10)
             .get()
@@ -312,6 +317,7 @@ object RemoteDataSource : DataSource {
     override suspend fun getShopByCategory(category: Int): Result<List<Shop>> = suspendCoroutine { continuation ->
         val shopDataBase = FirebaseFirestore.getInstance().collection(PATH_SHOP)
         shopDataBase
+            .whereIn("type", listOf(ShopType.AGENT.shopType,ShopType.GATHER.shopType))
             .whereEqualTo("status",OrderStatusType.GATHERING.status)
             .whereEqualTo("category",category)
             .get()
@@ -343,6 +349,7 @@ object RemoteDataSource : DataSource {
     override suspend fun getShopByCountry(country: Int): Result<List<Shop>> = suspendCoroutine { continuation ->
         val shopDataBase = FirebaseFirestore.getInstance().collection(PATH_SHOP)
         shopDataBase
+            .whereIn("type", listOf(ShopType.AGENT.shopType,ShopType.GATHER.shopType))
             .whereEqualTo("status",OrderStatusType.GATHERING.status)
             .whereEqualTo("country",country)
             .get()
@@ -377,6 +384,7 @@ object RemoteDataSource : DataSource {
     ): Result<List<Shop>> = suspendCoroutine { continuation ->
         val shopDataBase = FirebaseFirestore.getInstance().collection(PATH_SHOP)
         shopDataBase
+            .whereIn("type", listOf(ShopType.AGENT.shopType,ShopType.GATHER.shopType))
             .whereEqualTo("status",OrderStatusType.GATHERING.status)
             .whereEqualTo("category",category)
             .whereEqualTo("country",country)
