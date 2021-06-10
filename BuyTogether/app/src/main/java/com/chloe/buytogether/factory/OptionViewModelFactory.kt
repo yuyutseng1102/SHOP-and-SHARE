@@ -3,7 +3,7 @@ package com.chloe.buytogether.factory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.chloe.buytogether.data.source.Repository
-import com.chloe.buytogether.gather.item.GatherOptionViewModel
+import com.chloe.buytogether.host.item.GatherOptionViewModel
 
 @Suppress("UNCHECKED_CAST")
 class OptionViewModelFactory(

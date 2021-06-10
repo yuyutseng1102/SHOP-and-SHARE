@@ -128,5 +128,14 @@
     ）
        4.成團後一年內會員期間無法退費或變更帳號，請審慎考量。" </string>
 
+    <!-- Delivery Method -->
+    <string name="delivery_method">寄送方式</string>
+    <string name="seven_eleven">7–11</string>
+    <string name="family_mart">全家</string>
+    <string name="hi_life">萊爾富</string>
+    <string name="ok">OK</string>
+    <string name="home_delivery">宅配</string>
+    <string name="by_hand">面交</string>
+
 
 </resources>

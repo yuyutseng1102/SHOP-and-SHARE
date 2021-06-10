@@ -1,8 +1,7 @@
-package com.chloe.buytogether.gather.item
+package com.chloe.buytogether.host.item
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +9,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.chloe.buytogether.databinding.DialogGatherOptionBinding
+import com.chloe.buytogether.databinding.DialogHostOptionBinding
 import com.chloe.buytogether.ext.getVmFactory
-import com.chloe.buytogether.gather.OptionAdd
+import com.chloe.buytogether.host.OptionAdd
 import com.chloe.buytogether.network.LoadApiStatus
 
 
@@ -25,7 +24,7 @@ class GatherOptionDialog(private val optionAdd: OptionAdd?,private val oldOption
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        val binding = DialogGatherOptionBinding.inflate(inflater, container, false)
+        val binding = DialogHostOptionBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 

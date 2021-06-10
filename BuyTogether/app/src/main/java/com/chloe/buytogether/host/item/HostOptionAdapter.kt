@@ -1,15 +1,15 @@
-package com.chloe.buytogether.gather.item
+package com.chloe.buytogether.host.item
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.chloe.buytogether.databinding.ItemGatherOptionBinding
+import com.chloe.buytogether.databinding.ItemHostOptionBinding
 
 class GatherOptionAdapter : ListAdapter<String, GatherOptionAdapter.ViewHolder>(DiffCallback) {
 
-    class ViewHolder(private var binding: ItemGatherOptionBinding):
+    class ViewHolder(private var binding: ItemHostOptionBinding):
             RecyclerView.ViewHolder(binding.root) {
         fun bind(item: String) {
             binding.item = item
@@ -27,7 +27,7 @@ class GatherOptionAdapter : ListAdapter<String, GatherOptionAdapter.ViewHolder>(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemGatherOptionBinding.inflate(
+        return ViewHolder(ItemHostOptionBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false))
     }
 

@@ -1,4 +1,4 @@
-package com.chloe.buytogether.gather.item
+package com.chloe.buytogether.host.item
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -9,10 +9,7 @@ import com.chloe.buytogether.R
 import com.chloe.buytogether.data.Collections
 import com.chloe.buytogether.data.source.Repository
 import com.chloe.buytogether.ext.toDisplayFormat
-import com.chloe.buytogether.gather.CategoryType
-import com.chloe.buytogether.gather.ConditionType
-import com.chloe.buytogether.gather.CountryType
-import com.chloe.buytogether.gather.GatherViewModel
+import com.chloe.buytogether.host.ConditionType
 import com.chloe.buytogether.network.LoadApiStatus
 import com.chloe.buytogether.util.Util
 import com.google.android.material.datepicker.MaterialDatePicker

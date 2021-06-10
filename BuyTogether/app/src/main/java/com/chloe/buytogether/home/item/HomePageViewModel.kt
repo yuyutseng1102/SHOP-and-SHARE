@@ -53,7 +53,7 @@ class HomePageViewModel(private val repository: Repository) :ViewModel() {
     private val isStandard2 = true
     private val option1 = listOf("全網站")
     private val option2 = listOf("棉麻上衣白色/S","棉麻上衣白色/M","法式雪紡背心/S","法式雪紡背心/M","開襟洋裝/M","開襟洋裝/L")
-    private val deliveryMethod  = "711"
+    private val deliveryMethod  = listOf(10,11,12,20)
     private val conditionType = 1
     private val deadLine = java.util.Calendar.getInstance().timeInMillis
     private val condition = 5000
@@ -69,16 +69,17 @@ class HomePageViewModel(private val repository: Repository) :ViewModel() {
     private val products2:List<Product> = listOf(Product("棉麻上衣白色/M",1), Product("法式雪紡背心/M",2), Product("開襟洋裝/M",5), Product("法式雪紡背心/M",2), Product("開襟洋裝/M",5))
     private val price: Int = 2000
     private val phone:String = "0988888888"
-    private val delivery: String = "711永和門市"
+    private val delivery: Int = 10
+    private val address: String = "永和門市"
     private val note: String? = "無"
     private val mockPaymentStatus: Int = 0
 
 
     private val order:List<Order>? =
         listOf(
-            Order(orderId1, orderTime, userId, products, price, phone, delivery, note, mockPaymentStatus),
-            Order(orderId2, orderTime, userId, products2, price, phone, delivery,note,mockPaymentStatus),
-            Order(orderId3, orderTime, userId, products, price, phone, delivery,note,mockPaymentStatus)
+            Order(orderId1, orderTime, userId, products, price, phone, delivery,address, note, mockPaymentStatus),
+            Order(orderId2, orderTime, userId, products2, price, phone, delivery,address,note,mockPaymentStatus),
+            Order(orderId3, orderTime, userId, products, price, phone, delivery,address,note,mockPaymentStatus)
         )
 
     fun addMockData(){
@@ -90,7 +91,7 @@ class HomePageViewModel(private val repository: Repository) :ViewModel() {
         mockList.add(Collections(mockId,mockUserId,time,method,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6F63P91Nm2rDYhlBlQGBE1Geg3i07VMxs4A&usqp=CAU", listOf(),"SK-II青春露",description,category,country,source,isStandard1,option1,deliveryMethod,conditionType,deadLine,condition,status,order))
         mockList.add(Collections(mockId,mockUserId,time,method,"https://img4.momoshop.com.tw/1619308533/goodsimg/0005/951/668/5951668_R.jpg",listOf(),"ettusais高機能毛孔淨透凝膠",description,category,country,source,isStandard1,option1,deliveryMethod,conditionType,deadLine,condition,status,order))
         mockList.add(Collections(mockId,mockUserId,time,method,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBgA0NLIkaz8aZ_551fWH-ZfX-zxWexkBoLw&usqp=CAU", listOf(),"【DHC】濃密保濕潤色唇膏","",category,country,"",true,
-            listOf(),"",1,null,100,0, listOf()))
+            listOf(),deliveryMethod,1,null,100,0, listOf()))
         _collection1st.value = mockList
 
         val mockList2: MutableList<Collections> = mutableListOf()
@@ -99,38 +100,38 @@ class HomePageViewModel(private val repository: Repository) :ViewModel() {
         mockList2.add(Collections(mockId,mockUserId,time,method,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStDmKsN45KBovX2jvcklVHwRoUF0O3qTBsUA&usqp=CAU", listOf(),"ETUDE HOUSE玩轉色彩四色眼彩盤",description,category,country,source,isStandard2,option2,deliveryMethod,conditionType,deadLine,condition,status,order))
         mockList2.add(Collections(mockId,mockUserId,time,method,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEYAlp9mqIc1TjRklZfeS4j-q8r9UDRWkYCQ&usqp=CAU", listOf(),"ettusais絕不失手眼線膠筆",description,category,country,source,isStandard2,option2,deliveryMethod,conditionType,deadLine,condition,status,order))
         mockList2.add(Collections(mockId,mockUserId,time,method,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT25FbAx7XhNBFsZ9mxe0e3vXCyu0bSJoA4VQ&usqp=CAU", listOf(),"SK-II青春露","",category,country,"",true,
-            listOf(),"",1,null,100,0, listOf()))
+            listOf(),deliveryMethod,1,null,100,0, listOf()))
         mockList2.add(Collections(mockId,mockUserId,time,method,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxVdU_us_VI59gPLoY-tW9wK_l80EjkFO3ww&usqp=CAU", listOf(),"ettusais高機能毛孔淨透凝膠","",category,country,"",true,
-            listOf(),"",1,null,100,0, listOf()))
+            listOf(),deliveryMethod,1,null,100,0, listOf()))
         mockList2.add(Collections(mockId,mockUserId,time,method,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRX_Erjc7ZfyPlnYYEER_hphagqPox8UuHMiQ&usqp=CAU", listOf(),"【DHC】濃密保濕潤色唇膏","",category,country,"",true,
-            listOf(),"",1,null,100,0, listOf()))
+            listOf(),deliveryMethod,1,null,100,0, listOf()))
         _collection2nd.value = mockList2
 
         val mockListGrid: MutableList<Collections> = mutableListOf()
         mockListGrid.add(Collections(mockId,mockUserId,time,method,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVcD28UyVPjc4yZn1MBlbngYMmrdHB57niuw&usqp=CAU", listOf(),"romand唇釉","",category,country,"",true,
-            listOf(),"",1,null,100,0, listOf()))
+            listOf(),deliveryMethod,1,null,100,0, listOf()))
         mockListGrid.add(Collections(mockId,mockUserId,time,method,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIi1pFjy7wfN6OT18Q0OjM2Bp_5tQ1Xy2s2g&usqp=CAU", listOf(),"CHANEL淡香水","",category,country,"",true,
-            listOf(),"",1,null,100,0, listOf()))
+            listOf(),deliveryMethod,1,null,100,0, listOf()))
         mockListGrid.add(Collections(mockId,mockUserId,time,method,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGULjUvp1hL76aChWt2LtyHLZcwn4N0AuqSg&usqp=CAU", listOf(),"ETUDE HOUSE玩轉色彩四色眼彩盤","",category,country,"",true,
-            listOf(),"",1,null,100,0, listOf()))
+            listOf(),deliveryMethod,1,null,100,0, listOf()))
         mockListGrid.add(Collections(mockId,mockUserId,time,method,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiBr7hpjfc5sUm3TcnBJZproLCLrp8obfBAw&usqp=CAU", listOf(),"ettusais絕不失手眼線膠筆","",category,country,"",true,
-            listOf(),"",1,null,100,0, listOf()))
+            listOf(),deliveryMethod,1,null,100,0, listOf()))
         mockListGrid.add(Collections(mockId,mockUserId,time,method,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWjcZR0gbTmt2ZWLBdbfIDNoEGXurMPNvYbQ&usqp=CAU", listOf(),"SK-II青春露","",category,country,"",true,
-            listOf(),"",1,null,100,0, listOf()))
+            listOf(),deliveryMethod,1,null,100,0, listOf()))
         mockListGrid.add(Collections(mockId,mockUserId,time,method,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ48NRZEaUb8bSV4driOgIHXxbuveLedLw0MQ&usqp=CAU", listOf(),"ettusais高機能毛孔淨透凝膠","",category,country,"",true,
-            listOf(),"",1,null,100,0, listOf()))
+            listOf(),deliveryMethod,1,null,100,0, listOf()))
         mockListGrid.add(Collections(mockId,mockUserId,time,method,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2XDqhWCB12h1G4FavwejaaAFwOuc3AbBnSw&usqp=CAU", listOf(),"【DHC】濃密保濕潤色唇膏","",category,country,"",true,
-            listOf(),"",1,null,100,0, listOf()))
+            listOf(),deliveryMethod,1,null,100,0, listOf()))
         mockListGrid.add(Collections(mockId,mockUserId,time,method,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSevYHbNb5ggVTKRTEp4TWLvPAWsnXNMkOtbg&usqp=CAU", listOf(),"ettusais高機能毛孔淨透凝膠","",category,country,"",true,
-            listOf(),"",1,null,100,0, listOf()))
+            listOf(),deliveryMethod,1,null,100,0, listOf()))
         mockListGrid.add(Collections(mockId,mockUserId,time,method,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ07YBrSY_g7NpwPXS3hqL1yccnzauNIH4dTw&usqp=CAU", listOf(),"【DHC】濃密保濕潤色唇膏","",category,country,"",true,
-            listOf(),"",1,null,100,0, listOf()))
+            listOf(),deliveryMethod,1,null,100,0, listOf()))
         mockListGrid.add(Collections(mockId,mockUserId,time,method,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRruo74uO75A4VvhHvO0b431n6KxTS8KiibcA&usqp=CAU", listOf(),"【DHC】濃密保濕潤色唇膏","",category,country,"",true,
-            listOf(),"",1,null,100,0, listOf()))
+            listOf(),deliveryMethod,1,null,100,0, listOf()))
         mockListGrid.add(Collections(mockId,mockUserId,time,method,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZ5iWRj57J-q_vkI_bhiVqInN6SCgSZWoZFQ&usqp=CAU", listOf(),"【DHC】濃密保濕潤色唇膏","",category,country,"",true,
-            listOf(),"",1,null,100,0, listOf()))
+            listOf(),deliveryMethod,1,null,100,0, listOf()))
         mockListGrid.add(Collections(mockId,mockUserId,time,method,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyT_Ar-uhQmIoIqau5-WkzgnFNcPeOyo6NSw&usqp=CAU", listOf(),"【DHC】濃密保濕潤色唇膏","",category,country,"",true,
-            listOf(),"",1,null,100,0, listOf()))
+            listOf(),deliveryMethod,1,null,100,0, listOf()))
         _collectionGrid.value = mockListGrid
     }
 

@@ -7,14 +7,14 @@
         <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="com.chloe.buytogether.gather.item.GatherOptionViewModel" />
+            type="com.chloe.buytogether.host.item.GatherOptionViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minWidth="350dp"
-        tools:context=".gather.item.GatherConditionDialog">
+        tools:context=".host.item.GatherConditionDialog">
 
 
         <TextView

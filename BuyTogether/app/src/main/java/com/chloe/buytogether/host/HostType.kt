@@ -1,7 +1,6 @@
-package com.chloe.buytogether.gather
+package com.chloe.buytogether.host
 
 import com.chloe.buytogether.R
-import com.chloe.buytogether.util.Util
 import com.chloe.buytogether.util.Util.getString
 
 
@@ -41,4 +40,13 @@ enum class ConditionType(val positionOnSpinner: Int) {
     BY_PRICE(0),
     BY_QUANTITY(1),
     BY_MEMBER(2)
+}
+
+enum class DeliveryMethod(val delivery: Int,val title:String) {
+    SEVEN_ELEVEN(10,getString(R.string.seven_eleven)),
+    FAMILY_MART(11,getString(R.string.family_mart)),
+    HI_LIFE(12,getString(R.string.hi_life)),
+    OK(13,getString(R.string.ok)),
+    HOME_DELIVERY(20,getString(R.string.home_delivery)),
+    BY_HAND(21,getString(R.string.by_hand))
 }

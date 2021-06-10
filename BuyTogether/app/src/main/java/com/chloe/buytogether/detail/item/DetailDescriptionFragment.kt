@@ -6,11 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.chloe.buytogether.R
-import com.chloe.buytogether.databinding.DialogGatherConditionBinding
 import com.chloe.buytogether.databinding.FragmentDetailDescriptionBinding
 import com.chloe.buytogether.ext.getVmFactory
-import com.chloe.buytogether.gather.item.GatherConditionViewModel
 
 
 class DetailDescriptionFragment(private val description: String) : Fragment() {

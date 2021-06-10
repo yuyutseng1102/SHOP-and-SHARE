@@ -1,26 +1,21 @@
-package com.chloe.buytogether.gather
+package com.chloe.buytogether.host
 
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.chloe.buytogether.R
 import com.chloe.buytogether.data.Collections
-import com.chloe.buytogether.data.Order
 import com.chloe.buytogether.data.source.Repository
-import com.chloe.buytogether.ext.toDisplayFormat
 import com.chloe.buytogether.network.LoadApiStatus
-import com.chloe.buytogether.util.Util.getString
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import java.util.*
 
-class GatherViewModel(private val repository: Repository) : ViewModel() {
+class HostViewModel(private val repository: Repository) : ViewModel() {
 
     val userId = 193798L
 
@@ -53,7 +48,7 @@ class GatherViewModel(private val repository: Repository) : ViewModel() {
     val source = MutableLiveData<String>()
     val isStandard = MutableLiveData<Boolean>()
     val option = MutableLiveData<List<String>>()
-    val deliveryMethod = MutableLiveData<String>()
+    val deliveryMethod = MutableLiveData<List<Int>>()
     val conditionType = MutableLiveData<Int?>()
     val deadLine = MutableLiveData<Long?>()
     val condition = MutableLiveData<Int?>()
@@ -107,11 +102,24 @@ class GatherViewModel(private val repository: Repository) : ViewModel() {
         Log.d("Chloe","====Look at country ${country.value}==== ")
     }
 
+    fun selectDelivery(delivery: Int){
+        val deliveryList = deliveryMethod.value?.toMutableList() ?: mutableListOf()
+        deliveryList.add(delivery)
+        Log.d("Chloe","====deliveryList ${deliveryList}==== ")
+        deliveryMethod.value = deliveryList
+    }
+
+    fun removeDelivery(delivery: Int){
+        val deliveryList = deliveryMethod.value?.toMutableList() ?: mutableListOf()
+        deliveryList.remove(delivery)
+        Log.d("Chloe","====deliveryList ${deliveryList}==== ")
+        deliveryMethod.value = deliveryList
+    }
+
+
+
     fun readyToPost() {
-
-
         //紅字訊息提醒
-
         _isInvalid.value =
             when {
                 selectedMethodRadio.value == 0 -> INVALID_FORMAT_METHOD_EMPTY
@@ -164,7 +172,7 @@ class GatherViewModel(private val repository: Repository) : ViewModel() {
             source = source.value?:"",
             isStandard = isStandard.value?:false,
             option = option.value?: listOf(),
-            deliveryMethod = deliveryMethod.value?:"",
+            deliveryMethod = deliveryMethod.value?: listOf(),
             conditionType = conditionType.value,
             deadLine = deadLine.value,
             condition = condition.value,

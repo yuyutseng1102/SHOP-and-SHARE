@@ -33,7 +33,13 @@ class DetailViewModel(
     val product: LiveData<List<Product>?>
         get() = _product
 
+    val isChecked = MutableLiveData<Boolean>()
+
     val productItem = MutableLiveData<Product?>()
+
+    init {
+        isChecked.value = false
+    }
 
 
 

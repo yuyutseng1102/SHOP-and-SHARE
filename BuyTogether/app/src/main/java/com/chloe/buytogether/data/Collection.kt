@@ -23,7 +23,7 @@ data class Collections(
         val source: String = "",
         val isStandard: Boolean = false,
         val option:List<String> = listOf(""),
-        val deliveryMethod: String = "",
+        val deliveryMethod: List<Int> = listOf(),
         val conditionType: Int? = null,
         val deadLine : Long? =null,
         val condition: Int? = null,
@@ -55,7 +55,8 @@ data class Order(
         val product:List<Product>,
         val price: Int = 0,
         val phone:String = "",
-        val delivery: String = "",
+        val delivery: Int = 0,
+        val address: String = "",
         val note: String? = null,
         var paymentStatus: Int = 0
 ):Parcelable{

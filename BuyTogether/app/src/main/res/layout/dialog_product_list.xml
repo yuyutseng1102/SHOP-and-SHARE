@@ -26,38 +26,12 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:text="團購清單"
-            app:layout_constraintBottom_toTopOf="@+id/product_list_image"
+            app:layout_constraintBottom_toTopOf="@+id/recycler_product_list"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />
-
-        <ImageView
-            android:id="@+id/product_list_image"
-            android:layout_width="82dp"
-            android:layout_height="82dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="16dp"
-            android:scaleType="centerCrop"
-            app:imageUrl="@{viewModel.collection.mainImage}"
-            app:layout_constraintBottom_toTopOf="@+id/recycler_product_list"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:srcCompat="@drawable/img_detail" />
-
-        <TextView
-            android:id="@+id/title_text"
-            style="@style/GatherTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:maxLines="2"
-            android:text="@{viewModel.collection.title}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/product_list_image"
-            app:layout_constraintTop_toTopOf="@+id/product_list_image"
-            tools:text="2WAY證背面兩穿小荷葉領短袖上衣-五色" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_product_list"
@@ -70,7 +44,7 @@
             app:layout_constraintBottom_toTopOf="@+id/bottom_block"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:products="@{viewModel.product}" />
+            app:products="@{viewModel.product}"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/bottom_block"

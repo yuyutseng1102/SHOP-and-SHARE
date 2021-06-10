@@ -16,6 +16,7 @@ import com.chloe.buytogether.databinding.FragmentCollectionManageBinding
 import com.chloe.buytogether.databinding.FragmentDetailBinding
 import com.chloe.buytogether.detail.dialog.DetailOptionDialog
 import com.chloe.buytogether.detail.dialog.ProductListDialog
+import com.chloe.buytogether.detail.item.DetailDeliveryAdapter
 import com.chloe.buytogether.ext.getVmFactory
 import com.google.android.material.tabs.TabLayout
 
@@ -32,6 +33,9 @@ class DetailFragment : Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
+
+        val deliveryAdapter =  DetailDeliveryAdapter()
+        binding.recyclerDeliveryList.adapter = deliveryAdapter
 
 
 
@@ -67,6 +71,7 @@ class DetailFragment : Fragment() {
 
         viewModel.navigateToProductList.observe(viewLifecycleOwner, Observer {
             it?.let {
+                Log.d("Chloe","navigateToProductList = $it")
                 if (viewModel.collection.value !=null){
                     val dialog =
                         ProductListDialog(
@@ -87,6 +92,15 @@ class DetailFragment : Fragment() {
                 }
             }
         })
+
+        binding.deliveryExpandButton.setOnCheckedChangeListener { _, isChecked ->
+            when(isChecked){
+                true -> viewModel.isChecked.value = true
+                else -> viewModel.isChecked.value = false
+            }
+            Log.d("Chloe","isChecked=${isChecked}deliveryExpandButton is ${viewModel.isChecked.value}"
+            )
+        }
 
 
 

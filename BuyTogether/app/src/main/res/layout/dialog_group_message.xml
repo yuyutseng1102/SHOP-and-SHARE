@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minWidth="350dp"
-        tools:context=".gather.item.GatherConditionDialog">
+        tools:context=".host.item.GatherConditionDialog">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout

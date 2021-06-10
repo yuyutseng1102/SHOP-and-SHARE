@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.findNavController
+import com.chloe.buytogether.NavigationDirections
 import com.chloe.buytogether.R
 import com.chloe.buytogether.databinding.DialogSuccessBinding
 
@@ -16,9 +18,7 @@ class SuccessDialog : AppCompatDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
             setStyle(DialogFragment.STYLE_NO_FRAME, R.style.SuccessDialog)
-        }
     }
 
     override fun onCreateView(
@@ -36,6 +36,7 @@ class SuccessDialog : AppCompatDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         Handler().postDelayed({ this.dismiss() }, 2000)
+
     }
 
 }

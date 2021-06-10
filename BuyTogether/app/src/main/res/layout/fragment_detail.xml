@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
             type="com.chloe.buytogether.detail.DetailViewModel" />
@@ -28,7 +29,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,8 +50,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:srcCompat="@drawable/img_detail"
-                        tools:visibility="gone" />
+                        tools:srcCompat="@drawable/img_detail" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -91,9 +91,9 @@
                         android:paddingHorizontal="8dp"
                         android:paddingVertical="1dp"
                         app:categoryToDisplay="@{viewModel.collection.category}"
-                        tools:text="女裝"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="女裝" />
 
                     <TextView
                         android:id="@+id/tag_country"
@@ -105,9 +105,9 @@
                         android:paddingHorizontal="8dp"
                         android:paddingVertical="1dp"
                         app:countryToDisplay="@{viewModel.collection.country}"
-                        tools:text="日本"
                         app:layout_constraintStart_toEndOf="@+id/tag_category"
-                        app:layout_constraintTop_toTopOf="@+id/tag_category" />
+                        app:layout_constraintTop_toTopOf="@+id/tag_category"
+                        tools:text="日本" />
 
                     <TextView
                         android:id="@+id/host_title"
@@ -208,13 +208,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="32dp"
                         android:layout_marginEnd="16dp"
-                        app:shortOptionDisplay="@{viewModel.collection.option}"
-                        app:optionIsStandard="@{viewModel.collection.isStandard}"
-                        tools:text="全網站皆可"
                         app:layout_constraintBottom_toBottomOf="@+id/deatil_option_title"
                         app:layout_constraintEnd_toStartOf="@+id/option_expand_button"
                         app:layout_constraintStart_toEndOf="@+id/deatil_option_title"
-                        app:layout_constraintTop_toTopOf="@+id/deatil_option_title" />
+                        app:layout_constraintTop_toTopOf="@+id/deatil_option_title"
+                        app:optionIsStandard="@{viewModel.collection.isStandard}"
+                        app:shortOptionDisplay="@{viewModel.collection.option}"
+                        tools:text="全網站皆可" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -242,28 +242,63 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.0" />
 
-                    <ImageButton
+                    <ToggleButton
                         android:id="@+id/delivery_expand_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="?attr/materialButtonToggleGroupStyle"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_marginEnd="16dp"
-                        android:background="@drawable/ic_baseline_chevron_right_24"
                         android:backgroundTint="@color/gray_888888"
+                        android:textOff=""
+                        android:textOn=""
+                        app:isExpandChecked="@{viewModel.isChecked}"
                         app:layout_constraintBottom_toBottomOf="@+id/deatil_delivery_title"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/deatil_delivery_title" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/delivery_method_block"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="#FFFFFF"
+                    android:visibility="@{viewModel.isChecked==true?View.VISIBLE:View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/delivery_block">
+
+                    <View
+                        android:id="@+id/line_delivery_method"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="@color/gray_cccccc"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_delivery_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="8dp"
+                        app:delivery="@{viewModel.collection.deliveryMethod}"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/line_delivery_method" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/pager_block"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:background="#FFFFFF"
                     android:minHeight="200dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/delivery_block">
+                    app:layout_constraintTop_toBottomOf="@+id/delivery_method_block">
 
                     <androidx.viewpager.widget.ViewPager
                         android:id="@+id/viewpager_detail"
