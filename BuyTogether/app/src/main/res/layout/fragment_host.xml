@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.text.TextUtils"/>
+        <import type="android.view.View"/>
+        <import type="com.chloe.shopshare.network.LoadApiStatus"/>
+        <variable
+            name="viewModel"
+            type="com.chloe.shopshare.host.HostViewModel" />
+        <variable
+            name="deliveryMethod"
+            type="com.chloe.shopshare.host.DeliveryMethod" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF">
+
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toTopOf="@id/layout_add_bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:id="@+id/gather_method_text"
+                    style="@style/GatherTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="開團方式"
+                    android:textColor="@{viewModel.isInvalid != null ? (viewModel.selectedMethodRadio == 0 ? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <RadioGroup
+                    android:id="@+id/radio_group"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:checkedButton="@={viewModel.selectedMethodRadio}"
+                    android:clipToPadding="false"
+                    android:gravity="start"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="@+id/gather_method_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/gather_method_text"
+                    app:layout_constraintTop_toTopOf="@+id/gather_method_text">
+
+                    <RadioButton
+                        android:id="@+id/radio_gather"
+                        style="@style/ProductTitleSingle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:background="@drawable/bg_check_chip_button"
+                        android:button="@null"
+                        android:includeFontPadding="false"
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="2dp"
+                        android:text="@string/purchase_gather" />
+
+                    <RadioButton
+                        android:id="@+id/radio_agent"
+                        style="@style/ProductTitleSingle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="12dp"
+                        android:background="@drawable/bg_check_chip_button"
+                        android:button="@null"
+                        android:includeFontPadding="false"
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="2dp"
+                        android:text="@string/purchase_agent" />
+
+                    <RadioButton
+                        android:id="@+id/radio_private"
+                        style="@style/ProductTitleSingle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="12dp"
+                        android:background="@drawable/bg_check_chip_button"
+                        android:button="@null"
+                        android:includeFontPadding="false"
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="2dp"
+                        android:text="@string/purchase_private" />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/upload_text"
+                    style="@style/GatherTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="上傳照片"
+                    android:textColor="@{viewModel.isInvalid != null ? (viewModel.image==null ? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/gather_method_text"
+                    tools:visibility="gone" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_image"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="@+id/upload_text"
+                    app:layout_constraintTop_toBottomOf="@+id/pick_image_button"
+                    app:spanCount="4"
+                    app:strings="@{viewModel.image}"
+                    tools:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/request_title_text"
+                    style="@style/GatherTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="團購名稱"
+                    android:textColor='@{viewModel.isInvalid != null ? (TextUtils.isEmpty(viewModel.title) ? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}'
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recycler_image"
+                    tools:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/gather_title_edit"
+                    style="@style/ProductTitleSingle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:ems="10"
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine"
+                    android:maxLines="2"
+                    android:text="@={viewModel.title}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/request_title_text" />
+
+                <TextView
+                    android:id="@+id/gather_description_text"
+                    style="@style/GatherTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="團購描述"
+                    android:textColor='@{viewModel.isInvalid != null ? (TextUtils.isEmpty(viewModel.description)?@color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}'
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/gather_title_edit" />
+
+                <EditText
+                    android:id="@+id/gather_description_edit"
+                    style="@style/ProductTitleSingle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:ems="10"
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine"
+                    android:maxLines="10"
+                    android:text="@={viewModel.description}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/gather_description_text" />
+
+                <TextView
+                    android:id="@+id/gather_web_text"
+                    style="@style/GatherTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="購買來源"
+                    android:textColor='@{viewModel.isInvalid != null ? (TextUtils.isEmpty(viewModel.source)? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}'
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/gather_description_edit" />
+
+                <EditText
+                    android:id="@+id/gather_web_edit"
+                    style="@style/ProductTitleSingle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:ems="10"
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine"
+                    android:maxLines="2"
+                    android:text="@={viewModel.source}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/gather_web_text" />
+
+                <TextView
+                    android:id="@+id/gather_category_text"
+                    style="@style/GatherTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:text="團購分類"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/gather_web_edit" />
+
+                <Spinner
+                    android:id="@+id/spinner_gather_category"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:dropDownWidth="match_parent"
+                    android:selectedItemPosition="@={viewModel.selectedCategoryPosition}"
+                    android:spinnerMode="dropdown"
+                    android:textAlignment="viewStart"
+                    app:layout_constraintBottom_toBottomOf="@+id/gather_category_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/gather_category_text"
+                    app:layout_constraintTop_toTopOf="@+id/gather_category_text" />
+
+                <TextView
+                    android:id="@+id/gather_country_text"
+                    style="@style/GatherTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:text="團購國家"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/gather_category_text" />
+
+                <Spinner
+                    android:id="@+id/spinner_gather_country"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:selectedItemPosition="@={viewModel.selectedCountryPosition}"
+                    android:textAlignment="viewStart"
+                    app:layout_constraintBottom_toBottomOf="@+id/gather_country_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/gather_country_text"
+                    app:layout_constraintTop_toTopOf="@+id/gather_country_text" />
+
+                <TextView
+                    android:id="@+id/gather_option_text"
+                    style="@style/GatherTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:text="新增選項"
+                    android:textColor='@{viewModel.isInvalid != null ? (viewModel.option==null? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}'
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/gather_country_text" />
+
+                <TextView
+                    android:id="@+id/gather_option_edit"
+                    style="@style/ProductTitleSingle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/bg_check_chip_button"
+                    android:maxLines="2"
+                    android:padding="8dp"
+                    android:text="@={viewModel.optionShow}"
+                    android:visibility="@{viewModel.isOptionDone?View.VISIBLE:View.GONE}"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/gather_option_text"
+                    app:layout_constraintEnd_toStartOf="@+id/add_gather_option"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/gather_option_text"
+                    tools:text="白色洋裝M 淺灰上衣S 黑色扭結佯裝" />
+
+                <Button
+                    android:id="@+id/add_gather_option"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/ic_add"
+                    android:backgroundTint="@color/black_3f3a3a"
+                    android:stateListAnimator="@null"
+                    app:layout_constraintBottom_toBottomOf="@+id/gather_option_edit"
+                    app:layout_constraintDimensionRatio="h,1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/gather_option_edit" />
+
+                <TextView
+                    android:id="@+id/gather_delivery_text"
+                    style="@style/GatherTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/delivery_method"
+                    android:textColor='@{viewModel.isInvalid != null ? (viewModel.deliveryMethod == null? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}'
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/gather_option_edit" />
+
+                <CheckBox
+                    android:id="@+id/checkBox_seven_eleven"
+                    style="@style/ProductTitleSingle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:buttonTint="@color/colorPrimary"
+                    android:text="@string/seven_eleven"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/gather_delivery_text"
+                    app:layout_constraintEnd_toStartOf="@+id/checkBox_family_mart"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toEndOf="@+id/gather_delivery_text"
+                    app:useMaterialThemeColors="false" />
+
+                <CheckBox
+                    android:id="@+id/checkBox_family_mart"
+                    style="@style/ProductTitleSingle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorPrimary"
+                    android:text="@string/family_mart"
+                    app:layout_constraintBottom_toBottomOf="@+id/checkBox_seven_eleven"
+                    app:layout_constraintEnd_toStartOf="@+id/checkBox_hi_life"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/checkBox_seven_eleven"
+                    app:layout_constraintTop_toTopOf="@+id/checkBox_seven_eleven"
+                    app:useMaterialThemeColors="false" />
+
+                <CheckBox
+                    android:id="@+id/checkBox_hi_life"
+                    style="@style/ProductTitleSingle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorPrimary"
+                    android:text="@string/hi_life"
+                    app:layout_constraintBottom_toBottomOf="@+id/checkBox_family_mart"
+                    app:layout_constraintEnd_toEndOf="@+id/gather_option_edit"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/checkBox_family_mart"
+                    app:layout_constraintTop_toTopOf="@+id/checkBox_family_mart"
+                    app:useMaterialThemeColors="false" />
+
+
+                <CheckBox
+                    android:id="@+id/checkBox_ok"
+                    style="@style/ProductTitleSingle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorPrimary"
+                    android:text="@string/ok"
+                    app:layout_constraintStart_toStartOf="@+id/checkBox_seven_eleven"
+                    app:layout_constraintTop_toBottomOf="@+id/checkBox_seven_eleven"
+                    app:useMaterialThemeColors="false" />
+
+                <CheckBox
+                    android:id="@+id/checkBox_home_delivery"
+                    style="@style/ProductTitleSingle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorPrimary"
+                    android:text="@string/home_delivery"
+                    app:layout_constraintStart_toStartOf="@+id/checkBox_family_mart"
+                    app:layout_constraintTop_toBottomOf="@+id/checkBox_family_mart"
+                    app:useMaterialThemeColors="false" />
+
+                <CheckBox
+                    android:id="@+id/checkBox_by_hand"
+                    style="@style/ProductTitleSingle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorPrimary"
+                    android:text="@string/by_hand"
+                    app:layout_constraintStart_toStartOf="@+id/checkBox_hi_life"
+                    app:layout_constraintTop_toBottomOf="@+id/checkBox_hi_life"
+                    app:useMaterialThemeColors="false" />
+
+                <TextView
+                    android:id="@+id/gather_condition_text"
+                    style="@style/GatherTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="32dp"
+                    android:maxLines="2"
+                    android:text="成團條件"
+                    android:textColor='@{viewModel.isInvalid != null ? (TextUtils.isEmpty(viewModel.conditionShow) ? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}'
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/checkBox_ok"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <TextView
+                    android:id="@+id/gather_condition_edit"
+                    style="@style/ProductTitleSingle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/bg_check_chip_button"
+                    android:maxLines="2"
+                    android:padding="8dp"
+                    android:text="@{viewModel.conditionShow}"
+                    android:visibility="@{viewModel.isConditionDone()?View.VISIBLE:View.GONE}"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/gather_condition_text"
+                    app:layout_constraintEnd_toStartOf="@+id/add_gather_condition"
+                    app:layout_constraintStart_toEndOf="@+id/gather_condition_text"
+                    tools:text="白色洋裝M 淺灰上衣S 黑色扭結佯裝" />
+
+                <Button
+                    android:id="@+id/add_gather_condition"
+                    android:layout_width="20dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/ic_add"
+                    android:backgroundTint="@color/black_3f3a3a"
+                    android:stateListAnimator="@null"
+                    app:layout_constraintBottom_toBottomOf="@+id/gather_condition_text"
+                    app:layout_constraintDimensionRatio="h,1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/gather_condition_text" />
+
+                <ImageButton
+                    android:id="@+id/pick_image_button"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/icons_24px_add01"
+                    android:backgroundTint="@color/colorPrimary"
+                    app:layout_constraintStart_toEndOf="@+id/upload_text"
+                    app:layout_constraintTop_toTopOf="@+id/upload_text" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_add_bottom"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_all_bottom_layout"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <View
+                android:id="@+id/view_add_bottom_separation"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@color/gray_cccccc"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/button_add"
+                style="@style/ButtonName"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/green_ACAD9C"
+                android:text="確定開團"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ProgressBar
+            android:theme="@style/ProgressTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:setupApiStatus="@{viewModel.status}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:setupApiErrorMessage="@{viewModel.error}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+
+
+

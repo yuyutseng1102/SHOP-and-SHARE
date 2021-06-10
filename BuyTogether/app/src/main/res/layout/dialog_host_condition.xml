@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="com.chloe.shopshare.host.item.GatherConditionViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="350dp"
+        tools:context=".host.item.GatherConditionDialog">
+
+
+        <TextView
+            android:id="@+id/add_condition_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="新增成團條件"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/check_by_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:buttonTint="@color/colorPrimary"
+            android:checked="@={viewModel.isTimeChecked()}"
+            android:text="依時間"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_condition_title" />
+
+        <CheckBox
+            android:id="@+id/check_by_condition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:buttonTint="@color/colorPrimary"
+            android:checked="@={viewModel.isConditionChecked()}"
+            android:text="依條件"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/check_by_time" />
+
+        <TextView
+            android:id="@+id/deadLine_edit"
+            style="@style/ProductTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:ems="10"
+            app:dateToDisplayFormat="@{viewModel.deadLine}"
+            android:visibility="@{viewModel.isTimeChecked?View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@+id/check_by_time"
+            app:layout_constraintStart_toEndOf="@+id/check_by_time"
+            app:layout_constraintTop_toTopOf="@+id/check_by_time" />
+
+        <Spinner
+            android:id="@+id/spinner_gather_condition"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:selectedItemPosition="@={viewModel.selectedConditionPosition}"
+            android:visibility="@{viewModel.isConditionChecked()?View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@+id/check_by_condition"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/check_by_condition"
+            app:layout_constraintTop_toTopOf="@+id/check_by_condition" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/message_text_field"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="@{viewModel.selectedConditionPosition == 0?@string/hint_price:(viewModel.selectedConditionPosition == 1?@string/hint_quantity:@string/hint_member)}"
+            android:visibility="@{viewModel.isConditionChecked()?View.VISIBLE:View.GONE}"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:layout_constraintEnd_toEndOf="@+id/spinner_gather_condition"
+            app:layout_constraintStart_toStartOf="@+id/spinner_gather_condition"
+            app:layout_constraintTop_toBottomOf="@+id/spinner_gather_condition">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/condition_edit"
+                android:text="@={viewModel.content}"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/button_ready"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="確定送出"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/message_text_field"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <ImageButton
+            android:id="@+id/date_picker_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_baseline_calendar_today_24"
+            android:visibility="@{viewModel.isTimeChecked?View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@+id/check_by_time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/check_by_time"
+            app:layout_constraintVertical_bias="0.541" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

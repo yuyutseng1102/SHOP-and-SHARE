@@ -1,10 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Original -->
+<!--    <color name="colorPrimary">@color/blue_2B46BD</color>-->
+<!--    <color name="colorPrimaryDark">@color/green_BDCCC5</color>-->
+<!--    <color name="colorAccent">@color/red_C42217</color>-->
+<!--    <color name="color_background">@color/green_E7ECE5</color>-->
+    <color name="colorPrimary">@color/green_BDCCC5</color>
+    <color name="colorPrimaryDark">@color/green_BDCCC5</color>
+    <color name="color_background">@color/white_FFF9F3</color>
+<!--    <color name="color_background">@color/green_E7ECE5</color>-->
+    <!-- Bottom Navigation -->
+    <color name="bottom_navigation_item_normal">@color/green_E6E4D7</color>
+    <color name="bottom_navigation_item_selected">@color/green_97B6A8</color>
+
+    <color name="translucent_40">#66000000</color>
+
+    <color name="state_focus">@color/orange_DD894D</color>
+    <color name="state_click">@color/green_E6E4D7</color>
+    <color name="state_opening">@color/orange_FFAFA0</color>
+    <color name="state_process">@color/purple_CEB6DA</color>
+    <color name="state_wait">@color/blue_A1C9CD</color>
+    <color name="state_ship">@color/brown_C5BBAF</color>
+    <color name="state_finish">@color/gray_cccccc</color>
+    <!-- Tag Navigation -->
+    <color name="tag_category">@color/yellow_FFF499</color>
+    <color name="tag_country">@color/blue_9EBFBE</color>
+
+    <!-- White Series -->
+    <color name="white">#ffffff</color>
+    <color name="white_FFF9F3">#FFF9F3</color>
+    <color name="white_F1F0F0">#F1F0F0</color>
+
+    <!-- Black Series -->
+    <color name="black">#000000</color>
+    <color name="black_3f3a3a">#3f3a3a</color>
+    <color name="black_545454">#545454</color>
+    <color name="black_272727">#272727</color>
+
+    <!-- Gray Series -->
+
+    <color name="gray_646464">#646464</color>
+    <color name="gray_888888">#888888</color>
+    <color name="gray_999999">#999999</color>
+    <color name="gray_cccccc">#cccccc</color>
+    <color name="gray_f0f0f0">#f0f0f0</color>
+    <color name="gray_f5f5f5">#f5f5f5</color>
+
+    <!--   red Series-->
+    <color name="red_C42217">#C42217</color>
+    <color name="blue_2B46BD">#2B46BD</color>
+
+    <!-- Green Series -->
+    <color name="green_BDCCC5">#BDCCC5</color>
+    <color name="green_E6E4D7">#E6E4D7</color>
+    <color name="green_ADC9A0">#ADC9A0</color>
+    <color name="green_DCD2C5">#DCD2C5</color>
+    <color name="green_ACAD9C">#ACAD9C</color>
+    <color name="green_E7ECE5">#E7ECE5</color>
+    <color name="green_7A8277">#7A8277</color>
+    <color name="green_97B6A8">#97B6A8</color>
+    <!-- Brown Series -->
+    <color name="brown_C5BBAF">#C5BBAF</color>
+<!--    orange Series-->
+    <color name="orange_E0B291">#E0B291</color>
+    <color name="orange_9A4747">#9A4747</color>
+    <color name="orange_DD894D">#DD894D</color>
+    <color name="orange_ee867a">#ee867a</color>
+    <color name="orange_FFC7BC">#FFC7BC</color>
+    <color name="orange_FFAFA0">#FFAFA0</color>
+    <color name="orange_E3ACA1">#E3ACA1</color>
+    <!-- Yellow Series -->
+    <color name="yellow_ECE07A">#ECE07A</color>
+    <color name="yellow_FFF499">#FFF499</color>
+
+
+
+    <!-- Deep Purple Series -->
+    <color name="purple_CEB6DA">#CEB6DA</color>
+    <color name="deep_purple_500">#673ab7</color>
+    <color name="deep_purple_500_light">#9a67ea</color>
+    <color name="deep_purple_500_dark">#320b86</color>
+
+    <!-- Blue Series -->
+    <color name="blue_4966cf">#4966cf</color>
+
+    <!-- Light Blue Series -->
+    <color name="blue_72A6A5">#72A6A5</color>
+    <color name="blue_81AAA9">#81AAA9</color>
+    <color name="blue_9EBFBE">#9EBFBE</color>
+    <color name="blue_A1C9CD">#A1C9CD</color>
+
+
+
+    <color name="indigo_500">#3f51b5</color>
+    <color name="green_500">#4caf50</color>
+    <color name="red_500">#f44336</color>
+    <color name="orange_500">#ff9800</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="translucent_80">#cc000000</color>
+
+    <color name="stroke_tint">
+    <selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <item android:color="?attr/colorOnSurface" android:state_checked="true"/>
+        <item android:color="@color/shrine_pink_100"/>
+    </selector>
+    </color>
+
+    <color name="check_chip_tint">
+    <selector xmlns:android="http://schemas.android.com/apk/res/android">
+        <item android:color="@color/white" android:state_checked="false"/>
+        <item android:color="@color/colorPrimary" android:state_checked="true"/>
+    </selector>
+    </color>
+
+
+    <color name="check_chip_text_tint">
+    <selector xmlns:android="http://schemas.android.com/apk/res/android">
+        <item android:color="@color/white" android:state_enabled="true" android:state_selected="true"/>
+        <item android:color="@color/white" android:state_enabled="true" android:state_checked="true"/>
+        <!-- 87% opacity. -->
+        <item android:alpha="0.87" android:color="?attr/colorOnSurface" android:state_enabled="true"/>
+        <!-- 38% of 87% opacity. -->
+        <item android:alpha="0.33" android:color="?attr/colorOnSurface"/>
+    </selector>
+    </color>
 </resources>

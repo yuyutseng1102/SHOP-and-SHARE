@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- Toolbar -->
+    <dimen name="height_toolbar">80dp</dimen>
+    <dimen name="height_status_bar_origin">24dp</dimen>
+    <!-- Bottom Navigation -->
+    <dimen name="height_bottom_nav_view_main">56dp</dimen>
+    <dimen name="size_bottom_nav_icon">36dp</dimen>
+    <!-- General -->
+    <dimen name="elevation_all">4dp</dimen>
+    <dimen name="height_all_bottom_layout">80dp</dimen>
+    <!-- Home -->
+    <dimen name="height_home_tab">48dp</dimen>
+    <dimen name="space_catalog_grid">16dp</dimen>
+    <dimen name="width_catalog_item">156dp</dimen>
+    <dimen name="height_catalog_item">220dp</dimen>
+    <dimen name="space_outside_horizontal_catalog_item">16dp</dimen>
+    <dimen name="space_inside_horizontal_catalog_item">8dp</dimen>
+    <dimen name="space_outside_vertical_catalog_item">24dp</dimen>
+    <dimen name="space_inside_vertical_catalog_item">12dp</dimen>
+
+    <!-- IMessage Dialog -->
+    <dimen name="size_message">160dp</dimen>
+
+    <!-- Option Select Dialog -->
+    <dimen name="size_select_amount">30dp</dimen>
+    <dimen name="edge_select">2dp</dimen>
+
+    <!-- Product List Dialog -->
+    <dimen name="size_product_list_quantity">32dp</dimen>
+
+
+    <!-- Detail -->
+    <dimen name="space_detail_circle">8dp</dimen>
+    <dimen name="size_detail_close">44dp</dimen>
+    <dimen name="size_detail_circle">6dp</dimen>
+    <dimen name="radius_detail_circle">3dp</dimen>
+    <dimen name="edge_detail_circle">1px</dimen>
+</resources>

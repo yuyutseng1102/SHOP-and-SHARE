@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.chloe.shopshare.home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home">
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.chloe.shopshare.detail.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail" >
+        <argument android:name="shopIdKey"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/requestDetailFragment"
+        android:name="com.chloe.shopshare.requestdetail.RequestDetailFragment"
+        android:label="RequestDetailFragment" >
+        <argument android:name="requestIdKey"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailDescriptionFragment"
+        android:name="com.chloe.shopshare.detail.item.DetailDescriptionFragment"
+        android:label="fragment_detail_description"
+        tools:layout="@layout/fragment_detail_description" />
+
+    <fragment
+        android:id="@+id/participateFragment"
+        android:name="com.chloe.shopshare.participate.ParticipateFragment"
+        android:label="ParticipateFragment"
+        tools:layout="@layout/fragment_participate">
+        <argument android:name="shopKey"
+        app:argType="com.chloe.shopshare.data.Shop"
+        app:nullable="false"/>
+        <argument android:name="productKey"
+            app:argType="com.chloe.shopshare.data.Product[]"
+            app:nullable="false"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.chloe.shopshare.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/hostFragment"
+        android:name="com.chloe.shopshare.host.HostFragment"
+        android:label="HostFragment"
+        tools:layout="@layout/fragment_host">
+    <argument android:name="requestKey"
+        app:argType="com.chloe.shopshare.data.Request"
+        app:nullable="true"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/myHostListFragment"
+        android:name="com.chloe.shopshare.myhost.item.MyHostListFragment"
+        android:label="ShopFragment"
+        tools:layout="@layout/fragment_my_host_list" />
+
+    <fragment
+        android:id="@+id/manageFragment"
+        android:name="com.chloe.shopshare.manage.ManageFragment"
+        android:label="ManageFragment"
+        tools:layout="@layout/fragment_manage">
+        <argument
+            android:name="shopIdKey"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/notifyFragment"
+        android:name="com.chloe.shopshare.notify.NotificationFragment"
+        android:label="NotifyFragment" />
+
+    <fragment
+        android:id="@+id/successDialog"
+        android:name="com.chloe.shopshare.dialog.SuccessDialog"
+        tools:layout="@layout/dialog_success"
+        android:label="SuccessDialog" />
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.chloe.shopshare.login.LoginFragment"
+        android:label="LoginFragment" />
+    <fragment
+        android:id="@+id/requestFragment"
+        android:name="com.chloe.shopshare.request.RequestFragment"
+        android:label="RequestFragment" />
+
+    <fragment
+        android:id="@+id/myOrderListFragment"
+        android:name="com.chloe.shopshare.myorder.item.MyOrderListFragment"
+        android:label="fragment_my_order"
+        tools:layout="@layout/fragment_my_order_list" />
+
+    <fragment
+        android:id="@+id/orderDetailFragment"
+        android:name="com.chloe.shopshare.orderdetail.OrderDetailFragment"
+        android:label="OrderDetailFragment" >
+        <argument
+            android:name="myOrderDetailKey"
+            app:argType="com.chloe.shopshare.data.MyOrderDetailKey" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/myRequestListFragment"
+        android:name="com.chloe.shopshare.myrequest.item.MyRequestListFragment"
+        android:label="fragment_my_request"
+        tools:layout="@layout/fragment_my_request_list" />
+    <fragment
+        android:id="@+id/likeFragment"
+        android:name="com.chloe.shopshare.like.LikeFragment"
+        android:label="LikeFragment" />
+
+
+
+    <action android:id="@+id/navigate_to_home_fragment" app:destination="@id/homeFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
+
+    <action android:id="@+id/navigate_to_detail_fragment" app:destination="@id/detailFragment"/>
+
+    <action android:id="@+id/navigate_to_participate_fragment" app:destination="@id/participateFragment"/>
+
+    <action android:id="@+id/navigate_to_profile_fragment" app:destination="@id/profileFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="false" />
+
+    <action android:id="@+id/navigate_to_like_fragment" app:destination="@id/likeFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
+
+    <action android:id="@+id/navigate_to_host_fragment" app:destination="@id/hostFragment"/>
+
+    <action android:id="@+id/navigate_to_request_fragment" app:destination="@id/requestFragment"/>
+    <action android:id="@+id/navigate_to_search_fragment" app:destination="@id/searchFragment"/>
+    <action android:id="@+id/navigate_to_result_fragment" app:destination="@id/resultFragment"/>
+    <action android:id="@+id/navigate_to_request_detail_fragment" app:destination="@id/requestDetailFragment"/>
+
+    <action android:id="@+id/navigate_to_my_host_fragment" app:destination="@id/myHostFragment" />
+    <action android:id="@+id/navigate_to_manage_fragment" app:destination="@id/manageFragment" />
+    <action android:id="@+id/navigate_to_my_order_fragment" app:destination="@id/myOrderFragment" />
+    <action android:id="@+id/navigate_to_my_request_fragment" app:destination="@id/myRequestFragment" />
+    <action android:id="@+id/navigate_to_notify_fragment" app:destination="@id/notifyFragment"/>
+    <action android:id="@+id/navigate_to_order_detail_fragment" app:destination="@id/orderDetailFragment"/>
+    <action android:id="@+id/navigate_to_success_dialog" app:destination="@id/successDialog"/>
+    <action android:id="@+id/navigate_to_login_fragment" app:destination="@id/loginFragment"/>
+    <action android:id="@+id/navigate_to_chat_room_fragment" app:destination="@id/chatRoomFragment"/>
+    <action android:id="@+id/navigate_to_chat_fragment" app:destination="@id/chatFragment"/>
+    <fragment
+        android:id="@+id/myRequestFragment"
+        android:name="com.chloe.shopshare.myrequest.MyRequestFragment"
+        android:label="MyRequestFragment" />
+    <fragment
+        android:id="@+id/homeMainFragment"
+        android:name="com.chloe.shopshare.home.item.HomeMainFragment"
+        android:label="HomeMainFragment" />
+    <fragment
+        android:id="@+id/myOrderFragment"
+        android:name="com.chloe.shopshare.myorder.MyOrderFragment"
+        android:label="MyOrderFragment" />
+    <fragment
+        android:id="@+id/myHostFragment"
+        android:name="com.chloe.shopshare.myhost.MyHostFragment"
+        android:label="MyHostFragment" />
+    <fragment
+        android:id="@+id/chatRoomFragment"
+        android:name="com.chloe.shopshare.chatroom.ChatRoomFragment"
+        android:label="ChatRoomFragment" >
+        <argument
+            android:name="myId"
+            app:argType="string" />
+        <argument
+            android:name="friendId"
+            app:argType="string" />
+        <argument
+            android:name="chatRoomId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.chloe.shopshare.chat.ChatFragment"
+        android:label="ChatFragment" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.chloe.shopshare.search.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/resultFragment"
+        android:name="com.chloe.shopshare.result.ResultFragment"
+        android:label="fragment_result"
+        tools:layout="@layout/fragment_result" >
+        <argument
+            android:name="categoryKey"
+            app:argType="integer"/>
+        <argument
+            android:name="countryKey"
+            app:argType="integer"/>
+    </fragment>
+
+
+</navigation>

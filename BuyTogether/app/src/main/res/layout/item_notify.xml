@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="android.view.View" />
+        <variable name="item" type="com.chloe.shopshare.data.Notify" />
+        <variable name="isCheck" type="Boolean" />
+        <variable name="viewModel" type="com.chloe.shopshare.notify.NotifyViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="4dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/bg_white_corner"
+        android:elevation="1dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/notify_block"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/notyfu_title"
+                style="@style/GatherTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@{item.title}"
+                app:layout_constraintStart_toEndOf="@+id/notify_icon"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="成團通知" />
+
+            <ImageView
+                android:id="@+id/notify_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_alert" />
+
+            <TextView
+                android:id="@+id/notify_content"
+                style="@style/DetailSubTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:maxLines="4"
+                android:text="@{item.content}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/notyfu_title"
+                app:layout_constraintTop_toBottomOf="@+id/notyfu_title"
+                tools:text="您參與的團購  iHerb黑五湊免運 主購已開團囉!" />
+
+            <TextView
+                android:id="@+id/notify_time"
+                style="@style/ProductContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/notify_content"
+                app:layout_constraintTop_toBottomOf="@+id/notify_content"
+                app:dateTimeToDisplayFormat="@{item.time}"
+                tools:text="2021/05/11 12:30" />
+
+            <CheckBox
+                android:id="@+id/notify_expand_button"
+                style="?attr/materialButtonToggleGroupStyle"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:button="@drawable/sl_expand"
+                android:backgroundTint="@color/gray_888888"
+                android:checked="@{isCheck}"
+                android:visibility='@{(item.message == null || item.message == "")? View.GONE:View.VISIBLE}'
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/message_block"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/gray_f5f5f5"
+            android:paddingHorizontal="8dp"
+            android:paddingBottom="8dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/notify_block"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/more_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/ic_baseline_more_horiz_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/message_content"
+                style="@style/ProductTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:maxLines="99"
+                android:singleLine="false"
+                android:text="@{item.message}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/more_icon"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="大家好,以下為匯款資訊,請於5/13晚上八點前匯款成功,謝謝~" />
+
+            <View
+                android:id="@+id/message_line"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/gray_cccccc"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,11 +1,15 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/design_default_color_primary</item>
-        <item name="colorPrimaryDark">@color/design_default_color_primary_dark</item>
-        <item name="colorAccent">@color/purple_200</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="materialCalendarTheme">@style/DatePicker</item>
+        <item name="materialCardViewStyle">@style/Widget.App.CardView</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.MaterialComponents.SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.MaterialComponents.MediumComponent</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -22,6 +26,281 @@
     </style>
 
     <style name="PublishDialog">
-        <item name="android:windowBackground">@color/cardview_light_background</item>
+        <item name="android:windowBackground">@color/transparent</item>
     </style>
+
+    <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">cut</item>
+    </style>
+
+    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+    <item name="cornerSize">16dp</item>
+    </style>
+
+    <style name="DatePicker" parent="@style/ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/green_7A8277</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.App.MediumComponent</item>
+        <!-- Customize text field of the text input mode. -->
+        <item name="textInputStyle">@style/ProductTitle</item>
+    </style>
+
+    <!-- / 熱門團購 Hot Collection / -->
+    <style name="TitleHots">
+        <item name="android:textSize">18sp</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/green_7A8277</item>
+    </style>
+
+    <style name="DetailTitle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
+    </style>
+
+    <style name="DetailSubTitle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/gray_888888</item>
+    </style>
+
+
+    <style name="UserName">
+        <item name="android:textSize">12sp</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
+    </style>
+
+
+    <style name="BlackContent">
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
+    </style>
+
+    <style name="DetailContent">
+        <item name="android:textSize">16sp</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:textColor">@color/gray_888888</item>
+    </style>
+
+    <style name="SubTitle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/green_7A8277</item>
+    </style>
+    <style name="HomeProductTitle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
+    </style>
+    <style name="ProductTitle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
+    </style>
+
+    <style name="ProductTitleSingle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
+    </style>
+
+    <style name="NewStatusContent">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/orange_9A4747</item>
+    </style>
+
+    <style name="OtherStatusContent">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gray_888888</item>
+    </style>
+
+    <style name="WhiteButtonName" >
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="ProductContent">
+        <item name="android:textSize">12sp</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/gray_888888</item>
+    </style>
+    <style name="Number">
+        <item name="android:textSize">18sp</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="WhiteId">
+        <item name="android:textSize">12sp</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="SeeDetailTitle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/green_7A8277</item>
+    </style>
+
+    <style name="StatusTitle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/orange_E0B291</item>
+    </style>
+
+    <!-- / 開團 / -->
+    <style name="GatherTitle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
+    </style>
+
+    <style name="ButtonName" parent="Base.Widget.AppCompat.Button.Borderless">
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="SuccessDialog">
+        <item name="android:windowBackground">@color/translucent_80</item>
+    </style>
+
+
+    <style name="DetailOptionDialog">
+        <item name="android:windowEnterAnimation">@null</item>
+        <item name="android:windowExitAnimation">@null</item>
+        <item name="android:windowBackground">@color/translucent_40</item>
+        <item name="android:animation">@null</item>
+    </style>
+
+
+
+    <style name="CheckChip" parent="Widget.MaterialComponents.Chip.Entry">
+        <item name="chipIconTint">@color/colorPrimaryDark</item>
+        <item name="chipBackgroundColor">@color/white</item>
+        <item name="chipStrokeWidth">2dp</item>
+        <item name="chipStrokeColor">@color/colorPrimaryDark</item>
+        <item name="checkedIconVisible">false</item>
+        <item name="shapeAppearanceOverlay">@null</item>
+    </style>
+
+    <style name="WidgetAppChip" parent="Widget.MaterialComponents.Chip.Entry">
+        <item name="chipBackgroundColor">@color/white</item>
+        <item name="chipStrokeWidth">2dp</item>
+        <item name="chipStrokeColor">@color/colorPrimaryDark</item>
+        <item name="checkedIconVisible">false</item>
+        <item name="shapeAppearanceOverlay">@null</item>
+    </style>
+
+    <style name="WidgetAppChipChoice" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipIconTint">@color/colorPrimaryDark</item>
+        <item name="chipBackgroundColor">@color/white</item>
+        <item name="chipStrokeWidth">2dp</item>
+        <item name="chipStrokeColor">@color/colorPrimaryDark</item>
+        <item name="checkedIconVisible">true</item>
+        <item name="checkedIconTint">@color/colorPrimaryDark</item>
+        <item name="closeIconVisible">false</item>
+        <item name="shapeAppearanceOverlay">@null</item>
+    </style>
+
+    <style name="WidgetAppChipChoiceNoIcon" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipIconTint">@color/colorPrimaryDark</item>
+        <item name="chipBackgroundColor">@color/white</item>
+        <item name="chipStrokeWidth">2dp</item>
+        <item name="chipStrokeColor">@color/colorPrimaryDark</item>
+        <item name="checkedIconVisible">false</item>
+        <item name="checkedIconTint">@color/colorPrimaryDark</item>
+        <item name="closeIconVisible">false</item>
+        <item name="shapeAppearanceOverlay">@null</item>
+    </style>
+
+    <style name="Widget.App.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Card</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.MediumComponent.Card</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Card" parent="">
+        <item name="colorPrimary">@color/gray_cccccc</item>
+        <item name="colorSurface">@color/gray_cccccc</item>
+        <item name="colorOnSurface">@color/gray_cccccc</item>
+    </style>
+
+<!--    <style name="ShapeAppearanceOverlay.App.Card.Media" parent="">-->
+<!--    </style>-->
+
+    <style name="ShapeAppearance.App.MediumComponent.Card" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="Widget.App.Button.Icon" parent="Widget.MaterialComponents.Button.Icon">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Button</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent.button</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Button" parent="">
+        <item name="colorPrimary">#BAFFFFFF</item>
+        <item name="colorSurface">#BAFFFFFF</item>
+
+    </style>
+
+<!--    <style name="TextAppearance.App.Button" parent="TextAppearance.MaterialComponents.Button">-->
+<!--        <item name="fontFamily">@font/rubik</item>-->
+<!--        <item name="android:fontFamily">@font/rubik</item>-->
+<!--    </style>-->
+
+    <style name="ShapeAppearance.App.SmallComponent.button" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+
+    <style name="Widget.App.ExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.ExposedDropdownMenu</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent.menu</item>
+        <item name="hintTextColor">?attr/colorOnSurface</item>
+        <item name="endIconTint">?attr/colorOnSurface</item>
+    </style>
+
+        <style name="ThemeOverlay.App.ExposedDropdownMenu" parent="">
+            <item name="colorPrimary">@color/colorPrimary</item>
+            <item name="colorOnSurface">@color/black_3f3a3a</item>
+        </style>
+
+    <style name="ShapeAppearance.App.SmallComponent.menu" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.App.Card.Media.Medium" parent="">
+        <item name="cornerSize">28dp</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.App.Card.Media.Small" parent="">
+        <item name="cornerSize">15dp</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+
+    <style name="Widget.App.Toolbar.Chat.Room" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Toolbar</item>
+        <item name="android:windowSoftInputMode">adjustPan</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Toolbar" parent="">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/black_3f3a3a</item>
+    </style>
+
 </resources>
+
+

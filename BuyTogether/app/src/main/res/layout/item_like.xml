@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="item" type="com.chloe.shopshare.data.Shop" />
+        <variable name="viewModel" type="com.chloe.shopshare.like.LikeViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_shop_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="@{()->viewModel.navigateToDetail(item)}"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="2dp"
+            app:cardPreventCornerOverlap="true"
+            app:contentPadding="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/image_like_shop"
+                    android:layout_width="80dp"
+                    android:layout_height="0dp"
+                    android:scaleType="centerCrop"
+                    app:imageUrl="@{item.mainImage}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/title_like_shop"
+                    tools:srcCompat="@drawable/img_detail"
+                    app:shapeAppearance="?attr/shapeAppearanceMediumComponent"/>
+
+                <TextView
+                    android:id="@+id/title_like_shop"
+                    style="@style/GatherTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:maxLines="2"
+                    android:text="@{item.title}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/image_like_shop"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Bowwow滿10000九折~~~三天快閃團" />
+
+                <TextView
+                    android:id="@+id/like_shop_condition"
+                    style="@style/DetailSubTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:maxLines="2"
+                    app:conditionToDisplay="@{item.condition}"
+                    app:conditionType="@{item.conditionType}"
+                    app:deadLineToDisplay="@{item.deadLine}"
+                    app:layout_constraintBottom_toBottomOf="@+id/image_like_shop"
+                    app:layout_constraintEnd_toStartOf="@+id/status"
+                    app:layout_constraintStart_toStartOf="@+id/title_like_shop"
+                    app:layout_constraintTop_toBottomOf="@+id/title_like_shop"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:text="預計2021/6/7成團" />
+
+                <TextView
+                    android:id="@+id/status"
+                    style="@style/BlackContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_tag"
+                    android:backgroundTint="@{item.status == 0?@color/state_opening:@color/state_finish}"
+                    android:paddingHorizontal="4dp"
+                    android:paddingVertical="1dp"
+                    android:text='@{item.status == 0?"開團中":"已結團"}'
+                    android:textColor="#FFFFFF"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="開團中" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

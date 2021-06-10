@@ -1,0 +1,776 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.text.TextUtils"/>
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="com.chloe.shopshare.orderdetail.OrderDetailViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:elevation="1dp">
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/image_shop"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:scaleType="centerCrop"
+                    app:imageUrl="@{viewModel.shop.mainImage}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearance="?attr/shapeAppearanceMediumComponent"
+                    tools:srcCompat="@drawable/img_detail" />
+
+                <Button
+                    android:id="@+id/see_detail_button"
+                    style="@style/Widget.App.Button.Icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:onClick="@{()->viewModel.navigateToDetail(viewModel.shopId)}"
+                    android:paddingStart="8dp"
+                    android:paddingTop="0dp"
+                    android:paddingEnd="4dp"
+                    android:paddingBottom="0dp"
+                    android:text="團購頁面"
+                    android:textColor="@color/black_3f3a3a"
+                    app:icon="@drawable/ic_baseline_chevron_right_24"
+                    app:iconGravity="end"
+                    app:iconPadding="0dp"
+                    app:iconTint="@color/black_3f3a3a"
+                    app:layout_constraintBottom_toBottomOf="@+id/image_shop"
+                    app:layout_constraintEnd_toEndOf="@+id/image_shop" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/card_shop_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/image_shop">
+
+                    <TextView
+                        android:id="@+id/collection_name"
+                        style="@style/GatherTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:singleLine="false"
+                        android:text="@{viewModel.shop.title}"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toStartOf="@+id/collection_status"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Colourpop 眼影盤7折!!! 湊NT$5000全球免運" />
+
+                    <TextView
+                        android:id="@+id/collection_status"
+                        style="@style/BlackContent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_tag"
+                        android:backgroundTint="@color/state_opening"
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="1dp"
+                        android:textColor="#FFFFFF"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:orderStatusToDisplay="@{viewModel.shop.status}"
+                        tools:text="徵團中" />
+
+                    <TextView
+                        android:id="@+id/collection_id_title"
+                        style="@style/ProductTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="團購編號"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/collection_name" />
+
+                    <TextView
+                        android:id="@+id/collection_id"
+                        style="@style/DetailSubTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:singleLine="true"
+                        android:text="@{viewModel.shop.id}"
+                        app:layout_constraintBottom_toBottomOf="@+id/collection_id_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/collection_id_title"
+                        app:layout_constraintTop_toTopOf="@+id/collection_id_title"
+                        app:layout_constraintVertical_bias="1.0"
+                        tools:text="209937103776" />
+
+                    <TextView
+                        android:id="@+id/host_date_text"
+                        style="@style/ProductTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="開團日期"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/collection_id_title" />
+
+                    <TextView
+                        android:id="@+id/host_date"
+                        style="@style/DetailSubTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/host_date_text"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/host_date_text"
+                        app:layout_constraintTop_toTopOf="@+id/host_date_text"
+                        app:dateToDisplayFormat="@{viewModel.shop.time}"
+                        tools:text="2021/05/04" />
+
+                    <TextView
+                        android:id="@+id/collection_condition_title"
+                        style="@style/ProductTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="成團條件"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/host_date_text" />
+
+                    <TextView
+                        android:id="@+id/collection_condition"
+                        style="@style/DetailSubTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginBottom="32dp"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        app:conditionToDisplay="@{viewModel.shop.condition}"
+                        app:conditionType="@{viewModel.shop.conditionType}"
+                        app:deadLineToDisplay="@{viewModel.shop.deadLine}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/collection_condition_title"
+                        app:layout_constraintTop_toTopOf="@+id/collection_condition_title"
+                        tools:text="徵滿4人" />
+
+                    <View
+                        android:id="@+id/line_shop_block"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="@drawable/ic_line"
+                        android:backgroundTint="@color/gray_f0f0f0"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/progress_block"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/card_shop_info">
+
+                    <TextView
+                        android:id="@+id/progress_title"
+                        style="@style/GatherTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="團購進度"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
+                        android:id="@+id/progress_line"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/ic_line"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/progress_title" />
+
+
+                    <ImageView
+                        android:id="@+id/point_gathering"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:background="@drawable/bg_white_circle"
+                        android:backgroundTint="@{(viewModel.shop.status==0)?@color/state_opening:@color/gray_888888}"
+                        app:layout_constraintBottom_toBottomOf="@+id/progress_line"
+                        app:layout_constraintEnd_toStartOf="@+id/point_gather_success"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        app:layout_constraintStart_toStartOf="@+id/progress_line"
+                        app:layout_constraintTop_toTopOf="@+id/progress_line" />
+
+                    <TextView
+                        android:id="@+id/text_gathering"
+                        android:layout_width="15dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="32dp"
+                        android:text="@string/gathering"
+                        android:textColor="@{(viewModel.shop.status==0)?@color/state_opening:@color/gray_888888}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/point_gathering"
+                        app:layout_constraintStart_toStartOf="@+id/progress_line"
+                        app:layout_constraintTop_toBottomOf="@+id/point_gathering"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <ImageView
+                        android:id="@+id/point_gather_success"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:background="@drawable/bg_white_circle"
+                        android:backgroundTint="@{(viewModel.shop.status==1)?@color/state_opening:@color/gray_888888}"
+                        app:layout_constraintBottom_toBottomOf="@+id/progress_line"
+                        app:layout_constraintEnd_toStartOf="@+id/point_order_success"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/point_gathering"
+                        app:layout_constraintTop_toTopOf="@+id/progress_line"
+                        app:layout_constraintVertical_bias="0.5" />
+
+                    <TextView
+                        android:id="@+id/text_gather_success"
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="32dp"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="@string/gather_success"
+                        android:textColor="@{(viewModel.shop.status==1)?@color/state_opening:@color/gray_888888}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/point_gather_success"
+                        app:layout_constraintStart_toStartOf="@+id/point_gather_success"
+                        app:layout_constraintTop_toBottomOf="@+id/point_gather_success"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <ImageView
+                        android:id="@+id/point_order_success"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:background="@drawable/bg_white_circle"
+                        android:backgroundTint="@{(viewModel.shop.status==2)?@color/state_opening:@color/gray_888888}"
+                        app:layout_constraintBottom_toBottomOf="@+id/progress_line"
+                        app:layout_constraintEnd_toStartOf="@+id/point_shop_shipment"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/point_gather_success"
+                        app:layout_constraintTop_toTopOf="@+id/progress_line"
+                        app:layout_constraintVertical_bias="0.5" />
+
+                    <TextView
+                        android:id="@+id/text_order_success"
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="@string/order_success"
+                        android:textColor="@{(viewModel.shop.status==2)?@color/state_opening:@color/gray_888888}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/point_order_success"
+                        app:layout_constraintStart_toStartOf="@+id/point_order_success"
+                        app:layout_constraintTop_toBottomOf="@+id/point_order_success"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <ImageView
+                        android:id="@+id/point_shop_shipment"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:background="@drawable/bg_white_circle"
+                        android:backgroundTint="@{(viewModel.shop.status==3)?@color/state_opening:@color/gray_888888}"
+                        app:layout_constraintBottom_toBottomOf="@+id/progress_line"
+                        app:layout_constraintEnd_toStartOf="@+id/point_shipment_success"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/point_order_success"
+                        app:layout_constraintTop_toTopOf="@+id/progress_line"
+                        app:layout_constraintVertical_bias="0.5" />
+
+                    <TextView
+                        android:id="@+id/text_shop_shipment"
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="@string/shop_shipment"
+                        android:textColor="@{(viewModel.shop.status==3)?@color/state_opening:@color/gray_888888}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/point_shop_shipment"
+                        app:layout_constraintStart_toStartOf="@+id/point_shop_shipment"
+                        app:layout_constraintTop_toBottomOf="@+id/point_shop_shipment"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <ImageView
+                        android:id="@+id/point_shipment_success"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:background="@drawable/bg_white_circle"
+                        android:backgroundTint="@{(viewModel.shop.status==4)?@color/state_opening:@color/gray_888888}"
+                        app:layout_constraintBottom_toBottomOf="@+id/progress_line"
+                        app:layout_constraintEnd_toStartOf="@+id/point_packaging"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/point_shop_shipment"
+                        app:layout_constraintTop_toTopOf="@+id/progress_line"
+                        app:layout_constraintVertical_bias="0.5" />
+
+                    <TextView
+                        android:id="@+id/text_shipment_success"
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="32dp"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="@string/shipment_success"
+                        android:textColor="@{(viewModel.shop.status==4)?@color/state_opening:@color/gray_888888}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/point_shipment_success"
+                        app:layout_constraintStart_toStartOf="@+id/point_shipment_success"
+                        app:layout_constraintTop_toBottomOf="@+id/point_shipment_success"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <ImageView
+                        android:id="@+id/point_packaging"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:background="@drawable/bg_white_circle"
+                        android:backgroundTint="@{(viewModel.shop.status==5)?@color/state_opening:@color/gray_888888}"
+                        app:layout_constraintBottom_toBottomOf="@+id/progress_line"
+                        app:layout_constraintEnd_toStartOf="@+id/point_shipment"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/point_shipment_success"
+                        app:layout_constraintTop_toTopOf="@+id/progress_line"
+                        app:layout_constraintVertical_bias="0.5" />
+
+                    <TextView
+                        android:id="@+id/text_packaging"
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="@string/packaging"
+                        android:textColor="@{(viewModel.shop.status==5)?@color/state_opening:@color/gray_888888}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/point_packaging"
+                        app:layout_constraintStart_toStartOf="@+id/point_packaging"
+                        app:layout_constraintTop_toBottomOf="@+id/point_packaging"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <ImageView
+                        android:id="@+id/point_shipment"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:background="@drawable/bg_white_circle"
+                        android:backgroundTint="@{(viewModel.shop.status==6)?@color/state_opening:@color/gray_888888}"
+                        app:layout_constraintBottom_toBottomOf="@+id/progress_line"
+                        app:layout_constraintEnd_toStartOf="@+id/point_finish"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/point_packaging"
+                        app:layout_constraintTop_toTopOf="@+id/progress_line"
+                        app:layout_constraintVertical_bias="0.5" />
+
+                    <TextView
+                        android:id="@+id/text_shipment"
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="@string/shipment"
+                        android:textColor="@{(viewModel.shop.status==6)?@color/state_opening:@color/gray_888888}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/point_shipment"
+                        app:layout_constraintStart_toStartOf="@+id/point_shipment"
+                        app:layout_constraintTop_toBottomOf="@+id/point_shipment"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <ImageView
+                        android:id="@+id/point_finish"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:background="@drawable/bg_white_circle"
+                        android:backgroundTint="@{(viewModel.shop.status==7)?@color/state_opening:@color/gray_888888}"
+                        app:layout_constraintBottom_toBottomOf="@+id/progress_line"
+                        app:layout_constraintEnd_toEndOf="@+id/progress_line"
+                        app:layout_constraintStart_toEndOf="@+id/point_shipment"
+                        app:layout_constraintTop_toTopOf="@+id/progress_line"
+                        app:layout_constraintVertical_bias="0.5" />
+
+                    <TextView
+                        android:id="@+id/text_finish"
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="@string/finish"
+                        android:textColor="@{(viewModel.shop.status==7)?@color/state_opening:@color/gray_888888}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/point_finish"
+                        app:layout_constraintStart_toStartOf="@+id/point_finish"
+                        app:layout_constraintTop_toBottomOf="@+id/point_finish"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <View
+                        android:id="@+id/line_delivery_block"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="@drawable/ic_line"
+                        android:backgroundTint="@color/gray_f0f0f0"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/card_my_order"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/progress_block">
+
+                    <TextView
+                        android:id="@+id/collection_member_title"
+                        style="@style/GatherTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="跟團明細"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layout_constraintTop_toBottomOf="@+id/collection_member_title">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/my_order_id_block"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:id="@+id/order_id_title"
+                                style="@style/ProductTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="16dp"
+                                android:text="訂單編號"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/order_id"
+                                style="@style/DetailSubTitle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:text="@{viewModel.orderId}"
+                                app:layout_constraintBottom_toBottomOf="@+id/order_id_title"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="@+id/order_id_title"
+                                tools:text="2TgmGprHsundCcuvHw8J" />
+
+                            <TextView
+                                android:id="@+id/order_time_title"
+                                style="@style/ProductTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginBottom="8dp"
+                                android:text="下單日期"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="@+id/order_id_title"
+                                app:layout_constraintTop_toBottomOf="@+id/order_id_title" />
+
+                            <TextView
+                                android:id="@+id/order_time"
+                                style="@style/DetailSubTitle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="4dp"
+                                app:dateTimeToDisplayFormat="@{viewModel.order.time}"
+                                app:layout_constraintBottom_toBottomOf="@+id/order_time_title"
+                                app:layout_constraintEnd_toStartOf="@+id/member_status"
+                                app:layout_constraintStart_toStartOf="@+id/order_id"
+                                app:layout_constraintTop_toTopOf="@+id/order_time_title"
+                                tools:text="2021/05/30 12:31" />
+
+
+                            <TextView
+                                android:id="@+id/member_status"
+                                style="@style/DetailSubTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:textColor="@color/green_97B6A8"
+                                app:layout_constraintBottom_toBottomOf="@+id/order_time"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="@+id/order_time"
+                                app:paymentStatusToDisplay="@{viewModel.order.paymentStatus}"
+                                tools:text="待付款" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/my_order_info_block"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:paddingBottom="24dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/my_order_id_block">
+
+                            <ImageView
+                                android:id="@+id/member_product_icon"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="16dp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:srcCompat="@drawable/ic_baseline_shopping_cart_24"
+                                app:tint="@color/green_7A8277" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recycler_product"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginEnd="16dp"
+                                android:maxWidth="250dp"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toEndOf="@+id/member_product_icon"
+                                app:layout_constraintTop_toTopOf="@+id/member_product_icon"
+                                app:products="@{viewModel.order.product}"
+                                tools:listitem="@layout/item_manage_product" />
+
+                            <TextView
+                                android:id="@+id/order_price_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="訂單金額"
+                                app:layout_constraintStart_toStartOf="@+id/recycler_product"
+                                app:layout_constraintTop_toBottomOf="@+id/recycler_product" />
+
+                            <TextView
+                                android:id="@+id/member_price"
+                                style="@style/DetailSubTitle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="16dp"
+                                android:text='@{"NT$"+String.valueOf(viewModel.order.price)}'
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/recycler_product"
+                                tools:text="NT$3000" />
+
+                            <View
+                                android:id="@+id/line_order_product_block"
+                                android:layout_width="0dp"
+                                android:layout_height="1dp"
+                                android:layout_marginTop="16dp"
+                                android:background="@drawable/ic_line"
+                                android:backgroundTint="@color/gray_f0f0f0"
+                                app:layout_constraintEnd_toEndOf="@+id/member_price"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="@+id/order_price_text"
+                                app:layout_constraintTop_toBottomOf="@id/order_price_text" />
+
+                            <ImageView
+                                android:id="@+id/member_icon"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="16dp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/line_order_product_block"
+                                app:srcCompat="@drawable/ic_baseline_location_on_24"
+                                app:tint="@color/green_7A8277" />
+
+                            <TextView
+                                android:id="@+id/member_name"
+                                style="@style/DetailSubTitle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginEnd="16dp"
+                                android:text="@{viewModel.order.name}"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toEndOf="@+id/member_icon"
+                                app:layout_constraintTop_toTopOf="@+id/member_icon"
+                                tools:text="Chloe" />
+
+                            <TextView
+                                android:id="@+id/member_phone"
+                                style="@style/DetailSubTitle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:layout_marginEnd="16dp"
+                                android:text="@{viewModel.order.phone}"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="@+id/member_name"
+                                app:layout_constraintTop_toBottomOf="@+id/member_name"
+                                tools:text="0988888888" />
+
+                            <TextView
+                                android:id="@+id/member_delivery"
+                                style="@style/DetailSubTitle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                app:deliveryToDisplay="@{viewModel.order.delivery}"
+                                app:layout_constraintStart_toStartOf="@+id/member_name"
+                                app:layout_constraintTop_toBottomOf="@+id/member_phone"
+                                tools:text="711" />
+
+
+                            <View
+                                android:id="@+id/view_separation_delivery"
+                                android:layout_width="1dp"
+                                android:layout_height="14dp"
+                                android:layout_marginStart="8dp"
+                                android:background="@color/gray_cccccc"
+                                app:layout_constraintBottom_toBottomOf="@+id/member_delivery"
+                                app:layout_constraintStart_toEndOf="@+id/member_delivery"
+                                app:layout_constraintTop_toTopOf="@+id/member_delivery" />
+
+                            <TextView
+                                android:id="@+id/member_address"
+                                style="@style/DetailSubTitle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginEnd="16dp"
+                                android:text="@{viewModel.order.address}"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toEndOf="@+id/view_separation_delivery"
+                                app:layout_constraintTop_toTopOf="@+id/member_delivery"
+                                tools:text="永和門市" />
+
+                            <ImageView
+                                android:id="@+id/member_note_icon"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="16dp"
+                                android:visibility="@{TextUtils.isEmpty(viewModel.order.note)?View.GONE:View.VISIBLE}"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/member_address"
+                                app:srcCompat="@drawable/ic_baseline_message_24"
+                                app:tint="@color/green_7A8277" />
+
+                            <TextView
+                                android:id="@+id/member_note"
+                                style="@style/DetailSubTitle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="16dp"
+                                android:ellipsize="end"
+                                android:text="@{viewModel.order.note}"
+                                android:visibility="@{TextUtils.isEmpty(viewModel.order.note)?View.GONE:View.VISIBLE}"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="1.0"
+                                app:layout_constraintStart_toStartOf="@+id/member_name"
+                                app:layout_constraintTop_toTopOf="@+id/member_note_icon"
+                                tools:text="無" />
+
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:theme="@style/ProgressTheme"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:setupApiStatus="@{viewModel.status}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:setupApiErrorMessage="@{viewModel.error}" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

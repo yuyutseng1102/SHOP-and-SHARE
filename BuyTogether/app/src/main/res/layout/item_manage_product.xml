@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="item" type="com.chloe.shopshare.data.Product" />
+        <variable name="position" type="Integer" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/product_number"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/gray_f0f0f0"
+            android:fontFamily="sans-serif-smallcaps"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="@{String.valueOf(position)}"
+            tools:text="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/member_product_title"
+            style="@style/DetailSubTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="@{item.title}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/view_product_separation"
+            app:layout_constraintStart_toEndOf="@+id/product_number"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="白色/S" />
+
+
+        <View
+            android:id="@+id/view_product_separation"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:background="@drawable/ic_baseline_close_24"
+            android:backgroundTint="@color/gray_888888"
+            app:layout_constraintBottom_toBottomOf="@+id/member_product_title"
+            app:layout_constraintEnd_toStartOf="@+id/member_product_quantity"
+            app:layout_constraintTop_toTopOf="@+id/member_product_title" />
+
+        <TextView
+            android:id="@+id/member_product_quantity"
+            style="@style/DetailSubTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{String.valueOf(item.quantity)}"
+            app:layout_constraintBottom_toBottomOf="@+id/view_product_separation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view_product_separation"
+            tools:text="2" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
