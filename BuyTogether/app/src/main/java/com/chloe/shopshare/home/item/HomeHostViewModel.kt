@@ -33,8 +33,6 @@ class HomeHostViewModel(private val repository: Repository) : ViewModel() {
     val shopLikedList : LiveData<List<String>>
         get() = _shopLikedList
 
-
-
     private val _successGetLikeList = MutableLiveData<Boolean?>()
     val successGetLikeList: LiveData<Boolean?>
         get() = _successGetLikeList
@@ -42,6 +40,8 @@ class HomeHostViewModel(private val repository: Repository) : ViewModel() {
 //    private val _isShopLiked = MutableLiveData<Boolean>()
 //    val isShopLiked: LiveData<Boolean>
 //        get() = _isShopLiked
+
+    val displayOpeningShop = MutableLiveData<Boolean>()
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -95,8 +95,8 @@ class HomeHostViewModel(private val repository: Repository) : ViewModel() {
         UserManager.userId?.let {
             userId = it
         }
-        getOpeningShop()
-
+        displayOpeningShop.value = true
+        getShopList()
     }
 
     override fun onCleared() {
@@ -112,13 +112,54 @@ class HomeHostViewModel(private val repository: Repository) : ViewModel() {
         _successGetLikeList.value = null
     }
 
-    private fun getOpeningShop() {
+    fun getShopList() {
+        when(displayOpeningShop.value){
+            true -> getAllOpeningShop()
+            else -> getAllShop()
+        }
+    }
+
+    private fun getAllShop() {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            val result = repository.getOpeningShop()
+            val result = repository.getAllShop()
+
+            _shop.value = when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    result.data
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value = MyApplication.instance.getString(R.string.result_fail)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
+            _refreshStatus.value = false
+        }
+    }
+
+    private fun getAllOpeningShop() {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            val result = repository.getAllOpeningShop()
 
             _shop.value = when (result) {
                 is Result.Success -> {
@@ -257,7 +298,7 @@ class HomeHostViewModel(private val repository: Repository) : ViewModel() {
 
     fun refresh() {
         if (status.value != LoadApiStatus.LOADING) {
-            getOpeningShop()
+            getShopList()
         }
     }
 

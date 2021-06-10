@@ -16,8 +16,10 @@ interface DataSource {
     suspend fun getUserProfile(userId: String): Result<User>
 
     /** HOME **/
-    suspend fun getOpeningShop(): Result<List<Shop>>
+    suspend fun getAllShop(): Result<List<Shop>>
+    suspend fun getAllOpeningShop(): Result<List<Shop>>
     suspend fun getAllRequest(): Result<List<Request>>
+    suspend fun getAllFinishedRequest(): Result<List<Request>>
 
     /** Detail Shop **/
     suspend fun getDetailShop(shopId: String): Result<Shop>

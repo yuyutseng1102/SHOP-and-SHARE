@@ -43,6 +43,16 @@ class HomeRequestFragment : Fragment() {
             }
         })
 
+        binding.checkBoxRequestFilter.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.displayFinishedRequest.value = isChecked
+        }
+
+        viewModel.displayFinishedRequest.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                viewModel.getRequestList()
+            }
+        })
+
 
         binding.spinnerHome.adapter = HomeSpinnerAdapter(
             MyApplication.instance.resources.getStringArray(R.array.sort_method_list))

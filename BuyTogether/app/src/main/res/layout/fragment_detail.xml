@@ -413,8 +413,10 @@
                         android:layout_height="0dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0">
 
                         <com.google.android.material.tabs.TabLayout
                             android:id="@+id/tabs_detail"
@@ -466,6 +468,25 @@
                 app:tint="@drawable/bottom_nav_item_selector" />
 
             <Button
+                android:id="@+id/button_ending"
+                style="@style/WhiteButtonName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="24dp"
+                android:backgroundTint="@color/gray_cccccc"
+                android:clickable="false"
+                android:text="團購已結束"
+                android:visibility="@{viewModel.shop.status==0?View.GONE:View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toEndOf="@+id/nav_follow"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5"
+                tools:visibility="visible" />
+
+            <Button
                 android:id="@+id/button_product_list"
                 style="@style/WhiteButtonName"
                 android:layout_width="wrap_content"
@@ -473,11 +494,13 @@
                 android:layout_marginStart="32dp"
                 android:onClick="@{() -> viewModel.navigateToProductList(viewModel.product)}"
                 android:text="查看清單"
+                android:visibility="@{viewModel.shop.status==0?View.VISIBLE:View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintStart_toEndOf="@+id/nav_follow"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.5" />
+                app:layout_constraintVertical_bias="0.5"
+                tools:visibility="gone" />
 
             <Button
                 android:id="@+id/button_participate"
@@ -487,10 +510,12 @@
                 android:layout_marginStart="32dp"
                 android:onClick="@{() -> viewModel.navigateToOption(viewModel.product)}"
                 android:text="我要跟團"
+                android:visibility="@{viewModel.shop.status==0?View.VISIBLE:View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/button_product_list"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.625" />
+                app:layout_constraintVertical_bias="0.625"
+                tools:visibility="gone" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -69,6 +69,16 @@ class HomeHostFragment() : Fragment() {
             }
         })
 
+        binding.checkBoxHostFilter.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.displayOpeningShop.value = isChecked
+        }
+
+        viewModel.displayOpeningShop.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                viewModel.getShopList()
+            }
+        })
+
 
 
 

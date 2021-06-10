@@ -17,12 +17,20 @@ class DefaultRepository (private val remoteDataSource: DataSource,
     }
 
 
-    override suspend fun getOpeningShop(): Result<List<Shop>> {
-        return remoteDataSource.getOpeningShop()
+    override suspend fun getAllShop(): Result<List<Shop>> {
+        return remoteDataSource.getAllShop()
+    }
+
+    override suspend fun getAllOpeningShop(): Result<List<Shop>> {
+        return remoteDataSource.getAllOpeningShop()
     }
 
     override suspend fun getAllRequest(): Result<List<Request>> {
         return remoteDataSource.getAllRequest()
+    }
+
+    override suspend fun getAllFinishedRequest(): Result<List<Request>> {
+        return remoteDataSource.getAllFinishedRequest()
     }
 
 

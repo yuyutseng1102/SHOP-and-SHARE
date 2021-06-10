@@ -9,7 +9,6 @@ import com.chloe.shopshare.MyApplication
 import com.chloe.shopshare.R
 import com.chloe.shopshare.data.Request
 import com.chloe.shopshare.data.Result
-import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.home.SortMethod
 import com.chloe.shopshare.network.LoadApiStatus
@@ -23,6 +22,8 @@ class HomeRequestViewModel(private val repository: Repository) : ViewModel() {
     private val _request = MutableLiveData<List<Request>>()
     val request: LiveData<List<Request>>
         get() = _request
+
+    val displayFinishedRequest = MutableLiveData<Boolean>()
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -66,7 +67,8 @@ class HomeRequestViewModel(private val repository: Repository) : ViewModel() {
 
     init {
         Log.d("HomeTag", "HomeRequestFragment")
-        getRequestingShop()
+        displayFinishedRequest.value = false
+        getRequestList()
     }
 
     override fun onCleared() {
@@ -74,7 +76,15 @@ class HomeRequestViewModel(private val repository: Repository) : ViewModel() {
         viewModelJob.cancel()
     }
 
-    private fun getRequestingShop() {
+    fun getRequestList() {
+        when(displayFinishedRequest.value){
+            true -> getAllFinishedRequest()
+            else -> getAllRequest()
+        }
+    }
+
+
+    private fun getAllRequest() {
 
         coroutineScope.launch {
 
@@ -108,11 +118,45 @@ class HomeRequestViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
+    private fun getAllFinishedRequest() {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            val result = repository.getAllFinishedRequest()
+
+            _request.value = when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    result.data
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value = MyApplication.instance.getString(R.string.result_fail)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
+            _refreshStatus.value = false
+        }
+    }
+
 
 
     fun refresh() {
         if (status.value != LoadApiStatus.LOADING) {
-            getRequestingShop()
+            getRequestList()
         }
     }
 
