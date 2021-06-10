@@ -86,6 +86,7 @@ interface Repository {
 
     /** CHAT ROOM **/
     fun getMyAllChatRoom(myId: String): MutableLiveData<List<ChatRoom>>
+    suspend fun getMyChatList(myId: String): Result<List<ChatRoom>>
     suspend fun getChatRoom(myId: String, friendId: String): Result<ChatRoom>
     fun getRoomMessage(roomId: String): MutableLiveData<List<Message>>
     suspend fun sendMessage(chatRoomId: String, message: Message): Result<Boolean>

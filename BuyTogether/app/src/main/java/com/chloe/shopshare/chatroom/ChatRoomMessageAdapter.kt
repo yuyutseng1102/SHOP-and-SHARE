@@ -67,8 +67,6 @@ class ChatRoomMessageAdapter:ListAdapter<Message, RecyclerView.ViewHolder>(DiffC
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-
-
         when (holder) {
             is RightBubbleViewHolder -> {
                 var timeView = false

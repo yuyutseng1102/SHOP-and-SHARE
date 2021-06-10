@@ -1597,6 +1597,34 @@ override suspend fun postOrderNotifyToMember(orderList: List<Order>, notify: Not
         return liveData
     }
 
+    override suspend fun getMyChatList(myId: String): Result<List<ChatRoom>> = suspendCoroutine { continuation ->
+            val chatRoomDataBase = FirebaseFirestore.getInstance().collection(PATH_CHAT_ROOM)
+            chatRoomDataBase
+                .whereArrayContains("talker", myId)
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val chatRoomList = mutableListOf<ChatRoom>()
+                            for (document in task.result!!) {
+                                Log.d("Chat", document.id + " => " + document.data)
+                                var chatRoom = document.toObject(ChatRoom::class.java)
+                                chatRoomList.add(chatRoom)
+                            }
+                        continuation.resume(Result.Success(chatRoomList))
+                    } else {
+                        task.exception?.let {
+                            Log.w(
+                                "Chat",
+                                "[${this::class.simpleName}] Error getting documents. ${it.message}"
+                            )
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
+                    }
+                }
+        }
+
 //    override suspend fun getMyAllChatRoom(myId: String): Result<List<ChatRoom>> =
 //        suspendCoroutine { continuation ->
 //            val chatRoomDataBase = FirebaseFirestore.getInstance().collection(PATH_CHAT_ROOM)
@@ -1631,7 +1659,7 @@ override suspend fun postOrderNotifyToMember(orderList: List<Order>, notify: Not
             val chatRoomDataBase = FirebaseFirestore.getInstance().collection(PATH_CHAT_ROOM)
             var chatRoom = ChatRoom()
             chatRoomDataBase
-                .whereArrayContainsAny("talker", listOf(myId,friendId))
+                .whereIn("talker", listOf(listOf(myId,friendId), listOf(friendId,myId)))
                 .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
@@ -1692,7 +1720,6 @@ override suspend fun postOrderNotifyToMember(orderList: List<Order>, notify: Not
                     val message = document.toObject(Message::class.java)
                     messageList.add(message)
                 }
-                messageList = messageList
                 liveData.value = messageList
                 Log.i("Chat", "liveData.value = ${liveData.value}")
             }

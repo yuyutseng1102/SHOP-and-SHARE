@@ -202,6 +202,10 @@ class LocalDataSource(val context: Context): DataSource {
         TODO("Not yet implemented")
     }
 
+    override suspend fun getMyChatList(myId: String): Result<List<ChatRoom>> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getChatRoom(myId: String, friendId: String): Result<ChatRoom> {
         TODO("Not yet implemented")
     }

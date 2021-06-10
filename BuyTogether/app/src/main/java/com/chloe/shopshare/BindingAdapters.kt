@@ -125,21 +125,8 @@ fun bindRecyclerViewWithMessage(recyclerView: RecyclerView, message: List<Messag
     }
 }
 
-@BindingAdapter("chat")
-fun bindRecyclerViewWithChat(recyclerView: RecyclerView, chat: List<ChatRoom>?) {
-    chat?.let {
-        recyclerView.adapter?.apply {
-            Log.d("Chat","summit the chat is ${chat}")
-            when (this) {
-                is ChatAdapter -> submitList(it)
-            }
-        }
-    }
-}
-
-
-//@BindingAdapter("chatDetail")
-//fun bindRecyclerViewWithChatDetail(recyclerView: RecyclerView, chat: List<ChatDetail>?) {
+//@BindingAdapter("chat")
+//fun bindRecyclerViewWithChat(recyclerView: RecyclerView, chat: List<ChatRoom>?) {
 //    chat?.let {
 //        recyclerView.adapter?.apply {
 //            Log.d("Chat","summit the chat is ${chat}")
@@ -149,6 +136,20 @@ fun bindRecyclerViewWithChat(recyclerView: RecyclerView, chat: List<ChatRoom>?) 
 //        }
 //    }
 //}
+
+
+@BindingAdapter("chatDetail")
+fun bindRecyclerViewWithChatDetail(recyclerView: RecyclerView, chat: List<ChatDetail>?) {
+    chat?.let {
+        recyclerView.adapter?.apply {
+            Log.d("Chat","summit the chat is ${chat}")
+            var chatSort = chat.sortedByDescending {it.message?.last()?.time}
+            when (this) {
+                is ChatAdapter -> submitList(chatSort)
+            }
+        }
+    }
+}
 
 
 @BindingAdapter("strings")

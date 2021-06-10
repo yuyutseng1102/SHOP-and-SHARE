@@ -193,6 +193,10 @@ class DefaultRepository (private val remoteDataSource: DataSource,
         return remoteDataSource.getMyAllChatRoom(myId)
     }
 
+    override suspend fun getMyChatList(myId: String): Result<List<ChatRoom>> {
+        return remoteDataSource.getMyChatList(myId)
+    }
+
     override suspend fun getChatRoom(myId: String, friendId: String): Result<ChatRoom> {
         return remoteDataSource.getChatRoom(myId, friendId)
     }

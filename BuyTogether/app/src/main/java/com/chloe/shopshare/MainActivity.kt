@@ -117,6 +117,7 @@ class MainActivity : BaseActivity() {
                 R.id.notifyFragment -> CurrentFragmentType.NOTIFY
 
                 R.id.searchFragment -> CurrentFragmentType.SEARCH
+                R.id.chatFragment -> CurrentFragmentType.CHAT
                 R.id.chatRoomFragment -> CurrentFragmentType.CHAT_ROOM
                 R.id.resultFragment -> CurrentFragmentType.RESULT
                 else -> viewModel.currentFragmentType.value
