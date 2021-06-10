@@ -48,13 +48,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+
                 <RadioGroup
                     android:id="@+id/radio_group"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:checkedButton="@={viewModel.selectedMethodRadio}"
+                    android:clipToPadding="false"
+                    android:gravity="start"
                     android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="@+id/gather_method_text"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -62,36 +65,41 @@
                     app:layout_constraintTop_toTopOf="@+id/gather_method_text">
 
                     <RadioButton
-                        android:id="@+id/radio_agent"
-                        style="@style/GatherTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="4dp"
-                        android:background="@drawable/bg_radio_button"
-                        android:button="@null"
-                        android:paddingHorizontal="4dp"
-                        android:text="@string/purchase_agent" />
-
-                    <RadioButton
                         android:id="@+id/radio_gather"
-                        style="@style/GatherTitle"
+                        style="@style/ProductTitleSingle"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="4dp"
-                        android:background="@drawable/bg_radio_button"
+                        android:layout_height="30dp"
+                        android:background="@drawable/bg_check_chip_button"
                         android:button="@null"
+                        android:includeFontPadding="false"
                         android:paddingHorizontal="4dp"
+                        android:paddingVertical="2dp"
                         android:text="@string/purchase_gather" />
 
                     <RadioButton
-                        android:id="@+id/radio_private"
-                        style="@style/GatherTitle"
+                        android:id="@+id/radio_agent"
+                        style="@style/ProductTitleSingle"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="4dp"
-                        android:background="@drawable/bg_radio_button"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="12dp"
+                        android:background="@drawable/bg_check_chip_button"
                         android:button="@null"
+                        android:includeFontPadding="false"
                         android:paddingHorizontal="4dp"
+                        android:paddingVertical="2dp"
+                        android:text="@string/purchase_agent" />
+
+                    <RadioButton
+                        android:id="@+id/radio_private"
+                        style="@style/ProductTitleSingle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="12dp"
+                        android:background="@drawable/bg_check_chip_button"
+                        android:button="@null"
+                        android:includeFontPadding="false"
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="2dp"
                         android:text="@string/purchase_private" />
                 </RadioGroup>
 
@@ -105,7 +113,8 @@
                     android:text="上傳照片"
                     android:textColor="@{viewModel.isInvalid != null ? (viewModel.image==null ? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/gather_method_text" />
+                    app:layout_constraintTop_toBottomOf="@+id/gather_method_text"
+                    tools:visibility="gone" />
 
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -120,7 +129,8 @@
                     app:layout_constraintStart_toStartOf="@+id/upload_text"
                     app:layout_constraintTop_toBottomOf="@+id/pick_image_button"
                     app:spanCount="4"
-                    app:strings="@{viewModel.image}" />
+                    app:strings="@{viewModel.image}"
+                    tools:visibility="gone" />
 
                 <TextView
                     android:id="@+id/request_title_text"
@@ -132,11 +142,12 @@
                     android:text="團購名稱"
                     android:textColor='@{viewModel.isInvalid != null ? (TextUtils.isEmpty(viewModel.title) ? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}'
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recycler_image" />
+                    app:layout_constraintTop_toBottomOf="@+id/recycler_image"
+                    tools:visibility="gone" />
 
                 <EditText
                     android:id="@+id/gather_title_edit"
-                    style="@style/ProductTitle"
+                    style="@style/ProductTitleSingle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -166,7 +177,7 @@
 
                 <EditText
                     android:id="@+id/gather_description_edit"
-                    style="@style/ProductTitle"
+                    style="@style/ProductTitleSingle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -175,7 +186,7 @@
                     android:ems="10"
                     android:gravity="top|start"
                     android:inputType="textMultiLine"
-                    android:maxLines="7"
+                    android:maxLines="10"
                     android:text="@={viewModel.description}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -196,7 +207,7 @@
 
                 <EditText
                     android:id="@+id/gather_web_edit"
-                    style="@style/ProductTitle"
+                    style="@style/ProductTitleSingle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -205,7 +216,7 @@
                     android:ems="10"
                     android:gravity="top|start"
                     android:inputType="textMultiLine"
-                    android:maxLines="5"
+                    android:maxLines="2"
                     android:text="@={viewModel.source}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -218,7 +229,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="24dp"
                     android:text="團購分類"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/gather_web_edit" />
@@ -230,6 +241,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:selectedItemPosition="@={viewModel.selectedCategoryPosition}"
+                    android:textAlignment="viewStart"
                     app:layout_constraintBottom_toBottomOf="@+id/gather_category_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/gather_category_text"
@@ -241,7 +253,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="24dp"
                     android:text="團購國家"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/gather_category_text" />
@@ -253,6 +265,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:selectedItemPosition="@={viewModel.selectedCountryPosition}"
+                    android:textAlignment="viewStart"
                     app:layout_constraintBottom_toBottomOf="@+id/gather_country_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/gather_country_text"
@@ -264,7 +277,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="24dp"
                     android:text="新增選項"
                     android:textColor='@{viewModel.isInvalid != null ? (viewModel.option==null? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}'
                     app:layout_constraintStart_toStartOf="parent"
@@ -272,29 +285,33 @@
 
                 <TextView
                     android:id="@+id/gather_option_edit"
-                    style="@style/ProductTitle"
+                    style="@style/ProductTitleSingle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:maxLines="5"
+                    android:background="@drawable/bg_check_chip_button"
+                    android:maxLines="2"
+                    android:padding="8dp"
                     android:text="@={viewModel.optionShow}"
+                    android:visibility="@{viewModel.isOptionDone?View.VISIBLE:View.GONE}"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/gather_option_text"
                     app:layout_constraintEnd_toStartOf="@+id/add_gather_option"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/gather_option_text"
-                    app:layout_constraintTop_toTopOf="@+id/gather_option_text" />
+                    tools:text="白色洋裝M 淺灰上衣S 黑色扭結佯裝" />
 
                 <Button
                     android:id="@+id/add_gather_option"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/ic_add"
                     android:backgroundTint="@color/black_3f3a3a"
                     android:stateListAnimator="@null"
-                    app:layout_constraintBottom_toBottomOf="@+id/gather_option_text"
+                    app:layout_constraintBottom_toBottomOf="@+id/gather_option_edit"
                     app:layout_constraintDimensionRatio="h,1:1"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/gather_option_text" />
+                    app:layout_constraintTop_toTopOf="@+id/gather_option_edit" />
 
                 <TextView
                     android:id="@+id/gather_delivery_text"
@@ -302,7 +319,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="24dp"
                     android:text="@string/delivery_method"
                     android:textColor='@{viewModel.isInvalid != null ? (viewModel.deliveryMethod == null? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}'
                     app:layout_constraintStart_toStartOf="parent"
@@ -310,61 +327,80 @@
 
                 <CheckBox
                     android:id="@+id/checkBox_seven_eleven"
+                    style="@style/ProductTitleSingle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:buttonTint="@color/colorPrimary"
                     android:text="@string/seven_eleven"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/gather_delivery_text"
+                    app:layout_constraintEnd_toStartOf="@+id/checkBox_family_mart"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
                     app:layout_constraintStart_toEndOf="@+id/gather_delivery_text"
-                    app:layout_constraintTop_toTopOf="@+id/gather_delivery_text" />
+                    app:useMaterialThemeColors="false" />
 
                 <CheckBox
                     android:id="@+id/checkBox_family_mart"
+                    style="@style/ProductTitleSingle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:buttonTint="@color/colorPrimary"
                     android:text="@string/family_mart"
                     app:layout_constraintBottom_toBottomOf="@+id/checkBox_seven_eleven"
+                    app:layout_constraintEnd_toStartOf="@+id/checkBox_hi_life"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/checkBox_seven_eleven"
-                    app:layout_constraintTop_toTopOf="@+id/checkBox_seven_eleven" />
+                    app:layout_constraintTop_toTopOf="@+id/checkBox_seven_eleven"
+                    app:useMaterialThemeColors="false" />
 
                 <CheckBox
                     android:id="@+id/checkBox_hi_life"
+                    style="@style/ProductTitleSingle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:buttonTint="@color/colorPrimary"
                     android:text="@string/hi_life"
                     app:layout_constraintBottom_toBottomOf="@+id/checkBox_family_mart"
+                    app:layout_constraintEnd_toEndOf="@+id/gather_option_edit"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/checkBox_family_mart"
-                    app:layout_constraintTop_toTopOf="@+id/checkBox_family_mart" />
+                    app:layout_constraintTop_toTopOf="@+id/checkBox_family_mart"
+                    app:useMaterialThemeColors="false" />
+
 
                 <CheckBox
                     android:id="@+id/checkBox_ok"
+                    style="@style/ProductTitleSingle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:buttonTint="@color/colorPrimary"
                     android:text="@string/ok"
-                    app:layout_constraintBottom_toBottomOf="@+id/checkBox_hi_life"
-                    app:layout_constraintStart_toEndOf="@+id/checkBox_hi_life"
-                    app:layout_constraintTop_toTopOf="@+id/checkBox_hi_life" />
+                    app:layout_constraintStart_toStartOf="@+id/checkBox_seven_eleven"
+                    app:layout_constraintTop_toBottomOf="@+id/checkBox_seven_eleven"
+                    app:useMaterialThemeColors="false" />
 
                 <CheckBox
                     android:id="@+id/checkBox_home_delivery"
+                    style="@style/ProductTitleSingle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorPrimary"
                     android:text="@string/home_delivery"
-                    app:layout_constraintStart_toStartOf="@+id/checkBox_seven_eleven"
-                    app:layout_constraintTop_toBottomOf="@+id/checkBox_seven_eleven" />
-
+                    app:layout_constraintStart_toStartOf="@+id/checkBox_family_mart"
+                    app:layout_constraintTop_toBottomOf="@+id/checkBox_family_mart"
+                    app:useMaterialThemeColors="false" />
 
                 <CheckBox
                     android:id="@+id/checkBox_by_hand"
+                    style="@style/ProductTitleSingle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:buttonTint="@color/colorPrimary"
                     android:text="@string/by_hand"
-                    app:layout_constraintBottom_toBottomOf="@+id/checkBox_home_delivery"
-                    app:layout_constraintStart_toEndOf="@+id/checkBox_home_delivery"
-                    app:layout_constraintTop_toTopOf="@+id/checkBox_home_delivery" />
+                    app:layout_constraintStart_toStartOf="@+id/checkBox_hi_life"
+                    app:layout_constraintTop_toBottomOf="@+id/checkBox_hi_life"
+                    app:useMaterialThemeColors="false" />
 
                 <TextView
                     android:id="@+id/gather_condition_text"
@@ -373,33 +409,34 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="32dp"
                     android:maxLines="2"
                     android:text="成團條件"
                     android:textColor='@{viewModel.isInvalid != null ? (TextUtils.isEmpty(viewModel.conditionShow) ? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}'
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/checkBox_home_delivery"
+                    app:layout_constraintTop_toBottomOf="@+id/checkBox_ok"
                     app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
                     android:id="@+id/gather_condition_edit"
-                    style="@style/ProductTitle"
+                    style="@style/ProductTitleSingle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/bg_check_chip_button"
+                    android:maxLines="2"
+                    android:padding="8dp"
                     android:text="@{viewModel.conditionShow}"
                     android:visibility="@{viewModel.isConditionDone()?View.VISIBLE:View.GONE}"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/gather_condition_text"
                     app:layout_constraintEnd_toStartOf="@+id/add_gather_condition"
                     app:layout_constraintStart_toEndOf="@+id/gather_condition_text"
-                    app:layout_constraintTop_toTopOf="@+id/gather_condition_text"
-                    app:layout_constraintVertical_bias="0.0" />
+                    tools:text="白色洋裝M 淺灰上衣S 黑色扭結佯裝" />
 
                 <Button
                     android:id="@+id/add_gather_condition"
-                    android:layout_width="0dp"
+                    android:layout_width="20dp"
                     android:layout_height="0dp"
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/ic_add"
@@ -416,7 +453,7 @@
                     android:layout_height="40dp"
                     android:layout_marginStart="16dp"
                     android:background="@drawable/icons_24px_add01"
-                    android:backgroundTint="@color/tag_country"
+                    android:backgroundTint="@color/colorPrimary"
                     app:layout_constraintStart_toEndOf="@+id/upload_text"
                     app:layout_constraintTop_toTopOf="@+id/upload_text" />
 

@@ -36,7 +36,7 @@ class HomeFragment : Fragment() {
             }
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 when(menuItem.itemId){
-                    R.id.navigate_to_host -> findNavController().navigate(NavigationDirections.navigateToHostFragment())
+                    R.id.navigate_to_host -> findNavController().navigate(NavigationDirections.navigateToHostFragment(null))
                     R.id.navigate_to_request -> findNavController().navigate(NavigationDirections.navigateToRequestFragment())
                 }
                 return true

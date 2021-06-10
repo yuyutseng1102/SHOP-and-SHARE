@@ -69,8 +69,8 @@ class DefaultRepository (private val remoteDataSource: DataSource,
         return remoteDataSource.postRequest(request)
     }
 
-    override suspend fun updateRequestHost(requestId: String, hostId: String): Result<Boolean> {
-        return remoteDataSource.updateRequestHost(requestId, hostId)
+    override suspend fun updateRequestHost(requestId: String,shopId: String ,  hostId: String): Result<Boolean> {
+        return remoteDataSource.updateRequestHost(requestId,shopId, hostId)
     }
 
     override suspend fun updateRequestMember(requestId: String, memberId: String): Result<Boolean> {
@@ -89,20 +89,28 @@ class DefaultRepository (private val remoteDataSource: DataSource,
         return remoteDataSource.postOrder(shopId, order)
     }
 
+    override suspend fun increaseOrderSize(shopId: String): Result<Boolean> {
+        return remoteDataSource.increaseOrderSize(shopId)
+    }
+
     override suspend fun uploadImage(uri: Uri,folder:String): Result<String> {
         return remoteDataSource.uploadImage(uri,folder)
     }
 
-    override suspend fun addSubscribe(userId: String, shopId: String): Result<Boolean> {
-        return remoteDataSource.addSubscribe(userId,shopId)
+    override suspend fun addShopLiked(userId: String, shopId: String): Result<Boolean> {
+        return remoteDataSource.addShopLiked(userId,shopId)
     }
 
-    override suspend fun removeSubscribe(userId: String, shopId: String): Result<Boolean> {
-        return remoteDataSource.removeSubscribe(userId,shopId)
+    override suspend fun removeShopLiked(userId: String, shopId: String): Result<Boolean> {
+        return remoteDataSource.removeShopLiked(userId,shopId)
     }
 
     override suspend fun postShopNotifyToMember(notify: Notify): Result<Boolean> {
         return remoteDataSource.postShopNotifyToMember(notify)
+    }
+
+    override suspend fun postRequestNotifyToMember(notify: Notify): Result<Boolean> {
+        return remoteDataSource.postRequestNotifyToMember(notify)
     }
 
     override suspend fun postOrderNotifyToMember(orderList: List<Order>, notify: Notify): Result<Boolean> {

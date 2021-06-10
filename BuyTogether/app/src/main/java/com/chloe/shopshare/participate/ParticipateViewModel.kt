@@ -42,6 +42,14 @@ class ParticipateViewModel(
     val successNumber: LiveData<String>
         get() = _successNumber
 
+    private val _successIncreaseOrder = MutableLiveData<Boolean>()
+    val successIncreaseOrder: LiveData<Boolean>
+        get() = _successIncreaseOrder
+
+    private val _successToNotify = MutableLiveData<Boolean>()
+    val successToNotify: LiveData<Boolean>
+        get() = _successToNotify
+
     private val _navigateToSuccess = MutableLiveData<Boolean>()
     val navigateToSuccess: LiveData<Boolean>
         get() = _navigateToSuccess
@@ -255,30 +263,69 @@ class ParticipateViewModel(
         }
     }
 
+    fun increaseOrderSize(shopId: String) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+            val result = repository.increaseOrderSize(shopId)
+            _successIncreaseOrder.value =
+                when (result) {
+                    is Result.Success -> {
+                        _error.value = null
+                        _status.value = LoadApiStatus.DONE
+                        leave(true)
+                        true
+
+                    }
+                    is Result.Fail -> {
+                        _error.value = result.error
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                    is Result.Error -> {
+                        _error.value = result.exception.toString()
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                    else -> {
+                        _error.value = MyApplication.instance.getString(R.string.result_fail)
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                }
+        }
+    }
+
 
     private fun postNotifyToHost(hostId: String, notify: Notify) {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
-
-            when (val result = repository.postNotifyToHost(hostId, notify)) {
+            val result = repository.postNotifyToHost(hostId, notify)
+            _successToNotify.value =
+            when (result) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
                     leave(true)
+                    true
                 }
                 is Result.Fail -> {
                     _error.value = result.error
                     _status.value = LoadApiStatus.ERROR
+                    null
                 }
                 is Result.Error -> {
                     _error.value = result.exception.toString()
                     _status.value = LoadApiStatus.ERROR
+                    null
                 }
                 else -> {
                     _error.value = MyApplication.instance.getString(R.string.result_fail)
                     _status.value = LoadApiStatus.ERROR
+                    null
                 }
             }
         }

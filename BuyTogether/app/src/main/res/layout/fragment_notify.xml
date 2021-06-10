@@ -13,7 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/green_E7ECE5"
+        android:background="@color/gray_f5f5f5"
         tools:context=".notify.NotificationFragment">
 
 
@@ -21,7 +21,7 @@
             android:id="@+id/recycler_notify"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
+            android:paddingBottom="4dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

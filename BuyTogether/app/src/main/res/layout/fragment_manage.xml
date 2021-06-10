@@ -83,7 +83,6 @@
                         android:ellipsize="end"
                         android:maxLines="2"
                         android:text="@{viewModel.shop.title}"
-                        app:layout_constraintBottom_toBottomOf="@+id/collection_name_title"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/collection_name_title"
@@ -98,7 +97,7 @@
                         android:layout_marginTop="8dp"
                         android:text="團購編號"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/collection_name_title" />
+                        app:layout_constraintTop_toBottomOf="@+id/collection_name" />
 
                     <TextView
                         android:id="@+id/collection_id"

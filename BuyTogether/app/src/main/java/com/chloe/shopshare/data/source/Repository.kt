@@ -43,7 +43,7 @@ interface Repository {
 
     /** Shop Request **/
     suspend fun postRequest(request: Request): Result<Boolean>
-    suspend fun updateRequestHost(requestId: String, hostId: String): Result<Boolean>
+    suspend fun updateRequestHost(requestId: String,shopId: String ,hostId: String): Result<Boolean>
     suspend fun updateRequestMember(requestId: String, memberId: String): Result<Boolean>
 
     /** Shop Manage **/
@@ -51,12 +51,14 @@ interface Repository {
 
     /** Participate **/
     suspend fun postOrder(shopId: String, order: Order): Result<PostOrderResult>
+    suspend fun increaseOrderSize(shopId: String): Result<Boolean>
 
 
     /** Notify **/
-    suspend fun addSubscribe(userId: String, shopId: String): Result<Boolean>
-    suspend fun removeSubscribe(userId: String, shopId: String): Result<Boolean>
+    suspend fun addShopLiked(userId: String, shopId: String): Result<Boolean>
+    suspend fun removeShopLiked(userId: String, shopId: String): Result<Boolean>
     suspend fun postShopNotifyToMember(notify: Notify): Result<Boolean>
+    suspend fun postRequestNotifyToMember(notify: Notify): Result<Boolean>
     suspend fun postOrderNotifyToMember(orderList: List<Order>, notify: Notify): Result<Boolean>
     suspend fun postNotifyToHost(hostId: String, notify: Notify): Result<Boolean>
     fun getLiveNotify(userId: String): MutableLiveData<List<Notify>>

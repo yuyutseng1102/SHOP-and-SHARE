@@ -89,8 +89,6 @@ class DetailViewModel(
     val productItem = MutableLiveData<Product?>()
 
     init {
-
-
         Log.i("Chloe", "Detail")
         isChecked.value = false
         _shopId.value?.let {

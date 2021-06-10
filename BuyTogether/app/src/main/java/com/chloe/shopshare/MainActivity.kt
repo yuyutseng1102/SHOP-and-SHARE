@@ -128,8 +128,8 @@ class MainActivity : BaseActivity() {
      */
     private fun setupToolbar() {
 
-
         binding.toolbar.setPadding(0, statusBarHeight, 0, 0)
+//        binding.toolbar.setPadding(0, 0, 0, 0)
             val dpi = resources.displayMetrics.densityDpi.toFloat()
             val dpiMultiple = dpi / DisplayMetrics.DENSITY_DEFAULT
         launch {
@@ -150,7 +150,7 @@ class MainActivity : BaseActivity() {
 
                     val oriStatusBarHeight =
                         resources.getDimensionPixelSize(R.dimen.height_status_bar_origin)
-
+//                    binding.toolbar.setPadding(0, 0, 0, 0)
                     binding.toolbar.setPadding(0, oriStatusBarHeight, 0, 0)
                     val layoutParams = Toolbar.LayoutParams(
                         Toolbar.LayoutParams.WRAP_CONTENT,
@@ -166,7 +166,7 @@ class MainActivity : BaseActivity() {
                             layoutParams.topMargin = statusBarHeight - oriStatusBarHeight
                         }
                     }
-                    binding.toolbarTitle.layoutParams = layoutParams
+//                    binding.toolbarTitle.layoutParams = layoutParams
                 }
             }
             Log.i("Chloe", "====== ${Build.MODEL} ======")

@@ -7,17 +7,42 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.chloe.shopshare.data.Shop
+import com.chloe.shopshare.data.ShopItem
 import com.chloe.shopshare.databinding.ItemHomeCollectionBinding
 
 class HomeHostingAdapter(private val viewModel: HomeHostViewModel)  : ListAdapter<Shop, HomeHostingAdapter.ViewHolder>(DiffCallback) {
 
+
     class ViewHolder(private var binding: ItemHomeCollectionBinding):
             RecyclerView.ViewHolder(binding.root) {
+
+
 
         fun bind(item: Shop, viewModel: HomeHostViewModel) {
             binding.item = item
             binding.viewModel = viewModel
+            binding.isShopLiked = isShopLiked(item, viewModel.shopLikedList.value?: listOf())
+            binding.checkBoxLike.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    Log.d("LikeTag","add = viewModel.userId=${viewModel.userId}, item.id = ${item.id}")
+                    viewModel.addShopLiked(viewModel.userId,item.id)
+                }else{
+                    Log.d("LikeTag","remove = viewModel.userId=${viewModel.userId}, item.id = ${item.id}")
+                    viewModel.removeShopLiked(viewModel.userId,item.id)
+                }
+            }
             binding.executePendingBindings()
+        }
+
+        private fun isShopLiked(item: Shop, likeList: List<String>):Boolean{
+            var like  = ""
+            for (shop in likeList){
+                if (shop == item.id){
+                    like =  shop
+                }
+            }
+            Log.d("LikeTag","like checked = ${like.isNotEmpty()}")
+            return like.isNotEmpty()
         }
     }
 

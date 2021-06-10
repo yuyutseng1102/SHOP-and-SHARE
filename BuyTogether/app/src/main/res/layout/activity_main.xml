@@ -21,11 +21,11 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_toolbar"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorPrimary"
             android:elevation="4dp"
             android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.REQUEST_DETAIL||viewModel.currentFragmentType == CurrentFragmentType.PROFILE||viewModel.currentFragmentType == CurrentFragmentType.DETAIL||viewModel.currentFragmentType == CurrentFragmentType.LOGIN? View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -34,14 +34,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:fontFamily="@font/chivo"
-                android:includeFontPadding="false"
+                android:fontFamily="@font/bad_script"
+                android:text="Shop &amp; Share"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.HOME?View.VISIBLE:View.GONE}"
+                tools:layout_editor_absoluteX="155dp"
+                tools:layout_editor_absoluteY="15dp"
+                tools:text="Shop &amp; Share" />
+
+            <TextView
+                android:id="@+id/toolbar_home_title"
+                style="@style/TitleHots"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/bad_script"
+                android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.HOME?View.GONE:View.VISIBLE}"
                 android:text="@{viewModel.currentFragmentType.value}"
                 android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold"
                 tools:layout_editor_absoluteX="155dp"
-                tools:layout_editor_absoluteY="15dp" />
+                tools:layout_editor_absoluteY="15dp"
+                tools:text="發起團購" />
         </androidx.appcompat.widget.Toolbar>
 
         <fragment

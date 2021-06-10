@@ -54,14 +54,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:ellipsize="end"
-            android:maxLines="2"
+            android:singleLine="true"
             android:text="@{item.title}"
             app:layout_constraintBottom_toBottomOf="@+id/collection_name_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/collection_name_title"
             app:layout_constraintTop_toTopOf="@+id/collection_name_title"
-            tools:text="Netflix家庭方案" />
+            tools:text="Colourpop 眼影盤7折!!! 湊NT$5000全球免運" />
 
         <TextView
             android:id="@+id/collection_id_title"

@@ -1,17 +1,15 @@
 package com.chloe.shopshare.home.item
 
-import android.util.Log
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.chloe.shopshare.MyApplication
 import com.chloe.shopshare.R
-import com.chloe.shopshare.data.Order
-import com.chloe.shopshare.data.Request
+import com.chloe.shopshare.util.UserManager
 import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.data.source.Repository
-import com.chloe.shopshare.home.HomeType
 import com.chloe.shopshare.home.SortMethod
 import com.chloe.shopshare.network.LoadApiStatus
 import kotlinx.coroutines.CoroutineScope
@@ -26,6 +24,18 @@ class HomeHostViewModel(private val repository: Repository) : ViewModel() {
     val shop: LiveData<List<Shop>>
     get() = _shop
 
+    private val _orderSize = MutableLiveData<Int>()
+    val orderSize: LiveData<Int>
+        get() = _orderSize
+
+    private val _shopLikedList = MutableLiveData<List<String>>()
+    val shopLikedList : LiveData<List<String>>
+        get() = _shopLikedList
+
+    private val _isShopLiked = MutableLiveData<Boolean>()
+    val isShopLiked: LiveData<Boolean>
+        get() = _isShopLiked
+
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
 
@@ -37,6 +47,11 @@ class HomeHostViewModel(private val repository: Repository) : ViewModel() {
 
     val error: LiveData<String>
         get() = _error
+
+    // status for the loading icon of swl
+    private val _refreshProfile = MutableLiveData<Boolean>()
+    val refreshProfile: LiveData<Boolean>
+        get() = _refreshProfile
 
     // status for the loading icon of swl
     private val _refreshStatus = MutableLiveData<Boolean>()
@@ -66,8 +81,14 @@ class HomeHostViewModel(private val repository: Repository) : ViewModel() {
         _navigateToDetail.value = null
     }
 
+    lateinit var userId : String
+
     init {
-            getOpeningShop()
+        UserManager.userId?.let {
+            userId = it
+        }
+        getOpeningShop()
+
     }
 
     override fun onCleared() {
@@ -109,10 +130,120 @@ class HomeHostViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
+    private fun getUserProfile(userId: String) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            val result = repository.getUserProfile(userId)
+
+            _shopLikedList.value = when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    result.data.like
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value = MyApplication.instance.getString(R.string.result_fail)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
+            _refreshStatus.value = false
+        }
+    }
+
+
+
+    fun addShopLiked(userId:String, shopId:String) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            val result = repository.addShopLiked(userId, shopId)
+
+            when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    _refreshProfile.value = true
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value = MyApplication.instance.getString(R.string.result_fail)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
+        }
+    }
+
+    fun removeShopLiked(userId: String, shopId: String) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            val result = repository.removeShopLiked(userId , shopId)
+
+            when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    result.data
+                    _refreshProfile.value = true
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value = MyApplication.instance.getString(R.string.result_fail)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
+            _refreshProfile.value = false
+        }
+    }
+
+
     fun refresh() {
         if (status.value != LoadApiStatus.LOADING) {
             getOpeningShop()
         }
+    }
+
+    fun refreshProfile(){
+        getUserProfile(userId)
+        _refreshProfile.value = null
     }
 
 

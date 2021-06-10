@@ -44,8 +44,8 @@ class ViewModelFactory constructor(
                     isAssignableFrom(HomeRequestViewModel::class.java) ->
                         HomeRequestViewModel(repository)
 
-                    isAssignableFrom(HostViewModel::class.java) ->
-                        HostViewModel(repository)
+//                    isAssignableFrom(HostViewModel::class.java) ->
+//                        HostViewModel(repository)
 
                     isAssignableFrom(GatherConditionViewModel::class.java) ->
                         GatherConditionViewModel(repository)

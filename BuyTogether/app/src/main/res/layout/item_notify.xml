@@ -13,8 +13,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginHorizontal="4dp"
+        android:layout_marginTop="4dp"
         android:background="@drawable/bg_white_corner"
         android:elevation="1dp">
 
@@ -35,9 +35,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="@{item.title}"
-                tools:text="成團通知"
                 app:layout_constraintStart_toEndOf="@+id/notify_icon"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="成團通知" />
 
             <ImageView
                 android:id="@+id/notify_icon"
@@ -49,17 +49,17 @@
 
             <TextView
                 android:id="@+id/notify_content"
-                style="@style/ProductTitle"
+                style="@style/DetailSubTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:maxLines="4"
                 android:text="@{item.content}"
-                tools:text="您參與的團購  iHerb黑五湊免運 主購已開團囉!"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/notyfu_title"
-                app:layout_constraintTop_toBottomOf="@+id/notyfu_title" />
+                app:layout_constraintTop_toBottomOf="@+id/notyfu_title"
+                tools:text="您參與的團購  iHerb黑五湊免運 主購已開團囉!" />
 
             <TextView
                 android:id="@+id/notify_time"
@@ -83,7 +83,7 @@
                 android:textOff=""
                 android:textOn=""
                 android:visibility='@{(item.message == null || item.message == "")? View.GONE:View.VISIBLE}'
-                app:isExpandChecked= "@{item.isCheck}"
+                app:isExpandChecked="@{item.isCheck}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 

@@ -90,7 +90,7 @@ class ParticipateFragment : Fragment() {
 
 
 
-
+        //案送出按鈕->確認有效填寫->送出訂單
         binding.buttonParticipate.setOnClickListener {
             viewModel.readyToPost()
             viewModel.isInvalid.observe(viewLifecycleOwner, Observer {
@@ -103,10 +103,30 @@ class ParticipateFragment : Fragment() {
             })
         }
 
+        //成功下單->得到訂單號碼->修改訂單數量
         viewModel.successNumber.observe(viewLifecycleOwner, Observer {
             it?.let {
-                viewModel.editNotify()
-                viewModel.navigateToSuccess()
+                viewModel.shop.value?.let {
+                    viewModel.increaseOrderSize(it.id)
+                }
+            }
+        })
+
+        //成功修改訂單數量->發送通知
+        viewModel.successIncreaseOrder.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if(it){
+                    viewModel.editNotify()
+                }
+            }
+        })
+
+        //成功發送通知->跳轉業面
+        viewModel.successToNotify.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if(it){
+                    viewModel.navigateToSuccess()
+                }
             }
         })
 

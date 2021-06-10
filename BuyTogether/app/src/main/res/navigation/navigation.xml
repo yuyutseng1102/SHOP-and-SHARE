@@ -58,7 +58,11 @@
         android:id="@+id/hostFragment"
         android:name="com.chloe.shopshare.host.HostFragment"
         android:label="HostFragment"
-        tools:layout="@layout/fragment_host"/>
+        tools:layout="@layout/fragment_host">
+    <argument android:name="requestKey"
+        app:argType="com.chloe.shopshare.data.Request"
+        app:nullable="true"/>
+    </fragment>
 
     <fragment
         android:id="@+id/shopFragment"

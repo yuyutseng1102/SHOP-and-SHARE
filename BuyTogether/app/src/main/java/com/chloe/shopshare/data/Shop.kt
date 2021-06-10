@@ -27,9 +27,18 @@ data class Shop(
     val deadLine: Long? =null,
     val condition: Int? = null,
     var status: Int = 0,
+    var orderSize: Int = 0,
     var order:List<Order?>? = null
 ):Parcelable{
+
     var member : Int = 0
 }
+
+@IgnoreExtraProperties
+@Parcelize
+data class ShopItem(
+    val shopItem : Shop,
+    val orderSize : Int?
+) : Parcelable
 
 

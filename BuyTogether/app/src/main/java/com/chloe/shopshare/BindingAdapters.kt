@@ -232,7 +232,7 @@ fun bindDisplayCondition(textView: TextView,deadLine:Long?,conditionType:Int?,co
             deadLineToDisplay
         } else {
             "${deadLineToDisplay}\n" +
-            "${conditionToDisplay}\n"
+            "${conditionToDisplay}"
         }
 }
 

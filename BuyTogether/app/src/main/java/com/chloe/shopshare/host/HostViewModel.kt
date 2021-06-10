@@ -3,6 +3,7 @@ package com.chloe.shopshare.host
 
 import android.net.Uri
 import android.util.Log
+import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,6 +11,8 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.chloe.shopshare.MyApplication
 import com.chloe.shopshare.R
+import com.chloe.shopshare.data.Notify
+import com.chloe.shopshare.data.Request
 import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.network.LoadApiStatus
@@ -20,15 +23,28 @@ import kotlinx.coroutines.launch
 import java.util.*
 import com.chloe.shopshare.util.UserManager
 import com.chloe.shopshare.data.Result
+import com.chloe.shopshare.ext.toDisplayNotifyContent
+import com.chloe.shopshare.ext.toDisplayNotifyMessage
+import com.chloe.shopshare.notify.NotifyType
+import com.chloe.shopshare.util.ServiceLocator.repository
 
-class HostViewModel(private val repository: Repository) : ViewModel() {
+class HostViewModel(private val repository: Repository,private val argument: Request?) : ViewModel() {
 
 //    val userId = "193798"
 
+    private val _request = MutableLiveData<Request>().apply {
+        value = argument
+    }
+    val request: LiveData<Request>
+        get() =  _request
 
     private val _shop = MutableLiveData<Shop>()
     val shop: LiveData<Shop>
         get() =  _shop
+
+    private val _shopId = MutableLiveData<String?>()
+    val shopId: LiveData<String?>
+        get() =  _shopId
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -49,6 +65,16 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
     private val _uploadDone = MutableLiveData<Boolean>()
     val uploadDone: LiveData<Boolean>
         get() = _uploadDone
+
+    private val _notifyRequestRequesterDone = MutableLiveData<Boolean>()
+    val notifyRequestRequesterDone: LiveData<Boolean>
+        get() = _notifyRequestRequesterDone
+    private val _notifyRequestMemberDone = MutableLiveData<Boolean>()
+    val notifyRequestMemberDone: LiveData<Boolean>
+        get() = _notifyRequestMemberDone
+    private val _updateRequestHostDone = MutableLiveData<Boolean>()
+    val updateRequestHostDone: LiveData<Boolean>
+        get() = _updateRequestHostDone
 
 
     private val _image = MutableLiveData<List<String>>()
@@ -93,15 +119,57 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
     val isInvalid: LiveData<Int>
         get() =  _isInvalid
 
+    private val _isOptionDone = MutableLiveData<Boolean>()
+    val isOptionDone: LiveData<Boolean>
+        get() =  _isOptionDone
+
     private val _isConditionDone = MutableLiveData<Boolean>()
     val isConditionDone: LiveData<Boolean>
         get() =  _isConditionDone
+
+    val initCategoryPosition = MutableLiveData<Int>()
+    val initCountryPosition = MutableLiveData<Int>()
 
 
     init {
         _status.value = LoadApiStatus.DONE
         _isInvalid.value = null
+        _isOptionDone.value = false
         _isConditionDone.value = false
+
+        _request.value?.let{
+//            _image.value = it.image
+            title.value = it.title
+            description.value = it.description
+            source.value = it.source
+            initCategoryPosition.value = convertCategoryToPosition(it.category)
+            initCountryPosition.value = convertCountryToPosition(it.country)
+        }
+
+
+    }
+
+    private fun convertCategoryToPosition(category:Int) : Int {
+
+        var position : Int = 0
+
+        for (type in CategoryType.values()) {
+            if (type.category == category) {
+                position =  type.positionOnSpinner
+            }
+        }
+        return position
+    }
+    private fun convertCountryToPosition(country:Int) : Int {
+
+        var position : Int = 0
+
+        for (type in CountryType.values()) {
+            if (type.country == country) {
+                position =  type.positionOnSpinner
+            }
+        }
+        return position
     }
 
     //select gather method
@@ -130,33 +198,163 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
     }
 
 
-    fun postShop(shop: Shop) {
+    private fun postShop(shop: Shop) {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
+            val result = repository.postShop(shop)
 
-            when (val result = repository.postShop(shop)) {
+            when (result) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
+                    Log.d("Chloe","result.data.number")
+                    _shopId.value = result.data.number
                     leave(true)
                 }
                 is Result.Fail -> {
                     _error.value = result.error
                     _status.value = LoadApiStatus.ERROR
+                    _shopId.value = null
                 }
                 is Result.Error -> {
                     _error.value = result.exception.toString()
                     _status.value = LoadApiStatus.ERROR
+                    _shopId.value = null
                 }
                 else -> {
                     _error.value = MyApplication.instance.getString(R.string.result_fail)
                     _status.value = LoadApiStatus.ERROR
+                    _shopId.value = null
                 }
             }
         }
     }
+
+    fun updateRequestHost(requestId: String, shopId: String , hostId: String) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            when (val result = repository.updateRequestHost(requestId,shopId,hostId)) {
+                    is Result.Success -> {
+                        _error.value = null
+                        _status.value = LoadApiStatus.DONE
+                        _updateRequestHostDone.value = true
+
+                    }
+                    is Result.Fail -> {
+                        _error.value = result.error
+                        _status.value = LoadApiStatus.ERROR
+                        _updateRequestHostDone.value = null
+                    }
+                    is Result.Error -> {
+                        _error.value = result.exception.toString()
+                        _status.value = LoadApiStatus.ERROR
+                        _updateRequestHostDone.value = null
+                    }
+                    else -> {
+                        _error.value = MyApplication.instance.getString(R.string.result_fail)
+                        _status.value = LoadApiStatus.ERROR
+                        _updateRequestHostDone.value = null
+                    }
+                }
+        }
+    }
+
+    fun editNotify(){
+        _shopId.value?.let {
+            val notifyToRequester = Notify(
+                shopId = it,
+                requestId = _request.value?.id,
+                type = NotifyType.REQUEST_SUCCESS_REQUESTER.type,
+                title = NotifyType.REQUEST_SUCCESS_REQUESTER.title,
+                content = NotifyType.REQUEST_SUCCESS_REQUESTER.toDisplayNotifyContent(
+                    _request.value!!.title
+                )
+            )
+
+            val notifyToRequesterMember = Notify(
+                shopId = it,
+                requestId = _request.value?.id,
+                type = NotifyType.REQUEST_SUCCESS_MEMBER.type,
+                title = NotifyType.REQUEST_SUCCESS_MEMBER.title,
+                content = NotifyType.REQUEST_SUCCESS_MEMBER.toDisplayNotifyContent(
+                    _request.value!!.title
+                )
+            )
+
+            _request.value?.let {
+                postNotifyToRequester(it.userId, notifyToRequester)
+                postRequestNotifyToMember(notifyToRequesterMember)
+            }
+
+            }
+        }
+
+
+    private fun postNotifyToRequester(requesterId: String, notify: Notify) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            when (val result = repository.postNotifyToHost(requesterId, notify)) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    _notifyRequestRequesterDone.value = true
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    _notifyRequestRequesterDone.value = null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    _notifyRequestRequesterDone.value = null
+                }
+                else -> {
+                    _error.value = MyApplication.instance.getString(R.string.result_fail)
+                    _status.value = LoadApiStatus.ERROR
+                    _notifyRequestRequesterDone.value = null
+                }
+            }
+        }
+    }
+
+    private fun postRequestNotifyToMember(notify: Notify) {
+        coroutineScope.launch {
+            _status.value = LoadApiStatus.LOADING
+            when (val result = repository.postRequestNotifyToMember(notify)) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    _notifyRequestMemberDone.value = true
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    _notifyRequestMemberDone.value = null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    _notifyRequestMemberDone.value = null
+                }
+                else -> {
+                    _error.value = MyApplication.instance.getString(R.string.result_fail)
+                    _status.value = LoadApiStatus.ERROR
+                    _notifyRequestMemberDone.value = null
+                }
+            }
+        }
+    }
+
+
 
 
     fun uploadImages(uriList: List<String>) {
@@ -164,6 +362,9 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
 
 
         Log.d("Chloe","uriList = ${uriList} ")
+
+        val totalCount = uriList.size
+        var count = 0
 
         for (item in uriList) {
             _status.value = LoadApiStatus.LOADING
@@ -180,27 +381,38 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
                         Log.d("Chloe","download uri is ${result.data}")
                         imageUri.value =result.data
                         list.add(imageUri.value!!)
+                        count ++
+
+//                        _uploadDone.value = (list.size == uriList.size && list.isNotEmpty())
 
                     }
                     is Result.Fail -> {
                         _error.value = result.error
                         _status.value = LoadApiStatus.ERROR
                         imageUri.value = null
+                        count ++
                     }
                     is Result.Error -> {
                         _error.value = result.exception.toString()
                         _status.value = LoadApiStatus.ERROR
                         imageUri.value = null
+                        count ++
                     }
                     else -> {
                         _error.value = MyApplication.instance.getString(R.string.result_fail)
                         _status.value = LoadApiStatus.ERROR
                         imageUri.value = null
+                        count ++
                     }
+
+                }
+
+                if (count == totalCount){
+                    _uploadDone.value = true
                 }
 
                 Log.d("Chloe","list.value = ${list} ")
-                _uploadDone.value = (list.size == uriList.size)
+
                 _postImage.value = list
                 Log.d("Chloe","_image.value = ${_image.value} ")
 
@@ -333,6 +545,11 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
         }
         Log.d("Chloe","The collection posted is ${_shop.value}")
     }
+
+    fun checkOption(){
+        _isOptionDone.value = !(option.value.isNullOrEmpty())
+    }
+
 
 
     fun checkCondition(){

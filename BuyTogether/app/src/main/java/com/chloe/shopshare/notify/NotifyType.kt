@@ -18,7 +18,8 @@ enum class NotifyType(val type:Int, val title: String) {
     QUANTITY_REACH_CONDITION(2102,Util.getString(R.string.reach_condition)),
     MEMBER_REACH_CONDITION(2103,Util.getString(R.string.reach_condition)),
     REACH_DEADLINE(2104,Util.getString(R.string.reach_deadline)),
-    SOON_TO_END(3001,Util.getString(R.string.soon_to_end)),
+    REQUEST_SUCCESS_REQUESTER(3001,Util.getString(R.string.request_success)),
+    REQUEST_SUCCESS_MEMBER(3002,Util.getString(R.string.request_success)),
     SYSTEM_NOTIFY(4000,"")
 
 }
