@@ -27,46 +27,44 @@
         </androidx.viewpager.widget.ViewPager>
 
 
-
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <io.github.yavski.fabspeeddial.FabSpeedDial
             android:id="@+id/floatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:clickable="true"
-            android:tint="#FFFFFF"
-            app:backgroundTint="@color/green_ACAD9C"
+            app:fabBackgroundTint = "@color/green_7A8277"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_add" />
+            app:fabGravity="bottom_end"
+            app:fabMenu="@menu/speed_dial_menu"/>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floating_seek"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="8dp"
-            android:contextClickable="false"
-            android:textAlignment="gravity"
-            android:tooltipText="徵團"
-            app:backgroundTint="@color/green_DCD2C5"
-            app:fabSize="mini"
-            app:layout_constraintBottom_toTopOf="@+id/floatingActionButton"
-            app:layout_constraintEnd_toEndOf="parent" />
+<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/floating_seek"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginEnd="32dp"-->
+<!--            android:layout_marginBottom="8dp"-->
+<!--            android:contextClickable="false"-->
+<!--            android:textAlignment="gravity"-->
+<!--            android:tooltipText="徵團"-->
+<!--            app:backgroundTint="@color/green_DCD2C5"-->
+<!--            app:fabSize="mini"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/floatingActionButton"-->
+<!--            app:layout_constraintEnd_toEndOf="parent" />-->
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floating_collect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="32dp"
-            app:backgroundTint="@color/green_DCD2C5"
-            app:fabSize="mini"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/floatingActionButton" />
+<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/floating_collect"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_centerInParent="true"-->
+<!--            android:layout_marginEnd="8dp"-->
+<!--            android:layout_marginBottom="32dp"-->
+<!--            app:backgroundTint="@color/green_DCD2C5"-->
+<!--            app:fabSize="mini"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/floatingActionButton" />-->
 
 
 

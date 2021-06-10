@@ -38,19 +38,48 @@
                     android:background="#FFFFFF"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:visibility="gone">
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <ImageView
-                        android:id="@+id/detail_image"
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_detail_image"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        app:imageUrl="@{viewModel.shop.mainImage}"
+                        android:layout_marginBottom="24dp"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintDimensionRatio="1:1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:srcCompat="@drawable/img_detail" />
+                        app:strings="@{viewModel.shop.image}" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_detail_circles"
+                        android:layout_width="0dp"
+                        android:layout_height="6dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:orientation="horizontal"
+                        app:addDecoration="@{viewModel.decoration}"
+                        app:count="@{viewModel.shop.image.size}"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="@+id/recycler_detail_image"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+
+                    <!--                    <ImageView-->
+                    <!--                        android:id="@+id/detail_image"-->
+                    <!--                        android:layout_width="0dp"-->
+                    <!--                        android:layout_height="0dp"-->
+                    <!--                        app:imageUrl="@{viewModel.shop.mainImage}"-->
+                    <!--                        app:layout_constraintDimensionRatio="1:1"-->
+                    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--                        app:layout_constraintStart_toStartOf="parent"-->
+                    <!--                        app:layout_constraintTop_toTopOf="parent"-->
+                    <!--                        tools:srcCompat="@drawable/img_detail" />-->
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -128,7 +157,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
-                        android:text="@{viewModel.shop.userId}"
+                        android:text="@{viewModel.user.name}"
                         app:layout_constraintBottom_toBottomOf="@+id/host_title"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -450,7 +479,7 @@
                 android:id="@+id/nav_follow"
                 android:layout_width="@dimen/size_bottom_nav_icon"
                 android:layout_height="@dimen/size_bottom_nav_icon"
-                android:layout_marginStart="45dp"
+                android:layout_marginStart="32dp"
                 android:src="@drawable/ic_follow"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/nav_home"
@@ -462,13 +491,10 @@
                 style="@style/WhiteButtonName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="45dp"
-                android:layout_marginEnd="16dp"
-                android:text="查看清單"
+                android:layout_marginStart="32dp"
                 android:onClick="@{() -> viewModel.navigateToProductList(viewModel.product)}"
+                android:text="查看清單"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/button_participate"
-                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintStart_toEndOf="@+id/nav_follow"
                 app:layout_constraintTop_toTopOf="parent"
@@ -479,12 +505,10 @@
                 style="@style/WhiteButtonName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:text="我要跟團"
+                android:layout_marginStart="32dp"
                 android:onClick="@{() -> viewModel.navigateToOption(viewModel.product)}"
+                android:text="我要跟團"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/button_product_list"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.625" />

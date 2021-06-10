@@ -139,6 +139,8 @@ dependencies {
     //rangebar
     implementation 'com.google.android.material:material:1.4.0-alpha02'
 
+    implementation  'io.github.yavski:fab-speed-dial:1.0.6'
+
 
 
 //    androidTestImplementation 'org.hamcrest:hamcrest:2.2'

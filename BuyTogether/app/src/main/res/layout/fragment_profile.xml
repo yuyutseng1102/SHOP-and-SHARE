@@ -182,6 +182,39 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/request_block"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginStart="32dp"
+                android:background="@drawable/bg_tag"
+                android:backgroundTint="@color/white"
+                android:elevation="1dp"
+                android:padding="4dp"
+                app:layout_constraintBottom_toBottomOf="@+id/participate_block"
+                app:layout_constraintStart_toEndOf="@+id/participate_block"
+                app:layout_constraintTop_toTopOf="@+id/participate_block">
+
+                <ImageButton
+                    android:id="@+id/request_button"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/ic_baseline_campaign_24"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/request_text"
+                    style="@style/ProductContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="徵團"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/request_button"
+                    app:layout_constraintStart_toStartOf="@+id/request_button" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/notify_block"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
@@ -198,7 +231,7 @@
                     android:id="@+id/notify_button"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="@drawable/ic_baseline_volume_up_24"
+                    android:background="@drawable/ic_baseline_notifications_24"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

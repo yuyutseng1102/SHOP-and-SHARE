@@ -29,21 +29,7 @@ data class Shop(
     var status: Int = 0,
     var order:List<Order?>? = null
 ):Parcelable{
-    val memberToDisplay : String
-        get()= "已跟團${order?.size}人"
-    val followToDisplay : String
-        get()= "有興趣${order?.size}人"
-    val deadLineToDisplay : String?
-        get()= "預計${deadLine?.toDisplayFormat()}收團"
-    val conditionToDisplay : String?
-        get()=
-            when (conditionType){
-                0-> "滿額NT$${condition}成團"
-                1-> "徵滿${condition}份成團"
-                2-> "徵滿${condition}人成團"
-                else -> ""
-            }
-
+    var member : Int = 0
 }
 
 

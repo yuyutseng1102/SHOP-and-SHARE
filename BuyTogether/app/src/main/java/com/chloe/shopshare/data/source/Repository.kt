@@ -12,35 +12,48 @@ import com.google.firebase.auth.FirebaseAuth
 
 interface Repository {
 
+    /** SIGN IN **/
     suspend fun signInWithGoogle(idToken: String): Result<User>
     suspend fun getUserProfile(userId: String): Result<User>
 
+    /** HOME **/
     suspend fun getOpeningShop(): Result<List<Shop>>
+    suspend fun getAllRequest(): Result<List<Request>>
 
+    /** Detail Shop **/
     suspend fun getDetailShop(shopId: String): Result<Shop>
     fun getLiveDetailShop(shopId: String): MutableLiveData<Shop>
-//    suspend fun getLiveDetailShop(shopId: String): Result<Shop>
 
-
+    /** Detail Order **/
     suspend fun getOrderOfShop(shopId: String): Result<List<Order>>
     fun getLiveOrderOfShop(shopId: String): MutableLiveData<List<Order>>
-//    suspend fun getLiveOrderOfShop(shopId: String): Result<List<Order>>
 
+    /** Detail Request **/
+    fun getLiveDetailRequest(requestId: String): MutableLiveData<Request>
 
+    /** Shop Host **/
+    suspend fun postShop(shop: Shop): Result<PostHostResult>
+    suspend fun uploadImage(uri: Uri,folder:String): Result<String>
+
+    /** Shop Manage **/
     suspend fun getMyShop(userId:String): Result<List<Shop>>
-
-    //Manage
-
     suspend fun deleteOrder(shopId: String, order: Order): Result<Boolean>
     suspend fun updateShopStatus(shopId: String, shopStatus:Int): Result<Boolean>
     suspend fun updateOrderStatus(shopId: String, paymentStatus: Int): Result<Boolean>
 
-    suspend fun postShop(shop: Shop): Result<Boolean>
+    /** Shop Request **/
+    suspend fun postRequest(request: Request): Result<Boolean>
+    suspend fun updateRequestHost(requestId: String, hostId: String): Result<Boolean>
+    suspend fun updateRequestMember(requestId: String, memberId: String): Result<Boolean>
+
+    /** Shop Manage **/
+    suspend fun getMyRequest(userId:String): Result<List<Request>>
+
+    /** Participate **/
     suspend fun postOrder(shopId: String, order: Order): Result<PostOrderResult>
-    suspend fun uploadImage(uri: Uri,folder:String): Result<String>
 
-    //Notify
 
+    /** Notify **/
     suspend fun addSubscribe(userId: String, shopId: String): Result<Boolean>
     suspend fun removeSubscribe(userId: String, shopId: String): Result<Boolean>
     suspend fun postShopNotifyToMember(notify: Notify): Result<Boolean>

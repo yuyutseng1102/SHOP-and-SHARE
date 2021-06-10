@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.chloe.shopshare.home.item.HomeCollectViewModel" />
+            type="com.chloe.shopshare.home.item.HomeRequestViewModel" />
         <variable
             name="isLiveDataDesign"
             type="Boolean" />
@@ -15,7 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".home.item.HomeCollectFragment">
+        tools:context=".home.item.HomeHostFragment">
 
         <Spinner
             android:id="@+id/spinner_home"
@@ -43,14 +43,14 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_collection"
-                collections="@{viewModel.shop}"
+                android:id="@+id/recycler_request"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
+                app:request="@{viewModel.request}"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

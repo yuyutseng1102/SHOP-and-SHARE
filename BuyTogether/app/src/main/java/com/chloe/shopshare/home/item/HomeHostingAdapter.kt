@@ -1,5 +1,6 @@
 package com.chloe.shopshare.home.item
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -7,13 +8,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.databinding.ItemHomeCollectionBinding
-import com.chloe.shopshare.databinding.ItemHomeHotsBinding
 
-class HomeCollectAdapter(private val viewModel: HomeCollectViewModel)  : ListAdapter<Shop, HomeCollectAdapter.ViewHolder>(DiffCallback) {
+class HomeHostingAdapter(private val viewModel: HomeHostViewModel)  : ListAdapter<Shop, HomeHostingAdapter.ViewHolder>(DiffCallback) {
 
     class ViewHolder(private var binding: ItemHomeCollectionBinding):
             RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Shop, viewModel: HomeCollectViewModel) {
+
+        fun bind(item: Shop, viewModel: HomeHostViewModel) {
             binding.item = item
             binding.viewModel = viewModel
             binding.executePendingBindings()

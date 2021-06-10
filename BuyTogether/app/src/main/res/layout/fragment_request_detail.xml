@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="com.chloe.shopshare.requestdetail.RequestDetailViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_background">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_block"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/detail_img_block"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="#FFFFFF"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="gone">
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_detail_image"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="24dp"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintDimensionRatio="1:1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:strings="@{viewModel.request.image}" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_detail_circles"
+                        android:layout_width="0dp"
+                        android:layout_height="6dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:orientation="horizontal"
+                        app:addDecoration="@{viewModel.decoration}"
+                        app:count="@{viewModel.request.image.size}"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="@+id/recycler_detail_image"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/detail_info_block"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#FFFFFF"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_img_block">
+
+
+                    <TextView
+                        android:id="@+id/detail_title"
+                        style="@style/DetailTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:maxLines="2"
+                        android:padding="1dp"
+                        android:text="@{viewModel.request.title}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tag_category"
+                        tools:text="2WAY證背面兩穿小荷葉領短袖上衣-五色" />
+
+                    <TextView
+                        android:id="@+id/tag_category"
+                        style="@style/BlackContent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/bg_tag"
+                        android:backgroundTint="@color/tag_category"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="1dp"
+                        app:categoryToDisplay="@{viewModel.request.category}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="女裝" />
+
+                    <TextView
+                        android:id="@+id/tag_country"
+                        style="@style/BlackContent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/bg_tag"
+                        android:backgroundTint="@color/tag_country"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="1dp"
+                        app:countryToDisplay="@{viewModel.request.country}"
+                        app:layout_constraintStart_toEndOf="@+id/tag_category"
+                        app:layout_constraintTop_toTopOf="@+id/tag_category"
+                        tools:text="日本" />
+
+                    <TextView
+                        android:id="@+id/host_title"
+                        style="@style/DetailSubTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="ID"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/detail_title" />
+
+                    <TextView
+                        android:id="@+id/host_id"
+                        style="@style/BlackContent"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:text="@{viewModel.user.name}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="@+id/host_time_text"
+                        app:layout_constraintTop_toTopOf="@+id/host_title"
+                        tools:text="chloe193798" />
+
+
+                    <TextView
+                        android:id="@+id/host_time_title"
+                        style="@style/DetailSubTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="徵團日期"
+                        app:layout_constraintStart_toStartOf="@+id/host_title"
+                        app:layout_constraintTop_toBottomOf="@+id/host_id" />
+
+                    <TextView
+                        android:id="@+id/host_time_text"
+                        style="@style/BlackContent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/host_time_title"
+                        app:layout_constraintStart_toEndOf="@+id/host_time_title"
+                        app:layout_constraintTop_toTopOf="@+id/host_time_title"
+                        app:timeToDisplayFormat="@{viewModel.request.time}"
+                        tools:text="2021/05/09" />
+
+                    <View
+                        android:id="@+id/view_separation"
+                        android:layout_width="1dp"
+                        android:layout_height="14dp"
+                        android:layout_marginStart="16dp"
+                        android:background="@color/gray_cccccc"
+                        app:layout_constraintBottom_toBottomOf="@+id/host_time_text"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/host_time_text"
+                        app:layout_constraintTop_toTopOf="@+id/host_time_text"
+                        app:layout_constraintVertical_bias="0.5" />
+
+                    <TextView
+                        android:id="@+id/shop_status"
+                        style="@style/DetailSubTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:text='@{viewModel.request.host == null ? "/ 徵團中 /": "/ 已經開團囉 /"}'
+                        android:textColor="@color/green_7A8277"
+                        app:layout_constraintBottom_toBottomOf="@+id/tag_country"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tag_country"
+                        tools:text="/ 已經開團囉 /" />
+
+                    <TextView
+                        android:id="@+id/member_number_text"
+                        style="@style/BlackContent"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/host_time_text"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/view_separation"
+                        app:layout_constraintTop_toTopOf="@+id/host_time_text"
+                        app:requestNumberToDisplay="@{viewModel.request.member.size}"
+                        tools:text="有興趣 + 5" />
+
+
+                    <TextView
+                        android:id="@+id/source_title"
+                        style="@style/DetailSubTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:text="購買來源"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/host_time_text" />
+
+                    <TextView
+                        android:id="@+id/source_text"
+                        style="@style/BlackContent"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="@{viewModel.request.source}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/source_title"
+                        app:layout_constraintTop_toTopOf="@+id/source_title"
+                        app:layout_constraintVertical_bias="0.0"
+                        tools:text="COSTCO" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/description_block"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="#FFFFFF"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_info_block">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/description_title_block"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/height_home_tab"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/deatail_description_title"
+                            style="@style/DetailSubTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:text="徵團描述"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <View
+                            android:id="@+id/line_description"
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:background="@color/gray_cccccc"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/description_text_block"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/description_title_block">
+
+                        <TextView
+                            android:id="@+id/description_text"
+                            style="@style/DetailContent"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:maxLines="99"
+                            android:text="@{viewModel.request.description}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="全網站皆可" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/bottom_block"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_bottom_nav_view_main"
+            android:background="@color/white"
+            android:elevation="@dimen/elevation_all"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <ImageView
+                android:id="@+id/nav_home"
+                android:layout_width="@dimen/size_bottom_nav_icon"
+                android:layout_height="@dimen/size_bottom_nav_icon"
+                android:layout_marginStart="24dp"
+                android:src="@drawable/ic_home"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@drawable/bottom_nav_item_selector" />
+
+            <ImageView
+                android:id="@+id/nav_follow"
+                android:layout_width="@dimen/size_bottom_nav_icon"
+                android:layout_height="@dimen/size_bottom_nav_icon"
+                android:layout_marginStart="32dp"
+                android:src="@drawable/ic_follow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/nav_home"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@drawable/bottom_nav_item_selector" />
+
+            <Button
+                android:id="@+id/button_host"
+                style="@style/WhiteButtonName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:text="我要開團"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toEndOf="@+id/nav_follow"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
+
+            <Button
+                android:id="@+id/button_member"
+                style="@style/WhiteButtonName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="16dp"
+                android:onClick="@{()->viewModel.updateRequestMember(viewModel.request.id,viewModel.memberId)}"
+                android:text="我有興趣"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/button_host"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

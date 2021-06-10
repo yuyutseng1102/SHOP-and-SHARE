@@ -1,11 +1,14 @@
 package com.chloe.shopshare.home.item
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.chloe.shopshare.MyApplication
 import com.chloe.shopshare.R
+import com.chloe.shopshare.data.Order
+import com.chloe.shopshare.data.Request
 import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.home.HomeType
@@ -17,12 +20,11 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import com.chloe.shopshare.data.Result
 
-class HomeCollectViewModel(private val repository: Repository) : ViewModel() {
+class HomeHostViewModel(private val repository: Repository) : ViewModel() {
 
     private val _shop = MutableLiveData<List<Shop>>()
     val shop: LiveData<List<Shop>>
     get() = _shop
-
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -68,6 +70,11 @@ class HomeCollectViewModel(private val repository: Repository) : ViewModel() {
             getOpeningShop()
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+    }
+
     private fun getOpeningShop() {
 
         coroutineScope.launch {
@@ -102,9 +109,7 @@ class HomeCollectViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
-
     fun refresh() {
-
         if (status.value != LoadApiStatus.LOADING) {
             getOpeningShop()
         }

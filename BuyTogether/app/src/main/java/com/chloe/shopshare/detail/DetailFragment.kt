@@ -10,12 +10,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearSnapHelper
 import com.chloe.shopshare.NavigationDirections
 import com.chloe.shopshare.data.Product
 import com.chloe.shopshare.databinding.FragmentDetailBinding
 import com.chloe.shopshare.detail.dialog.DetailOptionDialog
 import com.chloe.shopshare.detail.dialog.ProductListDialog
+import com.chloe.shopshare.detail.item.DetailCircleAdapter
 import com.chloe.shopshare.detail.item.DetailDeliveryAdapter
+import com.chloe.shopshare.detail.item.DetailImageAdapter
 import com.chloe.shopshare.ext.getVmFactory
 import com.chloe.shopshare.network.LoadApiStatus
 import com.google.android.material.tabs.TabLayout
@@ -34,8 +37,21 @@ class DetailFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        val deliveryAdapter =  DetailDeliveryAdapter()
-        binding.recyclerDeliveryList.adapter = deliveryAdapter
+        binding.recyclerDeliveryList.adapter = DetailDeliveryAdapter()
+        binding.recyclerDetailImage.adapter = DetailImageAdapter()
+        binding.recyclerDetailCircles.adapter = DetailCircleAdapter()
+
+        val linearSnapHelper = LinearSnapHelper().apply {
+            attachToRecyclerView(binding.recyclerDetailImage)
+        }
+
+        binding.recyclerDetailImage.setOnScrollChangeListener { _, _, _, _, _ ->
+            viewModel.onGalleryScrollChange(
+                binding.recyclerDetailImage.layoutManager,
+                linearSnapHelper
+            )
+        }
+
 
         binding.viewpagerDetail.let {
             binding.tabsDetail.setupWithViewPager(it)
@@ -46,8 +62,10 @@ class DetailFragment : Fragment() {
             it?.let {
                 binding.viewModel = viewModel
                 binding.viewpagerDetail.adapter = DetailPagerAdapter(childFragmentManager,it.description)
+                viewModel.getUserProfile(it.userId)
             }
         })
+
 
 
 

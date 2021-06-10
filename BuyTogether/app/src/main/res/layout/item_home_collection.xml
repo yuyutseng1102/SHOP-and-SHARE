@@ -7,7 +7,7 @@
         <variable
             name="item" type="com.chloe.shopshare.data.Shop" />
         <variable
-            name="viewModel" type="com.chloe.shopshare.home.item.HomeCollectViewModel" />
+            name="viewModel" type="com.chloe.shopshare.home.item.HomeHostViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,6 +36,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:minLines="2"
             android:text="@{item.title}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -48,12 +49,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
-            android:text="@{item.conditionToDisplay}"
+            android:gravity="top|start"
+            app:conditionToDisplay="@{item.condition}"
+            app:conditionType="@{item.conditionType}"
+            app:deadLineToDisplay="@{item.deadLine}"
             app:layout_constraintBottom_toTopOf="@+id/collect_member"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/collect_title"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/collect_member"
@@ -61,7 +65,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:text="@{item.memberToDisplay}"
+            app:memberNumberToDisplay="@{item.member}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
