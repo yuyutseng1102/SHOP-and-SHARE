@@ -27,7 +27,7 @@ class GroupMessageDialog(private val groupMessageSend : GroupMessageSend?, val s
 
         viewModel.messageContent.value = ""
         Log.d("Chloe","the status pass to dialog is $status")
-        viewModel.status.value = status
+        viewModel.shopStatus.value = status
 
 
 
@@ -50,7 +50,6 @@ class GroupMessageDialog(private val groupMessageSend : GroupMessageSend?, val s
         }
 
         binding.buttonReject.setOnClickListener{
-
                 groupMessageSend?.onMessageSend(
                     ""
                 )

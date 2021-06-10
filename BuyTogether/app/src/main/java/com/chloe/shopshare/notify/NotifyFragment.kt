@@ -22,7 +22,7 @@ class NotificationFragment : Fragment() {
         binding.viewModel = viewModel
         val adapter = NotifyAdapter(viewModel)
         binding.recyclerNotify.adapter = adapter
-        viewModel.addMockData()
+//        viewModel.addMockData()
 
 //        viewModel.notify.observe(viewLifecycleOwner, Observer {
 //            it?.let {

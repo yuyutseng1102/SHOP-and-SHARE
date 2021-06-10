@@ -34,7 +34,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="成團通知"
+                android:text="@{item.title}"
+                tools:text="成團通知"
                 app:layout_constraintStart_toEndOf="@+id/notify_icon"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -53,7 +54,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:maxLines="4"
-                android:text="您參與的團購  iHerb黑五湊免運 主購已開團囉!"
+                android:text="@{item.content}"
+                tools:text="您參與的團購  iHerb黑五湊免運 主購已開團囉!"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/notyfu_title"
@@ -80,10 +82,10 @@
                 android:backgroundTint="@color/gray_888888"
                 android:textOff=""
                 android:textOn=""
-                app:isExpandChecked="@{item.isCheck}"
+                android:visibility='@{(item.message == null || item.message == "")? View.GONE:View.VISIBLE}'
+                app:isExpandChecked= "@{item.isCheck}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/deatil_delivery_title" />
+                app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -95,20 +97,19 @@
             android:paddingHorizontal="8dp"
             android:paddingBottom="8dp"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/notify_block"
-            app:layout_constraintVertical_bias="0.0">
+            tools:visibility="visible">
 
             <ImageView
                 android:id="@+id/more_icon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="8dp"
+                android:background="@drawable/ic_baseline_more_horiz_24"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_more_horiz_24" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/message_content"
@@ -117,8 +118,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:maxLines="99"
                 android:singleLine="false"
-                android:text="@{item.content}"
+                android:text="@{item.message}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/more_icon"

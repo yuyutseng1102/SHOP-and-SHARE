@@ -11,6 +11,7 @@ data class Order(
     val userId: String = "",
     val product:List<Product> = listOf(),
     val price: Int = 0,
+    val name: String = "",
     val phone:String = "",
     val delivery: Int = 0,
     val address: String = "",

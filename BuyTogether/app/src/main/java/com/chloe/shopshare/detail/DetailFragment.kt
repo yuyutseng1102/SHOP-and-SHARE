@@ -44,9 +44,11 @@ class DetailFragment : Fragment() {
 
         viewModel.shop.observe(viewLifecycleOwner, Observer {
             it?.let {
+                binding.viewModel = viewModel
                 binding.viewpagerDetail.adapter = DetailPagerAdapter(childFragmentManager,it.description)
             }
         })
+
 
 
 

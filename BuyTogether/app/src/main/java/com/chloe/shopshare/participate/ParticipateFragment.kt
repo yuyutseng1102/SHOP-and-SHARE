@@ -25,19 +25,24 @@ class ParticipateFragment : Fragment() {
 
     private val args: ParticipateFragmentArgs by navArgs()
 
-    private val viewModel by viewModels<ParticipateViewModel> { getVmFactory(args.shopKey,args.productKey.asList()) }
+    private val viewModel by viewModels<ParticipateViewModel> {
+        getVmFactory(
+            args.shopKey,
+            args.productKey.asList()
+        )
+    }
 
-    private lateinit var binding : FragmentParticipateBinding
+    private lateinit var binding: FragmentParticipateBinding
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentParticipateBinding.inflate(inflater,container,false)
+        binding = FragmentParticipateBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        Log.d("Chloe","args.productKey.asList()=${args.productKey.asList()}")
+        Log.d("Chloe", "args.productKey.asList()=${args.productKey.asList()}")
 
         val adapter = ParticipateAdapter(viewModel)
         binding.recyclerProductList.adapter = adapter
@@ -62,10 +67,10 @@ class ParticipateFragment : Fragment() {
             }
         }
 
-        binding.radioGroupDelivery.apply{
+        binding.radioGroupDelivery.apply {
             orientation = RadioGroup.VERTICAL
-           addRadio(context,viewModel.shop.value!!.deliveryMethod?: listOf())
-            setOnCheckedChangeListener { _ , checkedId ->
+            addRadio(context, viewModel.shop.value!!.deliveryMethod ?: listOf())
+            setOnCheckedChangeListener { _, checkedId ->
                 val radioButton: RadioButton = findViewById(checkedId)
                 viewModel.selectDelivery(radioButton)
             }
@@ -73,44 +78,48 @@ class ParticipateFragment : Fragment() {
 
         viewModel.delivery.observe(viewLifecycleOwner, Observer {
             it?.let {
-                Log.d("Chloe","delivery selected is ${viewModel.delivery.value}")
+                Log.d("Chloe", "delivery selected is ${viewModel.delivery.value}")
             }
         })
 
         viewModel.price.observe(viewLifecycleOwner, Observer {
             it?.let {
-                Log.d("Chloe","delivery selected is ${viewModel.price}")
+                Log.d("Chloe", "delivery selected is ${viewModel.price}")
             }
         })
 
-        val successDialog = Dialog(this.requireContext())
-        val view = layoutInflater.inflate(R.layout.dialog_success, null)
+
+
 
         binding.buttonParticipate.setOnClickListener {
             viewModel.readyToPost()
-
-            viewModel.status.observe(viewLifecycleOwner, Observer {
-                it?.let {
-                    if (it == LoadApiStatus.DONE) {
+            viewModel.isInvalid.observe(viewLifecycleOwner, Observer {
+                it.let {
+                    if (it == null) {
                         viewModel.sendOrder()
-                        Log.d("Chloe","order is ready, this order = ${viewModel.order.value}")
-                        Log.d("Chloe","order is ready, all order = ${viewModel.shop.value?.order}")
-                        viewModel.postOrder(viewModel.shop.value!!.id, viewModel.order.value!!)
-                        successDialog.setContentView(view)
-                        successDialog.show()
-                        findNavController().navigate(
-                                NavigationDirections.navigateToHomeFragment()
-                        )
-
                     }
-                    Log.d("Chloe","order is not ready")
+                    Log.d("Chloe", "order is not ready")
                 }
-
-
             })
         }
 
+        viewModel.successNumber.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                viewModel.editNotify()
+                viewModel.navigateToSuccess()
+            }
+        })
 
+        viewModel.navigateToSuccess.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                val successDialog = Dialog(this.requireContext())
+                val view = layoutInflater.inflate(R.layout.dialog_success, null)
+                successDialog.setContentView(view)
+                successDialog.show()
+                findNavController().navigate(NavigationDirections.navigateToHomeFragment())
+                viewModel.onSuccessNavigated()
+            }
+        })
 
 
 

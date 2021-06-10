@@ -68,6 +68,7 @@ class HomePageViewModel(private val repository: Repository) :ViewModel() {
     private val products:List<Product> = listOf(Product("棉麻上衣白色/M",1), Product("法式雪紡背心/M",2), Product("開襟洋裝/M",5))
     private val products2:List<Product> = listOf(Product("棉麻上衣白色/M",1), Product("法式雪紡背心/M",2), Product("開襟洋裝/M",5), Product("法式雪紡背心/M",2), Product("開襟洋裝/M",5))
     private val price: Int = 2000
+    private val name: String = "艾倫"
     private val phone:String = "0988888888"
     private val delivery: Int = 10
     private val address: String = "永和門市"
@@ -77,9 +78,9 @@ class HomePageViewModel(private val repository: Repository) :ViewModel() {
 
     private val order:List<Order>? =
         listOf(
-            Order(orderId1, orderTime, userId, products, price, phone, delivery,address, note, mockPaymentStatus),
-            Order(orderId2, orderTime, userId, products2, price, phone, delivery,address,note,mockPaymentStatus),
-            Order(orderId3, orderTime, userId, products, price, phone, delivery,address,note,mockPaymentStatus)
+            Order(orderId1, orderTime, userId, products, price, name,phone, delivery,address, note, mockPaymentStatus),
+            Order(orderId2, orderTime, userId, products2, price, name,phone, delivery,address,note,mockPaymentStatus),
+            Order(orderId3, orderTime, userId, products, price, name,phone, delivery,address,note,mockPaymentStatus)
         )
 
     fun addMockData(){

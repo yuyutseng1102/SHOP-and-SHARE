@@ -37,6 +37,7 @@ import com.chloe.shopshare.host.DeliveryMethod
 import com.chloe.shopshare.host.HostImageAdapter
 import com.chloe.shopshare.network.LoadApiStatus
 import com.chloe.shopshare.notify.NotifyAdapter
+import com.chloe.shopshare.notify.NotifyType
 import com.chloe.shopshare.participate.ParticipateAdapter
 import com.chloe.shopshare.util.Util.getColor
 import com.google.android.material.textfield.TextInputEditText
@@ -250,6 +251,22 @@ fun bindDisplayPaymentStatus(textView:TextView,status:Int) {
     textView.text = getTitle(status)
 }
 
+@BindingAdapter("notifyTitleToDisplay")
+fun bindDisplayNotifyTitle(textView:TextView,notifyType:Int) {
+
+    fun getTitle(notifyType:Int): String {
+        for (item in NotifyType.values()) {
+            if (item.type == notifyType) {
+                return item.title
+            }
+        }
+        return ""
+    }
+
+    textView.text = getTitle(notifyType)
+}
+
+
 @BindingAdapter("editorMemberJoined")
 fun bindEditorMemberJoined(toggleButton: ToggleButton, paymentStatus: Int) {
 
@@ -287,7 +304,7 @@ fun bindExpandButtonChecked(toggleButton: ToggleButton, isChecked: Boolean) {
 
             when(isChecked){
                 true -> R.drawable.ic_baseline_keyboard_arrow_down_24
-                else -> R.drawable.ic_baseline_chevron_right_24
+                else -> R.drawable.ic_baseline_keyboard_arrow_up_24
             }
 
     )

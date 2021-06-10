@@ -12,6 +12,7 @@ import com.chloe.shopshare.NavigationDirections
 import androidx.lifecycle.Observer
 import com.chloe.shopshare.databinding.FragmentShopBinding
 import com.chloe.shopshare.ext.getVmFactory
+import com.chloe.shopshare.util.UserManager
 
 
 class ShopFragment : Fragment() {
@@ -24,7 +25,8 @@ class ShopFragment : Fragment() {
         val binding = FragmentShopBinding.inflate(inflater,container,false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-//        viewModel.getMyShop(viewModel.mockUserId)
+
+
 //        viewModel.addMockData()
 
         binding.layoutSwipeRefreshShop.setOnRefreshListener {

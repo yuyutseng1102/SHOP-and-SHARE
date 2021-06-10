@@ -6,14 +6,14 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.chloe.shopshare.MyApplication
 import com.chloe.shopshare.R
-import com.chloe.shopshare.data.Order
-import com.chloe.shopshare.data.Shop
+import com.chloe.shopshare.data.*
 import com.chloe.shopshare.data.source.DataSource
-import com.chloe.shopshare.data.Result
-import com.chloe.shopshare.data.User
+import com.chloe.shopshare.ext.toDisplayNotifyMessage
+import com.chloe.shopshare.notify.NotifyType
 import com.google.common.io.Files.getFileExtension
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObjects
@@ -24,8 +24,9 @@ import kotlin.coroutines.suspendCoroutine
 
 object RemoteDataSource : DataSource {
     private const val PATH_USER = "user"
-    private const val PATH_SHOP = "shop"
     private const val PATH_ORDER = "order"
+    private const val PATH_SHOP = "shop"
+    private const val PATH_NOTIFY = "notify"
     private const val KEY_CREATED_TIME = "time"
     private const val FIREBASE_STORAGE_PATH = "gs://shopshare-592fa.appspot.com/"
 
@@ -85,7 +86,8 @@ object RemoteDataSource : DataSource {
 
     override suspend fun getUserProfile(userId: String): Result<User> =
         suspendCoroutine { continuation ->
-            val userDocument = FirebaseFirestore.getInstance().collection(PATH_USER).document(userId)
+            val userDocument =
+                FirebaseFirestore.getInstance().collection(PATH_USER).document(userId)
             userDocument
                 .get()
                 .addOnCompleteListener { task ->
@@ -93,9 +95,9 @@ object RemoteDataSource : DataSource {
                         val document = task.result
                         Log.d("Profile", document?.id + " => " + document?.data)
                         val user: User? = document?.toObject(User::class.java)
-                            Log.d("Profile", "UserProfile = $user")
+                        Log.d("Profile", "UserProfile = $user")
                         user?.let {
-                                continuation.resume(Result.Success(user))
+                            continuation.resume(Result.Success(user))
                         }
                     } else {
                         task.exception?.let {
@@ -173,29 +175,6 @@ object RemoteDataSource : DataSource {
 
                 }
         }
-//    override suspend fun getLiveDetailShop(shopId: String): Result<Shop> = suspendCoroutine { continuation ->
-//
-//        val shopDataBase = FirebaseFirestore.getInstance().collection(PATH_SHOP).document(shopId)
-//        shopDataBase
-//            .addSnapshotListener { snapshot, exception ->
-//
-//                Log.i("Chloe", "addSnapshotListener detect")
-//
-//                exception?.let {
-//                    Log.w(
-//                        "Chloe",
-//                        "[${this::class.simpleName}] Error getting documents. ${it.message}"
-//                    )
-//                    continuation.resume(Result.Error(it))
-//                    return@addSnapshotListener
-//                }
-//                val shop = snapshot?.toObject(Shop::class.java)
-//                shop?.let {
-//                    continuation.resume(Result.Success(shop))
-//                }
-//
-//            }
-//    }
 
     override fun getLiveDetailShop(shopId: String): MutableLiveData<Shop> {
 
@@ -267,7 +246,7 @@ object RemoteDataSource : DataSource {
                     if (task.isSuccessful) {
                         val orderList = mutableListOf<Order>()
                         for (document in task.result!!) {
-                            Log.d("Chloe", document.id + " => " + document.data)
+                            Log.d("Order", document.id + " => " + document.data)
                             val order = document.toObject(Order::class.java)
                             orderList.add(order)
                         }
@@ -276,7 +255,7 @@ object RemoteDataSource : DataSource {
                         task.exception?.let {
 
                             Log.w(
-                                "Chloe",
+                                "Order",
                                 "[${this::class.simpleName}] Error getting documents. ${it.message}"
                             )
                             continuation.resume(Result.Error(it))
@@ -287,37 +266,6 @@ object RemoteDataSource : DataSource {
 
                 }
         }
-
-//    override suspend fun getLiveOrderOfShop(shopId: String): Result<List<Order>> = suspendCoroutine { continuation ->
-//
-//        val shopDataBase = FirebaseFirestore.getInstance().collection(PATH_SHOP).document(shopId)
-//
-//        shopDataBase
-//            .collection(PATH_ORDER)
-//            .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
-//            .addSnapshotListener { snapshot, exception ->
-//
-//                Log.i("Chloe", "addSnapshotListener detect")
-//
-//                exception?.let {
-//                    Log.w(
-//                        "Chloe",
-//                        "[${this::class.simpleName}] Error getting documents. ${it.message}"
-//                    )
-//                    continuation.resume(Result.Error(it))
-//                    return@addSnapshotListener
-//                }
-//
-//                val orderList = mutableListOf<Order>()
-//                for (document in snapshot!!) {
-//                    Log.d("Chloe", document.id + " => " + document.data)
-//
-//                    val order = document.toObject(Order::class.java)
-//                    orderList.add(order)
-//                }
-//                continuation.resume(Result.Success(orderList))
-//            }
-//    }
 
 
     override fun getLiveOrderOfShop(shopId: String): MutableLiveData<List<Order>> {
@@ -399,6 +347,63 @@ object RemoteDataSource : DataSource {
                 }
         }
 
+    override suspend fun updateOrderStatus(shopId: String, paymentStatus: Int): Result<Boolean> =
+        suspendCoroutine { continuation ->
+            val orderDataBase =
+                FirebaseFirestore.getInstance().collection(PATH_SHOP).document(shopId)
+                    .collection(PATH_ORDER)
+            orderDataBase
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        for (document in task.result!!) {
+                            Log.d("Manage", document.id + " => " + document.data)
+                            orderDataBase
+                                .document(document.id)
+                                .update("paymentStatus", paymentStatus)
+                                .addOnCompleteListener { orderTask ->
+                                    if (orderTask.isSuccessful) {
+                                        Log.i("Manage", "status is updated to : $paymentStatus")
+                                    }
+                                }
+//                                        val
+//                                        continuation.resume(Result.Success(true))
+//                                    } else {
+//                                        orderTask.exception?.let {
+//                                            Log.w(
+//                                                "Manage",
+//                                                "[${this::class.simpleName}] Error getting documents. ${it.message}"
+//                                            )
+//                                            continuation.resume(Result.Error(it))
+//                                            return@addOnCompleteListener
+//                                        }
+//                                        continuation.resume(
+//                                            Result.Fail(
+//                                                MyApplication.instance.getString(
+//                                                    R.string.result_fail
+//                                                )
+//                                            )
+//                                        )
+//                                    }
+//                                }
+                        }
+                        continuation.resume(Result.Success(true))
+
+                    } else {
+                        task.exception?.let {
+                            Log.w(
+                                "Manage",
+                                "[${this::class.simpleName}] Error getting documents. ${it.message}"
+                            )
+
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
+                    }
+                }
+        }
+
 
     override suspend fun postShop(shop: Shop): Result<Boolean> = suspendCoroutine { continuation ->
         val shopDataBase = FirebaseFirestore.getInstance().collection(PATH_SHOP)
@@ -429,7 +434,7 @@ object RemoteDataSource : DataSource {
 
     }
 
-    override suspend fun postOrder(shopId: String, order: Order): Result<Boolean> =
+    override suspend fun postOrder(shopId: String, order: Order): Result<PostOrderResult> =
         suspendCoroutine { continuation ->
             val orderDataBase = FirebaseFirestore.getInstance().collection(PATH_SHOP)
                 .document(shopId).collection(PATH_ORDER)
@@ -438,12 +443,14 @@ object RemoteDataSource : DataSource {
             order.id = document.id
             order.time = Calendar.getInstance().timeInMillis
 
+            val postOrderResult = PostOrderResult(document.id)
+
             document
                 .set(order)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Log.i("Chloe", "postOrder: $order")
-                        continuation.resume(Result.Success(true))
+                        continuation.resume(Result.Success(postOrderResult))
                     } else {
                         task.exception?.let {
 
@@ -494,4 +501,218 @@ object RemoteDataSource : DataSource {
                     }
                 }
         }
+
+    override suspend fun addSubscribe(userId: String, shopId: String): Result<Boolean> =
+        suspendCoroutine { continuation ->
+            val userDataBase = FirebaseFirestore.getInstance().collection(PATH_USER)
+                .document(userId)
+
+            userDataBase
+                .update("subscribe", FieldValue.arrayUnion(shopId))
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.i("Notify", "addSubscribe: $shopId")
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        task.exception?.let {
+
+                            Log.i(
+                                "Notify",
+                                "[${this::class.simpleName}] Error getting documents. ${it.message}"
+                            )
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
+                    }
+                }
+        }
+
+    override suspend fun removeSubscribe(userId: String, shopId: String): Result<Boolean> =
+        suspendCoroutine { continuation ->
+            val userDataBase = FirebaseFirestore.getInstance().collection(PATH_USER)
+                .document(userId)
+
+            userDataBase
+                .update("subscribe", FieldValue.arrayRemove(shopId))
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.i("Notify", "addSubscribe: $shopId")
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        task.exception?.let {
+
+                            Log.i(
+                                "Notify",
+                                "[${this::class.simpleName}] Error getting documents. ${it.message}"
+                            )
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
+                    }
+                }
+        }
+
+    override suspend fun postShopNotifyToMember(notify: Notify): Result<Boolean> =
+        suspendCoroutine { continuation ->
+            val shopId = notify.shopId
+            val userDataBase = FirebaseFirestore.getInstance().collection(PATH_USER)
+            val orderDataBase =
+                FirebaseFirestore.getInstance().collection(PATH_SHOP).document(shopId)
+                    .collection(PATH_ORDER)
+            notify.time = Calendar.getInstance().timeInMillis
+
+            orderDataBase
+                .get()
+                .addOnCompleteListener { orderTask ->
+                    if (orderTask.isSuccessful) {
+                        for (document in orderTask.result!!) {
+                            Log.d("Notify", document.id + " => " + document.data)
+                            val order = document.toObject(Order::class.java)
+                            val memberId = order.userId
+                            val notifyDocument =
+                                userDataBase.document(memberId).collection(PATH_NOTIFY).document()
+                            notify.id = document.id
+                            notifyDocument
+                                .set(notify)
+                                .addOnCompleteListener { notifyTask ->
+                                    if (notifyTask.isSuccessful) {
+                                        Log.i("Notify", "Notify: ${notifyTask.result}")
+//                                        continuation.resume(Result.Success(true))
+//                                    } else {
+//                                        notifyTask.exception?.let {
+//                                            Log.i(
+//                                                "Notify",
+//                                                "[${this::class.simpleName}] Error getting documents. ${it.message}"
+//                                            )
+//                                            continuation.resume(Result.Error(it))
+//                                            return@addOnCompleteListener
+//                                        }
+//                                        continuation.resume(
+//                                            Result.Fail(
+//                                                MyApplication.instance.getString(
+//                                                    R.string.result_fail
+//                                                )
+//                                            )
+//                                        )
+                                    }
+                                }
+                        }
+
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        orderTask.exception?.let {
+                            Log.i(
+                                "Notify",
+                                "[${this::class.simpleName}] Error getting documents. ${it.message}"
+                            )
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(
+                            Result.Fail(
+                                MyApplication.instance.getString(
+                                    R.string.result_fail
+                                )
+                            )
+                        )
+                    }
+                }
+        }
+
+    override suspend fun postOrderNotifyToMember(orderList: List<Order>, notify: Notify): Result<Boolean> =
+        suspendCoroutine {
+            val shopId = notify.shopId
+            val userDataBase = FirebaseFirestore.getInstance().collection(PATH_USER)
+
+            notify.time = Calendar.getInstance().timeInMillis
+
+            for (order in orderList){
+                notify.orderId = order.id
+                notify.message = NotifyType.ORDER_FAIL.toDisplayNotifyMessage(order)
+                val memberId = order.userId
+                userDataBase.document(memberId).collection(PATH_NOTIFY).document()
+                    .set(notify)
+                    .addOnCompleteListener { notifyTask ->
+                        if (notifyTask.isSuccessful) {
+                            Log.i("Notify", "Notify: ${notifyTask.result}")
+                            Result.Success(true)
+                        } else {notifyTask.exception?.let {
+                            Log.i(
+                                "Notify",
+                                "[${this::class.simpleName}] Error getting documents. ${it.message}"
+                            )
+                            Result.Error(it)
+                            return@addOnCompleteListener
+                        }
+                        }
+                        Result.Fail(MyApplication.instance.getString(R.string.result_fail))
+                    }
+            }
+        }
+
+
+    override suspend fun postNotifyToHost(hostId: String, notify: Notify): Result<Boolean> =
+        suspendCoroutine { continuation ->
+            val notifyDataBase =
+                FirebaseFirestore.getInstance().collection(PATH_USER).document(hostId)
+                    .collection(PATH_NOTIFY)
+
+            val document = notifyDataBase.document()
+            notify.id = document.id
+            notify.time = Calendar.getInstance().timeInMillis
+
+            document
+                .set(notify)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.i("Notify", "postNotify: $notify")
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        task.exception?.let {
+                            Log.i(
+                                "Notify",
+                                "[${this::class.simpleName}] Error getting documents. ${it.message}"
+                            )
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MyApplication.instance.getString(R.string.result_fail)))
+                    }
+                }
+        }
+
+
+    override fun getLiveNotify(userId: String): MutableLiveData<List<Notify>> {
+
+        val liveData = MutableLiveData<List<Notify>>()
+
+        val notifyDataBase = FirebaseFirestore.getInstance().collection(PATH_USER).document(userId)
+            .collection(PATH_NOTIFY)
+        notifyDataBase
+            .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
+            .addSnapshotListener { snapshot, exception ->
+
+                Log.i("Notify", "addSnapshotListener detect")
+
+                exception?.let {
+                    Log.w(
+                        "Notify",
+                        "[${this::class.simpleName}] Error getting documents. ${it.message}"
+                    )
+                }
+
+                val notifyList = mutableListOf<Notify>()
+                for (document in snapshot!!) {
+                    Log.d("Notify", document.id + " => " + document.data)
+
+                    val notify = document.toObject(Notify::class.java)
+                    notifyList.add(notify)
+                }
+                liveData.value = notifyList
+            }
+        Log.d("Notify", "livedata = ${liveData.value}")
+        return liveData
+    }
 }

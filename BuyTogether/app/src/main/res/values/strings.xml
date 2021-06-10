@@ -141,13 +141,16 @@
 
     <!-- Notify Method -->
     <!-- To_Member-->
-    <string name="by_status_change">進度通知</string>
-    <string name="by_order_fail">跟團失敗</string>
-    <string name="by_payment_notify">付款通知</string>
+    <string name="status_change_to_gather_success">成團通知</string>
+    <string name="status_change">團購進度通知</string>
+    <string name="status_change_to_shipment">商品寄出通知</string>
+    <string name="status_change_to_finish">團購結束</string>
+    <string name="order_fail">跟團失敗</string>
     <!-- To_Host-->
-    <string name="by_member_increase">有人跟團</string>
-    <string name="by_reach_condition">達標通知</string>
+    <string name="order_increase">跟團人數增加</string>
+    <string name="reach_condition">達標通知</string>
+    <string name="reach_deadline">已達預定日期</string>
     <!-- To_Subscriber-->
-    <string name="by_soon_to_end">團購快結束了</string>
+    <string name="soon_to_end">團購即將結束</string>
 
 </resources>

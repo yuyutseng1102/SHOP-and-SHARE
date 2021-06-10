@@ -32,9 +32,6 @@ class ManageFragment : Fragment() {
         val memberAdapter = MemberAdapter(viewModel)
         binding.recyclerMember.adapter = memberAdapter
 
-//        viewModel.getOrderOfShop("2TgmGprHsundCcuvHw8J")
-
-
         binding.layoutSwipeRefreshManage.setOnRefreshListener {
             viewModel.refresh()
             Log.d("Chloe", "home status = ${viewModel.status.value}")
@@ -47,25 +44,12 @@ class ManageFragment : Fragment() {
         })
 
 
-
-
-
             viewModel.member.observe(viewLifecycleOwner, Observer {
                 it?.let {
                     Log.d("Life", "member is change")
                     memberAdapter.notifyDataSetChanged()
                 }
             })
-
-
-
-//    viewModel.order.observe(viewLifecycleOwner, Observer {
-//        it?.let {
-//            Log.d("Life", "order is change")
-//            memberAdapter.notifyDataSetChanged()
-//        }
-//    })
-
 
         binding.deleteButton.setOnClickListener {
             Log.d("Chloe","status now is ${viewModel.shop.value?.status}")
@@ -103,7 +87,26 @@ class ManageFragment : Fragment() {
             dialog.show(childFragmentManager, "hiya")
         }
 
+        viewModel.messageContent.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                viewModel.editShopNotify()
+            }
+        })
 
+        viewModel.deleteSuccess.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if(it){
+                    viewModel.deleteList.observe(viewLifecycleOwner, Observer {
+                        it?.let {
+                            viewModel.editOrderNotify(it)
+                            viewModel.onFailNotifySend()
+                        }
+                    })
+
+                }
+
+            }
+        })
 
 
 
