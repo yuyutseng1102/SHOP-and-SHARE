@@ -27,7 +27,7 @@ class HomeMainFragment : Fragment() {
 
         val linearAdapter = HomeMainLinearAdapter(viewModel)
 
-//        val adapter2nd = HomeHots2ndAdapter(viewModel)
+        val adapter2nd = HomeHots2ndAdapter(viewModel)
 
         val gridAdapter = HomeMainGridAdapter(viewModel)
 
@@ -53,7 +53,7 @@ class HomeMainFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         binding.recyclerHots1st.adapter = linearAdapter
-        binding.recyclerHots2nd.adapter = linearAdapter
+        binding.recyclerHots2nd.adapter = adapter2nd
         binding.recyclerNew.adapter = gridAdapter
 
 

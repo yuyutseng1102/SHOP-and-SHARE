@@ -200,7 +200,7 @@ object RemoteDataSource : DataSource {
                 if (task.isSuccessful) {
                     val shopList = mutableListOf<Shop>()
                     for (document in task.result!!) {
-                        Log.d("Chloe", document.id + " => " + document.data)
+                        Log.d("HomeTag", document.id + " => " + document.data)
                         val shop = document.toObject(Shop::class.java)
                         shopList.add(shop)
                     }
