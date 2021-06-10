@@ -23,7 +23,6 @@ class MemberAdapter(private val viewModel: CollectionManageViewModel) : ListAdap
 
 
         val livePosition = MutableLiveData<Int>()
-        var check = binding.isChecked
         val button = binding.buttonMemberCheck
 
 

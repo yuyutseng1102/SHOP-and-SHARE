@@ -7,6 +7,9 @@ import kotlinx.android.parcel.Parcelize
 data class User(
     val userId: Long = 0L,
     val googleId: Long = 0L,
-    val name: String = ""
+    val name: String = "",
+    val subscribe: List<Long>,
+    val notify:List<Notify>
 ): Parcelable {
 }
+

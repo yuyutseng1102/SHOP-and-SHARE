@@ -1,7 +1,11 @@
 package com.chloe.buytogether.host
 
 
+import android.content.Intent
+import android.net.Uri
+import android.provider.DocumentsContract
 import android.util.Log
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -29,6 +33,10 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
     val status: LiveData<LoadApiStatus>
         get() = _status
 
+    private val _image = MutableLiveData<List<String>>()
+    val image: LiveData<List<String>>
+        get() =  _image
+
 
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
@@ -40,7 +48,6 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
     //gather information
 
     val mainImage = MutableLiveData<String?>()
-    val image = MutableLiveData<List<String>>()
     val title = MutableLiveData<String>()
     val description = MutableLiveData<String>()
     val category = MutableLiveData<Int>()
@@ -55,6 +62,7 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
     val conditionShow = MutableLiveData<String?>()
     val optionShow = MutableLiveData<String>()
 
+
     private val _isInvalid = MutableLiveData<Int>()
     val isInvalid: LiveData<Int>
         get() =  _isInvalid
@@ -65,7 +73,7 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
 
 
     init {
-        image.value = listOf("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn2O7C-ZPE_D1GshuECEOcxjqIMmnXSxo0fA&usqp=CAU")
+//        image.value = listOf("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn2O7C-ZPE_D1GshuECEOcxjqIMmnXSxo0fA&usqp=CAU")
         _isInvalid.value = null
         _isConditionDone.value = false
     }
@@ -79,6 +87,26 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
             R.id.radio_private -> 2
             else -> 1
         }
+
+    //pick up photo
+    lateinit var imageList : MutableList<String>
+    fun pickImages(uri: Uri){
+        imageList =
+        if (image.value!= null){
+            image.value?.toMutableList()?: mutableListOf()
+        }else{
+            mutableListOf()
+        }
+        imageList.add(uri.toString())
+        _image.value = imageList
+        Log.d("Chloe","imageList add $uri , the list change to ${_image.value} ")
+    }
+    //delete photo
+    fun removeImages(item:String){
+        imageList.remove(item)
+        _image.value = imageList
+        Log.d("Chloe","imageList remove $item , the list change to ${_image.value} ")
+    }
 
     //select gather category
     val selectedCategoryPosition = MutableLiveData<Int>()
@@ -189,6 +217,9 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
     }
 
 
+
+
+
     companion object {
         const val INVALID_FORMAT_METHOD_EMPTY       = 0x11
         const val INVALID_FORMAT_IMAGE_EMPTY        = 0x12
@@ -204,46 +235,5 @@ class HostViewModel(private val repository: Repository) : ViewModel() {
     }
 
 }
-
-//fun selectCategory(){
-//        when(categoryType.value) {
-//            Transformations.map(selectedCategoryPosition) {
-//                CategoryType.values()[it]
-//            } -> CategoryType.values()[it].title
-//
-//            CategoryType.WOMAN -> CategoryType.WOMAN.title
-//            CategoryType.MAN -> CategoryType.MAN.title
-//            CategoryType.CHILD -> CategoryType.CHILD.title
-//            CategoryType.SHOES_BAG -> CategoryType.SHOES_BAG.title
-//            CategoryType.MAKEUP -> CategoryType.MAKEUP.title
-//            CategoryType.HEALTH -> CategoryType.HEALTH.title
-//            CategoryType.FOOD -> CategoryType.FOOD.title
-//            CategoryType.LIVING -> CategoryType.LIVING.title
-//            CategoryType.APPLIANCE -> CategoryType.APPLIANCE.title
-//            CategoryType.PET -> CategoryType.PET.title
-//            CategoryType.STATIONARY -> CategoryType.STATIONARY.title
-//            CategoryType.SPORT -> CategoryType.SPORT.title
-//            CategoryType.COMPUTER -> CategoryType.COMPUTER.title
-//            CategoryType.TICKET -> CategoryType.TICKET.title
-//            CategoryType.OTHER -> CategoryType.OTHER.title
-//            else -> ""
-//        }
-//}
-//fun selectCountry(){
-//    country.value =
-//            when(countryType.value) {
-//                CountryType.TAIWAN -> C
-//                CountryType.JAPAN -> getString(R.string.japan)
-//                CountryType.KOREA -> getString(R.string.korea)
-//                CountryType.CHINA -> getString(R.string.china)
-//                CountryType.USA -> getString(R.string.usa)
-//                CountryType.CANADA -> getString(R.string.canada)
-//                CountryType.EU -> getString(R.string.eu)
-//                CountryType.AUSTRALIA -> getString(R.string.australia)
-//                CountryType.SOUTH_EAST_ASIA -> getString(R.string.south_east_asia)
-//                CountryType.OTHER -> getString(R.string.other)
-//                else -> ""
-//            }
-//}
 
 

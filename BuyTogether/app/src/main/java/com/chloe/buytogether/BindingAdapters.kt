@@ -20,6 +20,7 @@ import com.chloe.buytogether.collection.PaymentStatusType
 import com.chloe.buytogether.collection.manage.MemberAdapter
 import com.chloe.buytogether.collection.manage.MemberProductAdapter
 import com.chloe.buytogether.data.Collections
+import com.chloe.buytogether.data.Notify
 import com.chloe.buytogether.data.Order
 import com.chloe.buytogether.data.Product
 import com.chloe.buytogether.detail.dialog.ProductListAdapter
@@ -33,6 +34,8 @@ import com.chloe.buytogether.home.item.HomeGridAdapter
 import com.chloe.buytogether.home.item.HomeHots1stAdapter
 import com.chloe.buytogether.home.item.HomeHots2ndAdapter
 import com.chloe.buytogether.host.DeliveryMethod
+import com.chloe.buytogether.host.HostImageAdapter
+import com.chloe.buytogether.notify.NotifyAdapter
 import com.chloe.buytogether.participate.ParticipateAdapter
 import com.chloe.buytogether.util.Util.getColor
 import com.google.android.material.textfield.TextInputEditText
@@ -76,13 +79,14 @@ fun bindRecyclerViewWithCollections(recyclerView: RecyclerView, collections: Lis
     }
 }
 
-@BindingAdapter("options")
+@BindingAdapter("strings")
 fun bindRecyclerViewWithOptionStrings(recyclerView: RecyclerView, options: List<String>?) {
     options?.let {
         recyclerView.adapter?.apply {
             Log.d("Chloe","summit the option list is ${options}")
             when (this) {
                 is GatherOptionAdapter -> submitList(it)
+                is HostImageAdapter -> submitList(it)
             }
         }
     }
@@ -127,6 +131,20 @@ fun bindRecyclerViewWithProducts(recyclerView: RecyclerView, products: List<Prod
         }
     }
 }
+
+@BindingAdapter("notify")
+fun bindRecyclerViewWithNotify(recyclerView: RecyclerView, notify: List<Notify>?) {
+    notify?.let {
+        recyclerView.adapter?.apply {
+            Log.d("Chloe","summit the notify list is ${notify}")
+            when (this) {
+                is NotifyAdapter -> submitList(it)
+            }
+        }
+
+    }
+}
+
 
 @BindingAdapter("timeToDisplayFormat")
 fun bindDisplayFormatTime(textView: TextView, time: Long?) {

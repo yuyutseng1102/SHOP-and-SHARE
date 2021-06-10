@@ -11,6 +11,7 @@ import com.chloe.buytogether.host.HostViewModel
 import com.chloe.buytogether.host.item.GatherConditionViewModel
 import com.chloe.buytogether.home.item.HomeCollectViewModel
 import com.chloe.buytogether.home.item.HomePageViewModel
+import com.chloe.buytogether.notify.NotifyViewModel
 
 /**
  *
@@ -47,6 +48,9 @@ class ViewModelFactory constructor(
 
                     isAssignableFrom(DetailDescriptionViewModel::class.java) ->
                         DetailDescriptionViewModel(repository)
+
+                    isAssignableFrom(NotifyViewModel::class.java) ->
+                        NotifyViewModel(repository)
 
 
                     else ->

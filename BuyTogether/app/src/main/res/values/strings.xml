@@ -137,5 +137,15 @@
     <string name="home_delivery">宅配</string>
     <string name="by_hand">面交</string>
 
+    <!-- Notify Method -->
+    <!-- To_Member-->
+    <string name="by_status_change">進度通知</string>
+    <string name="by_order_fail">跟團失敗</string>
+    <string name="by_payment_notify">付款通知</string>
+    <!-- To_Host-->
+    <string name="by_member_increase">有人跟團</string>
+    <string name="by_reach_condition">達標通知</string>
+    <!-- To_Subscriber-->
+    <string name="by_soon_to_end">團購快結束了</string>
 
 </resources>
