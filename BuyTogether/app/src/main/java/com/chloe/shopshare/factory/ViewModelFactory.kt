@@ -11,7 +11,9 @@ import com.chloe.shopshare.host.HostViewModel
 import com.chloe.shopshare.host.item.GatherConditionViewModel
 import com.chloe.shopshare.home.item.HomeCollectViewModel
 import com.chloe.shopshare.home.item.HomePageViewModel
+import com.chloe.shopshare.login.LoginViewModel
 import com.chloe.shopshare.notify.NotifyViewModel
+import com.chloe.shopshare.profile.ProfileViewModel
 
 /**
  *
@@ -27,6 +29,9 @@ class ViewModelFactory constructor(
                 when {
                     isAssignableFrom(MainViewModel::class.java) ->
                         MainViewModel(repository)
+
+                    isAssignableFrom(LoginViewModel::class.java) ->
+                        LoginViewModel(repository)
 
                     isAssignableFrom(HomePageViewModel::class.java) ->
                         HomePageViewModel(repository)
@@ -51,6 +56,10 @@ class ViewModelFactory constructor(
 
                     isAssignableFrom(NotifyViewModel::class.java) ->
                         NotifyViewModel(repository)
+
+                    isAssignableFrom(ProfileViewModel::class.java) ->
+                        ProfileViewModel(repository)
+
 
 
                     else ->

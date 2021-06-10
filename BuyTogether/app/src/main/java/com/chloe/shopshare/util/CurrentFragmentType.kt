@@ -6,8 +6,11 @@ import com.chloe.shopshare.util.Util.getString
 enum class CurrentFragmentType(val value: String) {
     HOME(getString(R.string.app_name)),
     PROFILE(getString(R.string.profile)),
-    GATHER(getString(R.string.gather)),
-    COLLECTION(getString(R.string.collection)),
-    COLLECTION_MANAGE(getString(R.string.collection_manage)),
-    DETAIL("")
+    HOST(getString(R.string.gather)),
+    SHOP(getString(R.string.collection)),
+    MANAGE(getString(R.string.collection_manage)),
+    DETAIL(""),
+    PARTICIPATE(getString(R.string.participate)),
+    NOTIFY(getString(R.string.notify)),
+    LOGIN("")
 }

@@ -49,16 +49,6 @@ class MainActivity : BaseActivity() {
             }
             R.id.navigation_profile -> {
                 findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToProfileFragment())
-
-//                when (viewModel.isLoggedIn) {
-//                    true -> {
-//                        findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToHomeFragment(viewModel.user.value))
-//                    }
-//                    false -> {
-//                        findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToLoginDialog())
-//                        return@OnNavigationItemSelectedListener false
-//                    }
-//                }
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -87,17 +77,26 @@ class MainActivity : BaseActivity() {
         setupBottomNav()
 //        setupDrawer()
         setupNavController()
+
+
     }
+
+
+
+
 
     private fun setupNavController() {
         findNavController(R.id.myNavHostFragment).addOnDestinationChangedListener { navController: NavController, _: NavDestination, _: Bundle? ->
             viewModel.currentFragmentType.value = when (navController.currentDestination?.id) {
                 R.id.homeFragment -> CurrentFragmentType.HOME
                 R.id.profileFragment -> CurrentFragmentType.PROFILE
-                R.id.hostFragment -> CurrentFragmentType.GATHER
-                R.id.shopFragment -> CurrentFragmentType.COLLECTION
-                R.id.manageFragment -> CurrentFragmentType.COLLECTION_MANAGE
+                R.id.hostFragment -> CurrentFragmentType.HOST
+                R.id.shopFragment -> CurrentFragmentType.SHOP
+                R.id.manageFragment -> CurrentFragmentType.MANAGE
                 R.id.detailFragment -> CurrentFragmentType.DETAIL
+                R.id.participateFragment -> CurrentFragmentType.PARTICIPATE
+                R.id.loginFragment -> CurrentFragmentType.LOGIN
+                R.id.notifyFragment -> CurrentFragmentType.NOTIFY
                 else -> viewModel.currentFragmentType.value
             }
         }

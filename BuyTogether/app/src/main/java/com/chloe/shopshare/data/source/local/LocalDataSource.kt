@@ -7,9 +7,21 @@ import com.chloe.shopshare.data.Order
 import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.data.source.DataSource
 import com.chloe.shopshare.data.Result
+import com.chloe.shopshare.data.User
+import com.google.firebase.auth.FirebaseAuth
 
 
 class LocalDataSource(val context: Context): DataSource {
+
+
+    override suspend fun signInWithGoogle(idToken: String): Result<User> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getUserProfile(userId: String): Result<User> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getOpeningShop(): Result<List<Shop>> {
         TODO("Not yet implemented")
     }
