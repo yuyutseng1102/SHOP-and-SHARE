@@ -1,45 +1,18 @@
 package com.chloe.shopshare.myrequest
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
-import com.chloe.shopshare.data.Request
-import com.chloe.shopshare.databinding.ItemMyRequestBinding
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
+import com.chloe.shopshare.myrequest.item.MyRequestListFragment
 
-class MyRequestAdapter(val viewModel: MyRequestViewModel)  : ListAdapter<Request, MyRequestAdapter.ViewHolder>(DiffCallback) {
-
-    class ViewHolder(private var binding: ItemMyRequestBinding):
-        RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Request, viewModel: MyRequestViewModel) {
-            binding.item = item
-            binding.viewModel = viewModel
-            binding.executePendingBindings()
-        }
+class MyRequestAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+    override fun getItem(position: Int): Fragment {
+        return MyRequestListFragment(MyRequestType.values()[position])
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<Request>() {
-        override fun areItemsTheSame(oldItem: Request, newItem: Request): Boolean {
-            return oldItem === newItem
-        }
-        override fun areContentsTheSame(oldItem: Request, newItem: Request): Boolean {
-            return oldItem == newItem
-        }
-    }
+    override fun getCount() = MyRequestType.values().size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            ItemMyRequestBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false))
+    override fun getPageTitle(position: Int): CharSequence? {
+        return MyRequestType.values()[position].title
     }
-
-    /**
-     * Replaces the contents of a view (invoked by the layout manager)
-     */
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.bind(item,viewModel)
-    }
-
 }

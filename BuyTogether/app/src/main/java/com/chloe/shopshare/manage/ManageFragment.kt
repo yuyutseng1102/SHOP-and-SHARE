@@ -108,6 +108,12 @@ class ManageFragment : Fragment() {
             }
         })
 
+        viewModel.navigateToDetail.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                findNavController().navigate(NavigationDirections.navigateToDetailFragment(it))
+                viewModel.onDetailNavigate()
+            }
+        })
 
 
 

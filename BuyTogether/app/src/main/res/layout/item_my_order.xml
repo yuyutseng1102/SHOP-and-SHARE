@@ -1,6 +1,201 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <data>
+        <variable name="item" type="com.chloe.shopshare.data.MyOrder" />
+        <variable name="orderDetail" type="com.chloe.shopshare.data.MyOrderDetailKey" />
+        <variable name="viewModel" type="com.chloe.shopshare.myorder.item.MyOrderListViewModel" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_shop_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:animateLayoutChanges="true"
+        app:cardBackgroundColor="#FFFFFF"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="@{()->viewModel.navigateToOrderDetail(orderDetail)}"
+        app:cardCornerRadius="8dp"
+        app:cardPreventCornerOverlap="false"
+        app:contentPadding="8dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/shop_info_block"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/image_like_shop"
+                    android:layout_width="40dp"
+                    android:layout_height="0dp"
+                    android:scaleType="centerCrop"
+                    app:imageUrl="@{item.shop.mainImage}"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearance="?attr/shapeAppearanceMediumComponent"
+                    tools:srcCompat="@drawable/img_detail" />
+
+                <TextView
+                    android:id="@+id/status"
+                    style="@style/BlackContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_tag"
+                    tools:backgroundTint="@color/state_opening"
+                    android:paddingHorizontal="4dp"
+                    android:paddingVertical="1dp"
+                    android:textColor="#FFFFFF"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shopStatusToDisplayInShort="@{item.shop.status}"
+                    tools:text="開團中" />
+
+                <TextView
+                    android:id="@+id/title_like_shop"
+                    style="@style/ProductTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:maxLines="2"
+                    android:singleLine="false"
+                    android:text="@{item.shop.title}"
+                    app:layout_constraintEnd_toStartOf="@+id/status"
+                    app:layout_constraintStart_toEndOf="@+id/image_like_shop"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Bowwow滿10000九折~~~三天快閃團" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/order_info_block"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/shop_info_block">
+
+                <TextView
+                    android:id="@+id/order_id_text"
+                    style="@style/ProductTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="訂單編號"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/order_id"
+                    style="@style/DetailSubTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:text="@{item.order.id}"
+                    app:layout_constraintBottom_toBottomOf="@+id/order_id_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/order_id_text"
+                    app:layout_constraintTop_toTopOf="@+id/order_id_text"
+                    tools:text="jdi39578903fhofde33" />
+
+                <TextView
+                    android:id="@+id/order_time_text"
+                    style="@style/ProductTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="下單日期"
+                    app:layout_constraintStart_toStartOf="@+id/order_id_text"
+                    app:layout_constraintTop_toBottomOf="@+id/order_id_text" />
+
+
+                <TextView
+                    android:id="@+id/order_time"
+                    style="@style/DetailSubTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    app:dateTimeToDisplayFormat="@{item.order.time}"
+                    app:layout_constraintBottom_toBottomOf="@+id/order_time_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/order_time_text"
+                    app:layout_constraintTop_toTopOf="@+id/order_time_text"
+                    tools:text="2021/06/03" />
+
+                <TextView
+                    android:id="@+id/order_price_text"
+                    style="@style/ProductTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="訂單金額"
+                    app:layout_constraintStart_toStartOf="@+id/order_time_text"
+                    app:layout_constraintTop_toBottomOf="@+id/order_time_text" />
+
+                <TextView
+                    android:id="@+id/order_price"
+                    style="@style/DetailSubTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:text='@{"NT$ "+String.valueOf(item.order.price)}'
+                    app:layout_constraintBottom_toBottomOf="@+id/order_price_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/order_price_text"
+                    app:layout_constraintTop_toTopOf="@+id/order_price_text"
+                    tools:text="NT$ 5000" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/button_block"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/order_info_block"
+                app:layout_constraintVertical_bias="0.0">
+
+                <TextView
+                    android:id="@+id/detail_button"
+                    style="@style/SeeDetailTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="訂單詳情"
+                    android:textColor="@color/green_97B6A8"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/order_expand_button"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/order_expand_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_baseline_chevron_right_24"
+                    android:backgroundTint="@color/green_97B6A8"
+                    android:cropToPadding="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>

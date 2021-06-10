@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable name="item" type="com.chloe.shopshare.data.Shop" />
+        <variable name="viewModel" type="com.chloe.shopshare.myhost.item.MyHostListViewModel" />
+    </data>
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_shop_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:animateLayoutChanges="true"
+        android:onClick="@{()->viewModel.navigateToManage(item.id)}"
+        android:checkable="true"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="8dp"
+        app:cardPreventCornerOverlap="false"
+        app:contentPadding="8dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image_shop"
+                android:layout_width="40dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                app:imageUrl="@{item.mainImage}"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearance="?attr/shapeAppearanceMediumComponent"
+                tools:srcCompat="@drawable/img_detail" />
+
+
+            <TextView
+                android:id="@+id/collection_name"
+                style="@style/ProductTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:singleLine="true"
+                android:text="@{item.title}"
+                app:layout_constraintEnd_toStartOf="@+id/collection_status"
+                app:layout_constraintStart_toEndOf="@+id/image_shop"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Colourpop 眼影盤7折!!! 湊NT$5000全球免運" />
+
+            <TextView
+                android:id="@+id/collection_status"
+                style="@style/BlackContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_tag"
+                tools:backgroundTint="@color/state_opening"
+                android:paddingHorizontal="4dp"
+                android:paddingVertical="1dp"
+                android:textColor="#FFFFFF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shopStatusToDisplayInShort="@{item.status}"
+                tools:text="徵團中" />
+
+            <TextView
+                android:id="@+id/collection_id_title"
+                style="@style/ProductTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="團購編號"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_shop" />
+
+            <TextView
+                android:id="@+id/collection_id"
+                style="@style/DetailSubTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:singleLine="true"
+                android:text="@{item.id}"
+                app:layout_constraintBottom_toBottomOf="@+id/collection_id_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/collection_id_title"
+                app:layout_constraintTop_toTopOf="@+id/collection_id_title"
+                app:layout_constraintVertical_bias="1.0"
+                tools:text="209937103776" />
+
+            <TextView
+                android:id="@+id/host_date_text"
+                style="@style/ProductTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="開團日期"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/collection_id_title" />
+
+            <TextView
+                android:id="@+id/host_date"
+                style="@style/DetailSubTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/host_date_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/host_date_text"
+                app:layout_constraintTop_toTopOf="@+id/host_date_text"
+                app:timeToDisplayFormat="@{item.time}"
+                tools:text="2021/05/04" />
+            <TextView
+                android:id="@+id/collection_condition_title"
+                style="@style/ProductTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="成團條件"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/host_date_text" />
+
+            <TextView
+                android:id="@+id/collection_condition"
+                style="@style/DetailSubTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                app:conditionToDisplay="@{item.condition}"
+                app:conditionType="@{item.conditionType}"
+                app:deadLineToDisplay="@{item.deadLine}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/collection_condition_title"
+                app:layout_constraintTop_toTopOf="@+id/collection_condition_title"
+                tools:text="徵滿4人" />
+
+            <TextView
+                android:id="@+id/collection_title"
+                style="@style/ProductTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="跟團人數"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/collection_condition" />
+
+            <TextView
+                android:id="@+id/collection_member_size"
+                style="@style/DetailSubTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/collection_title"
+                app:layout_constraintTop_toTopOf="@+id/collection_title"
+                android:text='@{String.valueOf(item.orderSize)+"人"}'
+                tools:text="2人" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/detail_button_block"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/collection_member_size">
+
+                <TextView
+                    android:id="@+id/see_detail_button"
+                    style="@style/SeeDetailTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="2dp"
+                    android:text="詳細資訊"
+                    android:textColor="@color/green_97B6A8"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/see_detail_icon"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/see_detail_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_baseline_chevron_right_24"
+                    app:tint="@color/green_97B6A8" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+</layout>

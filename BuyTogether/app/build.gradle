@@ -59,6 +59,7 @@ dependencies {
     implementation "androidx.room:room-runtime:$version_room"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.android.support:cardview-v7:28.0.0'
     kapt "androidx.room:room-compiler:$version_room"
 
     // Navigation

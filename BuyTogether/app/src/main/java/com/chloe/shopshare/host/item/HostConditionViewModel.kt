@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.chloe.shopshare.R
 import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.data.source.Repository
-import com.chloe.shopshare.ext.toDisplayFormat
+import com.chloe.shopshare.ext.toDisplayDateFormat
 import com.chloe.shopshare.host.ConditionType
 import com.chloe.shopshare.network.LoadApiStatus
 import com.chloe.shopshare.util.Util
@@ -102,7 +102,7 @@ class GatherConditionViewModel(private val repository: Repository): ViewModel() 
     }
 
     private val deadLineToDisplay : String?
-        get()= "預計${deadLine.value?.toDisplayFormat()}收團"
+        get()= "預計${deadLine.value?.toDisplayDateFormat()}收團"
     private val conditionToDisplay : String?
         get()=
             when (selectedConditionPosition.value){

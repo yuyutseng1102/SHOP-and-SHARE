@@ -295,7 +295,7 @@
                         app:layout_constraintVertical_bias="0.0" />
 
                     <ImageButton
-                        android:id="@+id/option_expand_button"
+                        android:id="@+id/order_expand_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
@@ -314,7 +314,7 @@
                         android:layout_marginStart="32dp"
                         android:layout_marginEnd="8dp"
                         app:layout_constraintBottom_toBottomOf="@+id/deatil_option_title"
-                        app:layout_constraintEnd_toStartOf="@+id/option_expand_button"
+                        app:layout_constraintEnd_toStartOf="@+id/order_expand_button"
                         app:layout_constraintStart_toEndOf="@+id/deatil_option_title"
                         app:layout_constraintTop_toTopOf="@+id/deatil_option_title"
                         app:optionIsStandard="@{viewModel.shop.isStandard}"

@@ -1,37 +1,41 @@
-package com.chloe.shopshare.home.item
+package com.chloe.shopshare.myhost.item
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.chloe.shopshare.data.Request
-import com.chloe.shopshare.databinding.ItemHomeRequestingBinding
+import com.chloe.shopshare.data.Shop
+import com.chloe.shopshare.databinding.ItemMyHostBinding
 
-class HomeRequestingAdapter(private val viewModel: HomeRequestViewModel)  : ListAdapter<Request, HomeRequestingAdapter.ViewHolder>(DiffCallback) {
+class MyHostListAdapter(val viewModel: MyHostListViewModel)  : ListAdapter<Shop, MyHostListAdapter.ViewHolder>(
+    DiffCallback
+) {
 
-    class ViewHolder(private var binding: ItemHomeRequestingBinding):
+    class ViewHolder(private var binding: ItemMyHostBinding):
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Request, viewModel: HomeRequestViewModel) {
+        fun bind(item: Shop, viewModel: MyHostListViewModel) {
             binding.item = item
             binding.viewModel = viewModel
             binding.executePendingBindings()
         }
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<Request>() {
-        override fun areItemsTheSame(oldItem: Request, newItem: Request): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<Shop>() {
+        override fun areItemsTheSame(oldItem: Shop, newItem: Shop): Boolean {
             return oldItem === newItem
         }
-        override fun areContentsTheSame(oldItem: Request, newItem: Request): Boolean {
+        override fun areContentsTheSame(oldItem: Shop, newItem: Shop): Boolean {
             return oldItem == newItem
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            ItemHomeRequestingBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false))
+            ItemMyHostBinding.inflate(
+                LayoutInflater.from(parent.context), parent, false
+            )
+        )
     }
 
     /**

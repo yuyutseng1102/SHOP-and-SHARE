@@ -3,17 +3,18 @@ package com.chloe.shopshare.factory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.chloe.shopshare.MainViewModel
-import com.chloe.shopshare.shop.ShopViewModel
+import com.chloe.shopshare.myhost.item.MyHostListViewModel
 import com.chloe.shopshare.manage.groupmessage.GroupMessageViewModel
 import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.detail.item.DetailDescriptionViewModel
 import com.chloe.shopshare.host.item.GatherConditionViewModel
 import com.chloe.shopshare.home.item.HomeHostViewModel
-import com.chloe.shopshare.home.item.HomePageViewModel
+import com.chloe.shopshare.home.item.HomeMainViewModel
 import com.chloe.shopshare.home.item.HomeRequestViewModel
 import com.chloe.shopshare.like.LikeViewModel
 import com.chloe.shopshare.login.LoginViewModel
-import com.chloe.shopshare.myrequest.MyRequestViewModel
+import com.chloe.shopshare.myorder.item.MyOrderListViewModel
+import com.chloe.shopshare.myrequest.item.MyRequestListViewModel
 import com.chloe.shopshare.notify.NotifyViewModel
 import com.chloe.shopshare.profile.ProfileViewModel
 import com.chloe.shopshare.request.RequestViewModel
@@ -36,8 +37,8 @@ class ViewModelFactory constructor(
                     isAssignableFrom(LoginViewModel::class.java) ->
                         LoginViewModel(repository)
 
-                    isAssignableFrom(HomePageViewModel::class.java) ->
-                        HomePageViewModel(repository)
+                    isAssignableFrom(HomeMainViewModel::class.java) ->
+                        HomeMainViewModel(repository)
 
                     isAssignableFrom(HomeHostViewModel::class.java) ->
                         HomeHostViewModel(repository)
@@ -50,9 +51,6 @@ class ViewModelFactory constructor(
 
                     isAssignableFrom(GatherConditionViewModel::class.java) ->
                         GatherConditionViewModel(repository)
-
-                    isAssignableFrom(ShopViewModel::class.java) ->
-                        ShopViewModel(repository)
 
                     isAssignableFrom(GroupMessageViewModel::class.java) ->
                         GroupMessageViewModel(repository)
@@ -69,8 +67,6 @@ class ViewModelFactory constructor(
                     isAssignableFrom(RequestViewModel::class.java) ->
                         RequestViewModel(repository)
 
-                    isAssignableFrom(MyRequestViewModel::class.java) ->
-                        MyRequestViewModel(repository)
 
 
 

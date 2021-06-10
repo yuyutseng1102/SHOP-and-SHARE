@@ -6,14 +6,14 @@
     <data>
         <variable
             name="viewModel"
-            type="com.chloe.shopshare.home.item.HomePageViewModel" />
+            type="com.chloe.shopshare.home.item.HomeMainViewModel" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".home.item.HomePageFragment">
+        tools:context=".home.item.HomeMainFragment">
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/layout_swipe_refresh_home"

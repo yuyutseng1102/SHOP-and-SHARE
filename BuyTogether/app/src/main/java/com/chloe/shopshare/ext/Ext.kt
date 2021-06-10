@@ -5,11 +5,15 @@ import android.util.Log
 import com.chloe.shopshare.data.Order
 import com.chloe.shopshare.data.Product
 import com.chloe.shopshare.notify.NotifyType
-import com.chloe.shopshare.shop.OrderStatusType
+import com.chloe.shopshare.myhost.OrderStatusType
 import java.util.*
 
-fun Long.toDisplayFormat(): String {
+fun Long.toDisplayDateFormat(): String {
     return SimpleDateFormat("yyyy/MM/dd", Locale.TAIWAN).format(this)
+}
+
+fun Long.toDisplayDateTimeFormat(): String {
+    return SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.TAIWAN).format(this)
 }
 
 
@@ -35,6 +39,7 @@ fun NotifyType.toDisplayNotifyContent(shopTitle:String): String {
 }
 
 fun NotifyType.toDisplayNotifyMessage(order: Order): String {
+    Log.d("Chloe","getProductList(order.product) = ${order.product}")
     return when(this){
         NotifyType.ORDER_INCREASE -> "訂單編號 : ${order.id}\n" +
                 "商品明細 : ${getProductList(order.product)}\n" +
@@ -48,10 +53,12 @@ fun NotifyType.toDisplayNotifyMessage(order: Order): String {
 }
 
 fun getProductList(product:List<Product>): String{
-    val content: String =""
+    Log.d("Chloe","product:List<Product> = ${product}")
+    var content: String =""
     for(item in product){
-        content + "${item.title}X${item.quantity},"
+        content += "${item.title} X ${item.quantity},"
     }
+    Log.d("Notify","content = $content")
     content.replaceFirst(".$","")
     Log.d("Notify","product in message = $content")
     return content

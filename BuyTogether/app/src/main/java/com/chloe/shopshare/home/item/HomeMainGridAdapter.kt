@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.databinding.ItemHomeGridBinding
 
-class HomeGridAdapter(private val  viewModel: HomePageViewModel)  : ListAdapter<Shop, HomeGridAdapter.ViewHolder>(DiffCallback) {
+class HomeMainGridAdapter(private val  viewModel: HomeMainViewModel)  : ListAdapter<Shop, HomeMainGridAdapter.ViewHolder>(DiffCallback) {
 
     class ViewHolder(private var binding: ItemHomeGridBinding):
             RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Shop, viewModel: HomePageViewModel) {
+        fun bind(item: Shop, viewModel: HomeMainViewModel) {
             binding.item = item
             binding.viewModel = viewModel
             binding.executePendingBindings()

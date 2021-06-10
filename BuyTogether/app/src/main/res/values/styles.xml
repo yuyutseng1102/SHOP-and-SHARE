@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="materialCalendarTheme">@style/DatePicker</item>
+        <item name="materialCardViewStyle">@style/Widget.App.CardView</item>
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.MaterialComponents.SmallComponent</item>
         <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.MaterialComponents.MediumComponent</item>
     </style>
@@ -221,6 +222,47 @@
         <item name="closeIconVisible">false</item>
         <item name="shapeAppearanceOverlay">@null</item>
     </style>
+
+    <style name="Widget.App.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Card</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.MediumComponent.Card</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Card" parent="">
+        <item name="colorPrimary">@color/gray_cccccc</item>
+        <item name="colorSurface">@color/gray_cccccc</item>
+        <item name="colorOnSurface">@color/gray_cccccc</item>
+    </style>
+
+<!--    <style name="ShapeAppearanceOverlay.App.Card.Media" parent="">-->
+<!--    </style>-->
+
+    <style name="ShapeAppearance.App.MediumComponent.Card" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="Widget.App.Button.Icon" parent="Widget.MaterialComponents.Button.Icon">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Button</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent.button</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Button" parent="">
+        <item name="colorPrimary">#BAFFFFFF</item>
+        <item name="colorSurface">#BAFFFFFF</item>
+
+    </style>
+
+<!--    <style name="TextAppearance.App.Button" parent="TextAppearance.MaterialComponents.Button">-->
+<!--        <item name="fontFamily">@font/rubik</item>-->
+<!--        <item name="android:fontFamily">@font/rubik</item>-->
+<!--    </style>-->
+
+    <style name="ShapeAppearance.App.SmallComponent.button" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+
 
 </resources>
 

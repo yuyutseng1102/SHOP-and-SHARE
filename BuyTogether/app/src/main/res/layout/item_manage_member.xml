@@ -21,7 +21,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/bg_white_corner"
         android:elevation="2dp"
         android:minWidth="250dp"
@@ -114,6 +116,7 @@
             android:layout_height="wrap_content"
             android:fillViewport="true"
             android:orientation="vertical"
+            android:paddingBottom="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -126,8 +129,8 @@
 
                 <ImageView
                     android:id="@+id/member_product_icon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -137,7 +140,7 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_product"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
@@ -151,8 +154,8 @@
 
                 <ImageView
                     android:id="@+id/member_price_icon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -162,7 +165,7 @@
 
                 <TextView
                     android:id="@+id/member_price"
-                    style="@style/ProductTitle"
+                    style="@style/DetailSubTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -177,18 +180,18 @@
 
                 <ImageView
                     android:id="@+id/member_icon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/member_price_icon"
-                    app:srcCompat="@drawable/ic_profile"
+                    app:layout_constraintTop_toBottomOf="@+id/member_price"
+                    app:srcCompat="@drawable/ic_baseline_location_on_24"
                     app:tint="@color/green_7A8277" />
 
                 <TextView
                     android:id="@+id/member_name"
-                    style="@style/ProductTitle"
+                    style="@style/DetailSubTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -200,7 +203,7 @@
 
                 <TextView
                     android:id="@+id/member_id"
-                    style="@style/ProductTitle"
+                    style="@style/DetailSubTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -215,7 +218,7 @@
 
                 <TextView
                     android:id="@+id/member_phone"
-                    style="@style/ProductTitle"
+                    style="@style/DetailSubTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -229,7 +232,7 @@
 
                 <TextView
                     android:id="@+id/member_delivery"
-                    style="@style/ProductTitle"
+                    style="@style/DetailSubTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -251,7 +254,7 @@
 
                 <TextView
                     android:id="@+id/member_address"
-                    style="@style/ProductTitle"
+                    style="@style/DetailSubTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -265,10 +268,10 @@
 
                 <ImageView
                     android:id="@+id/member_note_icon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="8dp"
                     android:visibility="@{TextUtils.isEmpty(item.note)?View.GONE:View.VISIBLE}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/member_address"
@@ -277,7 +280,7 @@
 
                 <TextView
                     android:id="@+id/member_note"
-                    style="@style/ProductTitle"
+                    style="@style/DetailSubTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -292,18 +295,17 @@
                     tools:text="無" />
 
                 <TextView
-                    android:id="@+id/member_time"
+                    android:id="@+id/order_date"
                     style="@style/ProductContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/member_note"
                     app:layout_constraintVertical_bias="1.0"
-                    app:timeToDisplayFormat="@{item.time}"
+                    app:dateTimeToDisplayFormat="@{item.time}"
                     tools:text="124" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

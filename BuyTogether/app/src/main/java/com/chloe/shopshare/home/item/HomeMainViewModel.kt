@@ -9,7 +9,7 @@ import com.chloe.shopshare.data.Product
 import com.chloe.shopshare.data.source.Repository
 import java.util.*
 
-class HomePageViewModel(private val repository: Repository) :ViewModel() {
+class HomeMainViewModel(private val repository: Repository) :ViewModel() {
 
     private val _shop1st = MutableLiveData<List<Shop>>()
     val shop1st: LiveData<List<Shop>>

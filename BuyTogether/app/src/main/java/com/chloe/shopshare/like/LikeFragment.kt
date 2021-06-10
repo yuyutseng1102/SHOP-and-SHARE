@@ -10,11 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.chloe.shopshare.NavigationDirections
-import com.chloe.shopshare.R
 import com.chloe.shopshare.databinding.FragmentLikeBinding
-import com.chloe.shopshare.databinding.FragmentShopBinding
 import com.chloe.shopshare.ext.getVmFactory
-import com.chloe.shopshare.shop.ShopViewModel
 
 class LikeFragment : Fragment() {
 

@@ -1,7 +1,6 @@
 package com.chloe.shopshare.data
 
 import android.os.Parcelable
-import com.chloe.shopshare.ext.toDisplayFormat
 import com.google.firebase.firestore.IgnoreExtraProperties
 import kotlinx.android.parcel.Parcelize
 

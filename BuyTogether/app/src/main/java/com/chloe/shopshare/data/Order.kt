@@ -21,3 +21,20 @@ data class Order(
     @IgnoredOnParcel
     var isCheck: Boolean = false
 }
+
+
+@Parcelize
+data class MyOrder(
+    var shop: Shop,
+    var order: Order
+): Parcelable {
+}
+
+@Parcelize
+data class MyOrderDetailKey(
+    var shopId: String = "",
+    var orderId: String = ""
+): Parcelable {
+}
+
+

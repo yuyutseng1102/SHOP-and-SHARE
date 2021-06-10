@@ -37,6 +37,7 @@ interface Repository {
 
     /** Shop Manage **/
     suspend fun getMyShop(userId:String): Result<List<Shop>>
+    suspend fun getMyShopByStatus(userId:String, status:List<Int>): Result<List<Shop>>
     suspend fun deleteOrder(shopId: String, order: Order): Result<Boolean>
     suspend fun updateShopStatus(shopId: String, shopStatus:Int): Result<Boolean>
     suspend fun updateOrderStatus(shopId: String, paymentStatus: Int): Result<Boolean>
@@ -45,6 +46,11 @@ interface Repository {
     suspend fun postRequest(request: Request): Result<Boolean>
     suspend fun updateRequestHost(requestId: String,shopId: String ,hostId: String): Result<Boolean>
     suspend fun updateRequestMember(requestId: String, memberId: String): Result<Boolean>
+
+    /** My Order **/
+    suspend fun getMyOrder(userId:String, status:List<Int>): Result<List<MyOrder>>
+    suspend fun getDetailOrder(shopId: String, orderId:String): Result<Order>
+    suspend fun getShopByOrder(orderId:String): Result<List<Shop>>
 
     /** My Request **/
     suspend fun getMyRequest(userId:String): Result<List<Request>>
