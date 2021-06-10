@@ -51,11 +51,25 @@ class HomeHostFragment() : Fragment() {
             }
         })
 
-//        viewModel.orderSize.observe(viewLifecycleOwner, Observer {
-//            it?.let {
-//
-//            }
-//        })
+        viewModel.shop.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                Log.d("LikeTag","get shop ready")
+                viewModel.getLikeList()
+            }
+        })
+
+        viewModel.successGetLikeList.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                Log.d("LikeTag","successGetLikeList observe = ${viewModel.successGetLikeList.value}")
+                viewModel.shop.value?.let {
+                        Log.d("LikeTag","submitList shop to home recycler")
+                        adapter.submitList(it)
+                    }
+                viewModel.onLikeListGet()
+            }
+        })
+
+
 
 
         binding.spinnerHome.adapter = HomeSpinnerAdapter(

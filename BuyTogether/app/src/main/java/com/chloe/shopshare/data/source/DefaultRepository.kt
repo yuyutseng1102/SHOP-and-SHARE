@@ -81,6 +81,14 @@ class DefaultRepository (private val remoteDataSource: DataSource,
         return remoteDataSource.getMyRequest(userId)
     }
 
+    override suspend fun getMyFinishedRequest(userId: String): Result<List<Request>> {
+        return remoteDataSource.getMyFinishedRequest(userId)
+    }
+
+    override suspend fun getMyOngoingRequest(userId: String): Result<List<Request>> {
+        return remoteDataSource.getMyOngoingRequest(userId)
+    }
+
     override suspend fun postShop(shop: Shop): Result<PostHostResult> {
         return remoteDataSource.postShop(shop)
     }
@@ -91,6 +99,10 @@ class DefaultRepository (private val remoteDataSource: DataSource,
 
     override suspend fun increaseOrderSize(shopId: String): Result<Boolean> {
         return remoteDataSource.increaseOrderSize(shopId)
+    }
+
+    override suspend fun getShopDetailLiked(shopIdList: List<String>): Result<List<Shop>> {
+        return remoteDataSource.getShopDetailLiked(shopIdList)
     }
 
     override suspend fun uploadImage(uri: Uri,folder:String): Result<String> {

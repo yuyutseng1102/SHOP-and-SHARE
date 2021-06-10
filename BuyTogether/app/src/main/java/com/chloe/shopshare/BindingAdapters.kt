@@ -32,6 +32,7 @@ import com.chloe.shopshare.host.CountryType
 import com.chloe.shopshare.host.item.GatherOptionAdapter
 import com.chloe.shopshare.host.DeliveryMethod
 import com.chloe.shopshare.host.HostImageAdapter
+import com.chloe.shopshare.myrequest.MyRequestAdapter
 import com.chloe.shopshare.network.LoadApiStatus
 import com.chloe.shopshare.notify.NotifyAdapter
 import com.chloe.shopshare.notify.NotifyType
@@ -87,6 +88,7 @@ fun bindRecyclerViewWithRequest(recyclerView: RecyclerView, request: List<Reques
         recyclerView.adapter?.apply {
             when (this) {
                 is HomeRequestingAdapter -> submitList(it)
+                is MyRequestAdapter -> submitList(it)
             }
         }
     }
@@ -215,13 +217,13 @@ fun bindDisplayFormatTime(textView: TextView, time: Long?) {
 @BindingAdapter("deadLineToDisplay","conditionType","conditionToDisplay")
 fun bindDisplayCondition(textView: TextView,deadLine:Long?,conditionType:Int?,condition:Int?) {
 
-    val deadLineToDisplay: String? = "預計${deadLine?.toDisplayFormat()}收團"
+    val deadLineToDisplay: String? = "預計 ${deadLine?.toDisplayFormat()} 收團"
 
     val conditionToDisplay: String? =
         when (conditionType) {
-            0 -> "滿額NT$${condition}止"
-            1 -> "徵滿${condition}份止"
-            2 -> "徵滿${condition}人止"
+            0 -> "滿額 NT$${condition} 止"
+            1 -> "徵滿 ${condition}份 止"
+            2 -> "徵滿 ${condition}人 止"
             else -> ""
         }
 

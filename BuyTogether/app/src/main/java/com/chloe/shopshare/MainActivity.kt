@@ -34,7 +34,7 @@ class MainActivity : BaseActivity() {
             }
             R.id.navigation_follow -> {
 
-                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToHomeFragment())
+                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToLikeFragment())
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_discuss -> {
@@ -99,6 +99,9 @@ class MainActivity : BaseActivity() {
                 R.id.notifyFragment -> CurrentFragmentType.NOTIFY
                 R.id.requestFragment -> CurrentFragmentType.REQUEST
                 R.id.requestDetailFragment -> CurrentFragmentType.REQUEST_DETAIL
+                R.id.likeFragment -> CurrentFragmentType.LiKE
+                R.id.myOrderFragment -> CurrentFragmentType.MY_ORDER
+                R.id.myRequestFragment -> CurrentFragmentType.MY_REQUEST
                 else -> viewModel.currentFragmentType.value
             }
         }

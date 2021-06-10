@@ -7,12 +7,13 @@ import com.chloe.shopshare.shop.ShopViewModel
 import com.chloe.shopshare.manage.groupmessage.GroupMessageViewModel
 import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.detail.item.DetailDescriptionViewModel
-import com.chloe.shopshare.host.HostViewModel
 import com.chloe.shopshare.host.item.GatherConditionViewModel
 import com.chloe.shopshare.home.item.HomeHostViewModel
 import com.chloe.shopshare.home.item.HomePageViewModel
 import com.chloe.shopshare.home.item.HomeRequestViewModel
+import com.chloe.shopshare.like.LikeViewModel
 import com.chloe.shopshare.login.LoginViewModel
+import com.chloe.shopshare.myrequest.MyRequestViewModel
 import com.chloe.shopshare.notify.NotifyViewModel
 import com.chloe.shopshare.profile.ProfileViewModel
 import com.chloe.shopshare.request.RequestViewModel
@@ -44,8 +45,8 @@ class ViewModelFactory constructor(
                     isAssignableFrom(HomeRequestViewModel::class.java) ->
                         HomeRequestViewModel(repository)
 
-//                    isAssignableFrom(HostViewModel::class.java) ->
-//                        HostViewModel(repository)
+                    isAssignableFrom(LikeViewModel::class.java) ->
+                        LikeViewModel(repository)
 
                     isAssignableFrom(GatherConditionViewModel::class.java) ->
                         GatherConditionViewModel(repository)
@@ -67,6 +68,9 @@ class ViewModelFactory constructor(
 
                     isAssignableFrom(RequestViewModel::class.java) ->
                         RequestViewModel(repository)
+
+                    isAssignableFrom(MyRequestViewModel::class.java) ->
+                        MyRequestViewModel(repository)
 
 
 

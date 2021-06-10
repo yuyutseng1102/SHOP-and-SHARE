@@ -45,12 +45,17 @@ interface DataSource {
     suspend fun updateRequestHost(requestId: String,shopId: String , hostId: String): Result<Boolean>
     suspend fun updateRequestMember(requestId: String, memberId: String): Result<Boolean>
 
-    /** Shop Manage **/
+    /** My Request **/
     suspend fun getMyRequest(userId:String): Result<List<Request>>
+    suspend fun getMyFinishedRequest(userId:String): Result<List<Request>>
+    suspend fun getMyOngoingRequest(userId:String): Result<List<Request>>
 
     /** Participate **/
     suspend fun postOrder(shopId: String, order: Order): Result<PostOrderResult>
     suspend fun increaseOrderSize(shopId: String): Result<Boolean>
+
+    /** Like **/
+    suspend fun getShopDetailLiked(shopIdList: List<String>): Result<List<Shop>>
 
     /** Notify **/
     suspend fun addShopLiked(userId: String, shopId: String): Result<Boolean>

@@ -8,10 +8,13 @@
     <!--Fragment Type-->
     <string name="profile">個人專區</string>
     <string name="gather">發起團購</string>
-    <string name="collection">開團查詢</string>
+    <string name="collection">開團紀錄</string>
     <string name="collection_manage">團購管理</string>
     <string name="participate">訂單填寫</string>
     <string name="notify">通知清單</string>
+    <string name="like">追蹤清單</string>
+    <string name="my_order">跟團紀錄</string>
+    <string name="my_request">徵團紀錄</string>
 
     <!-- Sort Method-->
     <string name="select_sort">選擇排序方式</string>
@@ -154,5 +157,12 @@
     <string name="request_success">開團通知</string>
     <string name="soon_to_end">團購即將結束</string>
     <string name="request_title">徵團準備</string>
+
+
+
+    <!-- My REQUEST-->
+    <string name="all_request">全部</string>
+    <string name="ongoing_request">進行中</string>
+    <string name="finished_request">已完成</string>
 
 </resources>

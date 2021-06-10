@@ -32,6 +32,14 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(NavigationDirections.navigateToNotifyFragment())
         }
 
+        binding.participateBlock.setOnClickListener {
+            findNavController().navigate(NavigationDirections.navigateToMyOrderFragment())
+        }
+
+        binding.requestBlock.setOnClickListener {
+            findNavController().navigate(NavigationDirections.navigateToMyRequestFragment())
+        }
+
         binding.logoutBlock.setOnClickListener {
             viewModel.logout()
             findNavController().navigate(NavigationDirections.navigateToLoginFragment())
