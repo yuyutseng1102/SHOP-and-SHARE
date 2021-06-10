@@ -5,7 +5,7 @@ plugins {
     id 'kotlin-android-extensions'
     id "kotlin-kapt"
     id "androidx.navigation.safeargs.kotlin"
-//    apply plugin: 'com.google.firebase.crashlytics'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
@@ -147,7 +147,7 @@ dependencies {
     implementation  'io.github.yavski:fab-speed-dial:1.0.6'
 
 
-//    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
 //    androidTestImplementation 'org.hamcrest:hamcrest:2.2'

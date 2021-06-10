@@ -4,15 +4,15 @@ import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
+import android.view.DisplayCutout
 import android.view.Gravity
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.findNavController
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.findNavController
 import com.chloe.shopshare.databinding.ActivityMainBinding
 import com.chloe.shopshare.ext.getVmFactory
 import com.chloe.shopshare.util.CurrentFragmentType
@@ -20,6 +20,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
+
 
 class MainActivity : BaseActivity() {
 
@@ -77,15 +78,14 @@ class MainActivity : BaseActivity() {
         binding.viewModel = viewModel
         setupToolbar()
         setupBottomNav()
-//        setupDrawer()
         setupNavController()
 
-
-//        val navHostFragment = supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as NavHostFragment
-//        val navController = navHostFragment.navController
-//        findViewById<BottomNavigationView>(R.id.bottomNavView).setupWithNavController(navController)
-
-
+        viewModel.navigateToHomeByBottomNav.observe(this, Observer {
+            it?.let {
+                binding.bottomNavView.selectedItemId = R.id.navigation_home
+                viewModel.onHomeNavigated()
+            }
+        })
     }
 
 
@@ -142,18 +142,18 @@ class MainActivity : BaseActivity() {
 
 
 
-
     /**
      * Set up the layout of [Toolbar], according to whether it has cutout
      */
     private fun setupToolbar() {
 
-        binding.toolbar.setPadding(0, statusBarHeight, 0, 0)
+//        binding.toolbar.setPadding(0, statusBarHeight, 0, 0)
 //        binding.toolbar.setPadding(0, 0, 0, 0)
+
+        launch {
             val dpi = resources.displayMetrics.densityDpi.toFloat()
             val dpiMultiple = dpi / DisplayMetrics.DENSITY_DEFAULT
-        launch {
-            val cutoutHeight = getCutoutHeight()
+//            val cutoutHeight = getCutoutHeight()
             Log.i("Chloe", "====== ${Build.MODEL} ======")
             Log.i("Chloe", "$dpi dpi (${dpiMultiple}x)")
             Log.i(
@@ -161,12 +161,12 @@ class MainActivity : BaseActivity() {
                 "statusBarHeight: ${statusBarHeight}px/${statusBarHeight / dpiMultiple}dp"
             )
 
-            when {
-                cutoutHeight > 0 -> {
-                    Log.i(
-                        "Chloe",
-                        "cutoutHeight: ${cutoutHeight}px/${cutoutHeight / dpiMultiple}dp"
-                    )
+//            when {
+//                cutoutHeight > 0 -> {
+//                    Log.i(
+//                        "Chloe",
+//                        "cutoutHeight: ${cutoutHeight}px/${cutoutHeight / dpiMultiple}dp"
+//                    )
 
                     val oriStatusBarHeight =
                         resources.getDimensionPixelSize(R.dimen.height_status_bar_origin)
@@ -177,7 +177,7 @@ class MainActivity : BaseActivity() {
                         Toolbar.LayoutParams.WRAP_CONTENT
                     )
                     layoutParams.gravity = Gravity.CENTER
-
+//
                     when (Build.MODEL) {
                         "Pixel 5" -> {
                             Log.i("Chloe", "Build.MODEL is ${Build.MODEL}")
@@ -188,12 +188,12 @@ class MainActivity : BaseActivity() {
                     }
 //                    binding.toolbarTitle.layoutParams = layoutParams
                 }
-            }
+//            }
             Log.i("Chloe", "====== ${Build.MODEL} ======")
         }
         }
 
 
 
-
-}
+//
+//}

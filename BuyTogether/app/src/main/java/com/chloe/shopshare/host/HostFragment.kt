@@ -103,6 +103,7 @@ class HostFragment : Fragment() {
                 viewModel.isInvalid.observe(viewLifecycleOwner, Observer {
                     if (it == null) {
                         viewModel.image.value?.let {
+
                             viewModel.uploadImages(it)
                         }
                     }else{
@@ -115,7 +116,9 @@ class HostFragment : Fragment() {
             //上傳圖片完畢送出
             viewModel.uploadDone.observe(viewLifecycleOwner, Observer {
                 it?.let {
+                    Log.d("HostTag","upload image done")
                     if (it) { viewModel.postGatherCollection()}
+                    viewModel.onImageUploadDone()
                 } })
 
         val successDialog = Dialog(this.requireContext())

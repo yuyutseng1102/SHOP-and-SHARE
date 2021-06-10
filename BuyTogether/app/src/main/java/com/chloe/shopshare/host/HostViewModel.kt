@@ -65,7 +65,9 @@ class HostViewModel(private val repository: Repository,private val argument: Req
     private val _uploadDone = MutableLiveData<Boolean>()
     val uploadDone: LiveData<Boolean>
         get() = _uploadDone
-
+    private val _editShopDone = MutableLiveData<Boolean>()
+    val editShopDone: LiveData<Boolean>
+        get() = _editShopDone
     private val _notifyRequestRequesterDone = MutableLiveData<Boolean>()
     val notifyRequestRequesterDone: LiveData<Boolean>
         get() = _notifyRequestRequesterDone
@@ -176,9 +178,9 @@ class HostViewModel(private val repository: Repository,private val argument: Req
     val selectedMethodRadio = MutableLiveData<Int>()
     private val method : Int
         get() = when (selectedMethodRadio.value) {
-            R.id.radio_agent -> 0
-            R.id.radio_gather -> 1
-            R.id.radio_private -> 2
+            R.id.radio_agent -> ShopType.AGENT.shopType
+            R.id.radio_gather -> ShopType.GATHER.shopType
+            R.id.radio_private -> ShopType.PRIVATE.shopType
             else -> 1
         }
 
@@ -408,19 +410,23 @@ class HostViewModel(private val repository: Repository,private val argument: Req
                 }
 
                 if (count == totalCount){
+
+                    _postImage.value = list
+                    Log.d("Chloe","_postImage.value  = ${_postImage.value } ")
                     _uploadDone.value = true
+                    Log.d("Chloe","_uploadDone.value = true")
                 }
 
-                Log.d("Chloe","list.value = ${list} ")
 
-                _postImage.value = list
-                Log.d("Chloe","_image.value = ${_image.value} ")
+
+
+
 
             }
 
         }
 
-        _status.value = LoadApiStatus.DONE
+
     }
 
 
@@ -519,11 +525,12 @@ class HostViewModel(private val repository: Repository,private val argument: Req
 
     fun postGatherCollection(){
         UserManager.userId?.let {
+            Log.d("Chloe","_postImage.value to post  ${_postImage.value}")
             _shop.value = Shop(
                 userId = it,
                 type = method,
                 mainImage = _postImage.value?.get(0) ?:"",
-                image = _postImage.value?: listOf(),
+                image =_postImage.value?: listOf(),
                 title = title.value?:"",
                 description = description.value?:"",
                 category = category.value?:0,
@@ -581,6 +588,10 @@ class HostViewModel(private val repository: Repository,private val argument: Req
 
     fun onLeft() {
         _leave.value = null
+    }
+
+    fun onImageUploadDone(){
+        _uploadDone.value = null
     }
 
 }
