@@ -18,7 +18,9 @@ import com.chloe.shopshare.NavigationDirections
 import com.chloe.shopshare.R
 import com.chloe.shopshare.databinding.FragmentParticipateBinding
 import com.chloe.shopshare.ext.getVmFactory
+import com.chloe.shopshare.host.DeliveryMethod
 import com.chloe.shopshare.network.LoadApiStatus
+import com.chloe.shopshare.util.Util
 
 
 class ParticipateFragment : Fragment() {
@@ -79,6 +81,16 @@ class ParticipateFragment : Fragment() {
         viewModel.delivery.observe(viewLifecycleOwner, Observer {
             it?.let {
                 Log.d("Chloe", "delivery selected is ${viewModel.delivery.value}")
+                binding.receiverDeliveryEdit.hint =
+                    when (it){
+                        DeliveryMethod.SEVEN_ELEVEN.delivery -> DeliveryMethod.SEVEN_ELEVEN.hint
+                        DeliveryMethod.FAMILY_MART.delivery -> DeliveryMethod.FAMILY_MART.hint
+                        DeliveryMethod.HI_LIFE.delivery -> DeliveryMethod.HI_LIFE.hint
+                        DeliveryMethod.OK.delivery -> DeliveryMethod.OK.hint
+                        DeliveryMethod.HOME_DELIVERY.delivery -> DeliveryMethod.HOME_DELIVERY.hint
+                        DeliveryMethod.BY_HAND.delivery -> DeliveryMethod.BY_HAND.hint
+                        else -> DeliveryMethod.SEVEN_ELEVEN.hint
+                    }
             }
         })
 

@@ -23,26 +23,36 @@
             android:layout_height="@dimen/height_toolbar"
             android:background="@color/colorPrimary"
             android:elevation="4dp"
-            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.REQUEST_DETAIL||viewModel.currentFragmentType == CurrentFragmentType.PROFILE||viewModel.currentFragmentType == CurrentFragmentType.DETAIL||viewModel.currentFragmentType == CurrentFragmentType.LOGIN? View.GONE : View.VISIBLE}"
+            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.CHAT_ROOM||viewModel.currentFragmentType == CurrentFragmentType.REQUEST_DETAIL||viewModel.currentFragmentType == CurrentFragmentType.PROFILE||viewModel.currentFragmentType == CurrentFragmentType.DETAIL||viewModel.currentFragmentType == CurrentFragmentType.LOGIN? View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/toolbar_title"
+            <ImageView
+                android:id="@+id/toolbar_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:fontFamily="@font/bad_script"
-                android:text="Shop &amp; Share"
-                android:textColor="@color/white"
-                android:textSize="24sp"
-                android:textStyle="bold"
+                app:tint="@color/white"
                 android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.HOME?View.VISIBLE:View.GONE}"
-                tools:layout_editor_absoluteX="155dp"
-                tools:layout_editor_absoluteY="15dp"
-                tools:text="Shop &amp; Share" />
+                app:srcCompat="@drawable/ic_tool_bar_title_left"
+                tools:layout_editor_absoluteX="16dp" />
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/toolbar_title"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_gravity="center"-->
+            <!--                android:fontFamily="sans-serif-black"-->
+            <!--                android:text="Shop &amp; Share"-->
+            <!--                android:textColor="@color/white"-->
+            <!--                android:textSize="24sp"-->
+            <!--                android:textStyle="bold"-->
+            <!--                android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.HOME?View.VISIBLE:View.GONE}"-->
+            <!--                tools:layout_editor_absoluteX="155dp"-->
+            <!--                tools:layout_editor_absoluteY="15dp"-->
+            <!--                tools:text="Shop &amp; Share" />-->
 
             <TextView
                 android:id="@+id/toolbar_home_title"
@@ -51,13 +61,15 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/bad_script"
-                android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.HOME?View.GONE:View.VISIBLE}"
                 android:text="@{viewModel.currentFragmentType.value}"
                 android:textColor="@color/white"
+                android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.HOME?View.GONE:View.VISIBLE}"
                 tools:layout_editor_absoluteX="155dp"
                 tools:layout_editor_absoluteY="15dp"
                 tools:text="發起團購" />
         </androidx.appcompat.widget.Toolbar>
+
+
 
         <fragment
             android:id="@+id/myNavHostFragment"
@@ -77,7 +89,7 @@
             android:layout_height="@dimen/height_bottom_nav_view_main"
             android:background="@color/white"
             android:elevation="@dimen/elevation_all"
-            android:visibility="@{(viewModel.currentFragmentType == CurrentFragmentType.REQUEST_DETAIL||viewModel.currentFragmentType == CurrentFragmentType.REQUEST||viewModel.currentFragmentType == CurrentFragmentType.LOGIN||viewModel.currentFragmentType == CurrentFragmentType.DETAIL||viewModel.currentFragmentType == CurrentFragmentType.HOST||viewModel.currentFragmentType == CurrentFragmentType.SHOP||viewModel.currentFragmentType == CurrentFragmentType.MANAGE)? View.GONE : View.VISIBLE}"
+            android:visibility="@{(viewModel.currentFragmentType == CurrentFragmentType.CHAT_ROOM||viewModel.currentFragmentType == CurrentFragmentType.PARTICIPATE||viewModel.currentFragmentType == CurrentFragmentType.NOTIFY||viewModel.currentFragmentType == CurrentFragmentType.MY_REQUEST||viewModel.currentFragmentType == CurrentFragmentType.ORDER_DETAIL||viewModel.currentFragmentType == CurrentFragmentType.MY_ORDER||viewModel.currentFragmentType == CurrentFragmentType.REQUEST_DETAIL||viewModel.currentFragmentType == CurrentFragmentType.REQUEST||viewModel.currentFragmentType == CurrentFragmentType.LOGIN||viewModel.currentFragmentType == CurrentFragmentType.DETAIL||viewModel.currentFragmentType == CurrentFragmentType.HOST||viewModel.currentFragmentType == CurrentFragmentType.SHOP||viewModel.currentFragmentType == CurrentFragmentType.MANAGE)? View.GONE : View.VISIBLE}"
             app:itemIconTint="@drawable/bottom_nav_item_selector"
             app:labelVisibilityMode="unlabeled"
             app:layout_constraintBottom_toBottomOf="parent"

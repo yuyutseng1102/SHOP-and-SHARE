@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Original -->
+<!--    <color name="colorPrimary">@color/blue_2B46BD</color>-->
+<!--    <color name="colorPrimaryDark">@color/green_BDCCC5</color>-->
+<!--    <color name="colorAccent">@color/red_C42217</color>-->
+<!--    <color name="color_background">@color/green_E7ECE5</color>-->
     <color name="colorPrimary">@color/green_BDCCC5</color>
     <color name="colorPrimaryDark">@color/green_BDCCC5</color>
-    <color name="colorAccent">@color/deep_purple_500</color>
-    <color name="color_background">@color/green_E7ECE5</color>
-
+    <color name="color_background">@color/white_FFF9F3</color>
+<!--    <color name="color_background">@color/green_E7ECE5</color>-->
     <!-- Bottom Navigation -->
     <color name="bottom_navigation_item_normal">@color/green_E6E4D7</color>
-    <color name="bottom_navigation_item_selected">@color/green_ADC9A0</color>
+    <color name="bottom_navigation_item_selected">@color/green_97B6A8</color>
 
     <color name="translucent_40">#66000000</color>
 
@@ -25,10 +28,14 @@
 
     <!-- White Series -->
     <color name="white">#ffffff</color>
+    <color name="white_FFF9F3">#FFF9F3</color>
+    <color name="white_F1F0F0">#F1F0F0</color>
 
     <!-- Black Series -->
     <color name="black">#000000</color>
     <color name="black_3f3a3a">#3f3a3a</color>
+    <color name="black_545454">#545454</color>
+    <color name="black_272727">#272727</color>
 
     <!-- Gray Series -->
 
@@ -38,6 +45,10 @@
     <color name="gray_cccccc">#cccccc</color>
     <color name="gray_f0f0f0">#f0f0f0</color>
     <color name="gray_f5f5f5">#f5f5f5</color>
+
+    <!--   red Series-->
+    <color name="red_C42217">#C42217</color>
+    <color name="blue_2B46BD">#2B46BD</color>
 
     <!-- Green Series -->
     <color name="green_BDCCC5">#BDCCC5</color>
@@ -69,6 +80,11 @@
     <color name="deep_purple_500">#673ab7</color>
     <color name="deep_purple_500_light">#9a67ea</color>
     <color name="deep_purple_500_dark">#320b86</color>
+
+    <!-- Blue Series -->
+    <color name="blue_4966cf">#4966cf</color>
+
+    <!-- Light Blue Series -->
     <color name="blue_72A6A5">#72A6A5</color>
     <color name="blue_81AAA9">#81AAA9</color>
     <color name="blue_9EBFBE">#9EBFBE</color>

@@ -14,6 +14,10 @@ fun Long.toDisplayDateFormat(): String {
     return SimpleDateFormat("yyyy/MM/dd", Locale.TAIWAN).format(this)
 }
 
+fun Long.toDisplayTimeFormat(): String {
+    return SimpleDateFormat("HH:mm", Locale.TAIWAN).format(this)
+}
+
 fun Long.toDisplayDateTimeFormat(): String {
     return SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.TAIWAN).format(this)
 }

@@ -3,6 +3,7 @@ package com.chloe.shopshare.factory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.chloe.shopshare.MainViewModel
+import com.chloe.shopshare.chat.ChatViewModel
 import com.chloe.shopshare.myhost.item.MyHostListViewModel
 import com.chloe.shopshare.manage.groupmessage.GroupMessageViewModel
 import com.chloe.shopshare.data.source.Repository
@@ -18,6 +19,7 @@ import com.chloe.shopshare.myrequest.item.MyRequestListViewModel
 import com.chloe.shopshare.notify.NotifyViewModel
 import com.chloe.shopshare.profile.ProfileViewModel
 import com.chloe.shopshare.request.RequestViewModel
+import com.chloe.shopshare.search.SearchViewModel
 
 /**
  *
@@ -66,6 +68,13 @@ class ViewModelFactory constructor(
 
                     isAssignableFrom(RequestViewModel::class.java) ->
                         RequestViewModel(repository)
+
+                    isAssignableFrom(ChatViewModel::class.java) ->
+                        ChatViewModel(repository)
+
+                    isAssignableFrom(SearchViewModel::class.java) ->
+                        SearchViewModel(repository)
+
 
 
 

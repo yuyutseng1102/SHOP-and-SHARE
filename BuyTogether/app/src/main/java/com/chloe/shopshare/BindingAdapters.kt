@@ -14,6 +14,8 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.chloe.shopshare.chat.ChatAdapter
+import com.chloe.shopshare.chatroom.ChatRoomMessageAdapter
 import com.chloe.shopshare.data.*
 import com.chloe.shopshare.myhost.item.MyHostListAdapter
 import com.chloe.shopshare.myhost.OrderStatusType
@@ -26,6 +28,7 @@ import com.chloe.shopshare.detail.item.DetailDeliveryAdapter
 import com.chloe.shopshare.detail.item.DetailImageAdapter
 import com.chloe.shopshare.ext.toDisplayDateFormat
 import com.chloe.shopshare.ext.toDisplayDateTimeFormat
+import com.chloe.shopshare.ext.toDisplayTimeFormat
 import com.chloe.shopshare.home.item.*
 import com.chloe.shopshare.host.CategoryType
 import com.chloe.shopshare.host.CountryType
@@ -63,8 +66,8 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
             .load(imgUri)
             .apply(
                 RequestOptions()
-                    .placeholder(R.drawable.ic_placeholder)
-                    .error(R.drawable.ic_placeholder))
+                    .placeholder(R.drawable.ic_loading_image)
+                    .error(R.drawable.ic_loading_image))
             .into(imgView)
     }
 }
@@ -74,8 +77,11 @@ fun bindRecyclerViewWithCollections(recyclerView: RecyclerView, shop: List<Shop>
     shop?.let {
         recyclerView.adapter?.apply {
             when (this) {
-                is HomeMainLinearAdapter -> submitList(it)
-                is HomeHots2ndAdapter -> submitList(it)
+                is HomeMainLinearAdapter -> {
+                    Log.d("HomeTag","Summit shop is $shop")
+                    submitList(it)
+                }
+//                is HomeHots2ndAdapter -> submitList(it)
                 is HomeHostingAdapter -> submitList(it)
                 is HomeMainGridAdapter -> submitList(it)
                 is MyHostListAdapter -> submitList(it)
@@ -106,6 +112,44 @@ fun bindRecyclerViewWithMyOrderDetail(recyclerView: RecyclerView, myOrder: List<
         }
     }
 }
+
+@BindingAdapter("messageList")
+fun bindRecyclerViewWithMessage(recyclerView: RecyclerView, message: List<Message>?) {
+    message?.let {
+        Log.d("Chat","summit the message is ${message}")
+        recyclerView.adapter?.apply {
+            when (this) {
+                is ChatRoomMessageAdapter -> submitList(it)
+            }
+        }
+    }
+}
+
+@BindingAdapter("chat")
+fun bindRecyclerViewWithChat(recyclerView: RecyclerView, chat: List<ChatRoom>?) {
+    chat?.let {
+        recyclerView.adapter?.apply {
+            Log.d("Chat","summit the chat is ${chat}")
+            when (this) {
+                is ChatAdapter -> submitList(it)
+            }
+        }
+    }
+}
+
+
+//@BindingAdapter("chatDetail")
+//fun bindRecyclerViewWithChatDetail(recyclerView: RecyclerView, chat: List<ChatDetail>?) {
+//    chat?.let {
+//        recyclerView.adapter?.apply {
+//            Log.d("Chat","summit the chat is ${chat}")
+//            when (this) {
+//                is ChatAdapter -> submitList(it)
+//            }
+//        }
+//    }
+//}
+
 
 @BindingAdapter("strings")
 fun bindRecyclerViewWithOptionStrings(recyclerView: RecyclerView, options: List<String>?) {
@@ -222,10 +266,16 @@ fun bindRecyclerViewWithNotify(recyclerView: RecyclerView, notify: List<Notify>?
 }
 
 
-@BindingAdapter("timeToDisplayFormat")
-fun bindDisplayFormatTime(textView: TextView, time: Long?) {
+@BindingAdapter("dateToDisplayFormat")
+fun bindDisplayFormatDate(textView: TextView, time: Long?) {
     textView.text = time?.toDisplayDateFormat()
 }
+
+@BindingAdapter("timeToDisplayFormat")
+fun bindDisplayFormatTime(textView: TextView, time: Long?) {
+    textView.text = time?.toDisplayTimeFormat()
+}
+
 
 @BindingAdapter("dateTimeToDisplayFormat")
 fun bindDisplayFormatDateTime(textView: TextView, time: Long?) {

@@ -264,7 +264,6 @@
                             android:layout_height="wrap_content"
                             android:inputType="textImeMultiLine"
                             android:gravity="top|start"
-                            android:hint="收件地址"
                             android:textColorHint="@{viewModel.isInvalid != null ? (TextUtils.isEmpty(viewModel.address)?@color/red_500 : @color/gray_646464) : @color/gray_646464}"
                             android:text="@={viewModel.address}" />
                     </com.google.android.material.textfield.TextInputLayout>

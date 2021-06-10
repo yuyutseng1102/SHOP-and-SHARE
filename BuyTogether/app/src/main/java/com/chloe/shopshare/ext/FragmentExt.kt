@@ -1,11 +1,13 @@
 package com.chloe.shopshare.ext
 
+import androidx.annotation.RequiresPermission
 import androidx.fragment.app.Fragment
 import com.chloe.shopshare.MyApplication
 import com.chloe.shopshare.data.MyOrderDetailKey
 import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.data.Product
 import com.chloe.shopshare.data.Request
+import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.factory.*
 import com.chloe.shopshare.myhost.MyHostType
 import com.chloe.shopshare.myorder.MyOrderType
@@ -61,5 +63,16 @@ fun Fragment.getVmFactory(myHostType: MyHostType): MyHostViewModelFactory {
     val repository = (requireContext().applicationContext as MyApplication).repository
     return MyHostViewModelFactory(repository, myHostType)
 }
+
+fun Fragment.getVmFactory(myId: String, friendId: String, chatRoomId: String): ChatRoomViewModelFactory {
+    val repository = (requireContext().applicationContext as MyApplication).repository
+    return ChatRoomViewModelFactory(repository, myId, friendId, chatRoomId)
+}
+
+fun Fragment.getVmFactory(category: Int, country: Int): ResultViewModelFactory {
+    val repository = (requireContext().applicationContext as MyApplication).repository
+    return ResultViewModelFactory(repository, category, country)
+}
+
 
 

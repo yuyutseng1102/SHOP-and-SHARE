@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable name="item" type="com.chloe.shopshare.data.ChatRoom" />
+        <variable name="viewModel" type="com.chloe.shopshare.chat.ChatViewModel" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_shop_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:animateLayoutChanges="true"
+        android:checkable="true"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="8dp"
+        app:cardPreventCornerOverlap="false"
+        app:contentPadding="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image_friend"
+                android:layout_width="60dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                app:imageUrl="@{item.friendInfo.photo}"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearance="?attr/shapeAppearanceSmallComponent"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Card.Media.Medium"
+                tools:srcCompat="@drawable/img_detail" />
+
+
+            <TextView
+                android:id="@+id/friend_name"
+                style="@style/ProductTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textStyle="bold"
+                android:text="@{item.friendInfo.name}"
+                app:layout_constraintEnd_toStartOf="@+id/message_date"
+                app:layout_constraintStart_toEndOf="@+id/image_friend"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Chloe Tseng" />
+
+            <TextView
+                android:id="@+id/collection_id"
+                style="@style/DetailSubTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:singleLine="true"
+                android:text="@{item.lastMessage}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/friend_name"
+                app:layout_constraintTop_toBottomOf="@+id/message_date"
+                tools:text="安安你好在ㄇ" />
+
+            <TextView
+                android:id="@+id/message_date"
+                style="@style/DetailSubTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="2021/05/04"
+                app:dateTimeToDisplayFormat="@{item.time}"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/detail_button_block"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+</layout>

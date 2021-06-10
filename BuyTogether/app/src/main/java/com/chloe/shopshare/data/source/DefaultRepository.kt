@@ -25,12 +25,35 @@ class DefaultRepository (private val remoteDataSource: DataSource,
         return remoteDataSource.getAllOpeningShop()
     }
 
+    override suspend fun getHotShopByType(category: Int): Result<List<Shop>> {
+        return remoteDataSource.getHotShopByType(category)
+    }
+
+    override suspend fun getNewShop(): Result<List<Shop>> {
+        return remoteDataSource.getNewShop()
+    }
+
     override suspend fun getAllRequest(): Result<List<Request>> {
         return remoteDataSource.getAllRequest()
     }
 
     override suspend fun getAllFinishedRequest(): Result<List<Request>> {
         return remoteDataSource.getAllFinishedRequest()
+    }
+
+    override suspend fun getShopByCategory(category: Int): Result<List<Shop>> {
+        return remoteDataSource.getShopByCategory(category)
+    }
+
+    override suspend fun getShopByCountry(country: Int): Result<List<Shop>> {
+        return remoteDataSource.getShopByCountry(country)
+    }
+
+    override suspend fun getShopByCategoryAndCountry(
+        category: Int,
+        country: Int
+    ): Result<List<Shop>> {
+        return remoteDataSource.getShopByCategoryAndCountry(category, country)
     }
 
 
@@ -125,6 +148,10 @@ class DefaultRepository (private val remoteDataSource: DataSource,
         return remoteDataSource.increaseOrderSize(shopId)
     }
 
+    override suspend fun decreaseOrderSize(shopId: String, orderSize: Int): Result<Boolean> {
+        return remoteDataSource.decreaseOrderSize(shopId, orderSize)
+    }
+
     override suspend fun getShopDetailLiked(shopIdList: List<String>): Result<List<Shop>> {
         return remoteDataSource.getShopDetailLiked(shopIdList)
     }
@@ -160,6 +187,22 @@ class DefaultRepository (private val remoteDataSource: DataSource,
 
     override fun getLiveNotify(userId: String): MutableLiveData<List<Notify>> {
         return remoteDataSource.getLiveNotify(userId)
+    }
+
+    override fun getMyAllChatRoom(myId: String): MutableLiveData<List<ChatRoom>> {
+        return remoteDataSource.getMyAllChatRoom(myId)
+    }
+
+    override suspend fun getChatRoom(myId: String, friendId: String): Result<ChatRoom> {
+        return remoteDataSource.getChatRoom(myId, friendId)
+    }
+
+    override fun getRoomMessage(roomId: String): MutableLiveData<List<Message>> {
+        return remoteDataSource.getRoomMessage(roomId)
+    }
+
+    override suspend fun sendMessage(chatRoomId: String, message: Message): Result<Boolean> {
+        return remoteDataSource.sendMessage(chatRoomId, message)
     }
 
 

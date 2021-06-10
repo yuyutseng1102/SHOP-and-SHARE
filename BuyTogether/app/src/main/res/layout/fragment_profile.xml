@@ -37,7 +37,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Hi ! Chloe" />
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/profile_photo"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
@@ -46,7 +46,9 @@
                 app:imageUrl="@{viewModel.user.photo}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/welcome_text"
-                app:srcCompat="@drawable/ic_placeholder" />
+                app:srcCompat="@drawable/ic_placeholder"
+            app:shapeAppearance="?attr/shapeAppearanceSmallComponent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Card.Media.Medium"/>
 
             <TextView
                 android:id="@+id/profile_name"

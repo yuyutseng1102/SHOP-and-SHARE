@@ -461,7 +461,7 @@
                 android:layout_width="@dimen/size_bottom_nav_icon"
                 android:layout_height="@dimen/size_bottom_nav_icon"
                 android:layout_marginStart="32dp"
-                android:src="@drawable/ic_follow"
+                android:src="@drawable/ic_baseline_message_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/nav_home"
                 app:layout_constraintTop_toTopOf="parent"

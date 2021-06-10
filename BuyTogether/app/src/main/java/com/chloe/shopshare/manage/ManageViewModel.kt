@@ -12,6 +12,7 @@ import com.chloe.shopshare.ext.toDisplayNotifyContent
 import com.chloe.shopshare.ext.toDisplayNotifyMessage
 import com.chloe.shopshare.network.LoadApiStatus
 import com.chloe.shopshare.notify.NotifyType
+import com.chloe.shopshare.util.UserManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -28,6 +29,8 @@ class ManageViewModel(
     }
     val shopId: LiveData<String>
         get() = _shopId
+
+
 
     private var _shop = MutableLiveData<Shop>()
     val shop: LiveData<Shop>
@@ -49,7 +52,15 @@ class ManageViewModel(
     val deleteSuccess: LiveData<Boolean>
         get() = _deleteSuccess
 
+    private val _successDecreaseOrder = MutableLiveData<Boolean>()
+    val successDecreaseOrder: LiveData<Boolean>
+        get() = _successDecreaseOrder
+
     val messageContent = MutableLiveData<String?>()
+
+    private val _chatRoom = MutableLiveData<ChatRoom>()
+    val chatRoom: LiveData<ChatRoom>
+        get() = _chatRoom
 
     private val _leave = MutableLiveData<Boolean>()
 
@@ -87,6 +98,8 @@ class ManageViewModel(
     var checkedMemberPosition = MutableLiveData<Int?>()
     var deleteList = MutableLiveData<List<Order>>()
 
+    lateinit var myId : String
+
 
     init {
         Log.i("Chloe", "Detail")
@@ -96,6 +109,10 @@ class ManageViewModel(
             getDetailShop(it)
             getOrderOfShop(it)
             }
+
+        UserManager.userId?.let {
+            myId = it
+        }
 
         deleteList.value = listOf()
         }
@@ -122,6 +139,10 @@ class ManageViewModel(
         _navigateToDetail.value = null
     }
 
+    // 要傳給聊天頁面的
+    private val _navigateToChatRoom = MutableLiveData<ChatRoomKey>()
+    val navigateToChatRoom: LiveData<ChatRoomKey>
+        get() = _navigateToChatRoom
 
 
     //打勾的是即將要刪除的團員
@@ -316,6 +337,7 @@ class ManageViewModel(
 
     }
 
+
     private fun deleteOrder(shopId: String, order: Order) {
 
         if (_order.value == null) {
@@ -355,6 +377,48 @@ class ManageViewModel(
             _refreshStatus.value = false
         }
     }
+
+    fun onSuccessDeleteOrder() {
+        _deleteSuccess.value = null
+    }
+
+    fun decreaseOrderSize(shopId: String, orderSize: Int) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+            val result = repository.decreaseOrderSize(shopId, orderSize)
+            _successDecreaseOrder.value =
+                when (result) {
+                    is Result.Success -> {
+                        _error.value = null
+                        _status.value = LoadApiStatus.DONE
+                        true
+
+                    }
+                    is Result.Fail -> {
+                        _error.value = result.error
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                    is Result.Error -> {
+                        _error.value = result.exception.toString()
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                    else -> {
+                        _error.value = MyApplication.instance.getString(R.string.result_fail)
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                }
+        }
+    }
+
+    fun onSuccessDecreaseOrder() {
+        _successDecreaseOrder.value = null
+    }
+
 
     private fun updateShopStatus(shopId: String, shopStatus: Int) {
 
@@ -462,6 +526,47 @@ class ManageViewModel(
                 }
             }
         }
+    }
+
+    fun getChatRoom(myId: String, friendId: String) {
+
+        coroutineScope.launch {
+            _status.value = LoadApiStatus.LOADING
+            val result = repository.getChatRoom(myId, friendId)
+            _chatRoom.value =
+                when (result) {
+                    is Result.Success -> {
+                        _error.value = null
+                        _status.value = LoadApiStatus.DONE
+                        result.data
+                    }
+                    is Result.Fail -> {
+                        _error.value = result.error
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                    is Result.Error -> {
+                        _error.value = result.exception.toString()
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                    else -> {
+                        _error.value = MyApplication.instance.getString(R.string.result_fail)
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                }
+
+                _chatRoom.value?.let {
+                    _navigateToChatRoom.value = ChatRoomKey(myId = UserManager.userId!!,friendId = friendId,chatRoomId = it.id)
+                }
+
+            }
+
+        }
+
+    fun onChatRoomNavigated() {
+        _navigateToChatRoom.value = null
     }
 
 }

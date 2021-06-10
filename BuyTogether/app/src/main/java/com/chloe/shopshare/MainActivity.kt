@@ -11,6 +11,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.chloe.shopshare.databinding.ActivityMainBinding
 import com.chloe.shopshare.ext.getVmFactory
 import com.chloe.shopshare.util.CurrentFragmentType
@@ -37,14 +39,14 @@ class MainActivity : BaseActivity() {
                 findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToLikeFragment())
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_discuss -> {
-
-                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToHomeFragment())
-                return@OnNavigationItemSelectedListener true
-            }
+//            R.id.navigation_discuss -> {
+//
+//                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToHomeFragment())
+//                return@OnNavigationItemSelectedListener true
+//            }
             R.id.navigation_search -> {
 
-                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToHomeFragment())
+                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToSearchFragment())
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_profile -> {
@@ -79,8 +81,12 @@ class MainActivity : BaseActivity() {
         setupNavController()
 
 
-    }
+//        val navHostFragment = supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as NavHostFragment
+//        val navController = navHostFragment.navController
+//        findViewById<BottomNavigationView>(R.id.bottomNavView).setupWithNavController(navController)
 
+
+    }
 
 
 
@@ -89,19 +95,30 @@ class MainActivity : BaseActivity() {
         findNavController(R.id.myNavHostFragment).addOnDestinationChangedListener { navController: NavController, _: NavDestination, _: Bundle? ->
             viewModel.currentFragmentType.value = when (navController.currentDestination?.id) {
                 R.id.homeFragment -> CurrentFragmentType.HOME
-                R.id.profileFragment -> CurrentFragmentType.PROFILE
                 R.id.hostFragment -> CurrentFragmentType.HOST
+                R.id.requestFragment -> CurrentFragmentType.REQUEST
+                R.id.detailFragment -> CurrentFragmentType.DETAIL
+                R.id.requestDetailFragment -> CurrentFragmentType.REQUEST_DETAIL
+                R.id.participateFragment -> CurrentFragmentType.PARTICIPATE
+
+                R.id.likeFragment -> CurrentFragmentType.LIKE
+
+                R.id.profileFragment -> CurrentFragmentType.PROFILE
                 R.id.myHostFragment -> CurrentFragmentType.SHOP
                 R.id.manageFragment -> CurrentFragmentType.MANAGE
-                R.id.detailFragment -> CurrentFragmentType.DETAIL
-                R.id.participateFragment -> CurrentFragmentType.PARTICIPATE
-                R.id.loginFragment -> CurrentFragmentType.LOGIN
-                R.id.notifyFragment -> CurrentFragmentType.NOTIFY
-                R.id.requestFragment -> CurrentFragmentType.REQUEST
-                R.id.requestDetailFragment -> CurrentFragmentType.REQUEST_DETAIL
-                R.id.likeFragment -> CurrentFragmentType.LiKE
                 R.id.myOrderFragment -> CurrentFragmentType.MY_ORDER
+                R.id.myOrderListFragment -> CurrentFragmentType.MY_ORDER
+                R.id.orderDetailFragment -> CurrentFragmentType.ORDER_DETAIL
                 R.id.myRequestFragment -> CurrentFragmentType.MY_REQUEST
+                R.id.myRequestListFragment -> CurrentFragmentType.MY_REQUEST
+
+                R.id.loginFragment -> CurrentFragmentType.LOGIN
+
+                R.id.notifyFragment -> CurrentFragmentType.NOTIFY
+
+                R.id.searchFragment -> CurrentFragmentType.SEARCH
+                R.id.chatRoomFragment -> CurrentFragmentType.CHAT_ROOM
+                R.id.resultFragment -> CurrentFragmentType.RESULT
                 else -> viewModel.currentFragmentType.value
             }
         }

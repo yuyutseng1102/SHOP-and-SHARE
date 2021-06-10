@@ -133,9 +133,7 @@
 
     <action android:id="@+id/navigate_to_detail_fragment" app:destination="@id/detailFragment"/>
 
-    <action android:id="@+id/navigate_to_participate_fragment" app:destination="@id/participateFragment"
-        app:popUpTo="@id/navigation"
-        app:popUpToInclusive="true"/>
+    <action android:id="@+id/navigate_to_participate_fragment" app:destination="@id/participateFragment"/>
 
     <action android:id="@+id/navigate_to_profile_fragment" app:destination="@id/profileFragment"
         app:popUpTo="@id/navigation"
@@ -148,7 +146,8 @@
     <action android:id="@+id/navigate_to_host_fragment" app:destination="@id/hostFragment"/>
 
     <action android:id="@+id/navigate_to_request_fragment" app:destination="@id/requestFragment"/>
-
+    <action android:id="@+id/navigate_to_search_fragment" app:destination="@id/searchFragment"/>
+    <action android:id="@+id/navigate_to_result_fragment" app:destination="@id/resultFragment"/>
     <action android:id="@+id/navigate_to_request_detail_fragment" app:destination="@id/requestDetailFragment"/>
 
     <action android:id="@+id/navigate_to_my_host_fragment" app:destination="@id/myHostFragment" />
@@ -159,6 +158,8 @@
     <action android:id="@+id/navigate_to_order_detail_fragment" app:destination="@id/orderDetailFragment"/>
     <action android:id="@+id/navigate_to_success_dialog" app:destination="@id/successDialog"/>
     <action android:id="@+id/navigate_to_login_fragment" app:destination="@id/loginFragment"/>
+    <action android:id="@+id/navigate_to_chat_room_fragment" app:destination="@id/chatRoomFragment"/>
+    <action android:id="@+id/navigate_to_chat_fragment" app:destination="@id/chatFragment"/>
     <fragment
         android:id="@+id/myRequestFragment"
         android:name="com.chloe.shopshare.myrequest.MyRequestFragment"
@@ -175,6 +176,41 @@
         android:id="@+id/myHostFragment"
         android:name="com.chloe.shopshare.myhost.MyHostFragment"
         android:label="MyHostFragment" />
+    <fragment
+        android:id="@+id/chatRoomFragment"
+        android:name="com.chloe.shopshare.chatroom.ChatRoomFragment"
+        android:label="ChatRoomFragment" >
+        <argument
+            android:name="myId"
+            app:argType="string" />
+        <argument
+            android:name="friendId"
+            app:argType="string" />
+        <argument
+            android:name="chatRoomId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.chloe.shopshare.chat.ChatFragment"
+        android:label="ChatFragment" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.chloe.shopshare.search.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/resultFragment"
+        android:name="com.chloe.shopshare.result.ResultFragment"
+        android:label="fragment_result"
+        tools:layout="@layout/fragment_result" >
+        <argument
+            android:name="categoryKey"
+            app:argType="integer"/>
+        <argument
+            android:name="countryKey"
+            app:argType="integer"/>
+    </fragment>
 
 
 </navigation>
