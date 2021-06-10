@@ -7,76 +7,75 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.chloe.buytogether.home.HomeFragment"
+        android:name="com.chloe.shopshare.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
     </fragment>
 
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.chloe.buytogether.detail.DetailFragment"
+        android:name="com.chloe.shopshare.detail.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail" >
-        <argument android:name="collectionKey"
-            app:argType="com.chloe.buytogether.data.Collections"
-            app:nullable="false"/>
+        <argument android:name="shopIdKey"
+            app:argType="string" />
     </fragment>
 
     <fragment
         android:id="@+id/detailDescriptionFragment"
-        android:name="com.chloe.buytogether.detail.item.DetailDescriptionFragment"
+        android:name="com.chloe.shopshare.detail.item.DetailDescriptionFragment"
         android:label="fragment_detail_description"
         tools:layout="@layout/fragment_detail_description" />
 
     <fragment
         android:id="@+id/participateFragment"
-        android:name="com.chloe.buytogether.participate.ParticipateFragment"
+        android:name="com.chloe.shopshare.participate.ParticipateFragment"
         android:label="ParticipateFragment"
         tools:layout="@layout/fragment_participate">
-        <argument android:name="collectionKey"
-        app:argType="com.chloe.buytogether.data.Collections"
+        <argument android:name="shopKey"
+        app:argType="com.chloe.shopshare.data.Shop"
         app:nullable="false"/>
         <argument android:name="productKey"
-            app:argType="com.chloe.buytogether.data.Product[]"
+            app:argType="com.chloe.shopshare.data.Product[]"
             app:nullable="false"/>
     </fragment>
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.chloe.buytogether.profile.ProfileFragment"
+        android:name="com.chloe.shopshare.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
 
     <fragment
         android:id="@+id/hostFragment"
-        android:name="com.chloe.buytogether.host.HostFragment"
+        android:name="com.chloe.shopshare.host.HostFragment"
         android:label="HostFragment"
         tools:layout="@layout/fragment_host"/>
 
     <fragment
-        android:id="@+id/collectionFragment"
-        android:name="com.chloe.buytogether.collection.CollectionFragment"
-        android:label="CollectionFragment"
-        tools:layout="@layout/fragment_collection" />
+        android:id="@+id/shopFragment"
+        android:name="com.chloe.shopshare.shop.ShopFragment"
+        android:label="ShopFragment"
+        tools:layout="@layout/fragment_shop" />
 
     <fragment
-        android:id="@+id/collectionManageFragment"
-        android:name="com.chloe.buytogether.collection.manage.CollectionManageFragment"
-        android:label="CollectionManageFragment"
-        tools:layout="@layout/fragment_collection_manage">
-    <argument android:name="collectionKey"
-        app:argType="com.chloe.buytogether.data.Collections"
-        app:nullable="false"/>
+        android:id="@+id/manageFragment"
+        android:name="com.chloe.shopshare.manage.ManageFragment"
+        android:label="ManageFragment"
+        tools:layout="@layout/fragment_manage">
+        <argument
+            android:name="shopIdKey"
+            app:argType="string" />
     </fragment>
 
     <fragment
         android:id="@+id/notifyFragment"
-        android:name="com.chloe.buytogether.notify.NotificationFragment"
+        android:name="com.chloe.shopshare.notify.NotificationFragment"
         android:label="NotifyFragment" />
 
     <fragment
         android:id="@+id/successDialog"
-        android:name="com.chloe.buytogether.dialog.SuccessDialog"
+        android:name="com.chloe.shopshare.dialog.SuccessDialog"
         tools:layout="@layout/dialog_success"
         android:label="SuccessDialog" />
 
@@ -101,12 +100,12 @@
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true"/>
 
-    <action android:id="@+id/navigate_to_collection_fragment" app:destination="@id/collectionFragment"
+    <action android:id="@+id/navigate_to_collection_fragment" app:destination="@id/shopFragment"
         app:popUpTo="@id/profileFragment"
         app:popUpToInclusive="false" />
 
-    <action android:id="@+id/navigate_to_collection_manage_fragment" app:destination="@id/collectionManageFragment"
-        app:popUpTo="@id/collectionFragment"
+    <action android:id="@+id/navigate_to_collection_manage_fragment" app:destination="@id/manageFragment"
+        app:popUpTo="@id/shopFragment"
         app:popUpToInclusive="false" />
 
     <action android:id="@+id/navigate_to_notify_fragment" app:destination="@id/notifyFragment"

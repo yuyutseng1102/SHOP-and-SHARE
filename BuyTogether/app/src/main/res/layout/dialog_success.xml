@@ -5,7 +5,7 @@
 
     <data>
         <import type="android.view.View"/>
-        <variable name="dialog" type="com.chloe.buytogether.dialog.SuccessDialog"/>
+        <variable name="dialog" type="com.chloe.shopshare.dialog.SuccessDialog"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

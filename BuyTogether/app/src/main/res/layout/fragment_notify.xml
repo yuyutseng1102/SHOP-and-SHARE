@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.chloe.buytogether.notify.NotifyViewModel" />
+            type="com.chloe.shopshare.notify.NotifyViewModel" />
 
     </data>
 

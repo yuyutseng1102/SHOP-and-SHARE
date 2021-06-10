@@ -5,8 +5,8 @@
 
     <data>
         <import type="android.view.View"/>
-        <variable name="item" type="com.chloe.buytogether.data.Product" />
-        <variable name="viewModel" type="com.chloe.buytogether.detail.dialog.ProductListViewModel" />
+        <variable name="item" type="com.chloe.shopshare.data.Product" />
+        <variable name="viewModel" type="com.chloe.shopshare.detail.dialog.ProductListViewModel" />
 
     </data>
 
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:maxLines="2"
-            android:text="@{item.productTitle}"
+            android:text="@{item.title}"
             tools:text="TextView"
             app:layout_constraintEnd_toStartOf="@+id/button_list_decrease"
             app:layout_constraintHorizontal_bias="0.0"

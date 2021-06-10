@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "85665924089",
+    "project_id": "shopshare-592fa",
+    "storage_bucket": "shopshare-592fa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:85665924089:android:ae73c44c3dbf75b7cff328",
+        "android_client_info": {
+          "package_name": "com.chloe.shopshare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "85665924089-9ih648m52is9t84a37cs883rldetnh2g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAG6eL9wnQkhze0iYQTT747eF5Oy86Vpns"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "85665924089-9ih648m52is9t84a37cs883rldetnh2g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

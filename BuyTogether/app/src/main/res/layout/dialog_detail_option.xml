@@ -7,7 +7,7 @@
         <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="com.chloe.buytogether.detail.dialog.DetailOptionViewModel" />
+            type="com.chloe.shopshare.detail.dialog.DetailOptionViewModel" />
 
     </data>
 

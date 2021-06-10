@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.chloe.buytogether.util.CurrentFragmentType"/>
+        <import type="com.chloe.shopshare.util.CurrentFragmentType"/>
         <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="com.chloe.buytogether.MainViewModel" />
+            type="com.chloe.shopshare.MainViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

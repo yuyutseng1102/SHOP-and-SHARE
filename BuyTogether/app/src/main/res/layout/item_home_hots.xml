@@ -5,9 +5,9 @@
 
     <data>
         <variable
-            name="item" type="com.chloe.buytogether.data.Collections" />
+            name="item" type="com.chloe.shopshare.data.Shop" />
         <variable
-            name="viewModel" type="com.chloe.buytogether.home.item.HomePageViewModel" />
+            name="viewModel" type="com.chloe.shopshare.home.item.HomePageViewModel" />
 
     </data>
 
@@ -45,7 +45,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:forceHasOverlappingRendering="false"
-            android:tint="@color/green_BDCCC5"
+            app:tint="@color/green_BDCCC5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_mark" />

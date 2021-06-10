@@ -7,7 +7,7 @@
         <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="com.chloe.buytogether.host.item.GatherOptionViewModel" />
+            type="com.chloe.shopshare.host.item.GatherOptionViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

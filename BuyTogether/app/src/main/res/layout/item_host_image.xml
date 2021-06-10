@@ -5,7 +5,7 @@
 
     <data>
         <variable name="item" type="String" />
-        <variable name="viewModel" type="com.chloe.buytogether.host.HostViewModel" />
+        <variable name="viewModel" type="com.chloe.shopshare.host.HostViewModel" />
 
     </data>
 

@@ -69,6 +69,14 @@
         <item name="android:textColor">@color/gray_888888</item>
     </style>
 
+    <style name="BlackContent">
+        <item name="android:fontFamily">@font/noto_sans</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
+    </style>
+
     <style name="DetailContent">
         <item name="android:fontFamily">@font/noto_sans</item>
         <item name="android:textSize">16sp</item>
@@ -127,6 +135,13 @@
     <style name="Number">
         <item name="android:fontFamily">@font/noto_sans</item>
         <item name="android:textSize">18sp</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="WhiteId">
+        <item name="android:fontFamily">@font/noto_sans</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:letterSpacing">0.15</item>
         <item name="android:textColor">@color/white</item>
     </style>
@@ -192,4 +207,8 @@
         <item name="closeIconVisible">false</item>
         <item name="shapeAppearanceOverlay">@null</item>
     </style>
+
+
 </resources>
+
+

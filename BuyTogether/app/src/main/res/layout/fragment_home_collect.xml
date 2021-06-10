@@ -6,7 +6,10 @@
     <data>
         <variable
             name="viewModel"
-            type="com.chloe.buytogether.home.item.HomeCollectViewModel" />
+            type="com.chloe.shopshare.home.item.HomeCollectViewModel" />
+        <variable
+            name="isLiveDataDesign"
+            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,14 +36,15 @@
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinner_home">
+            app:layout_constraintTop_toBottomOf="@+id/spinner_home"
+            app:layout_constraintVertical_bias="0.0">
 
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_collection"
-                collections="@{viewModel.collection}"
+                collections="@{viewModel.shop}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -58,6 +62,23 @@
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+        <ProgressBar
+            android:theme="@style/ProgressTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:setupApiStatus="@{viewModel.status}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:setupApiErrorMessage="@{viewModel.error}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
