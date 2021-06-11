@@ -6,23 +6,19 @@
         <variable name="title" type="String"/>
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
 
         <TextView
             android:id="@+id/text_spinner_title"
-            style="@style/GatherTitle"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:lineSpacingExtra="8sp"
-            android:text="@{title}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:padding="16dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:lineSpacingExtra="8sp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 </layout>

@@ -6,6 +6,7 @@
 <!--    <color name="colorAccent">@color/red_C42217</color>-->
 <!--    <color name="color_background">@color/green_E7ECE5</color>-->
     <color name="colorPrimary">@color/green_BDCCC5</color>
+    <color name="colorOnSurface">@color/black_545454</color>
     <color name="colorPrimaryDark">@color/green_BDCCC5</color>
     <color name="color_background">@color/white_FFF9F3</color>
 <!--    <color name="color_background">@color/green_E7ECE5</color>-->
@@ -14,6 +15,8 @@
     <color name="bottom_navigation_item_selected">@color/green_97B6A8</color>
 
     <color name="translucent_40">#66000000</color>
+    <color name="translucent_50">#80000000</color>
+    <color name="translucent_60">#99000000</color>
 
     <color name="state_focus">@color/orange_DD894D</color>
     <color name="state_click">@color/green_E6E4D7</color>
@@ -22,6 +25,16 @@
     <color name="state_wait">@color/blue_A1C9CD</color>
     <color name="state_ship">@color/brown_C5BBAF</color>
     <color name="state_finish">@color/gray_cccccc</color>
+
+    <!--    text-->
+    <color name="textColorPrimary">@color/green_BDCCC5</color>
+    <color name="textColorOnSurface">@color/black_3f3a3a</color>
+    <color name="textColorError">@color/orange_ee867a</color>
+
+    <!--    icon button -->
+    <color name="iconButtonTextColor">@color/green_7A8277</color>
+    <color name="iconButtonStrokeColor">@color/gray_cccccc</color>
+
     <!-- Tag Navigation -->
     <color name="tag_category">@color/yellow_FFF499</color>
     <color name="tag_country">@color/blue_9EBFBE</color>
@@ -114,6 +127,14 @@
         <item android:color="@color/colorPrimary" android:state_checked="true"/>
     </selector>
     </color>
+
+    <color name="check_tint">
+        <selector xmlns:android="http://schemas.android.com/apk/res/android">
+            <item android:color="@color/translucent_40" android:state_checked="false"/>
+            <item android:color="@color/colorPrimary" android:state_checked="true"/>
+        </selector>
+    </color>
+
 
 
     <color name="check_chip_text_tint">

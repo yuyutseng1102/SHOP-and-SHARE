@@ -38,8 +38,7 @@
                     android:background="#FFFFFF"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:visibility="gone">
+                    app:layout_constraintTop_toTopOf="parent">
 
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -75,12 +74,14 @@
                         style="@style/DetailSubTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
-                        android:background="#99FFFFFF"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/bg_image_tag"
                         android:gravity="bottom|center"
-                        android:paddingHorizontal="16dp"
+                        android:paddingHorizontal="12dp"
                         android:paddingVertical="4dp"
                         android:text='@{viewModel.shop.status == 0 ? "開團中": "已結團"}'
-                        android:textColor="@color/black_3f3a3a"
+                        android:textColor="@color/white"
                         android:textIsSelectable="true"
                         app:layout_constrainedHeight="false"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -200,15 +201,14 @@
 
                     <TextView
                         android:id="@+id/host_time_text"
-                        style="@style/UserName"
+                        style="@style/DetailSubTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
-                        android:textColor="@color/gray_999999"
+                        app:dateTimeToDisplayFormat="@{viewModel.shop.time}"
                         app:layout_constraintBottom_toBottomOf="@+id/host_id"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/host_id"
-                        app:timeToDisplayFormat="@{viewModel.shop.time}"
                         tools:text="2021/05/09" />
 
 
@@ -254,7 +254,7 @@
 
                     <TextView
                         android:id="@+id/host_id"
-                        style="@style/UserName"
+                        style="@style/DetailSubTitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"

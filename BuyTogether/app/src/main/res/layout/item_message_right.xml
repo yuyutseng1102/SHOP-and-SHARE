@@ -6,32 +6,62 @@
     <data>
         <import type="android.view.View"/>
         <variable name="item" type="com.chloe.shopshare.data.Message" />
-        <variable name="timeView" type="Boolean" />
+        <variable name="viewModel" type="com.chloe.shopshare.chatroom.ChatRoomViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/message_right"
-            style="@style/GatherTitle"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/message_block"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/bg_bubble_right"
-            android:gravity="start|top"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="8dp"
-            android:text="@{item.message}"
-            android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            tools:text="安安你好" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/message_right"
+                style="@style/GatherTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_bubble_right"
+                android:gravity="start|top"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp"
+                android:text="@{item.message}"
+                android:textColor="#FFFFFF"
+                android:visibility="@{item.message!=null?View.VISIBLE:View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                tools:text="安安你好" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:maxWidth="200dp"
+                android:scaleType="centerCrop"
+                android:visibility="@{item.image!=null?View.VISIBLE:View.GONE}"
+                app:imageUrl="@{item.image}"
+                android:onClick="@{()->viewModel.navigateToDialog(item.image)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                app:layout_optimizationLevel="ratio"
+                app:shapeAppearance="?attr/shapeAppearanceMediumComponent"
+                tools:srcCompat="@drawable/toolbarlogo" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <TextView
             android:id="@+id/message_right_time"
@@ -40,10 +70,9 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:textColor="@color/green_7A8277"
-            app:layout_constraintBottom_toBottomOf="@+id/message_right"
-            app:layout_constraintEnd_toStartOf="@+id/message_right"
-            app:timeToDisplayFormat="@{item.time}"
-            tools:text="10:34"
-            android:visibility="@{timeView == true?View.VISIBLE:View.GONE}"/>
+            app:layout_constraintBottom_toBottomOf="@+id/message_block"
+            app:layout_constraintEnd_toStartOf="@+id/message_block"
+            app:timeToDisplayInChatRoomFormat="@{item.time}"
+            tools:text="10:34"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -160,6 +160,7 @@
     <action android:id="@+id/navigate_to_login_fragment" app:destination="@id/loginFragment"/>
     <action android:id="@+id/navigate_to_chat_room_fragment" app:destination="@id/chatRoomFragment"/>
     <action android:id="@+id/navigate_to_chat_fragment" app:destination="@id/chatFragment"/>
+    <action android:id="@+id/navigate_to_chat_room_image_dialog" app:destination="@id/chatRoomImageDialog"/>
     <fragment
         android:id="@+id/myRequestFragment"
         android:name="com.chloe.shopshare.myrequest.MyRequestFragment"
@@ -211,6 +212,15 @@
             android:name="countryKey"
             app:argType="integer"/>
     </fragment>
+    <dialog
+        android:id="@+id/chatRoomImageDialog"
+        android:name="com.chloe.shopshare.chatroom.dialog.ChatRoomImageDialog"
+        android:label="ChatRoomImageDialog">
+        <argument
+            android:name="imageKey"
+            app:argType="string"/>
+    </dialog>
+
 
 
 </navigation>

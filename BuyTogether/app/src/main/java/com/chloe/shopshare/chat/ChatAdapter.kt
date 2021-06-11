@@ -14,6 +14,7 @@ import com.chloe.shopshare.data.ChatRoom
 import com.chloe.shopshare.data.Message
 import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.databinding.ItemChatBinding
+import com.chloe.shopshare.ext.getDayWeek
 import com.chloe.shopshare.ext.toDisplayDateTimeFormat
 import com.chloe.shopshare.network.LoadApiStatus
 
@@ -37,9 +38,8 @@ class ChatAdapter(val onClickListener: OnClickListener , private val viewModel: 
                     binding.item = item
                     Log.d("Chat","messageDate = ${it.last().time.toDisplayDateTimeFormat()}")
                     Log.d("Chat","messageContent = ${it.last().message}")
-                    binding.messageDate.text = it.last().time.toDisplayDateTimeFormat()
-                    binding.messageContent.text = it.last().message
-//                    ChatAdapter(viewModel).notifyDataSetChanged()
+                    binding.messageDate.text = it.last().time.getDayWeek()
+                    binding.messageContent.text = it.last().message?:"照片已傳送"
                 }
             })
 

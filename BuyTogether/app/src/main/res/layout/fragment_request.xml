@@ -31,30 +31,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-
-                <TextView
-                    android:id="@+id/upload_text"
-                    style="@style/GatherTitle"
+                <Button
+                    android:id="@+id/pick_image_button"
+                    style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="24dp"
+                    android:letterSpacing="0.15"
+                    android:paddingLeft="4dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="4dp"
+                    android:paddingBottom="0dp"
                     android:text="上傳照片"
-                    android:textColor="@{viewModel.isInvalid != null ? (viewModel.image==null ? @color/red_500 : @color/gray_646464) : @color/gray_646464}"
+                    android:textColor="@color/black_3f3a3a"
+                    android:textSize="16dp"
+                    app:icon="@drawable/icons_24px_add01"
+                    app:iconSize="20dp"
+                    app:iconTint="@color/black_3f3a3a"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-
-                <ImageButton
-                    android:id="@+id/pick_image_button"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="16dp"
-                    android:background="@drawable/icons_24px_add01"
-                    android:backgroundTint="@color/tag_country"
-                    app:layout_constraintStart_toEndOf="@+id/upload_text"
-                    app:layout_constraintTop_toTopOf="@+id/upload_text" />
-
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearance="@style/ShapeAppearance.App.SmallComponent.button"
+                    app:strokeColor="@color/transparent" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_image"
@@ -65,10 +63,23 @@
                     app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="@+id/upload_text"
+                    app:layout_constraintStart_toStartOf="@+id/pick_image_button"
                     app:layout_constraintTop_toBottomOf="@+id/pick_image_button"
                     app:spanCount="4"
                     app:strings="@{viewModel.image}" />
+
+                <TextView
+                    android:id="@+id/error_pick_image"
+                    style="?attr/textAppearanceCaption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="請至少上傳一張照片"
+                    android:visibility="@{viewModel.isInvalid != null ? (viewModel.image==null||viewModel.image.size()==0 ? View.VISIBLE : View.GONE ):View.GONE}"
+                    android:textColor="@color/design_default_color_error"
+                    app:layout_constraintBottom_toBottomOf="@+id/pick_image_button"
+                    app:layout_constraintStart_toEndOf="@+id/pick_image_button"
+                    app:layout_constraintTop_toTopOf="@+id/pick_image_button" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/request_title_field"
@@ -79,7 +90,9 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:ems="10"
-                    app:boxStrokeColor="@{viewModel.isInvalid != null ?(TextUtils.isEmpty(viewModel.title)?@color/red_500 : @color/gray_646464) : @color/gray_646464}"
+                    android:hint="標題名稱"
+                    app:setupApiErrorMessage="@{viewModel.isInvalid != null &amp;&amp; TextUtils.isEmpty(viewModel.title)}"
+                    app:errorEnabled="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/recycler_image">
@@ -89,9 +102,9 @@
                         style="@style/ProductTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="top|start"
                         android:inputType="textMultiLine"
-                        android:hint="標題名稱"
-                        android:textColorHint="@{viewModel.isInvalid != null ? (TextUtils.isEmpty(viewModel.title)?@color/red_500 : @color/gray_646464) : @color/gray_646464}"
+                        android:maxLines="2"
                         android:text="@={viewModel.title}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -102,24 +115,24 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="4dp"
                     android:layout_marginEnd="16dp"
                     android:ems="10"
-                    app:boxStrokeColor="@{viewModel.isInvalid != null ?(TextUtils.isEmpty(viewModel.description)?@color/red_500 : @color/gray_646464) : @color/gray_646464}"
+                    android:hint="團購描述"
+                    app:errorEnabled="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/request_title_field">
+                    app:layout_constraintTop_toBottomOf="@+id/request_title_field"
+                    app:setupApiErrorMessage="@{viewModel.isInvalid != null &amp;&amp; TextUtils.isEmpty(viewModel.description)}">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/request_description_edit"
                         style="@style/ProductTitle"
-                        android:maxLines="15"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="top|start"
                         android:inputType="textMultiLine"
-                        android:hint="徵團描述"
-                        android:textColorHint="@{viewModel.isInvalid != null ? (TextUtils.isEmpty(viewModel.description)?@color/red_500 : @color/gray_646464) : @color/gray_646464}"
+                        android:maxLines="15"
                         android:text="@={viewModel.description}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -130,14 +143,15 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="4dp"
                     android:layout_marginEnd="16dp"
                     android:ems="10"
-                    app:boxStrokeColor="@{viewModel.isInvalid != null ?(TextUtils.isEmpty(viewModel.source)?@color/red_500 : @color/gray_646464) : @color/gray_646464}"
-
+                    android:hint="參考來源/網站"
+                    app:errorEnabled="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/request_description_field">
+                    app:layout_constraintTop_toBottomOf="@+id/request_description_field"
+                    app:setupApiErrorMessage="@{viewModel.isInvalid != null &amp;&amp; TextUtils.isEmpty(viewModel.source)}">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/request_source_edit"
@@ -146,61 +160,58 @@
                         android:layout_height="wrap_content"
                         android:gravity="top|start"
                         android:inputType="textMultiLine"
-                        android:hint="參考來源"
-                        android:textColorHint="@{viewModel.isInvalid != null ? (TextUtils.isEmpty(viewModel.description)?@color/red_500 : @color/gray_646464) : @color/gray_646464}"
+                        android:maxLines="2"
                         android:text="@={viewModel.source}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
-                    android:id="@+id/request_category_text"
-                    style="@style/GatherTitle"
-                    android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/menu_request_category"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:text="團購分類"
+                    android:layout_marginTop="4dp"
+                    android:hint="團購分類"
+                    app:errorEnabled="true"
+                    app:layout_constraintEnd_toStartOf="@+id/menu_request_country"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/request_source_field" />
+                    app:layout_constraintTop_toBottomOf="@+id/request_source_field"
+                    app:setupApiErrorMessage="@{viewModel.isInvalid != null &amp;&amp; viewModel.category == null}">
 
-                <Spinner
-                    android:id="@+id/spinner_request_category"
+                    <AutoCompleteTextView
+                        style="@style/ProductTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:text="@={viewModel.selectedCategoryTitle}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/menu_request_country"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
-                    android:selectedItemPosition="@={viewModel.selectedCategoryPosition}"
-                    android:tooltipText="團購分類"
-                    app:layout_constraintBottom_toBottomOf="@+id/request_category_text"
+                    android:hint="團購國家"
+                    app:errorEnabled="true"
+                    app:setupApiErrorMessage="@{viewModel.isInvalid != null &amp;&amp; viewModel.country == null}"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/request_category_text"
-                    app:layout_constraintTop_toTopOf="@+id/request_category_text" />
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/menu_request_category"
+                    app:layout_constraintTop_toTopOf="@+id/menu_request_category">
 
-                <TextView
-                    android:id="@+id/request_country_text"
-                    style="@style/GatherTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="團購國家"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/request_category_text"
-                    app:layout_constraintVertical_bias="0.0" />
+                    <AutoCompleteTextView
+                        style="@style/ProductTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:text="@={viewModel.selectedCountryTitle}"/>
 
-                <Spinner
-                    android:id="@+id/spinner_request_country"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:selectedItemPosition="@={viewModel.selectedCountryPosition}"
-                    app:layout_constraintBottom_toBottomOf="@+id/request_country_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/request_country_text"
-                    app:layout_constraintTop_toTopOf="@+id/request_country_text" />
+                </com.google.android.material.textfield.TextInputLayout>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

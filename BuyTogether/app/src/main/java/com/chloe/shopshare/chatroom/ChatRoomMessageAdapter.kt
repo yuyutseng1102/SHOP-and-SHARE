@@ -11,19 +11,15 @@ import com.chloe.shopshare.databinding.ItemMessageLeftBinding
 import com.chloe.shopshare.databinding.ItemMessageRightBinding
 import com.chloe.shopshare.util.UserManager
 
-class ChatRoomMessageAdapter:ListAdapter<Message, RecyclerView.ViewHolder>(DiffCallback)  {
+class ChatRoomMessageAdapter(private val viewModel: ChatRoomViewModel):ListAdapter<Message, RecyclerView.ViewHolder>(DiffCallback)  {
 
     class RightBubbleViewHolder(private var binding: ItemMessageRightBinding):
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Message) {
+        fun bind(item: Message,viewModel: ChatRoomViewModel) {
             Log.d("Chat","RightBubbleViewHolder")
             binding.item = item
-            binding.executePendingBindings()
-        }
-
-        fun displayTime(timeView: Boolean) {
-            binding.timeView = timeView
+            binding.viewModel = viewModel
             binding.executePendingBindings()
         }
     }
@@ -31,13 +27,10 @@ class ChatRoomMessageAdapter:ListAdapter<Message, RecyclerView.ViewHolder>(DiffC
     class LeftBubbleViewHolder(private var binding: ItemMessageLeftBinding):
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Message) {
+        fun bind(item: Message,viewModel: ChatRoomViewModel) {
             Log.d("Chat","LeftBubbleViewHolder")
             binding.item = item
-            binding.executePendingBindings()
-        }
-        fun displayTime(timeView: Boolean) {
-            binding.timeView = timeView
+            binding.viewModel = viewModel
             binding.executePendingBindings()
         }
     }
@@ -69,16 +62,10 @@ class ChatRoomMessageAdapter:ListAdapter<Message, RecyclerView.ViewHolder>(DiffC
 
         when (holder) {
             is RightBubbleViewHolder -> {
-                var timeView = false
-                timeView = position == itemCount-1
-                holder.bind((getItem(position)))
-                holder.displayTime(timeView)
+                holder.bind((getItem(position)),viewModel)
             }
             is LeftBubbleViewHolder -> {
-                var timeView = false
-                timeView = position == itemCount-1
-                holder.bind((getItem(position)))
-                holder.displayTime(timeView)
+                holder.bind((getItem(position)),viewModel)
             }
         }
     }
@@ -93,18 +80,3 @@ class ChatRoomMessageAdapter:ListAdapter<Message, RecyclerView.ViewHolder>(DiffC
     }
 
 }
-
-//sealed class MessageItem {
-//
-//    abstract val id: String
-//
-//    data class MessageByMe(val message: Message): MessageItem() {
-//        override val id: String
-//            get() = message.id
-//    }
-//    data class MessageByFriend(val message: Message): MessageItem() {
-//        override val id: String
-//            get() = message.id
-//    }
-//
-//}

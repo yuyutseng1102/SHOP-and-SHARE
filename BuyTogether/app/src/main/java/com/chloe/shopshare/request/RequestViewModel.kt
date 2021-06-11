@@ -14,6 +14,7 @@ import com.chloe.shopshare.data.Result
 import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.host.CategoryType
 import com.chloe.shopshare.host.CountryType
+import com.chloe.shopshare.host.HostViewModel
 import com.chloe.shopshare.network.LoadApiStatus
 import com.chloe.shopshare.util.UserManager
 import kotlinx.coroutines.CoroutineScope
@@ -109,28 +110,32 @@ class RequestViewModel(private val repository: Repository) : ViewModel() {
         Log.d("Request", "imageList remove $item , the list change to ${_image.value} ")
     }
 
-    //select gather category
-    val selectedCategoryPosition = MutableLiveData<Int>()
+    val selectedCategoryTitle = MutableLiveData<String>()
 
-    val categoryType: LiveData<CategoryType> = Transformations.map(selectedCategoryPosition) {
-        CategoryType.values()[it]
+    fun convertCategoryTitleToInt(title:String) {
+
+        var item : Int = 0
+
+        for (type in CategoryType.values()) {
+            if (type.title == title) {
+                item =  type.category
+            }
+        }
+        category.value = item
     }
 
-    fun selectCategory() {
-        category.value = categoryType.value?.category
-        Log.d("Request", "====Look at category ${category.value}==== ")
-    }
+    val selectedCountryTitle = MutableLiveData<String>()
 
-    //select gather country
-    val selectedCountryPosition = MutableLiveData<Int>()
+    fun convertCountryTitleToInt(title:String){
 
-    val countryType: LiveData<CountryType> = Transformations.map(selectedCountryPosition) {
-        CountryType.values()[it]
-    }
+        var item : Int = 0
 
-    fun selectCountry() {
-        country.value = countryType.value?.country
-        Log.d("Request", "====Look at country ${country.value}==== ")
+        for (type in CountryType.values()) {
+            if (type.title == title) {
+                item =  type.country
+            }
+        }
+        country.value = item
     }
 
     fun checkRequest() {
@@ -140,6 +145,8 @@ class RequestViewModel(private val repository: Repository) : ViewModel() {
                 image.value.isNullOrEmpty() -> INVALID_FORMAT_IMAGE_EMPTY
                 description.value.isNullOrEmpty() -> INVALID_FORMAT_DESCRIPTION_EMPTY
                 source.value.isNullOrEmpty() -> INVALID_FORMAT_SOURCE_EMPTY
+                category.value == null -> INVALID_FORMAT_CATEGORY_EMPTY
+                country.value == null -> INVALID_FORMAT_COUNTRY_EMPTY
                 else -> null
             }
     }

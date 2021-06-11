@@ -99,7 +99,9 @@
         <item name="android:letterSpacing">0.15</item>
         <item name="android:textColor">@color/black_3f3a3a</item>
     </style>
-    <style name="ProductTitle">
+
+
+        <style name="ProductTitle">
         <item name="android:textSize">14sp</item>
         <item name="android:maxLines">2</item>
         <item name="android:letterSpacing">0.15</item>
@@ -172,6 +174,13 @@
 
     <style name="SuccessDialog">
         <item name="android:windowBackground">@color/translucent_80</item>
+    </style>
+
+    <style name="MessageDialog" parent="Theme.AppCompat.DialogWhenLarge">
+        <item name="android:windowBackground">@color/translucent_80</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:closeIcon">@drawable/ic_baseline_close_24</item>
+
     </style>
 
 
@@ -296,10 +305,36 @@
     </style>
 
     <style name="ThemeOverlay.App.Toolbar" parent="">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryVariant">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/color_background</item>
+        <item name="colorPrimaryVariant">@color/color_background</item>
         <item name="colorOnPrimary">@color/black_3f3a3a</item>
     </style>
+
+    <style name="Widget.App.TextInputLayout.OutlineBox" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.TextInputLayout</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent</item>
+        <item name="hintTextColor">@color/textColorOnSurface</item>
+    </style>
+
+    <style name="ThemeOverlay.App.TextInputLayout" parent="">
+        <item name="colorPrimary">@color/textColorPrimary</item>
+        <item name="colorOnSurface">@color/textColorOnSurface</item>
+        <item name="colorError">@color/textColorError</item>
+    </style>
+
+    <!--outline icon text button -->
+
+
+    <style name="Widget.App.Button.OutlinedButton.Icon" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Button.TextButton</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent.button</item>
+    </style>
+
+
+    <style name="ThemeOverlay.App.Button.TextButton" parent="">
+        <item name="colorPrimary">@color/black_545454</item>
+    </style>
+
 
 </resources>
 

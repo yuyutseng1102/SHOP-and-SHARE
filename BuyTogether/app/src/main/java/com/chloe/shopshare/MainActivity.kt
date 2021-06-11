@@ -13,6 +13,8 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.chloe.shopshare.databinding.ActivityMainBinding
 import com.chloe.shopshare.ext.getVmFactory
 import com.chloe.shopshare.util.CurrentFragmentType
@@ -29,34 +31,34 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
 
 
-    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        when (item.itemId) {
-            R.id.navigation_home -> {
-                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToHomeFragment())
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_follow -> {
-
-                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToLikeFragment())
-                return@OnNavigationItemSelectedListener true
-            }
-//            R.id.navigation_discuss -> {
-//
+//    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+//        when (item.itemId) {
+//            R.id.navigation_home -> {
 //                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToHomeFragment())
 //                return@OnNavigationItemSelectedListener true
 //            }
-            R.id.navigation_search -> {
-
-                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToSearchFragment())
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_profile -> {
-                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToProfileFragment())
-                return@OnNavigationItemSelectedListener true
-            }
-        }
-        false
-    }
+//            R.id.navigation_follow -> {
+//
+//                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToLikeFragment())
+//                return@OnNavigationItemSelectedListener true
+//            }
+////            R.id.navigation_discuss -> {
+////
+////                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToHomeFragment())
+////                return@OnNavigationItemSelectedListener true
+////            }
+//            R.id.navigation_search -> {
+//
+//                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToSearchFragment())
+//                return@OnNavigationItemSelectedListener true
+//            }
+//            R.id.navigation_profile -> {
+//                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToProfileFragment())
+//                return@OnNavigationItemSelectedListener true
+//            }
+//        }
+//        false
+//    }
 
     // get the height of status bar from system
     private val statusBarHeight: Int
@@ -77,12 +79,17 @@ class MainActivity : BaseActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         setupToolbar()
-        setupBottomNav()
+//        setupBottomNav()
         setupNavController()
+
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        findViewById<BottomNavigationView>(R.id.bottomNavView).setupWithNavController(navController)
 
         viewModel.navigateToHomeByBottomNav.observe(this, Observer {
             it?.let {
-                binding.bottomNavView.selectedItemId = R.id.navigation_home
+                binding.bottomNavView.selectedItemId = R.id.homeFragment
                 viewModel.onHomeNavigated()
             }
         })
@@ -130,15 +137,15 @@ class MainActivity : BaseActivity() {
      * Set up [BottomNavigationView], add badge view through [BottomNavigationMenuView] and [BottomNavigationItemView]
      * to display the count of Cart
      */
-    private fun setupBottomNav() {
-        binding.bottomNavView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+//    private fun setupBottomNav() {
+//        binding.bottomNavView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
 //        val menuView = binding.bottomNavView.getChildAt(0) as BottomNavigationMenuView
 //        val itemView = menuView.getChildAt(2) as BottomNavigationItemView
 //        val bindingBadge = BadgeBottomBinding.inflate(LayoutInflater.from(this), itemView, true)
 //        bindingBadge.lifecycleOwner = this
 //        bindingBadge.viewModel = viewModel
-    }
+//    }
 
 
 

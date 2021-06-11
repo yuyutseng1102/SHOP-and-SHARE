@@ -3,8 +3,6 @@ package com.chloe.shopshare.host
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
-import android.content.Intent.getIntent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -21,17 +19,11 @@ import androidx.navigation.fragment.navArgs
 import com.chloe.shopshare.MyApplication
 import com.chloe.shopshare.NavigationDirections
 import com.chloe.shopshare.R
-import com.chloe.shopshare.data.Request
 import com.chloe.shopshare.databinding.FragmentHostBinding
-import com.chloe.shopshare.detail.DetailFragmentArgs
-import com.chloe.shopshare.detail.DetailViewModel
 import com.chloe.shopshare.ext.getVmFactory
-import com.chloe.shopshare.host.item.CategorySpannerAdapter
-import com.chloe.shopshare.host.item.CountrySpannerAdapter
 import com.chloe.shopshare.host.item.GatherConditionDialog
 import com.chloe.shopshare.host.item.GatherOptionDialog
-import com.chloe.shopshare.network.LoadApiStatus
-import com.chloe.shopshare.requestdetail.RequestDetailFragment
+import com.google.firebase.crashlytics.internal.common.Utils
 
 
 class HostFragment : Fragment() {
@@ -50,29 +42,44 @@ class HostFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        binding.spinnerGatherCategory.adapter = CategorySpannerAdapter(MyApplication.instance.resources.getStringArray(R.array.category_list))
+        val categoryAdapter = ArrayAdapter(requireContext(), R.layout.item_host_category_spinner, MyApplication.instance.resources.getStringArray(R.array.category_list))
+        (binding.menuHostCategory.editText as? AutoCompleteTextView)?.setAdapter(categoryAdapter)
 
-        binding.spinnerGatherCountry.adapter = CountrySpannerAdapter(MyApplication.instance.resources.getStringArray(R.array.country_list))
+        val countryAdapter = ArrayAdapter(requireContext(), R.layout.item_host_country_spinner, MyApplication.instance.resources.getStringArray(R.array.country_list))
+        (binding.menuHostCountry.editText as? AutoCompleteTextView)?.setAdapter(countryAdapter)
+
+//        binding.spinnerGatherCategory.adapter = CategorySpannerAdapter(MyApplication.instance.resources.getStringArray(R.array.category_list))
+//        binding.spinnerGatherCountry.adapter = CountrySpannerAdapter(MyApplication.instance.resources.getStringArray(R.array.country_list))
+
+        viewModel.initCategoryPosition.observe(viewLifecycleOwner, Observer {
+            it.let {
+                (binding.menuHostCategory.editText as? AutoCompleteTextView)?.setText(MyApplication.instance.resources.getStringArray(R.array.category_list)[it],false)
+//                binding.spinnerGatherCategory.setSelection(it)
+            }
+        })
 
 
         viewModel.initCountryPosition.observe(viewLifecycleOwner, Observer {
             it.let {
-                binding.spinnerGatherCountry.setSelection(it)
+                (binding.menuHostCountry.editText as? AutoCompleteTextView)?.setText(MyApplication.instance.resources.getStringArray(R.array.country_list)[it],false)
+//                binding.spinnerGatherCountry.setSelection(it)
             }
         })
 
-        viewModel.initCategoryPosition.observe(viewLifecycleOwner, Observer {
-            it.let {
-                binding.spinnerGatherCategory.setSelection(it)
-            }
-        })
-
-            viewModel.categoryType.observe(viewLifecycleOwner, Observer {
-                viewModel.selectCategory()
+            viewModel.selectedCategoryTitle.observe(viewLifecycleOwner, Observer {
+                it?.let {
+                    if (it.isNotEmpty()) {
+                        viewModel.convertCategoryTitleToInt(it)
+                    }
+                }
             })
 
-            viewModel.countryType.observe(viewLifecycleOwner, Observer {
-                viewModel.selectCountry()
+            viewModel.selectedCountryTitle.observe(viewLifecycleOwner, Observer {
+                it?.let {
+                    if (it.isNotEmpty()) {
+                        viewModel.convertCountryTitleToInt(it)
+                    }
+                }
             })
 
         viewModel.option.observe(viewLifecycleOwner, Observer {
@@ -91,10 +98,6 @@ class HostFragment : Fragment() {
                 imageAdapter.notifyDataSetChanged()
             })
 
-
-
-
-
             binding.buttonAdd.setOnClickListener {
                 //確認有沒有沒填好的
                 viewModel.readyToPost()
@@ -103,14 +106,62 @@ class HostFragment : Fragment() {
                 viewModel.isInvalid.observe(viewLifecycleOwner, Observer {
                     if (it == null) {
                         viewModel.image.value?.let {
-
                             viewModel.uploadImages(it)
                         }
-                    }else{
-                        Toast.makeText(context, "尚未輸入完整內容", Toast.LENGTH_SHORT).show()
                     }
                 })
             }
+
+//        viewModel.apply {
+//            isInvalid.observe(viewLifecycleOwner, Observer {
+//                it?.let {
+//                    Toast.makeText(context, "尚未輸入完整內容", Toast.LENGTH_SHORT).show()
+//                    viewModel.apply {
+//                        when(title.value.isNullOrEmpty()) {
+//                            true -> {
+//                                binding.textFieldHostTitle.requestFocus()
+//                                binding.textFieldHostTitle.error = "error"
+//                            }
+//                            false -> binding.textFieldHostTitle.error = null
+//                        }
+//
+//                        when(description.value.isNullOrEmpty()) {
+//                            true -> {
+//                                binding.textFieldHostDescription.requestFocus()
+//                                binding.textFieldHostDescription.error = "error"
+//                            }
+//                            false -> binding.textFieldHostDescription.error = null
+//                        }
+//
+//                        when(source.value.isNullOrEmpty()) {
+//                            true -> {
+//                                binding.textFieldHostSource.requestFocus()
+//                                binding.textFieldHostSource.error = "error"
+//                            }
+//                            false -> binding.textFieldHostSource.error = null
+//                        }
+//
+//                        when(category.value == null) {
+//                            true -> {
+//                                binding.menuHostCategory.requestFocus()
+//                                binding.menuHostCategory.error = "error"
+//                            }
+//                            false -> binding.menuHostCategory.error = null
+//                        }
+//
+//                        when(country.value == null) {
+//                            true -> {
+//                                binding.menuHostCountry.requestFocus()
+//                                binding.menuHostCountry.error = "error"
+//                            }
+//                            false -> binding.menuHostCountry.error = null
+//                        }
+//
+//                    }
+//                }
+//            })
+//
+//        }
 
 
             //上傳圖片完畢送出
@@ -255,6 +306,10 @@ class HostFragment : Fragment() {
                 }
                 startActivityForResult(intent, pickImageFile)
             }
+
+
+
+
 
 
             return binding.root
