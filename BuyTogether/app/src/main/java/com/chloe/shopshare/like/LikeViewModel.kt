@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.chloe.shopshare.MyApplication
 import com.chloe.shopshare.R
+import com.chloe.shopshare.data.Notify
 import com.chloe.shopshare.data.Request
 import com.chloe.shopshare.data.Result
 import com.chloe.shopshare.data.Shop
@@ -181,8 +182,44 @@ class LikeViewModel(private val repository: Repository): ViewModel() {
         }
     }
 
+    fun removeShopLiked(userId : String, shop: Shop) {
 
+        coroutineScope.launch {
+            _status.value = LoadApiStatus.LOADING
+            val result = repository.removeShopLiked(userId, shop.id)
+            when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    result.data
+                    refresh()
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value = MyApplication.instance.getString(R.string.result_fail)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
+        }
     }
+
+
+    fun refresh() {
+            getLikeList(userId)
+    }
+
+
+}
 //    fun getShopLikedDetail(){
 //        Log.d("LikeTag","getShopLiked = ${_likeList.value}")
 //

@@ -20,7 +20,6 @@ class NotifyAdapter(private val viewModel: NotifyViewModel) : ListAdapter<Notify
         fun bind(item: Notify, viewModel: NotifyViewModel) {
             binding.item = item
             binding.viewModel = viewModel
-            var swipeBackground = binding.deleteBlock.view
             binding.notifyExpandButton.setOnCheckedChangeListener { _, isChecked ->
                 when (isChecked) {
                     true -> {

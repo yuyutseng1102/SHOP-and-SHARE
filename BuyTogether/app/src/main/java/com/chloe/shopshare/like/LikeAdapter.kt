@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.chloe.shopshare.data.Notify
 import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.databinding.ItemLikeBinding
 
@@ -40,6 +41,11 @@ class LikeAdapter(val viewModel: LikeViewModel)  : ListAdapter<Shop, LikeAdapter
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item,viewModel)
+    }
+
+
+    fun getShopLiked(position: Int): Shop {
+        return getItem(position)
     }
 
 }

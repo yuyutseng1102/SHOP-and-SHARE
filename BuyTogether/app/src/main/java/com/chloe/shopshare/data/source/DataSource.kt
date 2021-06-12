@@ -83,7 +83,7 @@ interface DataSource {
     suspend fun getMyNotify(userId: String): Result<List<Notify>>
     suspend fun updateNotifyChecked(userId: String,notifyId: String): Result<Boolean>
     suspend fun deleteNotify(userId: String,notify: Notify): Result<Boolean>
-    fun getLiveNotify(userId: String): MutableLiveData<List<Notify>>
+    fun getLiveNewNotify(userId: String): MutableLiveData<List<Notify>>
 
     /** CHAT ROOM **/
     fun getMyAllChatRoom(myId: String): MutableLiveData<List<ChatRoom>>

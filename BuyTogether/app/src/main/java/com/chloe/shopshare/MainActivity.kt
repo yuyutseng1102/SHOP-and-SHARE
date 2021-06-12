@@ -8,7 +8,9 @@ import android.view.DisplayCutout
 import android.view.Gravity
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -79,20 +81,11 @@ class MainActivity : BaseActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         setupToolbar()
-//        setupBottomNav()
+        setupBottomNav()
         setupNavController()
+        setUpBadge()
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as NavHostFragment
-        val navController = navHostFragment.navController
 
-        findViewById<BottomNavigationView>(R.id.bottomNavView).setupWithNavController(navController)
-
-        viewModel.navigateToHomeByBottomNav.observe(this, Observer {
-            it?.let {
-                binding.bottomNavView.selectedItemId = R.id.homeFragment
-                viewModel.onHomeNavigated()
-            }
-        })
     }
 
 
@@ -137,15 +130,41 @@ class MainActivity : BaseActivity() {
      * Set up [BottomNavigationView], add badge view through [BottomNavigationMenuView] and [BottomNavigationItemView]
      * to display the count of Cart
      */
-//    private fun setupBottomNav() {
-//        binding.bottomNavView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+    private fun setupBottomNav() {
 
-//        val menuView = binding.bottomNavView.getChildAt(0) as BottomNavigationMenuView
-//        val itemView = menuView.getChildAt(2) as BottomNavigationItemView
-//        val bindingBadge = BadgeBottomBinding.inflate(LayoutInflater.from(this), itemView, true)
-//        bindingBadge.lifecycleOwner = this
-//        bindingBadge.viewModel = viewModel
-//    }
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        findViewById<BottomNavigationView>(R.id.bottomNavView).setupWithNavController(navController)
+
+        viewModel.navigateToHomeByBottomNav.observe(this, Observer {
+            it?.let {
+                binding.bottomNavView.selectedItemId = R.id.homeFragment
+                viewModel.onHomeNavigated()
+            }
+        })
+
+    }
+
+    private fun setUpBadge(){
+        val navMenu = binding.bottomNavView
+        val notifyBadge = navMenu.getOrCreateBadge(R.id.profileFragment)
+        notifyBadge.maxCharacterCount = 99
+        notifyBadge.horizontalOffset = 20
+        notifyBadge.verticalOffset = 20
+        notifyBadge.backgroundColor = ContextCompat.getColor(this, R.color.textColorError)
+
+        viewModel.notify.observeForever{
+            it?.let {
+                if (it.isNotEmpty()) {
+                    notifyBadge.isVisible = true
+                    notifyBadge.number = it.size
+                } else {
+                    notifyBadge.isVisible = false
+                }
+            }
+        }
+    }
 
 
 

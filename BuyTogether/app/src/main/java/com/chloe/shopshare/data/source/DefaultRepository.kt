@@ -197,8 +197,8 @@ class DefaultRepository (private val remoteDataSource: DataSource,
     }
 
 
-    override fun getLiveNotify(userId: String): MutableLiveData<List<Notify>> {
-        return remoteDataSource.getLiveNotify(userId)
+    override fun getLiveNewNotify(userId: String): MutableLiveData<List<Notify>> {
+        return remoteDataSource.getLiveNewNotify(userId)
     }
 
     override fun getMyAllChatRoom(myId: String): MutableLiveData<List<ChatRoom>> {

@@ -1662,14 +1662,14 @@ object RemoteDataSource : DataSource {
         }
 
 
-    override fun getLiveNotify(userId: String): MutableLiveData<List<Notify>> {
+    override fun getLiveNewNotify(userId: String): MutableLiveData<List<Notify>> {
 
         val liveData = MutableLiveData<List<Notify>>()
 
         val notifyDataBase = FirebaseFirestore.getInstance().collection(PATH_USER).document(userId)
             .collection(PATH_NOTIFY)
         notifyDataBase
-            .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
+            .whereEqualTo("isChecked",false)
             .addSnapshotListener { snapshot, exception ->
 
                 Log.i("Notify", "addSnapshotListener detect")

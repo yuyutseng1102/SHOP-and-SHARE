@@ -206,7 +206,7 @@ class LocalDataSource(val context: Context): DataSource {
     }
 
 
-    override fun getLiveNotify(userId: String): MutableLiveData<List<Notify>> {
+    override fun getLiveNewNotify(userId: String): MutableLiveData<List<Notify>> {
         TODO("Not yet implemented")
     }
 

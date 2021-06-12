@@ -49,15 +49,30 @@
                     tools:srcCompat="@drawable/img_detail"
                     app:shapeAppearance="?attr/shapeAppearanceMediumComponent"/>
 
+                <CheckBox
+                    android:id="@+id/check_box_like"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="end"
+                    android:button="@drawable/sl_like_24dp"
+                    android:buttonTint="@color/colorPrimary"
+                    android:checked="true"
+                    android:clickable="true"
+                    android:gravity="end"
+                    android:onClick="@{()->viewModel.removeShopLiked(viewModel.userId,item)}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:useMaterialThemeColors="false" />
+
                 <TextView
                     android:id="@+id/title_like_shop"
                     style="@style/GatherTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:maxLines="2"
+                    android:singleLine="true"
                     android:text="@{item.title}"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/check_box_like"
                     app:layout_constraintStart_toEndOf="@+id/image_like_shop"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Bowwow滿10000九折~~~三天快閃團" />

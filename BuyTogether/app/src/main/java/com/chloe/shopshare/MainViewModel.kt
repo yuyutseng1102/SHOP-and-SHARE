@@ -2,17 +2,20 @@ package com.chloe.shopshare
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import com.chloe.shopshare.data.Notify
 import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.util.CurrentFragmentType
-import com.firebase.ui.auth.AuthUI
+import com.chloe.shopshare.util.UserManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 
 class MainViewModel(private val repository: Repository) : ViewModel() {
+
+    private var _notify = MutableLiveData<List<Notify>>()
+    val notify: LiveData<List<Notify>>
+        get() = _notify
 
 
     // Record current fragment to support data binding
@@ -46,6 +49,12 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
         viewModelJob.cancel()
     }
 
+    init {
+        UserManager.userId?.let {
+            getLiveNewNotify(it)
+        }
+    }
+
 
     fun navigateToHomeByBottomNav() {
         _navigateToHomeByBottomNav.value = true
@@ -55,6 +64,10 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
         _navigateToHomeByBottomNav.value = null
     }
 
+
+    private fun getLiveNewNotify(userId: String) {
+        _notify = repository.getLiveNewNotify(userId)
+    }
 
 
 }
