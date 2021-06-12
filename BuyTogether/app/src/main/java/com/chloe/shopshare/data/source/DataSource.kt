@@ -80,6 +80,9 @@ interface DataSource {
     suspend fun postRequestNotifyToMember(notify: Notify): Result<Boolean>
     suspend fun postOrderNotifyToMember(orderList: List<Order>, notify: Notify): Result<Boolean>
     suspend fun postNotifyToHost(hostId: String, notify: Notify): Result<Boolean>
+    suspend fun getMyNotify(userId: String): Result<List<Notify>>
+    suspend fun updateNotifyChecked(userId: String,notifyId: String): Result<Boolean>
+    suspend fun deleteNotify(userId: String,notify: Notify): Result<Boolean>
     fun getLiveNotify(userId: String): MutableLiveData<List<Notify>>
 
     /** CHAT ROOM **/

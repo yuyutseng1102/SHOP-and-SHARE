@@ -193,6 +193,18 @@ class LocalDataSource(val context: Context): DataSource {
         TODO("Not yet implemented")
     }
 
+    override suspend fun getMyNotify(userId: String): Result<List<Notify>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun updateNotifyChecked(userId: String,notifyId: String): Result<Boolean> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteNotify(userId: String,notify: Notify): Result<Boolean> {
+        TODO("Not yet implemented")
+    }
+
 
     override fun getLiveNotify(userId: String): MutableLiveData<List<Notify>> {
         TODO("Not yet implemented")

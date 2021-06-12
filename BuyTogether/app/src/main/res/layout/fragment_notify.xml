@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
             type="com.chloe.shopshare.notify.NotifyViewModel" />
@@ -16,16 +17,58 @@
         android:background="@color/gray_f5f5f5"
         tools:context=".notify.NotificationFragment">
 
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_notify"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingBottom="4dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/layout_swipe_refresh_notify"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:notify="@{viewModel.notify}" />
+            app:layout_constraintVertical_bias="0.0">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_notify"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:notify="@{viewModel.notify}" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <TextView
+            android:id="@+id/default_text"
+            style="@style/DetailSubTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:text="目前沒有通知"
+            android:visibility="@{viewModel.visible==true?View.VISIBLE:View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:theme="@style/ProgressTheme"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:setupApiStatus="@{viewModel.status}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:setupApiErrorMessage="@{viewModel.error}" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
