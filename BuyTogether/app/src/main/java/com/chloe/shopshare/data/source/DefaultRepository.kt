@@ -184,13 +184,29 @@ class DefaultRepository (private val remoteDataSource: DataSource,
         return remoteDataSource.postNotifyToHost(hostId, notify)
     }
 
+    override suspend fun getMyNotify(userId: String): Result<List<Notify>> {
+        return remoteDataSource.getMyNotify(userId)
+    }
 
-    override fun getLiveNotify(userId: String): MutableLiveData<List<Notify>> {
-        return remoteDataSource.getLiveNotify(userId)
+    override suspend fun updateNotifyChecked(userId: String,notifyId: String): Result<Boolean> {
+        return remoteDataSource.updateNotifyChecked(userId,notifyId)
+    }
+
+    override suspend fun deleteNotify(userId: String,notify: Notify): Result<Boolean> {
+        return remoteDataSource.deleteNotify(userId,notify)
+    }
+
+
+    override fun getLiveNewNotify(userId: String): MutableLiveData<List<Notify>> {
+        return remoteDataSource.getLiveNewNotify(userId)
     }
 
     override fun getMyAllChatRoom(myId: String): MutableLiveData<List<ChatRoom>> {
         return remoteDataSource.getMyAllChatRoom(myId)
+    }
+
+    override suspend fun getMyChatList(myId: String): Result<List<ChatRoom>> {
+        return remoteDataSource.getMyChatList(myId)
     }
 
     override suspend fun getChatRoom(myId: String, friendId: String): Result<ChatRoom> {

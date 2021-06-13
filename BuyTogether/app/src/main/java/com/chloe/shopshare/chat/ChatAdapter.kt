@@ -8,68 +8,81 @@ import androidx.lifecycle.*
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.chloe.shopshare.bindDisplayFormatDateTime
 import com.chloe.shopshare.data.ChatDetail
 import com.chloe.shopshare.data.ChatRoom
 import com.chloe.shopshare.data.Message
+import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.databinding.ItemChatBinding
+import com.chloe.shopshare.ext.getDayWeek
+import com.chloe.shopshare.ext.toDisplayDateTimeFormat
+import com.chloe.shopshare.network.LoadApiStatus
 
-class ChatAdapter(private val viewModel: ChatViewModel) : ListAdapter<ChatRoom, ChatAdapter.ViewHolder>(DiffCallback) {
+class ChatAdapter(val onClickListener: OnClickListener , private val viewModel: ChatViewModel) : ListAdapter<ChatDetail, ChatAdapter.ViewHolder>(DiffCallback) {
 
     class ViewHolder(private var binding: ItemChatBinding):
-        RecyclerView.ViewHolder(binding.root) {
-//
-//        private var _messageList = MutableLiveData<List<Message>>()
-//        val messageList: LiveData<List<Message>>
-//            get() =  _messageList
-//
-//
+        RecyclerView.ViewHolder(binding.root), LifecycleOwner {
 
-        fun bind(item: ChatRoom,viewModel: ChatViewModel) {
-//            binding.lifecycleOwner = this
+        private var _messageList = MutableLiveData<List<Message>>()
+
+        fun bind(item: ChatDetail,viewModel: ChatViewModel) {
+            binding.lifecycleOwner = this
             binding.item = item
-//            _messageList = viewModel.getLiveMessage(item.chatRoom!!.id)
-//            Log.d("Chat","_messageList first = ${_messageList.value}")
-//            item.message = _messageList.value
+            _messageList = viewModel.getLiveMessage(item.chatRoom!!.id)
+
+            _messageList.observe(this, Observer {
+                it?.let {
+                    Log.d("Chat","_messageList = $it")
+                    item.message = it
+                    Log.d("Chat","message = ${item.message}")
+                    binding.item = item
+                    Log.d("Chat","messageDate = ${it.last().time.toDisplayDateTimeFormat()}")
+                    Log.d("Chat","messageContent = ${it.last().message}")
+                    binding.messageDate.text = it.last().time.getDayWeek()
+                    binding.messageContent.text = it.last().message?:"照片已傳送"
+                }
+            })
 
 
-//            _messageList.observe(this, Observer {
-//                it.let {
-//                    Log.d("Chat","_messageList = $it")
-//                    item.message = it
-//                    Log.d("Chat","message = ${item.message}")
-//                    binding.item = item
-//                }
-//            })
 
-//            binding.viewModel = viewModel
             binding.executePendingBindings()
         }
 
 
-//        private val lifecycleRegistry = LifecycleRegistry(this)
-//
-//        init {
-//            lifecycleRegistry.currentState = Lifecycle.State.INITIALIZED
-//        }
-//
-//        fun markAttach() {
-//            lifecycleRegistry.currentState = Lifecycle.State.STARTED
-//        }
-//
-//        fun markDetach() {
-//            lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
-//        }
-//
-//        override fun getLifecycle(): Lifecycle {
-//            return lifecycleRegistry
-//        }
+        private val lifecycleRegistry = LifecycleRegistry(this)
+
+        init {
+            lifecycleRegistry.currentState = Lifecycle.State.INITIALIZED
+        }
+
+        fun onAttach() {
+            lifecycleRegistry.currentState = Lifecycle.State.STARTED
+        }
+
+        fun onDetach() {
+            lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
+        }
+
+        override fun getLifecycle(): Lifecycle {
+            return lifecycleRegistry
+        }
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<ChatRoom>() {
-        override fun areItemsTheSame(oldItem: ChatRoom, newItem: ChatRoom): Boolean {
+    override fun onViewAttachedToWindow(holder: ViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        holder.onAttach()
+    }
+
+    override fun onViewDetachedFromWindow(holder: ViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        holder.onDetach()
+    }
+
+    companion object DiffCallback : DiffUtil.ItemCallback<ChatDetail>() {
+        override fun areItemsTheSame(oldItem: ChatDetail, newItem: ChatDetail): Boolean {
             return oldItem === newItem
         }
-        override fun areContentsTheSame(oldItem: ChatRoom, newItem: ChatRoom): Boolean {
+        override fun areContentsTheSame(oldItem: ChatDetail, newItem: ChatDetail): Boolean {
             return oldItem == newItem
         }
     }
@@ -86,7 +99,14 @@ class ChatAdapter(private val viewModel: ChatViewModel) : ListAdapter<ChatRoom, 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item,viewModel)
+        holder.itemView.setOnClickListener {
+            onClickListener.onClick(item)
+        }
 
+    }
+
+    class OnClickListener(val clickListener: (item: ChatDetail) -> Unit) {
+        fun onClick(item: ChatDetail) = clickListener(item)
     }
 
 }

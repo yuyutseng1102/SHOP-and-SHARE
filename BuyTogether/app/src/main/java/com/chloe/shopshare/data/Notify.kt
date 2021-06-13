@@ -16,9 +16,11 @@ data class Notify(
     val type: Int = 10,
     val title: String = "",
     val content: String =  "",
-    var message: String? = null
-): Parcelable {
+    var message: String? = null,
     @field:JvmField
+    var isChecked: Boolean = false
+): Parcelable {
     @IgnoredOnParcel
-    var isCheck: Boolean = false
+    @field:JvmField
+    var isExpand: Boolean = false
 }

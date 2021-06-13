@@ -5,7 +5,7 @@ plugins {
     id 'kotlin-android-extensions'
     id "kotlin-kapt"
     id "androidx.navigation.safeargs.kotlin"
-//    apply plugin: 'com.google.firebase.crashlytics'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
@@ -16,8 +16,8 @@ android {
         applicationId "com.chloe.shopshare"
         minSdkVersion 26
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode 101
+        versionName "1.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -147,8 +147,10 @@ dependencies {
     implementation  'io.github.yavski:fab-speed-dial:1.0.6'
 
 
-//    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
+
+    implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.3'
 
 //    androidTestImplementation 'org.hamcrest:hamcrest:2.2'
 //    androidTestImplementation 'org.hamcrest:hamcrest-library:2.2'

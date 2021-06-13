@@ -6,11 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.chloe.shopshare.MyApplication
 import com.chloe.shopshare.R
-import com.chloe.shopshare.data.ChatDetail
-import com.chloe.shopshare.data.ChatRoom
-import com.chloe.shopshare.data.Message
-import com.chloe.shopshare.data.Result
-import com.chloe.shopshare.data.User
+import com.chloe.shopshare.data.*
 import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.network.LoadApiStatus
 import com.chloe.shopshare.util.UserManager
@@ -19,29 +15,29 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class ChatViewModel(private val repository: Repository): ViewModel() {
+class ChatViewModel(val repository: Repository): ViewModel() {
 
-    var chatRoom = MutableLiveData<List<ChatRoom>>()
-//    val chatRoom: LiveData<List<ChatRoom>>
-//        get() =  _chatRoom
+    private val  _chatRoom = MutableLiveData<List<ChatRoom>>()
+    val chatRoom: LiveData<List<ChatRoom>>
+        get() =  _chatRoom
 
 
-//    private val _chatDetail = MutableLiveData<List<ChatDetail>>()
-//    val chatDetail: LiveData<List<ChatDetail>>
-//        get() =  _chatDetail
+    private val _chatDetail = MutableLiveData<List<ChatDetail>>()
+    val chatDetail: LiveData<List<ChatDetail>>
+        get() =  _chatDetail
 
 
     private val _getChatRoomDone = MutableLiveData<Boolean>()
     val getChatRoomDone: LiveData<Boolean>
         get() = _getChatRoomDone
 
-//    private val _getProfileDone = MutableLiveData<Boolean>()
-//    val getProfileDone: LiveData<Boolean>
-//        get() = _getProfileDone
+    private val _getProfileDone = MutableLiveData<Boolean>()
+    val getProfileDone: LiveData<Boolean>
+        get() = _getProfileDone
 
-//    private val _getMessageDone = MutableLiveData<Boolean>()
-//    val getMessageDone: LiveData<Boolean>
-//        get() = _getMessageDone
+    private val _getMessageDone = MutableLiveData<Boolean>()
+    val getMessageDone: LiveData<Boolean>
+        get() = _getMessageDone
 
     private val _isChatListEmpty = MutableLiveData<Boolean>()
     val isChatListEmpty: LiveData<Boolean>
@@ -67,106 +63,123 @@ class ChatViewModel(private val repository: Repository): ViewModel() {
 
     init {
         UserManager.userId?.let {
-
-            getLiveChat(it)
+            getChatDetail(it)
+//            getLiveChat(it)
         }
     }
 
-    private fun getLiveChat(myId: String){
-        _status.value = LoadApiStatus.LOADING
-        chatRoom = repository.getMyAllChatRoom(myId)
-        Log.d("Chloe", "chatRoom = ${chatRoom.value}")
-        _status.value = LoadApiStatus.DONE
+    private val _navigateToChatRoom = MutableLiveData<ChatRoomKey>()
+    val navigateToChatRoom: LiveData<ChatRoomKey>
+        get() = _navigateToChatRoom
+
+    fun navigateToChatRoom(chatDetail: ChatDetail) {
+        Log.d("Chat","chatDetail on click is ${chatDetail}")
+        _navigateToChatRoom.value = ChatRoomKey(myId = UserManager.userId!!,friendId = chatDetail.friendProfile!!.id,chatRoomId = chatDetail.chatRoom!!.id)
     }
 
-//    private fun getChatDetail(myId: String) {
-//        var message = MutableLiveData<List<Message>>()
-//        val chatDetailList = mutableListOf<ChatDetail>()
-//        var friendProfile: User?
-//
-//        coroutineScope.launch {
-//
-//            //拿聊天列表的資料
-//
-//            val chatResult = repository.getMyAllChatRoom(myId)
-//            _chatRoom.value =
-//                when (chatResult) {
-//                    is Result.Success -> {
-//                        _error.value = null
-//                        _status.value = LoadApiStatus.DONE
-//                        chatResult.data
-//
-//                    }
-//                    is Result.Fail -> {
-//                        _error.value = chatResult.error
-//                        _status.value = LoadApiStatus.ERROR
-//                        null
-//                    }
-//                    is Result.Error -> {
-//                        _error.value = chatResult.exception.toString()
-//                        _status.value = LoadApiStatus.ERROR
-//                        null
-//                    }
-//                    else -> {
-//                        _error.value = MyApplication.instance.getString(R.string.result_fail)
-//                        _status.value = LoadApiStatus.ERROR
-//                        null
-//                    }
-//                }
-//
-//            //用聊天列表來抓個人資訊
-//            if (_chatRoom.value!=null) {
-//                val totalCount = _chatRoom.value?.size
-//                var count = 0
-//                for (chat in _chatRoom.value!!) {
-//                    val friendList = chat.talker.filterNot { it == UserManager.userId }
-//
-//                    _status.value = LoadApiStatus.LOADING
-//                    val result = repository.getUserProfile(friendList[0])
-//
-//                        when (result) {
-//                            is Result.Success -> {
-//                                _error.value = null
-//                                _status.value = LoadApiStatus.DONE
-//                                //抓聊天室的message
-////                                message = getLiveMessage(chat.id)
-//                                friendProfile = result.data
-//                                chatDetailList.add(ChatDetail(chat,friendProfile))
-//                                count++
-//                            }
-//                            is Result.Fail -> {
-//                                _error.value = result.error
-//                                _status.value = LoadApiStatus.ERROR
-//                                friendProfile =null
-//                                count++
-//                            }
-//                            is Result.Error -> {
-//                                _error.value = result.exception.toString()
-//                                _status.value = LoadApiStatus.ERROR
-//                                friendProfile =null
-//                                count++
-//                            }
-//                            else -> {
-//                                _error.value = MyApplication.instance.getString(R.string.result_fail)
-//                                _status.value = LoadApiStatus.ERROR
-//                                friendProfile =null
-//                                count++
-//                            }
-//                        }
-//                    if (count == totalCount){
-//                        _chatDetail.value = chatDetailList
-//                        _status.value = LoadApiStatus.DONE
-//                    }
-//                }
-//
-//            }else{
-//                _isChatListEmpty.value = true
-//                _status.value = LoadApiStatus.DONE
-//            }
-//            _status.value = LoadApiStatus.DONE
-//        }
+    fun onChatRoomNavigated() {
+        _navigateToChatRoom.value = null
+    }
+
+//    private fun getLiveChat(myId: String){
+//        _status.value = LoadApiStatus.LOADING
+//        chatRoom = repository.getMyAllChatRoom(myId)
+//        Log.d("Chloe", "chatRoom = ${chatRoom.value}")
 //        _status.value = LoadApiStatus.DONE
 //    }
+
+    private fun getChatDetail(myId: String) {
+        var message = MutableLiveData<List<Message>>()
+        val chatDetailList = mutableListOf<ChatDetail>()
+        var friendProfile: User?
+
+        coroutineScope.launch {
+
+            //拿聊天列表的資料
+
+            val chatResult = repository.getMyChatList(myId)
+            _chatRoom.value =
+                when (chatResult) {
+                    is Result.Success -> {
+                        _error.value = null
+                        _status.value = LoadApiStatus.DONE
+                        chatResult.data
+
+                    }
+                    is Result.Fail -> {
+                        _error.value = chatResult.error
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                    is Result.Error -> {
+                        _error.value = chatResult.exception.toString()
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                    else -> {
+                        _error.value = MyApplication.instance.getString(R.string.result_fail)
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                }
+
+            //用聊天列表來抓個人資訊
+            if (_chatRoom.value != null) {
+                val totalCount = _chatRoom.value?.size
+                var count = 0
+                for (chat in _chatRoom.value!!) {
+                    val friendList = chat.talker.filterNot { it == UserManager.userId }
+
+                    _status.value = LoadApiStatus.LOADING
+                    val result = repository.getUserProfile(friendList[0])
+
+                    when (result) {
+                        is Result.Success -> {
+                            _error.value = null
+                            _status.value = LoadApiStatus.DONE
+                            //抓聊天室的message
+//                            message = getLiveMessage(chat.id)
+                            friendProfile = result.data
+                            chatDetailList.add(ChatDetail(chat, friendProfile, message.value))
+//                            chatDetailList.add(ChatDetail(chat, friendProfile, message.value))
+                            count++
+                        }
+                        is Result.Fail -> {
+                            _error.value = result.error
+                            _status.value = LoadApiStatus.ERROR
+                            friendProfile = null
+                            count++
+                        }
+                        is Result.Error -> {
+                            _error.value = result.exception.toString()
+                            _status.value = LoadApiStatus.ERROR
+                            friendProfile = null
+                            count++
+                        }
+                        else -> {
+                            _error.value = MyApplication.instance.getString(R.string.result_fail)
+                            _status.value = LoadApiStatus.ERROR
+                            friendProfile = null
+                            count++
+                        }
+                    }
+                    if (count == totalCount) {
+                        _chatDetail.value = chatDetailList
+                        _status.value = LoadApiStatus.DONE
+                    }
+                }
+
+            } else {
+                _isChatListEmpty.value = true
+                _status.value = LoadApiStatus.DONE
+            }
+
+        }
+
+
+    }
+
+
 //    private fun getMyChatRoom(myId: String) {
 //
 //        coroutineScope.launch {
@@ -202,8 +215,8 @@ class ChatViewModel(private val repository: Repository): ViewModel() {
 //            Log.d("Chat","chatRoom.value = ${_chatRoom.value}")
 //        }
 //    }
-//
-//
+
+
 //    fun getFriendProfile(friendId: String) : User? {
 //        var friendProfile : User? = null
 //        coroutineScope.launch {
@@ -238,13 +251,13 @@ class ChatViewModel(private val repository: Repository): ViewModel() {
 //        }
 //        return friendProfile
 //    }
-//
-//    fun getLiveMessage(chatRoomId: String):MutableLiveData<List<Message>> {
-//        _status.value = LoadApiStatus.LOADING
-//        val messageList = repository.getRoomMessage(chatRoomId)
-//        Log.d("Chat","getLiveMessage = ${messageList.value}")
-//        _status.value = LoadApiStatus.DONE
-//        return messageList
-//    }
+
+    fun getLiveMessage(chatRoomId: String):MutableLiveData<List<Message>> {
+        _status.value = LoadApiStatus.LOADING
+        val messageList = repository.getRoomMessage(chatRoomId)
+        Log.d("Chat","getLiveMessage = ${messageList.value}")
+        _status.value = LoadApiStatus.DONE
+        return messageList
+    }
 
 }

@@ -4,19 +4,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <variable name="item" type="com.chloe.shopshare.data.ChatRoom" />
+        <variable name="item" type="com.chloe.shopshare.data.ChatDetail" />
         <variable name="viewModel" type="com.chloe.shopshare.chat.ChatViewModel" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_shop_info"
+        android:onClick="@{()->viewModel.navigateToChatRoom(item)}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
-        android:animateLayoutChanges="true"
-        android:checkable="true"
-        android:clickable="true"
-        android:focusable="true"
+
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="8dp"
         app:cardPreventCornerOverlap="false"
@@ -31,7 +29,7 @@
                 android:layout_width="60dp"
                 android:layout_height="0dp"
                 android:scaleType="centerCrop"
-                app:imageUrl="@{item.friendInfo.photo}"
+                app:imageUrl="@{item.friendProfile.photo}"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -50,20 +48,19 @@
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:textStyle="bold"
-                android:text="@{item.friendInfo.name}"
+                android:text="@{item.friendProfile.name}"
                 app:layout_constraintEnd_toStartOf="@+id/message_date"
                 app:layout_constraintStart_toEndOf="@+id/image_friend"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Chloe Tseng" />
 
             <TextView
-                android:id="@+id/collection_id"
+                android:id="@+id/message_content"
                 style="@style/DetailSubTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:singleLine="true"
-                android:text="@{item.lastMessage}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/friend_name"
                 app:layout_constraintTop_toBottomOf="@+id/message_date"
@@ -76,8 +73,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="2021/05/04"
-                app:dateTimeToDisplayFormat="@{item.time}"/>
+                tools:text="2021/05/04"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/detail_button_block"

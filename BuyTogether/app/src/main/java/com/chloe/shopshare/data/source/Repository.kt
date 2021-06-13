@@ -82,10 +82,14 @@ interface Repository {
     suspend fun postRequestNotifyToMember(notify: Notify): Result<Boolean>
     suspend fun postOrderNotifyToMember(orderList: List<Order>, notify: Notify): Result<Boolean>
     suspend fun postNotifyToHost(hostId: String, notify: Notify): Result<Boolean>
-    fun getLiveNotify(userId: String): MutableLiveData<List<Notify>>
+    suspend fun getMyNotify(userId: String): Result<List<Notify>>
+    suspend fun updateNotifyChecked(userId: String, notifyId: String): Result<Boolean>
+    suspend fun deleteNotify(userId: String, notify: Notify): Result<Boolean>
+    fun getLiveNewNotify(userId: String): MutableLiveData<List<Notify>>
 
     /** CHAT ROOM **/
     fun getMyAllChatRoom(myId: String): MutableLiveData<List<ChatRoom>>
+    suspend fun getMyChatList(myId: String): Result<List<ChatRoom>>
     suspend fun getChatRoom(myId: String, friendId: String): Result<ChatRoom>
     fun getRoomMessage(roomId: String): MutableLiveData<List<Message>>
     suspend fun sendMessage(chatRoomId: String, message: Message): Result<Boolean>

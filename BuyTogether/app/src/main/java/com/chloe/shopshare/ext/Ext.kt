@@ -1,14 +1,17 @@
 package com.chloe.shopshare.ext
 
+import android.annotation.SuppressLint
 import android.icu.text.SimpleDateFormat
-import android.text.Spannable
-import android.text.SpannableString
 import android.util.Log
 import com.chloe.shopshare.data.Order
 import com.chloe.shopshare.data.Product
-import com.chloe.shopshare.notify.NotifyType
 import com.chloe.shopshare.myhost.OrderStatusType
+import com.chloe.shopshare.notify.NotifyType
 import java.util.*
+
+fun Long.toDisplayThisYearDateFormat(): String {
+    return SimpleDateFormat("MM/dd", Locale.TAIWAN).format(this)
+}
 
 fun Long.toDisplayDateFormat(): String {
     return SimpleDateFormat("yyyy/MM/dd", Locale.TAIWAN).format(this)
@@ -21,7 +24,84 @@ fun Long.toDisplayTimeFormat(): String {
 fun Long.toDisplayDateTimeFormat(): String {
     return SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.TAIWAN).format(this)
 }
+fun Long.toDisplayThisYearDateTimeFormat(): String {
+    return SimpleDateFormat("MM/dd HH:mm", Locale.TAIWAN).format(this)
+}
 
+@SuppressLint("SimpleDateFormat")
+fun Long.getDay(): String {
+
+    val secondsInMilli = 1000L
+    val minutesInMilli = secondsInMilli * 60
+    val hoursInMilli = minutesInMilli * 60
+    val daysInMilli = hoursInMilli * 24
+    val mothsInMilli = daysInMilli * 30
+    val yearInMilli = mothsInMilli * 12
+
+    val DAY = daysInMilli
+    this.let {
+        val dayFormat = SimpleDateFormat("yyyy-MM-dd")
+        val todayDate = dayFormat.format(Date(System.currentTimeMillis()))
+        val targetDate = dayFormat.format(Date(this))
+        val today = dayFormat.parse(todayDate).time
+        val target = dayFormat.parse(targetDate).time
+        val dayBetween = today - target
+        return when {
+            dayBetween == 0L -> this.toDisplayTimeFormat()
+            dayBetween == DAY -> "昨天 ${this.toDisplayTimeFormat()}"
+            dayBetween in (DAY + 1) until yearInMilli -> this.toDisplayThisYearDateTimeFormat()
+            else -> this.toDisplayDateTimeFormat()
+        }
+    }
+}
+
+@SuppressLint("SimpleDateFormat")
+fun Long.getDayWeek(): String {
+
+    val secondsInMilli = 1000L
+    val minutesInMilli = secondsInMilli * 60
+    val hoursInMilli = minutesInMilli * 60
+    val daysInMilli = hoursInMilli * 24
+    val mothsInMilli = daysInMilli * 30
+    val yearInMilli = mothsInMilli * 12
+
+    val DAY = daysInMilli
+    this.let {
+        val dayFormat = SimpleDateFormat("yyyy-MM-dd")
+        val todayDate = dayFormat.format(Date(System.currentTimeMillis()))
+        val targetDate = dayFormat.format(Date(this))
+        val today = dayFormat.parse(todayDate).time
+        val target = dayFormat.parse(targetDate).time
+        val dayBetween = today - target
+        return when {
+            dayBetween == 0L -> this.toDisplayTimeFormat()
+            dayBetween == DAY -> "昨天"
+            dayBetween < 7*DAY &&  dayBetween > DAY -> {
+                val calendar = Calendar.getInstance()
+                calendar.time = Date(this)
+                getWeek(calendar.get(Calendar.DAY_OF_WEEK))
+            }
+            dayBetween < yearInMilli && dayBetween >= 7*DAY -> this.toDisplayThisYearDateFormat()
+            else -> this.toDisplayDateFormat()
+        }
+    }
+}
+
+fun getWeek(week: Int): String {
+    var weekToString = ""
+    weekToString =
+    when (week) {
+        Calendar.MONDAY -> "星期一"
+        Calendar.TUESDAY -> "星期二"
+        Calendar.WEDNESDAY -> "星期三"
+        Calendar.THURSDAY -> "星期四"
+        Calendar.FRIDAY -> "星期五"
+        Calendar.SATURDAY -> "星期六"
+        Calendar.SUNDAY -> "星期日"
+        else -> ""
+    }
+    return weekToString
+}
 
 fun NotifyType.toDisplayNotifyContent(shopTitle:String): String {
     return when(this){

@@ -1,7 +1,9 @@
 package com.chloe.shopshare.chatroom
 
+import android.net.Uri
 import com.chloe.shopshare.util.UserManager
 import android.util.Log
+import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -47,6 +49,10 @@ class ChatRoomViewModel(
     val chatDetail: LiveData<ChatDetail>
         get() =  _chatDetail
 
+    private val _image = MutableLiveData<String>()
+    val image: LiveData<String>
+        get() =  _image
+
     private val _friendProfile = MutableLiveData<User>()
     val friendProfile: LiveData<User>
         get() =  _friendProfile
@@ -76,10 +82,17 @@ class ChatRoomViewModel(
     val getProfileDone: LiveData<Boolean>
         get() = _getProfileDone
 
+    private val _uploadImageDone = MutableLiveData<Boolean>()
+    val uploadImageDone: LiveData<Boolean>
+        get() = _uploadImageDone
+
     private val _sendMessageDone = MutableLiveData<Boolean>()
     val sendMessageDone: LiveData<Boolean>
         get() = _sendMessageDone
 
+    private val _navigateToDialog = MutableLiveData<String>()
+    val navigateToDialog: LiveData<String>
+        get() =  _navigateToDialog
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -104,6 +117,14 @@ class ChatRoomViewModel(
         _friendId.value?.let {
             getChatRoom(_myId.value!!, it)
         }
+    }
+
+    fun navigateToDialog(image: String){
+        _navigateToDialog.value = image
+    }
+
+    fun onDialogNavigated(){
+        _navigateToDialog.value = null
     }
 
 
@@ -235,28 +256,73 @@ class ChatRoomViewModel(
         }
     }
 
-//    fun toMessageItem(messageList:List<Message>?): List<MessageItem> {
-//        val items = mutableListOf<MessageItem>()
-//        messageList?.let {
-//            Log.d("Chat","messageList = ${messageList}")
-//            for (message in it) {
-//                when (message.talkerId) {
-//                    _friendId.value -> items.add(MessageItem.MessageByFriend(message))
-//                    else -> items.add(MessageItem.MessageByMe(message))
-//                }
-//            }
-//        }
-//        return items
-//    }
+    fun sendImages(image: String){
+
+        Log.d("Chat","pickImages = ${image}")
+        UserManager.userId?.let {
+            _message.value = Message(
+                talkerId = it ,
+                image = image
+            )
+        }
+        if (_chatRoom.value!=null) {
+            _message.value?.let {
+                sendMessage(_chatRoom.value!!.id, it)
+            }
+        }
+    }
+
+    fun pickImages(uri: Uri){
+        uploadImages(uri)
+    }
+
+    private fun uploadImages(imageUri : Uri) {
+
+            coroutineScope.launch {
+                _status.value = LoadApiStatus.LOADING
+                val result = repository.uploadImage(imageUri, "message")
+                _image.value =
+                when (result) {
+                    is Result.Success -> {
+                        _error.value = null
+                        _status.value = LoadApiStatus.DONE
+                        Log.d("Chloe","download uri is ${result.data}")
+                        result.data
+                    }
+                    is Result.Fail -> {
+                        _error.value = result.error
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                    is Result.Error -> {
+                        _error.value = result.exception.toString()
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                    else -> {
+                        _error.value = MyApplication.instance.getString(R.string.result_fail)
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                }
+
+                _uploadImageDone.value = true
+                _status.value = LoadApiStatus.DONE
+
+            }
+
+        }
 
 
 
-//    fun editChatDetail(chatRoom: ChatRoom, friendProfile: User, message: List<Message>) {
-//        _chatDetail.value = ChatDetail(chatRoom, friendProfile, message)
-//    }
     fun onGetChatRoomDone() {
         _getChatRoomDone.value = null
     }
+
+    fun onUploadImageDone() {
+        _uploadImageDone.value = null
+    }
+
     fun onSendMessageDone() {
         _sendMessageDone.value = null
     }

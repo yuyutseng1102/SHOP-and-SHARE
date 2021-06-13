@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -36,18 +38,27 @@ class RequestFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        binding.spinnerRequestCategory.adapter = CategorySpannerAdapter(
-            MyApplication.instance.resources.getStringArray(R.array.category_list))
+        val categoryAdapter = ArrayAdapter(requireContext(), R.layout.item_host_category_spinner, MyApplication.instance.resources.getStringArray(R.array.category_list))
+        (binding.menuRequestCategory.editText as? AutoCompleteTextView)?.setAdapter(categoryAdapter)
 
-        binding.spinnerRequestCountry.adapter = CountrySpannerAdapter(
-            MyApplication.instance.resources.getStringArray(R.array.country_list))
+        val countryAdapter = ArrayAdapter(requireContext(), R.layout.item_host_country_spinner, MyApplication.instance.resources.getStringArray(R.array.country_list))
+        (binding.menuRequestCountry.editText as? AutoCompleteTextView)?.setAdapter(countryAdapter)
 
-        viewModel.categoryType.observe(viewLifecycleOwner, Observer {
-            viewModel.selectCategory()
+
+        viewModel.selectedCategoryTitle.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if (it.isNotEmpty()) {
+                    viewModel.convertCategoryTitleToInt(it)
+                }
+            }
         })
 
-        viewModel.countryType.observe(viewLifecycleOwner, Observer {
-            viewModel.selectCountry()
+        viewModel.selectedCountryTitle.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if (it.isNotEmpty()) {
+                    viewModel.convertCountryTitleToInt(it)
+                }
+            }
         })
 
 
