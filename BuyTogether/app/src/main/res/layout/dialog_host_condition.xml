@@ -19,6 +19,7 @@
 
         <TextView
             android:id="@+id/add_condition_title"
+            style="@style/GatherTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -31,6 +32,7 @@
 
         <CheckBox
             android:id="@+id/check_by_time"
+            style="@style/ProductTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -43,6 +45,7 @@
 
         <CheckBox
             android:id="@+id/check_by_condition"
+            style="@style/ProductTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"

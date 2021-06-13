@@ -4,5 +4,5 @@
     <corners android:bottomRightRadius="18dp"
         android:bottomLeftRadius="18dp"
         android:topLeftRadius="18dp" />
-    <solid android:color="@color/state_wait"/>
+    <solid android:color="@color/colorPrimary"/>
 </shape>

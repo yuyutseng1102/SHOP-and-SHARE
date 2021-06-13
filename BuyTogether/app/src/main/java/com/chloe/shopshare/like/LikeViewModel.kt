@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.chloe.shopshare.MyApplication
 import com.chloe.shopshare.R
+import com.chloe.shopshare.data.Notify
 import com.chloe.shopshare.data.Request
 import com.chloe.shopshare.data.Result
 import com.chloe.shopshare.data.Shop
@@ -127,40 +128,98 @@ class LikeViewModel(private val repository: Repository): ViewModel() {
     }
 
     private fun getShopLiked(shopIdList : List<String>) {
+        Log.d("LikeTag","shopIdList = ${shopIdList}")
+        val totalCount = shopIdList.size
+        var count = 0
+        val shopList = mutableListOf<Shop>()
 
+        var shop : Shop?
+
+        for(shopId in shopIdList) {
+            Log.d("LikeTag","shopId = ${shopId}")
             coroutineScope.launch {
                 _status.value = LoadApiStatus.LOADING
-                val result = repository.getShopDetailLiked(shopIdList)
-                _shop.value = when (result) {
+                val result = repository.getDetailShop(shopId)
+                shop = when (result) {
                     is Result.Success -> {
                         _error.value = null
                         _status.value = LoadApiStatus.DONE
-                        _successGetShop.value = true
+                        count++
+                        Log.d("LikeTag","inside count  = ${count}")
                         result.data
                     }
                     is Result.Fail -> {
                         _error.value = result.error
                         _status.value = LoadApiStatus.ERROR
-                        _successGetShop.value = null
+                        count++
                         null
                     }
                     is Result.Error -> {
                         _error.value = result.exception.toString()
                         _status.value = LoadApiStatus.ERROR
-                        _successGetShop.value = null
+                        count++
                         null
                     }
                     else -> {
                         _error.value = MyApplication.instance.getString(R.string.result_fail)
                         _status.value = LoadApiStatus.ERROR
-                        _successGetShop.value = null
+                        count++
                         null
                     }
                 }
+                Log.d("LikeTag","count  = ${count}")
+                shop?.let {
+                    shopList.add(it)
+                }
+
+                if (count == totalCount){
+                    _shop.value = shopList
+                    Log.d("LikeTag", "count == totalCount , shop = ${_shop.value}")
+                    _successGetShop.value = true
+                }
+
+            }
+        }
+    }
+
+    fun removeShopLiked(userId : String, shop: Shop) {
+
+        coroutineScope.launch {
+            _status.value = LoadApiStatus.LOADING
+            val result = repository.removeShopLiked(userId, shop.id)
+            when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    result.data
+                    refresh()
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value = MyApplication.instance.getString(R.string.result_fail)
+                    _status.value = LoadApiStatus.ERROR
+                    null
                 }
             }
-
+        }
     }
+
+
+    fun refresh() {
+            getLikeList(userId)
+    }
+
+
+}
 //    fun getShopLikedDetail(){
 //        Log.d("LikeTag","getShopLiked = ${_likeList.value}")
 //

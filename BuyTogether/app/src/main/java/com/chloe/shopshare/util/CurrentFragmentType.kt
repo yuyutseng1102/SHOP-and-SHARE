@@ -20,6 +20,7 @@ enum class CurrentFragmentType(val value: String) {
     ORDER_DETAIL("訂單詳情"),
     MY_REQUEST(getString(R.string.my_request)),
     SEARCH("選擇分類"),
+    CHAT("聊天列表"),
     CHAT_ROOM(""),
     RESULT("搜尋結果"),
     LOGIN("")

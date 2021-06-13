@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.text.TextUtils"/>
         <variable
             name="viewModel"
             type="com.chloe.shopshare.chatroom.ChatRoomViewModel" />
@@ -19,6 +20,7 @@
             android:id="@+id/appBarLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="@dimen/height_status_bar_origin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -28,6 +30,7 @@
                 style="@style/Widget.App.Toolbar.Chat.Room"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_toolbar"
+                android:background="@color/green_BDCCC5"
                 app:buttonGravity="center_vertical"
                 app:navigationIcon="@drawable/ic_baseline_navigate_before_24"
                 app:titleCentered="false"
@@ -61,7 +64,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
                         android:text="@{viewModel.friendProfile.name}"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/black_545454"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/image_shop"
@@ -72,23 +75,33 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
+        <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/gray_cccccc"
+            app:layout_constraintBottom_toBottomOf="@+id/appBarLayout2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_message"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="#FFFCE7"
+            android:background="@color/color_background"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout2"
-            app:messageList="@{viewModel.messageList}" />
+            app:messageList="@{viewModel.messageList}"
+            tools:listitem="@layout/item_message_left" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
+            android:background="@color/color_background"
             android:minHeight="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -98,13 +111,13 @@
                 android:id="@+id/edit_text_block"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="70dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/bg_white_corner"
+                android:background="@drawable/bg_message_edit"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/button_send"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -114,32 +127,46 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="2dp"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="@color/transparent"
                     android:ems="10"
                     android:inputType="textMultiLine"
                     android:text="@={viewModel.editMessage}"
-                    android:textColor="@color/green_97B6A8"
+                    android:textColor="@color/black_3f3a3a"
                     android:textSize="14dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/button_album"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/button_send"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@color/transparent"
+                    android:cropToPadding="false"
+                    android:clickable="@{TextUtils.isEmpty(viewModel.editMessage)?false:true}"
+                    android:onClick="@{()->viewModel.editMessage(viewModel.editMessage)}"
+                    android:src="@drawable/ic_baseline_send_24"
+                    android:tint="@color/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/button_album"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/ic_photo_library"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:tint="@color/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/button_send"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ImageButton
-                android:id="@+id/button_send"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="16dp"
-                android:background="@color/transparent"
-                android:src="@drawable/ic_baseline_send_24"
-                android:tint="@color/green_7A8277"
-                android:onClick="@{()->viewModel.editMessage(viewModel.editMessage)}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

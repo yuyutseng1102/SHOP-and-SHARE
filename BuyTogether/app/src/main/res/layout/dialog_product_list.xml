@@ -20,7 +20,7 @@
 
         <TextView
             android:id="@+id/product_list_title"
-            style="@style/DetailTitle"
+            style="@style/GatherTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -61,6 +61,7 @@
                 style="@style/WhiteButtonName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:onClick="@{() -> viewModel.navigateToParticipate(viewModel.product)}"
                 android:text="確定跟團"
                 app:enableButtonStatus="@{viewModel.isEnable}"

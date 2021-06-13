@@ -38,8 +38,7 @@
                     android:background="#FFFFFF"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:visibility="gone">
+                    app:layout_constraintTop_toTopOf="parent">
 
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -53,7 +52,8 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:strings="@{viewModel.request.image}" />
+                        app:strings="@{viewModel.request.image}"
+                        tools:listitem="@layout/item_detail_image"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_detail_circles"
@@ -75,17 +75,19 @@
                         style="@style/DetailSubTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
-                        android:background="#99FFFFFF"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/bg_image_tag"
                         android:gravity="bottom|center"
-                        android:paddingHorizontal="16dp"
+                        android:paddingHorizontal="12dp"
                         android:paddingVertical="4dp"
-                        android:text='@{viewModel.request.host == null ? "徵團中": "已經開團囉"}'
-                        android:textColor="@color/black_3f3a3a"
+                        android:text='@{viewModel.request.host == null ? "徵團中": "已開團"}'
+                        android:textColor="@color/white"
                         android:textIsSelectable="true"
                         app:layout_constrainedHeight="false"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        tools:text="已經開團囉" />
+                        tools:text="已開團" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -116,7 +118,7 @@
 
                     <TextView
                         android:id="@+id/host_id"
-                        style="@style/UserName"
+                        style="@style/DetailSubTitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -180,15 +182,14 @@
 
                     <TextView
                         android:id="@+id/host_time_text"
-                        style="@style/UserName"
+                        style="@style/DetailSubTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:textColor="@color/gray_999999"
+                        app:dateTimeToDisplayFormat="@{viewModel.request.time}"
                         app:layout_constraintBottom_toBottomOf="@+id/tag_country"
                         app:layout_constraintStart_toEndOf="@+id/tag_country"
                         app:layout_constraintTop_toTopOf="@+id/tag_country"
-                        app:dateToDisplayFormat="@{viewModel.request.time}"
                         tools:text="2021/05/09" />
 
                     <TextView
@@ -221,7 +222,7 @@
                         style="@style/DetailSubTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginStart="8dp"
                         android:text="參考來源"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />

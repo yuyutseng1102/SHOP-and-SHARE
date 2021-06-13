@@ -151,6 +151,34 @@ class HostViewModel(private val repository: Repository,private val argument: Req
 
     }
 
+    val selectedCategoryTitle = MutableLiveData<String>()
+
+    fun convertCategoryTitleToInt(title:String) {
+
+        var item : Int = 0
+
+        for (type in CategoryType.values()) {
+            if (type.title == title) {
+                item =  type.category
+            }
+        }
+        category.value = item
+    }
+
+    val selectedCountryTitle = MutableLiveData<String>()
+
+    fun convertCountryTitleToInt(title:String){
+
+        var item : Int = 0
+
+        for (type in CountryType.values()) {
+            if (type.title == title) {
+                item =  type.country
+            }
+        }
+        country.value = item
+    }
+
     private fun convertCategoryToPosition(category:Int) : Int {
 
         var position : Int = 0
@@ -443,26 +471,30 @@ class HostViewModel(private val repository: Repository,private val argument: Req
 //    }
 
     //select gather category
-    val selectedCategoryPosition = MutableLiveData<Int>()
+//    val selectedCategoryPosition = MutableLiveData<Int>()
 
-    val categoryType: LiveData<CategoryType> = Transformations.map(selectedCategoryPosition) {
-        CategoryType.values()[it]
-    }
-    fun selectCategory(){
-        category.value = categoryType.value?.category
-        Log.d("Chloe","====Look at category ${category.value}==== ")
-    }
 
-    //select gather country
-    val selectedCountryPosition = MutableLiveData<Int>()
 
-    val countryType: LiveData<CountryType> = Transformations.map(selectedCountryPosition) {
-        CountryType.values()[it]
-    }
-    fun selectCountry(){
-        country.value = countryType.value?.country
-        Log.d("Chloe","====Look at country ${country.value}==== ")
-    }
+
+
+//    val categoryType: LiveData<CategoryType> = Transformations.map(selectedCategoryPosition) {
+//        CategoryType.values()[it]
+//    }
+//    fun selectCategory(){
+//        category.value = categoryType.value?.category
+//        Log.d("Chloe","====Look at category ${category.value}==== ")
+//    }
+
+//    //select gather country
+//    val selectedCountryPosition = MutableLiveData<Int>()
+//
+//    val countryType: LiveData<CountryType> = Transformations.map(selectedCountryPosition) {
+//        CountryType.values()[it]
+//    }
+//    fun selectCountry(){
+//        country.value = countryType.value?.country
+//        Log.d("Chloe","====Look at country ${country.value}==== ")
+//    }
 
     fun selectDelivery(delivery: Int){
         val deliveryList = deliveryMethod.value?.toMutableList() ?: mutableListOf()
@@ -484,7 +516,6 @@ class HostViewModel(private val repository: Repository,private val argument: Req
 
     fun readyToPost() {
 
-
         //紅字訊息提醒
         _isInvalid.value =
             when {
@@ -493,6 +524,8 @@ class HostViewModel(private val repository: Repository,private val argument: Req
                 title.value.isNullOrEmpty() -> INVALID_FORMAT_TITLE_EMPTY
                 description.value.isNullOrEmpty() -> INVALID_FORMAT_DESCRIPTION_EMPTY
                 source.value.isNullOrEmpty() -> INVALID_FORMAT_SOURCE_EMPTY
+                category.value == null -> INVALID_FORMAT_CATEGORY_EMPTY
+                country.value == null -> INVALID_FORMAT_COUNTRY_EMPTY
                 option.value.isNullOrEmpty() -> INVALID_FORMAT_OPTION_EMPTY
                 deliveryMethod.value.isNullOrEmpty() -> INVALID_FORMAT_DELIVERY_EMPTY
                 conditionShow.value.isNullOrEmpty() -> INVALID_FORMAT_CONDITION_EMPTY

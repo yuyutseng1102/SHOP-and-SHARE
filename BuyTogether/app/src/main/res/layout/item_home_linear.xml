@@ -11,23 +11,32 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        app:cardBackgroundColor="@color/transparent"
         android:onClick="@{()->viewModel.navigateToDetail(item)}"
-        android:paddingEnd="8dp">
+        android:layout_marginEnd="8dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp">
 
-        <ImageView
-            android:id="@+id/product_image"
-            app:imageUrl="@{item.mainImage}"
-            android:layout_width="105dp"
-            android:layout_height="105dp"
-            android:background="@color/cardview_light_background"
-            android:scaleType="centerCrop"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/makeup" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/product_image"
+                app:imageUrl="@{item.mainImage}"
+                android:layout_width="105dp"
+                android:layout_height="105dp"
+                android:background="@color/cardview_light_background"
+                android:scaleType="centerCrop"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@drawable/makeup"
+                app:shapeAppearance="?attr/shapeAppearanceMediumComponent"/>
+
 
         <TextView
             android:id="@+id/product_title"
@@ -41,15 +50,15 @@
             app:layout_constraintTop_toBottomOf="@+id/product_image"
             tools:text="romand唇釉" />
 
-        <ImageView
-            android:id="@+id/mark_image"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:forceHasOverlappingRendering="false"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_mark"
-            app:tint="@color/green_BDCCC5" />
+            <ImageView
+                android:id="@+id/mark_image"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:forceHasOverlappingRendering="false"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_mark"
+                app:tint="@color/colorPrimary" />
 
         <TextView
             android:id="@+id/mark_text"
@@ -62,6 +71,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/mark_image" />
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

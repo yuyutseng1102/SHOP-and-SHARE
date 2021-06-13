@@ -6,7 +6,9 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.Shape
+import android.icu.text.DateFormat.DAY
 import android.util.Log
+import android.util.TimeUtils
 import android.view.View
 import android.widget.*
 import androidx.core.net.toUri
@@ -26,9 +28,7 @@ import com.chloe.shopshare.detail.dialog.ProductListAdapter
 import com.chloe.shopshare.detail.item.DetailCircleAdapter
 import com.chloe.shopshare.detail.item.DetailDeliveryAdapter
 import com.chloe.shopshare.detail.item.DetailImageAdapter
-import com.chloe.shopshare.ext.toDisplayDateFormat
-import com.chloe.shopshare.ext.toDisplayDateTimeFormat
-import com.chloe.shopshare.ext.toDisplayTimeFormat
+import com.chloe.shopshare.ext.*
 import com.chloe.shopshare.home.item.*
 import com.chloe.shopshare.host.CategoryType
 import com.chloe.shopshare.host.CountryType
@@ -47,6 +47,10 @@ import com.chloe.shopshare.requestdetail.RequestDetailCircleAdapter
 import com.chloe.shopshare.requestdetail.RequestDetailImageAdapter
 import com.chloe.shopshare.util.Util.getColor
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.*
 
 /**
  * According to [LoadApiStatus] to decide the visibility of [ProgressBar]
@@ -125,21 +129,8 @@ fun bindRecyclerViewWithMessage(recyclerView: RecyclerView, message: List<Messag
     }
 }
 
-@BindingAdapter("chat")
-fun bindRecyclerViewWithChat(recyclerView: RecyclerView, chat: List<ChatRoom>?) {
-    chat?.let {
-        recyclerView.adapter?.apply {
-            Log.d("Chat","summit the chat is ${chat}")
-            when (this) {
-                is ChatAdapter -> submitList(it)
-            }
-        }
-    }
-}
-
-
-//@BindingAdapter("chatDetail")
-//fun bindRecyclerViewWithChatDetail(recyclerView: RecyclerView, chat: List<ChatDetail>?) {
+//@BindingAdapter("chat")
+//fun bindRecyclerViewWithChat(recyclerView: RecyclerView, chat: List<ChatRoom>?) {
 //    chat?.let {
 //        recyclerView.adapter?.apply {
 //            Log.d("Chat","summit the chat is ${chat}")
@@ -149,6 +140,20 @@ fun bindRecyclerViewWithChat(recyclerView: RecyclerView, chat: List<ChatRoom>?) 
 //        }
 //    }
 //}
+
+
+@BindingAdapter("chatDetail")
+fun bindRecyclerViewWithChatDetail(recyclerView: RecyclerView, chat: List<ChatDetail>?) {
+    chat?.let {
+        recyclerView.adapter?.apply {
+            Log.d("Chat","summit the chat is ${chat}")
+            var chatSort = chat.sortedByDescending {it.message?.last()?.time}
+            when (this) {
+                is ChatAdapter -> submitList(chatSort)
+            }
+        }
+    }
+}
 
 
 @BindingAdapter("strings")
@@ -280,6 +285,12 @@ fun bindDisplayFormatTime(textView: TextView, time: Long?) {
 @BindingAdapter("dateTimeToDisplayFormat")
 fun bindDisplayFormatDateTime(textView: TextView, time: Long?) {
     textView.text = time?.toDisplayDateTimeFormat()
+}
+
+
+@BindingAdapter("timeToDisplayInChatRoomFormat")
+fun bindDisplayLastChatTime(textView: TextView, time: Long?) {
+    textView.text = time?.getDay()
 }
 
 
@@ -537,7 +548,7 @@ fun bindDisplayHostMemberNumber(textView: TextView, number: Int?) {
 
 @BindingAdapter("requestNumberToDisplay")
 fun bindDisplayRequestMemberNumber(textView: TextView, number: Int?) {
-    number?.let { nember ->
+    number?.let { number ->
         textView.apply {
             text =
                 when (number) {
@@ -566,16 +577,16 @@ fun bindEnableButtonStatus(button: Button, enabled: Boolean = false) {
 @BindingAdapter("quantity")
 fun bindEditorStatus(textView: TextView, quantity: Int) {
     textView.apply {
-        background = ShapeDrawable(object : Shape() {
-            override fun draw(canvas: Canvas, paint: Paint) {
-
-                paint.color = Color.BLACK
-                paint.style = Paint.Style.STROKE
-                paint.strokeWidth = MyApplication.instance.resources
-                    .getDimensionPixelSize(R.dimen.edge_select).toFloat()
-                canvas.drawRect(0f, 0f, this.width, this.height, paint)
-            }
-        })
+//        background = ShapeDrawable(object : Shape() {
+//            override fun draw(canvas: Canvas, paint: Paint) {
+//
+//                paint.color = Color.BLACK
+//                paint.style = Paint.Style.STROKE
+//                paint.strokeWidth = MyApplication.instance.resources
+//                    .getDimensionPixelSize(R.dimen.edge_select).toFloat()
+//                canvas.drawRect(0f, 0f, this.width, this.height, paint)
+//            }
+//        })
         text =
             when (quantity){
                 0 -> ""
@@ -624,6 +635,19 @@ fun bindApiErrorMessage(view: TextView, message: String?) {
         }
     }
 }
+
+@BindingAdapter("setupApiErrorMessage")
+fun bindErrorToEditText(view: TextInputLayout, error: Boolean?) {
+    when (error) {
+        true -> {
+            view.error = "error"
+        }
+        else -> {
+            view.error = null
+        }
+    }
+}
+
 
 
 //

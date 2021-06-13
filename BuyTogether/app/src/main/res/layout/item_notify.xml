@@ -6,7 +6,7 @@
     <data>
         <import type="android.view.View" />
         <variable name="item" type="com.chloe.shopshare.data.Notify" />
-        <variable name="isCheck" type="Boolean" />
+        <variable name="isExpand" type="Boolean" />
         <variable name="viewModel" type="com.chloe.shopshare.notify.NotifyViewModel" />
 
     </data>
@@ -14,16 +14,16 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="4dp"
         android:layout_marginTop="4dp"
         android:background="@drawable/bg_white_corner"
         android:elevation="1dp">
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/notify_block"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF"
+            android:background="@color/white"
             android:padding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -68,11 +68,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                app:dateTimeToDisplayFormat="@{item.time}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/notify_content"
                 app:layout_constraintTop_toBottomOf="@+id/notify_content"
-                app:dateTimeToDisplayFormat="@{item.time}"
                 tools:text="2021/05/11 12:30" />
 
             <CheckBox
@@ -80,12 +80,25 @@
                 style="?attr/materialButtonToggleGroupStyle"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:button="@drawable/sl_expand"
                 android:backgroundTint="@color/gray_888888"
-                android:checked="@{isCheck}"
+                android:button="@drawable/sl_expand"
+                android:checked="@{isExpand}"
                 android:visibility='@{(item.message == null || item.message == "")? View.GONE:View.VISIBLE}'
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/check_text"
+                style="@android:style/TextAppearance.Material.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="NEW !"
+                android:textColor="@color/textColorError"
+                android:visibility="@{item.isChecked==true?View.GONE:View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="@+id/notyfu_title"
+                app:layout_constraintStart_toEndOf="@+id/notyfu_title"
+                app:layout_constraintTop_toTopOf="@+id/notyfu_title" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -93,7 +106,7 @@
             android:id="@+id/message_block"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/gray_f5f5f5"
+            android:background="@color/white_F1F0F0"
             android:paddingHorizontal="8dp"
             android:paddingBottom="8dp"
             android:visibility="gone"

@@ -46,9 +46,9 @@
                 app:imageUrl="@{viewModel.user.photo}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/welcome_text"
-                app:srcCompat="@drawable/ic_placeholder"
-            app:shapeAppearance="?attr/shapeAppearanceSmallComponent"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Card.Media.Medium"/>
+                app:shapeAppearance="?attr/shapeAppearanceSmallComponent"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Card.Media.Medium"
+                app:srcCompat="@drawable/ic_loading_image" />
 
             <TextView
                 android:id="@+id/profile_name"
