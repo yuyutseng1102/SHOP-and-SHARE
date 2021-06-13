@@ -91,6 +91,7 @@ class DetailViewModel(
         get() = _snapPosition
 
     val productItem = MutableLiveData<Product?>()
+    lateinit var myId : String
 
     init {
         Log.i("Chloe", "Detail")
@@ -99,6 +100,9 @@ class DetailViewModel(
             getLiveDetailShop(it)
             getLiveOrderOfShop(it)
             Log.i("Chloe", "_shop is ${_shop.value}")
+        }
+        UserManager.userId?.let {
+            myId = it
         }
 
     }
