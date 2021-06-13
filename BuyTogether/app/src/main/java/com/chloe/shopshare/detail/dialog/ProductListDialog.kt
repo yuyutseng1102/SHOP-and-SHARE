@@ -59,6 +59,7 @@ class ProductListDialog(private val shop: Shop, private val productList: List<Pr
                     viewModel.shop.value!!,
                     it.toTypedArray()
                 ))
+                this.dismiss()
             }
 
         })

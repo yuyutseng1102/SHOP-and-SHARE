@@ -81,7 +81,7 @@ class ParticipateFragment : Fragment() {
         viewModel.delivery.observe(viewLifecycleOwner, Observer {
             it?.let {
                 Log.d("Chloe", "delivery selected is ${viewModel.delivery.value}")
-                binding.receiverDeliveryEdit.hint =
+                binding.receiverDeliveryField.hint =
                     when (it){
                         DeliveryMethod.SEVEN_ELEVEN.delivery -> DeliveryMethod.SEVEN_ELEVEN.hint
                         DeliveryMethod.FAMILY_MART.delivery -> DeliveryMethod.FAMILY_MART.hint
@@ -92,6 +92,7 @@ class ParticipateFragment : Fragment() {
                         else -> DeliveryMethod.SEVEN_ELEVEN.hint
                     }
             }
+            if (it == null) {binding.receiverDeliveryField.hint = "取貨地址"}
         })
 
         viewModel.price.observe(viewLifecycleOwner, Observer {

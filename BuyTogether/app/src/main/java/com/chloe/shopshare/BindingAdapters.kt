@@ -548,7 +548,7 @@ fun bindDisplayHostMemberNumber(textView: TextView, number: Int?) {
 
 @BindingAdapter("requestNumberToDisplay")
 fun bindDisplayRequestMemberNumber(textView: TextView, number: Int?) {
-    number?.let { nember ->
+    number?.let { number ->
         textView.apply {
             text =
                 when (number) {
@@ -577,16 +577,16 @@ fun bindEnableButtonStatus(button: Button, enabled: Boolean = false) {
 @BindingAdapter("quantity")
 fun bindEditorStatus(textView: TextView, quantity: Int) {
     textView.apply {
-        background = ShapeDrawable(object : Shape() {
-            override fun draw(canvas: Canvas, paint: Paint) {
-
-                paint.color = Color.BLACK
-                paint.style = Paint.Style.STROKE
-                paint.strokeWidth = MyApplication.instance.resources
-                    .getDimensionPixelSize(R.dimen.edge_select).toFloat()
-                canvas.drawRect(0f, 0f, this.width, this.height, paint)
-            }
-        })
+//        background = ShapeDrawable(object : Shape() {
+//            override fun draw(canvas: Canvas, paint: Paint) {
+//
+//                paint.color = Color.BLACK
+//                paint.style = Paint.Style.STROKE
+//                paint.strokeWidth = MyApplication.instance.resources
+//                    .getDimensionPixelSize(R.dimen.edge_select).toFloat()
+//                canvas.drawRect(0f, 0f, this.width, this.height, paint)
+//            }
+//        })
         text =
             when (quantity){
                 0 -> ""

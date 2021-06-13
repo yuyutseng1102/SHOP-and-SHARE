@@ -137,7 +137,7 @@
 
     <action android:id="@+id/navigate_to_profile_fragment" app:destination="@id/profileFragment"
         app:popUpTo="@id/navigation"
-        app:popUpToInclusive="false" />
+        app:popUpToInclusive="true" />
 
     <action android:id="@+id/navigate_to_like_fragment" app:destination="@id/likeFragment"
         app:popUpTo="@id/navigation"
