@@ -10,11 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.chloe.shopshare.NavigationDirections
-import com.chloe.shopshare.R
-import com.chloe.shopshare.chatroom.ChatRoomMessageAdapter
-import com.chloe.shopshare.chatroom.ChatRoomViewModel
 import com.chloe.shopshare.databinding.FragmentChatBinding
-import com.chloe.shopshare.databinding.FragmentChatRoomBinding
 import com.chloe.shopshare.ext.getVmFactory
 
 

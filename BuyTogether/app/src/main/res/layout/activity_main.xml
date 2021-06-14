@@ -33,10 +33,11 @@
                 android:id="@+id/toolbar_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                app:tint="@color/white"
+                android:layout_gravity="center_vertical"
+                android:paddingTop="8dp"
                 android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.HOME?View.VISIBLE:View.GONE}"
                 app:srcCompat="@drawable/ic_tool_bar_title_left"
+                app:tint="@color/white"
                 tools:layout_editor_absoluteX="16dp" />
 
             <!--            <TextView-->

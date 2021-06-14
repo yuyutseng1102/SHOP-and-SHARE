@@ -197,8 +197,8 @@ class MainActivity : BaseActivity() {
 
                     val oriStatusBarHeight =
                         resources.getDimensionPixelSize(R.dimen.height_status_bar_origin)
-//                    binding.toolbar.setPadding(0, 0, 0, 0)
-                    binding.toolbar.setPadding(0, oriStatusBarHeight, 0, 0)
+                    binding.toolbar.setPadding(0, 0, 0, 0)
+//                    binding.toolbar.setPadding(0, oriStatusBarHeight, 0, 0)
                     val layoutParams = Toolbar.LayoutParams(
                         Toolbar.LayoutParams.WRAP_CONTENT,
                         Toolbar.LayoutParams.WRAP_CONTENT

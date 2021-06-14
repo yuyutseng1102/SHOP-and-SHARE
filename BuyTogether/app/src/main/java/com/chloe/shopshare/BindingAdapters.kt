@@ -42,6 +42,9 @@ import com.chloe.shopshare.notify.NotifyAdapter
 import com.chloe.shopshare.notify.NotifyType
 import com.chloe.shopshare.orderdetail.OrderDetailProductAdapter
 import com.chloe.shopshare.participate.ParticipateAdapter
+import com.chloe.shopshare.profile.ProfileOrderAdapter
+import com.chloe.shopshare.profile.ProfileReminderAdapter
+import com.chloe.shopshare.profile.ProfileShopAdapter
 import com.chloe.shopshare.request.RequestImageAdapter
 import com.chloe.shopshare.requestdetail.RequestDetailCircleAdapter
 import com.chloe.shopshare.requestdetail.RequestDetailImageAdapter
@@ -89,6 +92,11 @@ fun bindRecyclerViewWithCollections(recyclerView: RecyclerView, shop: List<Shop>
                 is HomeHostingAdapter -> submitList(it)
                 is HomeMainGridAdapter -> submitList(it)
                 is MyHostListAdapter -> submitList(it)
+                is ProfileShopAdapter -> submitList(it)
+                is ProfileReminderAdapter -> {
+                    Log.d("Profile","Summit shop is $shop")
+                    submitList(it)
+                }
             }
         }
     }
@@ -112,6 +120,7 @@ fun bindRecyclerViewWithMyOrderDetail(recyclerView: RecyclerView, myOrder: List<
         recyclerView.adapter?.apply {
             when (this) {
                 is MyOrderListAdapter -> submitList(it)
+                is ProfileOrderAdapter -> submitList(it)
             }
         }
     }
@@ -286,6 +295,14 @@ fun bindDisplayFormatTime(textView: TextView, time: Long?) {
 fun bindDisplayFormatDateTime(textView: TextView, time: Long?) {
     textView.text = time?.toDisplayDateTimeFormat()
 }
+
+@BindingAdapter("dateWeekToDisplayFormat")
+fun bindDisplayFormatDateWeek(textView: TextView, time: Long?) {
+    textView.text = time?.toDisplayDateWeekFormat()
+}
+
+
+
 
 
 @BindingAdapter("timeToDisplayInChatRoomFormat")

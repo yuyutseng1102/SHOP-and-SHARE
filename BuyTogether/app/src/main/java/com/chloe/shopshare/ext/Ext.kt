@@ -28,6 +28,32 @@ fun Long.toDisplayThisYearDateTimeFormat(): String {
     return SimpleDateFormat("MM/dd HH:mm", Locale.TAIWAN).format(this)
 }
 
+fun Long.toDisplayDateWeekFormat(): String {
+
+    val date = this.toDisplayDateFormat()
+    val calendar = Calendar.getInstance()
+    calendar.time = Date(this)
+    val week = getWeek(calendar.get(Calendar.DAY_OF_WEEK))
+
+    return "$date $week"
+}
+
+@SuppressLint("SimpleDateFormat")
+fun Long.isShopExpiredToday(): Boolean {
+
+    this.let {
+        val dayFormat = SimpleDateFormat("yyyy-MM-dd")
+        val todayDate = dayFormat.format(Date(System.currentTimeMillis()))
+        val targetDate = dayFormat.format(Date(this))
+        val today = dayFormat.parse(todayDate).time
+        val target = dayFormat.parse(targetDate).time
+        return when (today - target) {
+            0L -> true
+            else -> false
+        }
+    }
+}
+
 @SuppressLint("SimpleDateFormat")
 fun Long.getDay(): String {
 
@@ -54,6 +80,9 @@ fun Long.getDay(): String {
         }
     }
 }
+
+
+
 
 @SuppressLint("SimpleDateFormat")
 fun Long.getDayWeek(): String {

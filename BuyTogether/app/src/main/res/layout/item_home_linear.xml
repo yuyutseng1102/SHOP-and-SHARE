@@ -54,22 +54,24 @@
                 android:id="@+id/mark_image"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:elevation="2dp"
                 android:forceHasOverlappingRendering="false"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_mark"
                 app:tint="@color/colorPrimary" />
 
-        <TextView
-            android:id="@+id/mark_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:text="1"
-            android:textColor="#FFFFFF"
-            app:layout_constraintEnd_toEndOf="@+id/mark_image"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/mark_image" />
+            <TextView
+                android:id="@+id/mark_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:elevation="2dp"
+                android:text="1"
+                android:textColor="#FFFFFF"
+                app:layout_constraintEnd_toEndOf="@+id/mark_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/mark_image" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
