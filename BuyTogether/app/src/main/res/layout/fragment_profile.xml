@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
             type="com.chloe.shopshare.profile.ProfileViewModel" />
@@ -13,15 +14,87 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
+        android:background="@color/green_E7ECE5"
         tools:context=".profile.ProfileFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/remind_block"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bg_participate_card"
+            android:elevation="1dp"
+            app:layout_constraintEnd_toEndOf="@+id/tool_block"
+            app:layout_constraintStart_toStartOf="@+id/button_my_host"
+            app:layout_constraintTop_toBottomOf="@+id/profile_block">
+
+            <TextView
+                android:id="@+id/today_date"
+                style="@style/DetailSubTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:dateWeekToDisplayFormat="@{viewModel.todayDate}"
+                app:layout_constraintBottom_toBottomOf="@+id/today_title"
+                app:layout_constraintStart_toEndOf="@+id/today_title"
+                app:layout_constraintTop_toTopOf="@+id/today_title"
+                tools:text="2021/6/14" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_expired_list"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:visibility="@{viewModel.noExpired == true ?View.GONE:View.VISIBLE}"
+                app:collections="@{viewModel.shopExpired}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/today_title"
+                tools:listitem="@layout/item_profile_reminder" />
+
+            <TextView
+                android:id="@+id/no_expired_shop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="48dp"
+                android:text="今日沒有預定到期的團購"
+                android:visibility="@{viewModel.noExpired == true ?View.VISIBLE:View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/today_date"
+                app:layout_constraintVertical_bias="0.45999998"
+                tools:visibility="gone" />
+
+            <TextView
+                android:id="@+id/today_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/amiko_bold"
+                android:text="Today"
+                android:textColor="@color/black_545454"
+                android:textSize="30sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/profile_block"
             android:layout_width="0dp"
-            android:layout_height="200dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bg_participate_card"
+            android:backgroundTint="@color/colorPrimary"
+            android:elevation="1dp"
+            app:layout_constraintEnd_toEndOf="@+id/remind_block"
+            app:layout_constraintStart_toStartOf="@+id/remind_block"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
@@ -30,20 +103,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="16dp"
                 android:text='@{"Hi ! "+viewModel.user.name}'
-                android:textColor="#FFFFFF"
+                android:textColor="@color/color_chat_background"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Hi ! Chloe" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/profile_photo"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginStart="52dp"
-                android:layout_marginTop="16dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="32dp"
                 app:imageUrl="@{viewModel.user.photo}"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/welcome_text"
                 app:shapeAppearance="?attr/shapeAppearanceSmallComponent"
@@ -55,7 +130,7 @@
                 style="@style/ProductTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="32dp"
                 android:text="@{viewModel.user.name}"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -80,241 +155,354 @@
 
             <ImageView
                 android:id="@+id/setting_button"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="48dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginEnd="24dp"
                 android:background="@drawable/bg_white_circle"
                 android:backgroundTint="#FFFFFF"
                 android:padding="3dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/welcome_text"
                 app:srcCompat="@drawable/ic_baseline_settings_24"
-                app:tint="@color/blue_81AAA9" />
+                app:tint="@color/colorPrimary" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/tool_block"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/bg_profile_block"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profile_block">
+            android:background="@drawable/bg_participate_card"
+            android:elevation="1dp"
+            app:layout_constraintBottom_toBottomOf="@+id/button_my_order"
+            app:layout_constraintEnd_toEndOf="@+id/button_logout"
+            app:layout_constraintStart_toStartOf="@+id/button_my_notify"
+            app:layout_constraintTop_toTopOf="@+id/button_my_host">
 
-            <!--            <View-->
-            <!--                android:id="@+id/line"-->
-            <!--                android:layout_width="0dp"-->
-            <!--                android:layout_height="1dp"-->
-            <!--                android:layout_marginTop="40dp"-->
-            <!--                android:background="@drawable/ic_line"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintHorizontal_bias="1.0"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toTopOf="parent"-->
-            <!--                tools:visibility="gone" />-->
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/host_block"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginStart="52dp"
-                android:layout_marginTop="100dp"
-                android:background="@drawable/bg_tag"
-                android:backgroundTint="@color/white"
-                android:elevation="1dp"
-                android:padding="4dp"
-                app:layout_constraintHorizontal_chainStyle="packed"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_my_host"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:checkable="true"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardElevation="2dp"
+                app:cardPreventCornerOverlap="true"
+                app:contentPadding="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageButton
-                    android:id="@+id/host_button"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/ic_baseline_all_inbox_24"
-                    android:backgroundTint="@color/green_7A8277"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/host_block"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/host_text"
-                    style="@style/ProductContent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="團購"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/host_button"
-                    app:layout_constraintStart_toStartOf="@+id/host_button" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <ImageView
+                        android:id="@+id/host_icon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/ic_baseline_storefront_24"
+                        android:backgroundTint="@color/orange_E3ACA1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/participate_block"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginStart="32dp"
-                android:background="@drawable/bg_tag"
-                android:backgroundTint="@color/white"
-                android:elevation="1dp"
-                android:padding="4dp"
-                app:layout_constraintBottom_toBottomOf="@+id/host_block"
-                app:layout_constraintStart_toEndOf="@+id/host_block"
-                app:layout_constraintTop_toTopOf="@+id/host_block"
-                app:layout_constraintVertical_bias="0.0">
+                    <TextView
+                        android:id="@+id/host_text"
+                        style="@style/TitleHots"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="我的團購"
+                        android:textColor="@color/green_7A8277"
+                        app:layout_constraintBottom_toBottomOf="@+id/host_icon"
+                        app:layout_constraintStart_toEndOf="@+id/host_icon"
+                        app:layout_constraintTop_toTopOf="@+id/host_icon" />
 
-                <ImageButton
-                    android:id="@+id/participate_button"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/ic_baseline_shopping_cart_24"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tabLayout_my_host"
+                        style="@style/Widget.MaterialComponents.TabLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="8dp"
+                        android:background="#FFFFFF"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/host_text"
+                        app:tabIndicatorColor="@color/colorPrimary"
+                        app:tabIndicatorFullWidth="false"
+                        app:tabIndicatorGravity="bottom"
+                        app:tabTextColor="@color/green_7A8277">
 
-                <TextView
-                    android:id="@+id/participate_record"
-                    style="@style/ProductContent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="跟團"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/participate_button"
-                    app:layout_constraintStart_toStartOf="@+id/participate_button" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                        <com.google.android.material.tabs.TabItem
+                            android:id="@+id/tab_my_host_opening"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="開團中" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/request_block"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginStart="32dp"
-                android:background="@drawable/bg_tag"
-                android:backgroundTint="@color/white"
-                android:elevation="1dp"
-                android:padding="4dp"
-                app:layout_constraintBottom_toBottomOf="@+id/participate_block"
-                app:layout_constraintStart_toEndOf="@+id/participate_block"
-                app:layout_constraintTop_toTopOf="@+id/participate_block">
+                        <com.google.android.material.tabs.TabItem
+                            android:id="@+id/tab_my_host_ongoing"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="進行中" />
 
-                <ImageButton
-                    android:id="@+id/request_button"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/ic_baseline_campaign_24"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    </com.google.android.material.tabs.TabLayout>
 
-                <TextView
-                    android:id="@+id/request_text"
-                    style="@style/ProductContent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="徵團"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/request_button"
-                    app:layout_constraintStart_toStartOf="@+id/request_button" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_my_host_image"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal"
+                        app:collections="@{viewModel.shop}"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tabLayout_my_host"
+                        tools:listitem="@layout/item_profile_shop" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/notify_block"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginTop="32dp"
-                android:background="@drawable/bg_tag"
-                android:backgroundTint="@color/white"
-                android:elevation="1dp"
-                android:padding="4dp"
-                app:layout_constraintEnd_toEndOf="@+id/host_block"
-                app:layout_constraintStart_toStartOf="@+id/host_block"
-                app:layout_constraintTop_toBottomOf="@+id/host_block">
 
-                <ImageButton
-                    android:id="@+id/notify_button"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/ic_baseline_notifications_24"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-                <TextView
-                    android:id="@+id/notify_text"
-                    style="@style/ProductContent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="通知"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/notify_button"
-                    app:layout_constraintStart_toStartOf="@+id/notify_button" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/message_block"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:background="@drawable/bg_tag"
-                android:backgroundTint="@color/white"
-                android:elevation="1dp"
-                android:padding="4dp"
-                app:layout_constraintBottom_toBottomOf="@+id/notify_block"
-                app:layout_constraintStart_toStartOf="@+id/participate_block"
-                app:layout_constraintTop_toTopOf="@+id/notify_block"
-                app:layout_constraintVertical_bias="0.0">
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_my_order"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:checkable="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardElevation="2dp"
+                app:cardPreventCornerOverlap="true"
+                app:contentPadding="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <ImageButton
-                    android:id="@+id/message_button"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/ic_baseline_mail_24"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/order_block"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/message_text"
-                    style="@style/ProductContent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="私訊"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/message_button"
-                    app:layout_constraintStart_toStartOf="@+id/message_button" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <ImageView
+                        android:id="@+id/order_icon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/ic_baseline_shopping_cart_24"
+                        android:backgroundTint="@color/orange_E3ACA1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/logout_block"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginStart="32dp"
-                android:background="@drawable/bg_tag"
-                android:backgroundTint="@color/white"
-                android:elevation="1dp"
-                android:padding="4dp"
-                app:layout_constraintBottom_toBottomOf="@+id/message_block"
-                app:layout_constraintStart_toEndOf="@+id/message_block"
-                app:layout_constraintTop_toTopOf="@+id/message_block">
+                    <TextView
+                        android:id="@+id/order_text"
+                        style="@style/TitleHots"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="我的訂單"
+                        app:layout_constraintBottom_toBottomOf="@+id/order_icon"
+                        app:layout_constraintStart_toEndOf="@+id/order_icon"
+                        app:layout_constraintTop_toTopOf="@+id/order_icon" />
 
-                <ImageButton
-                    android:id="@+id/logout_button"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/ic_baseline_logout_24"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tabLayout_my_order"
+                        style="@style/Widget.MaterialComponents.TabLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="8dp"
+                        android:background="#FFFFFF"
+                        app:tabTextColor="@color/green_7A8277"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/order_text"
+                        app:tabIndicatorColor="@color/colorPrimary"
+                        app:tabIndicatorFullWidth="false"
+                        app:tabIndicatorGravity="bottom">
 
-                <TextView
-                    android:id="@+id/logout_text"
-                    style="@style/ProductContent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="登出"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/logout_button"
-                    app:layout_constraintStart_toStartOf="@+id/logout_button" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                        <com.google.android.material.tabs.TabItem
+                            android:id="@+id/tab_my_order_opening"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="開團中" />
+
+                        <com.google.android.material.tabs.TabItem
+                            android:id="@+id/tab_my_order_ongoing"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="進行中" />
+
+                    </com.google.android.material.tabs.TabLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_my_order_image"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tabLayout_my_order"
+                        app:myOrderDetail="@{viewModel.detailList}"
+                        tools:listitem="@layout/item_profile_shop" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_my_host"
+            style="@style/Widget.App.IconOnly.Button"
+            android:layout_width="66dp"
+            android:layout_height="66dp"
+            android:layout_marginTop="32dp"
+            app:icon="@drawable/ic_baseline_storefront_24"
+            app:iconSize="40dp"
+            app:iconTint="@color/orange_E3ACA1"
+            app:layout_constraintStart_toStartOf="@+id/button_my_order"
+            app:layout_constraintTop_toBottomOf="@+id/remind_block" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_my_order"
+            style="@style/Widget.App.IconOnly.Button"
+            android:layout_width="66dp"
+            android:layout_height="66dp"
+            android:layout_marginTop="24dp"
+            app:icon="@drawable/ic_baseline_shopping_cart_24"
+            app:iconSize="40dp"
+            app:iconTint="@color/orange_E3ACA1"
+            app:layout_constraintStart_toStartOf="@+id/button_my_request"
+            app:layout_constraintTop_toBottomOf="@+id/button_my_host" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_my_request"
+            style="@style/Widget.App.IconOnly.Button"
+            android:layout_width="66dp"
+            android:layout_height="66dp"
+            android:layout_marginTop="40dp"
+            app:icon="@drawable/ic_baseline_campaign_24"
+            app:iconSize="40dp"
+            app:iconTint="@color/colorPrimary"
+            app:layout_constraintEnd_toStartOf="@+id/button_my_notify"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_my_order" />
+
+        <TextView
+            android:id="@+id/request_text"
+            style="@style/ProductTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="徵團"
+            app:layout_constraintEnd_toEndOf="@+id/button_my_request"
+            app:layout_constraintStart_toStartOf="@+id/button_my_request"
+            app:layout_constraintTop_toBottomOf="@+id/button_my_request" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_my_notify"
+            style="@style/Widget.App.IconOnly.Button"
+            android:layout_width="66dp"
+            android:layout_height="66dp"
+            app:icon="@drawable/ic_baseline_notifications_24"
+            app:iconSize="40dp"
+            app:iconTint="@color/colorPrimary"
+            app:layout_constraintEnd_toStartOf="@+id/button_my_chat"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/button_my_request"
+            app:layout_constraintTop_toTopOf="@+id/button_my_request" />
+
+        <TextView
+            android:id="@+id/notify_text"
+            style="@style/ProductTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="通知"
+            app:layout_constraintEnd_toEndOf="@+id/button_my_notify"
+            app:layout_constraintStart_toStartOf="@+id/button_my_notify"
+            app:layout_constraintTop_toBottomOf="@+id/button_my_notify" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_my_chat"
+            style="@style/Widget.App.IconOnly.Button"
+            android:layout_width="66dp"
+            android:layout_height="66dp"
+            app:icon="@drawable/ic_baseline_chat_24"
+            app:iconSize="40dp"
+            app:iconTint="@color/colorPrimary"
+            app:layout_constraintEnd_toStartOf="@+id/button_logout"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/button_my_notify"
+            app:layout_constraintTop_toTopOf="@+id/button_my_request" />
+
+        <TextView
+            android:id="@+id/chat_text"
+            style="@style/ProductTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="訊息"
+            app:layout_constraintEnd_toEndOf="@+id/button_my_chat"
+            app:layout_constraintStart_toStartOf="@+id/button_my_chat"
+            app:layout_constraintTop_toBottomOf="@+id/button_my_chat" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_logout"
+            style="@style/Widget.App.IconOnly.Button"
+            android:layout_width="66dp"
+            android:layout_height="66dp"
+            app:icon="@drawable/ic_baseline_logout_24"
+            app:iconSize="40dp"
+            app:iconTint="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/button_my_chat"
+            app:layout_constraintTop_toTopOf="@+id/button_my_request" />
+
+        <TextView
+            android:id="@+id/logout_text"
+            style="@style/ProductTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="登出"
+            app:layout_constraintEnd_toEndOf="@+id/button_logout"
+            app:layout_constraintStart_toStartOf="@+id/button_logout"
+            app:layout_constraintTop_toBottomOf="@+id/button_logout" />
+
+        <TextView
+            android:id="@+id/notify_badge"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/bg_white_circle"
+            android:backgroundTint="@color/textColorError"
+            android:elevation="2dp"
+            android:gravity="center"
+            android:text="@{String.valueOf(viewModel.notify.size)}"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toStartOf="@+id/button_my_notify"
+            app:layout_constraintTop_toBottomOf="@+id/button_my_order"
+            tools:text="1" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

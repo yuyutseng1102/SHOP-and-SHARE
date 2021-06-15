@@ -133,7 +133,7 @@
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="16dp"
                             android:text="寄送方式"
-                            android:textColor="@{viewModel.isInvalid != null ? (viewModel.delivery==null||viewModel.delivery==0?@color/red_500 : @color/gray_646464) : @color/gray_646464}"
+                            android:textColor="@{viewModel.isInvalid != null ? (viewModel.delivery==null||viewModel.delivery==0?@color/design_default_color_error : @color/gray_646464) : @color/gray_646464}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"

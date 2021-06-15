@@ -212,48 +212,51 @@ class RequestViewModel(private val repository: Repository) : ViewModel() {
 
     fun uploadImages(uriList: List<String>) {
         val list : MutableList<String> = mutableListOf()
-        Log.d("Chloe","uriList = $uriList ")
         val imageUri = MutableLiveData<String>()
+        val totalCount = uriList.size
+        var count = 0
         for (item in uriList) {
-            coroutineScope.launch {
             _status.value = LoadApiStatus.LOADING
+            coroutineScope.launch {
+                _status.value = LoadApiStatus.LOADING
                 val result = repository.uploadImage(item.toUri(), "request")
-                    when (result) {
-                        is Result.Success -> {
-                            _error.value = null
-                            _status.value = LoadApiStatus.DONE
-                            Log.d("Chloe","download uri is ${result.data}")
-                            imageUri.value =result.data
-                            list.add(imageUri.value!!)
-                        }
-                        is Result.Fail -> {
-                            _error.value = result.error
-                            _status.value = LoadApiStatus.ERROR
-                            imageUri.value = null
-                        }
-                        is Result.Error -> {
-                            _error.value = result.exception.toString()
-                            _status.value = LoadApiStatus.ERROR
-                            imageUri.value = null
-                        }
-                        else -> {
-                            _error.value = MyApplication.instance.getString(R.string.result_fail)
-                            _status.value = LoadApiStatus.ERROR
-                            imageUri.value = null
-                        }
+                when (result) {
+                    is Result.Success -> {
+                        _error.value = null
+                        _status.value = LoadApiStatus.DONE
+                        Log.d("Chloe","download uri is ${result.data}")
+                        imageUri.value =result.data
+                        list.add(imageUri.value!!)
+                        count ++
                     }
-
-                Log.d("Chloe","list.value = ${list} ")
-                _uploadDone.value = (list.size == uriList.size)
-                _postImage.value = list
-                Log.d("Chloe","_image.value = ${_image.value} ")
-
+                    is Result.Fail -> {
+                        _error.value = result.error
+                        _status.value = LoadApiStatus.ERROR
+                        imageUri.value = null
+                        count ++
+                    }
+                    is Result.Error -> {
+                        _error.value = result.exception.toString()
+                        _status.value = LoadApiStatus.ERROR
+                        imageUri.value = null
+                        count ++
+                    }
+                    else -> {
+                        _error.value = MyApplication.instance.getString(R.string.result_fail)
+                        _status.value = LoadApiStatus.ERROR
+                        imageUri.value = null
+                        count ++
+                    }
+                }
+                if (count == totalCount){
+                    _postImage.value = list
+                    _uploadDone.value = true
+                    _status.value = LoadApiStatus.DONE
+                }
             }
-
         }
-
-        _status.value = LoadApiStatus.DONE
     }
+
 
     companion object {
         const val INVALID_FORMAT_TITLE_EMPTY = 0x11

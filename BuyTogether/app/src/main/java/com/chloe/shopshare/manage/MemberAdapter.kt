@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.chloe.shopshare.data.Order
 import com.chloe.shopshare.databinding.ItemManageMemberBinding
+import com.chloe.shopshare.util.UserManager
 
 class MemberAdapter(private val viewModel: ManageViewModel) : ListAdapter<Order, MemberAdapter.ViewHolder>(
     DiffCallback
@@ -34,6 +35,7 @@ class MemberAdapter(private val viewModel: ManageViewModel) : ListAdapter<Order,
             livePosition.value = position
             Log.d("checkChloe","binding.isChecked = ${item.isCheck}")
 //            binding.memberNumber.text = (position + 1).toString()
+            binding.messageIcon.isEnabled = item.userId != UserManager.userId
             binding.recyclerProduct.adapter =
                 MemberProductAdapter()
 

@@ -1,6 +1,5 @@
 package com.chloe.shopshare.chat
 
-import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,17 +7,13 @@ import androidx.lifecycle.*
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.chloe.shopshare.bindDisplayFormatDateTime
 import com.chloe.shopshare.data.ChatDetail
-import com.chloe.shopshare.data.ChatRoom
 import com.chloe.shopshare.data.Message
-import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.databinding.ItemChatBinding
 import com.chloe.shopshare.ext.getDayWeek
 import com.chloe.shopshare.ext.toDisplayDateTimeFormat
-import com.chloe.shopshare.network.LoadApiStatus
 
-class ChatAdapter(val onClickListener: OnClickListener , private val viewModel: ChatViewModel) : ListAdapter<ChatDetail, ChatAdapter.ViewHolder>(DiffCallback) {
+class ChatAdapter(val onClickListener: OnClickListener, private val viewModel: ChatViewModel) : ListAdapter<ChatDetail, ChatAdapter.ViewHolder>(DiffCallback) {
 
     class ViewHolder(private var binding: ItemChatBinding):
         RecyclerView.ViewHolder(binding.root), LifecycleOwner {

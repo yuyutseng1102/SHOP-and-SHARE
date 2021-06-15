@@ -20,8 +20,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_home_tab"
                 app:tabIndicatorColor="@color/colorPrimary"
+                app:tabMode="auto"
                 app:tabSelectedTextColor="@color/black_3f3a3a"
-                app:tabTextColor="@color/gray_888888"/>
+                app:tabTextColor="@color/gray_888888" />
 
         </androidx.viewpager.widget.ViewPager>
 

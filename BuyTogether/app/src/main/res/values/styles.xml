@@ -335,6 +335,33 @@
         <item name="colorPrimary">@color/black_545454</item>
     </style>
 
+    <style name="Widget.App.Button.OutlinedButton.IconOnly" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
+        <item name="iconPadding">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+    </style>
+
+    <style name="Widget.App.IconOnly.Button" parent="Widget.MaterialComponents.Button">
+        <item name="iconPadding">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:iconTint">@color/colorPrimary</item>
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="shapeAppearanceOverlay">@null</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.Chip.Action.IconOnly.SmallComponent</item>
+    </style>
+
+    <style name="ShapeAppearance.App.Chip.Action.IconOnly.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">30%</item>
+    </style>
 
 </resources>
 
