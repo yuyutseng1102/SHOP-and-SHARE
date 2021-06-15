@@ -148,10 +148,22 @@ class DetailFragment : Fragment() {
             findNavController().navigate(NavigationDirections.navigateToHomeFragment())
         }
 
+        viewModel.shop.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                binding.navFollow.isEnabled = it.userId != UserManager.userId
+            }
+        })
+
+        binding.navFollow.isClickable == false
+
         binding.navFollow.setOnClickListener {
             viewModel.shop.value?.let {
-                viewModel.getChatRoom(UserManager.userId?:"",it.userId)
-                Log.d("Chat","UserManager.userId = ${UserManager.userId},friendId = ${it.userId}")
+
+                    viewModel.getChatRoom(UserManager.userId ?: "", it.userId)
+                    Log.d(
+                        "Chat",
+                        "UserManager.userId = ${UserManager.userId},friendId = ${it.userId}"
+                    )
             }
         }
 

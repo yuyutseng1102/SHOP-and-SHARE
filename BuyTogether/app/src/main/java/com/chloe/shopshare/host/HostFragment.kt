@@ -185,7 +185,10 @@ class HostFragment : Fragment() {
                         } else {
                             successDialog.setContentView(view)
                             successDialog.show()
-                            findNavController().navigate(NavigationDirections.navigateToHomeFragment())
+                            viewModel.shopId.value?.let {
+                                findNavController().navigate(NavigationDirections.navigateToDetailFragment(it))
+                            }
+
                         }
                         viewModel.onLeft()
                     }

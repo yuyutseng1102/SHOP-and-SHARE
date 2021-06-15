@@ -78,7 +78,7 @@ class HomeMainViewModel(private val repository: Repository) :ViewModel() {
     }
 
     val categoryTypeToDisplayTop = CategoryType.WOMAN
-    val categoryTypeToDisplayBottom = CategoryType.LIVING
+    val categoryTypeToDisplayBottom = CategoryType.FOOD
 
     init {
         getHotShopByTypeTop(categoryTypeToDisplayTop.category)
