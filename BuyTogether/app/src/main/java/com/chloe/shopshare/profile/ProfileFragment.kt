@@ -138,6 +138,8 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(NavigationDirections.navigateToLoginFragment())
         }
 
+
+
         binding.buttonMyHost.setOnClickListener {
             binding.cardMyHost.visibility = View.VISIBLE
             binding.cardMyOrder.visibility = View.GONE

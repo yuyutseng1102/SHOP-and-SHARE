@@ -13,6 +13,7 @@ import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.network.LoadApiStatus
 import com.chloe.shopshare.util.UserManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
@@ -32,6 +33,12 @@ class LoginViewModel(private val repository: Repository):ViewModel() {
 
     val leave: LiveData<Boolean>
         get() = _leave
+
+    private val _getTokenDone = MutableLiveData<Boolean>()
+
+    val getTokenDone: LiveData<Boolean>
+        get() = _getTokenDone
+
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -56,7 +63,7 @@ class LoginViewModel(private val repository: Repository):ViewModel() {
 
     //登入google 取得id及基本資料->確認是否為首次登入->回傳profile
     private fun signInWithGoogle(idToken: String) {
-
+        Log.d("Login","idToken= $idToken")
         coroutineScope.launch {
             _status.value = LoadApiStatus.LOADING
             val result = repository.signInWithGoogle(idToken)
@@ -88,14 +95,25 @@ class LoginViewModel(private val repository: Repository):ViewModel() {
         }
     }
 
+    fun signInGoogle(){
+        signInWithGoogle(account.idToken!!)
+    }
+
+    fun onGetTokenDone(){
+        _getTokenDone.value = null
+    }
+
+
+    lateinit var account : GoogleSignInAccount
 
     fun signIn(data: Intent){
         val task = GoogleSignIn.getSignedInAccountFromIntent(data)
         try {
             // Google Sign In was successful, authenticate with Firebase
-            val account = task.getResult(ApiException::class.java)!!
+            account = task.getResult(ApiException::class.java)!!
             Log.d("Login", "firebaseAuthWithGoogle:" + account.id)
-            signInWithGoogle(account.idToken!!)
+            _getTokenDone.value = true
+
         } catch (e: ApiException) {
             // Google Sign In failed, update UI appropriately
             Log.w("Login", "Google sign in failed", e)

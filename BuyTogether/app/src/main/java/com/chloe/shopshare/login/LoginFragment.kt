@@ -59,12 +59,29 @@ class LoginFragment : Fragment() {
             googleLogin()
         }
 
+        viewModel.getTokenDone.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                viewModel.signInGoogle()
+                viewModel.onGetTokenDone()
+            }
+        })
+
         viewModel.user.observe(viewLifecycleOwner, Observer {
-            Log.d("Login", "user = ${viewModel.user.value}" )
             it?.let {
                 findNavController().navigate(NavigationDirections.navigateToHomeFragment())
             }
         })
+
+        // Check if user is signed in (non-null) and update UI accordingly.
+//        val user = viewModel.auth.currentUser
+//        Log.i("Login","currentUser = $user")
+//        if (user != null) {
+//            UserManager.userId = user.uid
+//            findNavController().navigate(NavigationDirections.navigateToHomeFragment())
+//        } else {
+//            // No user is signed in
+//            Log.i("Login","No user is signed in")
+//        }
 
 
 
