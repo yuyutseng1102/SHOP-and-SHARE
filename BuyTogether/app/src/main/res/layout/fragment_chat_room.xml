@@ -141,12 +141,12 @@
 
                 <ImageButton
                     android:id="@+id/button_send"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="16dp"
                     android:background="@color/transparent"
-                    android:cropToPadding="false"
                     android:clickable="@{TextUtils.isEmpty(viewModel.editMessage)?false:true}"
+                    android:cropToPadding="false"
                     android:onClick="@{()->viewModel.editMessage(viewModel.editMessage)}"
                     android:src="@drawable/ic_baseline_send_24"
                     android:tint="@color/colorPrimary"
@@ -156,8 +156,8 @@
 
                 <ImageButton
                     android:id="@+id/button_album"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/ic_photo_library"
                     android:backgroundTint="@color/colorPrimary"
