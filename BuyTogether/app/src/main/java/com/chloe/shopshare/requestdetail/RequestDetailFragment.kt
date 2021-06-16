@@ -27,7 +27,7 @@ class RequestDetailFragment : Fragment() {
 
     private val args: RequestDetailFragmentArgs by navArgs()
 
-    private val viewModel by viewModels<RequestDetailViewModel> { getVmFactory(args.requestIdKey) }
+    private val viewModel by viewModels<RequestDetailViewModel> { getVmFactory(args.requestKey) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

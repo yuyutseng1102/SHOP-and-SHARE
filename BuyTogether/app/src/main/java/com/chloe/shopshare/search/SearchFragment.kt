@@ -1,20 +1,15 @@
 package com.chloe.shopshare.search
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.chloe.shopshare.NavigationDirections
-import com.chloe.shopshare.R
-import com.chloe.shopshare.databinding.DialogDetailOptionBinding
 import com.chloe.shopshare.databinding.FragmentSearchBinding
-import com.chloe.shopshare.detail.dialog.DetailOptionViewModel
 import com.chloe.shopshare.ext.getVmFactory
 import com.chloe.shopshare.host.CategoryType
 import com.chloe.shopshare.host.CountryType

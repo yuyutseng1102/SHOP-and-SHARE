@@ -12,7 +12,6 @@ import com.chloe.shopshare.MyApplication
 import com.chloe.shopshare.R
 import com.chloe.shopshare.data.*
 import com.chloe.shopshare.data.source.Repository
-import com.chloe.shopshare.data.source.remote.RemoteDataSource.getLiveDetailShop
 import com.chloe.shopshare.network.LoadApiStatus
 import com.chloe.shopshare.util.UserManager
 import kotlinx.coroutines.CoroutineScope
@@ -26,7 +25,6 @@ class DetailViewModel(
 ):ViewModel() {
 
     private val _shopId = MutableLiveData<String>().apply {
-        Log.d("Chloe", "_shopId = $arguments")
         value = arguments
     }
     val shopId: LiveData<String>
@@ -121,21 +119,33 @@ class DetailViewModel(
         _refreshStatus.value = false
     }
 
-    //要傳給選擇商品選項頁面的
 
-    private val _navigateToOption = MutableLiveData<List<Product>>()
-    val navigateToOption: LiveData<List<Product>>
-        get() = _navigateToOption
+    private val _navigateToVariation = MutableLiveData<Cart>()
+    val navigateToVariation: LiveData<Cart>
+        get() = _navigateToVariation
 
-    fun navigateToOption(product: List<Product>?) {
-        _navigateToOption.value = product?: listOf()
+    fun navigateToVariation(shop: Shop, products:List<Product>?) {
+        _navigateToVariation.value = Cart(shop, products?: listOf())
     }
 
-    fun onOptionNavigated() {
-        _navigateToOption.value = null
+    fun onVariationNavigated() {
+        _navigateToVariation.value = null
     }
 
-    // 要傳給聊天頁面的
+    private val _navigateToCart = MutableLiveData<Cart>()
+    val navigateToCart: LiveData<Cart>
+        get() = _navigateToCart
+
+    fun navigateToCart(shop: Shop, products:List<Product>?) {
+        _navigateToCart.value = Cart(shop, products?: listOf())
+    }
+
+    fun onCartNavigated() {
+        _navigateToCart.value = null
+    }
+
+
+
     private val _navigateToChatRoom = MutableLiveData<ChatRoomKey>()
     val navigateToChatRoom: LiveData<ChatRoomKey>
         get() = _navigateToChatRoom
@@ -150,21 +160,6 @@ class DetailViewModel(
 
     fun onChatRoomNavigated() {
         _navigateToChatRoom.value = null
-    }
-
-
-
-    // 要傳給商品清單頁面的
-    private val _navigateToProductList = MutableLiveData<List<Product>>()
-    val navigateToProductList: LiveData<List<Product>>
-        get() = _navigateToProductList
-
-    fun navigateToProductList(product: List<Product>?) {
-        _navigateToProductList.value = product?: listOf()
-    }
-
-    fun onProductListNavigated() {
-        _navigateToProductList.value = null
     }
 
 

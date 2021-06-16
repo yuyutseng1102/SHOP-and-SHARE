@@ -15,9 +15,9 @@ class DetailPagerAdapter(fragmentManager: FragmentManager,val description: Strin
         }
     }
 
-    override fun getCount() = DetailType.values().size
+    override fun getCount() = DetailContentType.values().size
 
     override fun getPageTitle(position: Int): CharSequence? {
-        return DetailType.values()[position].title
+        return DetailContentType.values()[position].title
     }
 }

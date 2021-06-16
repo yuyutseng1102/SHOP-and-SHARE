@@ -12,15 +12,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearSnapHelper
 import com.chloe.shopshare.NavigationDirections
+import com.chloe.shopshare.data.Cart
 import com.chloe.shopshare.data.Product
 import com.chloe.shopshare.databinding.FragmentDetailBinding
-import com.chloe.shopshare.detail.dialog.DetailOptionDialog
-import com.chloe.shopshare.detail.dialog.ProductListDialog
+import com.chloe.shopshare.detail.dialog.VariationDialog
+import com.chloe.shopshare.detail.dialog.CartDialog
 import com.chloe.shopshare.detail.item.DetailCircleAdapter
 import com.chloe.shopshare.detail.item.DetailDeliveryAdapter
 import com.chloe.shopshare.detail.item.DetailImageAdapter
 import com.chloe.shopshare.ext.getVmFactory
-import com.chloe.shopshare.network.LoadApiStatus
 import com.chloe.shopshare.util.UserManager
 import com.google.android.material.tabs.TabLayout
 
@@ -29,26 +29,26 @@ class DetailFragment : Fragment() {
 
     private val args: DetailFragmentArgs by navArgs()
 
-    private val viewModel by viewModels<DetailViewModel> { getVmFactory(args.shopIdKey) }
+    private val viewModel by viewModels<DetailViewModel> { getVmFactory(args.shopKey) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val binding = FragmentDetailBinding.inflate(inflater,container,false)
-
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        binding.recyclerDeliveryList.adapter = DetailDeliveryAdapter()
-        binding.recyclerDetailImage.adapter = DetailImageAdapter()
-        binding.recyclerDetailCircles.adapter = DetailCircleAdapter()
+
+        binding.recyclerImage.adapter = DetailImageAdapter()
+        binding.recyclerImageCircles.adapter = DetailCircleAdapter()
+        binding.recyclerDelivery.adapter = DetailDeliveryAdapter()
 
         val linearSnapHelper = LinearSnapHelper().apply {
-            attachToRecyclerView(binding.recyclerDetailImage)
+            attachToRecyclerView(binding.recyclerImage)
         }
 
-        binding.recyclerDetailImage.setOnScrollChangeListener { _, _, _, _, _ ->
+        binding.recyclerImage.setOnScrollChangeListener { _, _, _, _, _ ->
             viewModel.onGalleryScrollChange(
-                binding.recyclerDetailImage.layoutManager,
+                binding.recyclerImage.layoutManager,
                 linearSnapHelper
             )
         }
@@ -71,61 +71,33 @@ class DetailFragment : Fragment() {
 
 
 
-        viewModel.navigateToOption.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToVariation.observe(viewLifecycleOwner, Observer {
             it?.let {
-                if (viewModel.shop.value !=null) {
                     val dialog =
-                        DetailOptionDialog(
-                            viewModel.shop.value!!,
-                            it,
-                            object : OptionSelector {
-                                override fun onOptionSelector(product: List<Product>) {
-                                    viewModel.updateProductList(product)
-                                    Log.d(
-                                        "Chloe",
-                                        "option dialog is Success! optionlist is ${viewModel.product.value}"
-                                    )
-                                }
-                            }
-
+                        VariationDialog(
+                            object : VariationSelector { override fun onVariationSelector(products: List<Product>) { viewModel.updateProductList(products) } },
+                            it
                         )
-                    viewModel.onOptionNavigated()
+                    viewModel.onVariationNavigated()
                     dialog.show(childFragmentManager, "hiya")
-                }
             }
         })
 
-        viewModel.navigateToProductList.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToCart.observe(viewLifecycleOwner, Observer {
             it?.let {
-                Log.d("Chloe","navigateToProductList = $it")
-                if (viewModel.shop.value !=null){
                     val dialog =
-                        ProductListDialog(
-                            viewModel.shop.value!!,
-                            it,
-                            object : ProductListCheck {
-                                override fun onProductListCheck(product: List<Product>) {
-                                    viewModel.updateProductList(product)
-                                    Log.d(
-                                        "Chloe",
-                                        "option dialog is Success! optionlist is ${viewModel.product.value}"
-                                    )
-                                }
-                            }
+                        CartDialog(
+                            object : CartCheck { override fun onCartCheck(products: List<Product>) { viewModel.updateProductList(products) } },
+                            it
                         )
-                    viewModel.onProductListNavigated()
+                    viewModel.onCartNavigated()
                     dialog.show(childFragmentManager, "hiya")
-                }
+
             }
         })
 
         binding.deliveryExpandButton.setOnCheckedChangeListener { _, isChecked ->
-            when(isChecked){
-                true -> viewModel.isChecked.value = true
-                else -> viewModel.isChecked.value = false
-            }
-            Log.d("Chloe","isChecked=${isChecked}deliveryExpandButton is ${viewModel.isChecked.value}"
-            )
+            viewModel.isChecked.value = isChecked
         }
 
         viewModel.chatRoom.observe(viewLifecycleOwner, Observer {
@@ -154,7 +126,6 @@ class DetailFragment : Fragment() {
             }
         })
 
-        binding.navFollow.isClickable == false
 
         binding.navFollow.setOnClickListener {
             viewModel.shop.value?.let {
@@ -167,28 +138,19 @@ class DetailFragment : Fragment() {
             }
         }
 
-//        viewModel.productItem.observe(viewLifecycleOwner, Observer {
-//            it?.let {
-//                viewModel.addToProductList()
-//            }
-//        })
-
-
-
-
         return binding.root
     }
 
 }
 
-interface OptionSelector {
-    fun onOptionSelector(
-        product: List<Product>
+interface VariationSelector {
+    fun onVariationSelector(
+        products: List<Product>
     )
 }
 
-interface ProductListCheck {
-    fun onProductListCheck(
-        product: List<Product>
+interface CartCheck {
+    fun onCartCheck(
+        products: List<Product>
     )
 }

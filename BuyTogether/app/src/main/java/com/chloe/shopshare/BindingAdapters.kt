@@ -6,9 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.Shape
-import android.icu.text.DateFormat.DAY
 import android.util.Log
-import android.util.TimeUtils
 import android.view.View
 import android.widget.*
 import androidx.core.net.toUri
@@ -24,7 +22,7 @@ import com.chloe.shopshare.myhost.OrderStatusType
 import com.chloe.shopshare.myhost.PaymentStatusType
 import com.chloe.shopshare.manage.MemberAdapter
 import com.chloe.shopshare.manage.MemberProductAdapter
-import com.chloe.shopshare.detail.dialog.ProductListAdapter
+import com.chloe.shopshare.detail.dialog.CartAdapter
 import com.chloe.shopshare.detail.item.DetailCircleAdapter
 import com.chloe.shopshare.detail.item.DetailDeliveryAdapter
 import com.chloe.shopshare.detail.item.DetailImageAdapter
@@ -41,7 +39,7 @@ import com.chloe.shopshare.network.LoadApiStatus
 import com.chloe.shopshare.notify.NotifyAdapter
 import com.chloe.shopshare.notify.NotifyType
 import com.chloe.shopshare.orderdetail.OrderDetailProductAdapter
-import com.chloe.shopshare.participate.ParticipateAdapter
+import com.chloe.shopshare.order.OrderProductAdapter
 import com.chloe.shopshare.profile.ProfileOrderAdapter
 import com.chloe.shopshare.profile.ProfileReminderAdapter
 import com.chloe.shopshare.profile.ProfileShopAdapter
@@ -51,9 +49,6 @@ import com.chloe.shopshare.requestdetail.RequestDetailImageAdapter
 import com.chloe.shopshare.util.Util.getColor
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.util.*
 
 /**
  * According to [LoadApiStatus] to decide the visibility of [ProgressBar]
@@ -258,8 +253,8 @@ fun bindRecyclerViewWithProducts(recyclerView: RecyclerView, products: List<Prod
             Log.d("Chloe","summit the option list is ${products}")
             when (this) {
                 is MemberProductAdapter -> submitList(it)
-                is ProductListAdapter -> submitList(it)
-                is ParticipateAdapter -> submitList(it)
+                is CartAdapter -> submitList(it)
+                is OrderProductAdapter -> submitList(it)
                 is OrderDetailProductAdapter -> submitList(it)
             }
         }

@@ -1,13 +1,8 @@
 package com.chloe.shopshare.ext
 
-import androidx.annotation.RequiresPermission
 import androidx.fragment.app.Fragment
 import com.chloe.shopshare.MyApplication
-import com.chloe.shopshare.data.MyOrderDetailKey
-import com.chloe.shopshare.data.Shop
-import com.chloe.shopshare.data.Product
-import com.chloe.shopshare.data.Request
-import com.chloe.shopshare.data.source.Repository
+import com.chloe.shopshare.data.*
 import com.chloe.shopshare.factory.*
 import com.chloe.shopshare.myhost.MyHostType
 import com.chloe.shopshare.myorder.MyOrderType
@@ -28,9 +23,9 @@ fun Fragment.getVmFactory(option: List<String>?,isStandard:Boolean): OptionViewM
     return OptionViewModelFactory(repository, option, isStandard)
 }
 
-fun Fragment.getVmFactory(collection:Shop, product: List<Product>): ParticipateViewModelFactory {
+fun Fragment.getVmFactory(cart: Cart): CartViewModelFactory {
     val repository = (requireContext().applicationContext as MyApplication).repository
-    return ParticipateViewModelFactory(repository, collection,product)
+    return CartViewModelFactory(repository, cart)
 }
 
 fun Fragment.getVmFactory(shopId: String): ShopViewModelFactory {

@@ -9,3 +9,10 @@ data class MyOrder(
     var order: Order
 ): Parcelable {
 }
+
+@Parcelize
+data class Cart(
+    var shop: Shop,
+    var products: List<Product>
+): Parcelable {
+}

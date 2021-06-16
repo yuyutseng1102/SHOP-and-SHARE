@@ -4,13 +4,11 @@ import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
-import android.view.DisplayCutout
 import android.view.Gravity
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -99,7 +97,7 @@ class MainActivity : BaseActivity() {
                 R.id.requestFragment -> CurrentFragmentType.REQUEST
                 R.id.detailFragment -> CurrentFragmentType.DETAIL
                 R.id.requestDetailFragment -> CurrentFragmentType.REQUEST_DETAIL
-                R.id.participateFragment -> CurrentFragmentType.PARTICIPATE
+                R.id.orderFragment -> CurrentFragmentType.ORDER
 
                 R.id.likeFragment -> CurrentFragmentType.LIKE
 
