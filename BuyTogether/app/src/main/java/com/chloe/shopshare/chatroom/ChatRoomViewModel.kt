@@ -32,10 +32,6 @@ class ChatRoomViewModel(
     val myId: String
         get() =  UserManager.userId?:""
 
-    private val _chatDetail = MutableLiveData<ChatDetail>()
-    val chatDetail: LiveData<ChatDetail>
-        get() =  _chatDetail
-
     private val _image = MutableLiveData<String>()
     val image: LiveData<String>
         get() =  _image
@@ -44,9 +40,11 @@ class ChatRoomViewModel(
     val friendProfile: LiveData<User>
         get() =  _friendProfile
 
-    var messageList = MutableLiveData<List<Message>>()
 
-    val editMessage = MutableLiveData<String>()
+
+    val editMessage = MutableLiveData<String?>()
+
+    var messageList = MutableLiveData<List<Message>>()
 
     private var _message = MutableLiveData<Message>()
     val message: LiveData<Message>
@@ -60,8 +58,8 @@ class ChatRoomViewModel(
     val sendMessageDone: LiveData<Boolean>
         get() = _sendMessageDone
 
-    private val _navigateToDialog = MutableLiveData<String>()
-    val navigateToDialog: LiveData<String>
+    private val _navigateToDialog = MutableLiveData<String?>()
+    val navigateToDialog: LiveData<String?>
         get() =  _navigateToDialog
 
     // status: The internal MutableLiveData that stores the status of the most recent request
@@ -82,10 +80,6 @@ class ChatRoomViewModel(
 
     // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
-
-    init {
-
-    }
 
     fun navigateToDialog(image: String){
         _navigateToDialog.value = image
@@ -142,18 +136,34 @@ class ChatRoomViewModel(
     }
 
     fun editMessage(editMessage: String) {
-        Log.d("Chat","editMessage = ${editMessage}")
-        UserManager.userId?.let {
-            _message.value = Message(
-                talkerId = it ,
-                message = editMessage
-            )
-        }
-        if (_chatRoom.value!=null) {
-            _message.value?.let {
-                sendMessage(_chatRoom.value!!.id, it)
+        Log.d("Chat","editMessage = $editMessage")
+        _message.value = Message(
+            talkerId = myId ,
+            message = editMessage
+        )
+
+        _chatRoom.value?.let { chatRoom ->
+            _message.value?.let { message ->
+                sendMessage(chatRoom.id, message)
             }
         }
+    }
+
+    fun pickImages(uri: Uri){
+        uploadImages(uri)
+    }
+
+    fun sendImages(image: String){
+
+        Log.d("Chat","pickImages = $image")
+            _message.value = Message(talkerId = myId, image = image)
+
+        _chatRoom.value?.let { chatRoom ->
+            _message.value?.let { message ->
+                sendMessage(chatRoom.id, message)
+            }
+        }
+
     }
 
     private fun sendMessage(chatRoomId: String, message: Message) {
@@ -162,7 +172,7 @@ class ChatRoomViewModel(
 
             _status.value = LoadApiStatus.LOADING
             val result = repository.sendMessage(chatRoomId, message)
-
+            _sendMessageDone.value =
             when (result) {
                 is Result.Success -> {
                     _error.value = null
@@ -185,28 +195,7 @@ class ChatRoomViewModel(
                     null
                 }
             }
-            _sendMessageDone.value = true
         }
-    }
-
-    fun sendImages(image: String){
-
-        Log.d("Chat","pickImages = ${image}")
-        UserManager.userId?.let {
-            _message.value = Message(
-                talkerId = it ,
-                image = image
-            )
-        }
-        if (_chatRoom.value!=null) {
-            _message.value?.let {
-                sendMessage(_chatRoom.value!!.id, it)
-            }
-        }
-    }
-
-    fun pickImages(uri: Uri){
-        uploadImages(uri)
     }
 
     private fun uploadImages(imageUri : Uri) {
@@ -238,14 +227,9 @@ class ChatRoomViewModel(
                         null
                     }
                 }
-
                 _uploadImageDone.value = true
-                _status.value = LoadApiStatus.DONE
-
             }
-
         }
-
 
     fun onUploadImageDone() {
         _uploadImageDone.value = null

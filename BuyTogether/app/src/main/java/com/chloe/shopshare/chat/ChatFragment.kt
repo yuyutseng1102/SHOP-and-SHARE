@@ -16,19 +16,26 @@ import com.chloe.shopshare.ext.getVmFactory
 
 
 class ChatFragment : Fragment() {
+
     private val viewModel by viewModels<ChatViewModel> { getVmFactory() }
+
     private lateinit var binding: FragmentChatBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         binding = FragmentChatBinding.inflate(inflater, container, false)
+
         binding.lifecycleOwner = viewLifecycleOwner
+
         binding.viewModel = viewModel
+
         val adapter = ChatAdapter(ChatAdapter.OnClickListener {
             viewModel.navigateToChatRoom(it.chatRoom?: ChatRoom())
         }, viewModel)
+
         binding.recyclerChat.adapter = adapter
 
         viewModel.navigateToChatRoom.observe(viewLifecycleOwner, Observer {
@@ -37,7 +44,6 @@ class ChatFragment : Fragment() {
                 viewModel.onChatRoomNavigated()
             }
         })
-
 
         return binding.root
     }

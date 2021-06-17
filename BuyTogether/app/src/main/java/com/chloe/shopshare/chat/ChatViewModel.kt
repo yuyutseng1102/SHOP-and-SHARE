@@ -15,25 +15,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class ChatViewModel(val repository: Repository): ViewModel() {
+class ChatViewModel(val repository: Repository) : ViewModel() {
 
-    private val  _chatRoom = MutableLiveData<List<ChatRoom>>()
+    private val _chatRoom = MutableLiveData<List<ChatRoom>>()
     val chatRoom: LiveData<List<ChatRoom>>
-        get() =  _chatRoom
-
+        get() = _chatRoom
 
     private val _chatDetail = MutableLiveData<List<ChatDetail>>()
     val chatDetail: LiveData<List<ChatDetail>>
-        get() =  _chatDetail
-
-
-    private val _getChatRoomDone = MutableLiveData<Boolean>()
-    val getChatRoomDone: LiveData<Boolean>
-        get() = _getChatRoomDone
-
-    private val _getProfileDone = MutableLiveData<Boolean>()
-    val getProfileDone: LiveData<Boolean>
-        get() = _getProfileDone
+        get() = _chatDetail
 
     private val _getMessageDone = MutableLiveData<Boolean>()
     val getMessageDone: LiveData<Boolean>
@@ -49,9 +39,8 @@ class ChatViewModel(val repository: Repository): ViewModel() {
         get() = _status
 
     // error: The internal MutableLiveData that stores the error of the most recent request
-    private val _error = MutableLiveData<String>()
-
-    val error: LiveData<String>
+    private val _error = MutableLiveData<String?>()
+    val error: LiveData<String?>
         get() = _error
 
 
@@ -68,14 +57,15 @@ class ChatViewModel(val repository: Repository): ViewModel() {
         }
     }
 
-    private val _navigateToChatRoom = MutableLiveData<ChatRoom>()
-    val navigateToChatRoom: LiveData<ChatRoom>
+    private val _navigateToChatRoom = MutableLiveData<ChatRoom?>()
+    val navigateToChatRoom: LiveData<ChatRoom?>
         get() = _navigateToChatRoom
 
     fun navigateToChatRoom(chatRoom: ChatRoom) {
-        Log.d("ChatTag","nav")
+        Log.d("ChatTag", "nav")
         _navigateToChatRoom.value = chatRoom
     }
+
     fun onChatRoomNavigated() {
         _navigateToChatRoom.value = null
     }
@@ -251,10 +241,10 @@ class ChatViewModel(val repository: Repository): ViewModel() {
 //        return friendProfile
 //    }
 
-    fun getLiveMessage(chatRoomId: String):MutableLiveData<List<Message>> {
+    fun getLiveMessage(chatRoomId: String): MutableLiveData<List<Message>> {
         _status.value = LoadApiStatus.LOADING
         val messageList = repository.getRoomMessage(chatRoomId)
-        Log.d("Chat","getLiveMessage = ${messageList.value}")
+        Log.d("Chat", "getLiveMessage = ${messageList.value}")
         _status.value = LoadApiStatus.DONE
         return messageList
     }
