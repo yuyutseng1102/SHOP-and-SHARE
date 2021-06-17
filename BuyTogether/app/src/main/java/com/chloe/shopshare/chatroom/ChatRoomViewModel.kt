@@ -20,30 +20,17 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class ChatRoomViewModel(
-    private val repository: Repository, private val myIdArgs: String, private val friendIdArgs: String, private val chatRoomIdArgs: String
+    private val repository: Repository, private val args: ChatRoom
 ):ViewModel() {
 
-    private val _myId = MutableLiveData<String>().apply {
-        value = myIdArgs
+    private val _chatRoom = MutableLiveData<ChatRoom>().apply {
+        value = args
     }
-    val myId: LiveData<String>
-        get() =  _myId
-
-    private val _friendId = MutableLiveData<String>().apply {
-        value = friendIdArgs
-    }
-    val friendId: LiveData<String>
-        get() =  _friendId
-
-    private val _chatRoomId = MutableLiveData<String>().apply {
-        value = chatRoomIdArgs
-    }
-    val chatRoomId: LiveData<String>
-        get() =  _chatRoomId
-
-    private val _chatRoom = MutableLiveData<ChatRoom>()
     val chatRoom: LiveData<ChatRoom>
         get() =  _chatRoom
+
+    val myId: String
+        get() =  UserManager.userId?:""
 
     private val _chatDetail = MutableLiveData<ChatDetail>()
     val chatDetail: LiveData<ChatDetail>
@@ -56,31 +43,14 @@ class ChatRoomViewModel(
     private val _friendProfile = MutableLiveData<User>()
     val friendProfile: LiveData<User>
         get() =  _friendProfile
+
     var messageList = MutableLiveData<List<Message>>()
-
-//    private var _messageList = MutableLiveData<List<Message>>()
-//    val messageList: LiveData<List<Message>>
-//        get() =  _messageList
-
-
-
-//    private var _messageItem = MutableLiveData<List<MessageItem>>()
-//    val messageItem: LiveData<List<MessageItem>>
-//        get() =  _messageItem
 
     val editMessage = MutableLiveData<String>()
 
     private var _message = MutableLiveData<Message>()
     val message: LiveData<Message>
         get() =  _message
-
-    private val _getChatRoomDone = MutableLiveData<Boolean>()
-    val getChatRoomDone: LiveData<Boolean>
-        get() = _getChatRoomDone
-
-    private val _getProfileDone = MutableLiveData<Boolean>()
-    val getProfileDone: LiveData<Boolean>
-        get() = _getProfileDone
 
     private val _uploadImageDone = MutableLiveData<Boolean>()
     val uploadImageDone: LiveData<Boolean>
@@ -114,9 +84,7 @@ class ChatRoomViewModel(
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     init {
-        _friendId.value?.let {
-            getChatRoom(_myId.value!!, it)
-        }
+
     }
 
     fun navigateToDialog(image: String){
@@ -127,45 +95,12 @@ class ChatRoomViewModel(
         _navigateToDialog.value = null
     }
 
-
-    private fun getChatRoom(myId: String, friendId: String) {
-
-        coroutineScope.launch {
-
-            _status.value = LoadApiStatus.LOADING
-            val result = repository.getChatRoom(myId, friendId)
-
-            _chatRoom.value =
-            when (result) {
-                is Result.Success -> {
-                    _error.value = null
-                    _status.value = LoadApiStatus.DONE
-                    result.data
-
-                }
-                is Result.Fail -> {
-                    _error.value = result.error
-                    _status.value = LoadApiStatus.ERROR
-                    null
-                }
-                is Result.Error -> {
-                    _error.value = result.exception.toString()
-                    _status.value = LoadApiStatus.ERROR
-                    null
-                }
-                else -> {
-                    _error.value = MyApplication.instance.getString(R.string.result_fail)
-                    _status.value = LoadApiStatus.ERROR
-                    null
-                }
-            }
-            _getChatRoomDone.value = true
-            Log.d("Chat","chatRoom.value = ${_chatRoom.value}")
-        }
+    fun getFriendId(chatRoom: ChatRoom){
+        val list = chatRoom.talker.filterNot { it == myId }
+        getFriendProfile(list[0])
     }
 
-
-    fun getFriendProfile(friendId: String) {
+    private fun getFriendProfile(friendId: String) {
 
         coroutineScope.launch {
 
@@ -196,8 +131,6 @@ class ChatRoomViewModel(
                     null
                 }
             }
-            Log.d("Chat","friendProfile.value = ${_friendProfile.value}")
-            _getProfileDone.value = true
         }
     }
 
@@ -313,11 +246,6 @@ class ChatRoomViewModel(
 
         }
 
-
-
-    fun onGetChatRoomDone() {
-        _getChatRoomDone.value = null
-    }
 
     fun onUploadImageDone() {
         _uploadImageDone.value = null

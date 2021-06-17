@@ -38,16 +38,16 @@ class RequestDetailFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        binding.recyclerDetailImage.adapter = RequestDetailImageAdapter()
-        binding.recyclerDetailCircles.adapter = RequestDetailCircleAdapter()
+        binding.recyclerImage.adapter = RequestDetailImageAdapter()
+        binding.recyclerImageCircles.adapter = RequestDetailCircleAdapter()
 
         val linearSnapHelper = LinearSnapHelper().apply {
-            attachToRecyclerView(binding.recyclerDetailImage)
+            attachToRecyclerView(binding.recyclerImage)
         }
 
-        binding.recyclerDetailImage.setOnScrollChangeListener { _, _, _, _, _ ->
+        binding.recyclerImage.setOnScrollChangeListener { _, _, _, _, _ ->
             viewModel.onGalleryScrollChange(
-                binding.recyclerDetailImage.layoutManager,
+                binding.recyclerImage.layoutManager,
                 linearSnapHelper
             )
         }
@@ -79,7 +79,7 @@ class RequestDetailFragment : Fragment() {
             findNavController().navigate(NavigationDirections.navigateToHomeFragment())
         }
 
-        binding.navFollow.setOnClickListener {
+        binding.navChat.setOnClickListener {
             findNavController().navigate(NavigationDirections.navigateToHomeFragment())
         }
 

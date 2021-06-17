@@ -5,16 +5,16 @@
 
     <data>
         <variable name="item" type="com.chloe.shopshare.data.ChatDetail" />
-        <variable name="viewModel" type="com.chloe.shopshare.chat.ChatViewModel" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_shop_info"
-        android:onClick="@{()->viewModel.navigateToChatRoom(item)}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
-
+        android:clickable="true"
+        android:checkable="true"
+        android:focusable="true"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="8dp"
         app:cardPreventCornerOverlap="false"

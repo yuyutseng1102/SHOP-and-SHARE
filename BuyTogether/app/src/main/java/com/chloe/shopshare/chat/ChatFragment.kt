@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.chloe.shopshare.NavigationDirections
+import com.chloe.shopshare.data.ChatRoom
 import com.chloe.shopshare.databinding.FragmentChatBinding
 import com.chloe.shopshare.ext.getVmFactory
 
@@ -25,19 +26,14 @@ class ChatFragment : Fragment() {
         binding = FragmentChatBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        val adapter = ChatAdapter(
-            ChatAdapter.OnClickListener {
-                viewModel.navigateToChatRoom(it) },
-            viewModel
-        )
+        val adapter = ChatAdapter(ChatAdapter.OnClickListener {
+            viewModel.navigateToChatRoom(it.chatRoom?: ChatRoom())
+        }, viewModel)
         binding.recyclerChat.adapter = adapter
-
-
 
         viewModel.navigateToChatRoom.observe(viewLifecycleOwner, Observer {
             it?.let {
-                Log.d("Chat","navigateToChatRoom is change to ${it}")
-                findNavController().navigate(NavigationDirections.navigateToChatRoomFragment(it.myId,it.friendId,it.chatRoomId))
+                findNavController().navigate(NavigationDirections.navigateToChatRoomFragment(it))
                 viewModel.onChatRoomNavigated()
             }
         })

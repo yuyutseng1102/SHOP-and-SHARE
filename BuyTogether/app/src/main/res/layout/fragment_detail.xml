@@ -359,7 +359,7 @@
                         android:backgroundTint="@color/gray_888888"
                         android:textOff=""
                         android:textOn=""
-                        app:isExpandChecked="@{viewModel.isChecked}"
+                        app:isExpandChecked="@{viewModel.isExpanded}"
                         app:layout_constraintBottom_toBottomOf="@+id/deatil_delivery_title"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/deatil_delivery_title" />
@@ -370,7 +370,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="#FFFFFF"
-                    android:visibility="@{viewModel.isChecked==true?View.VISIBLE:View.GONE}"
+                    android:visibility="@{viewModel.isExpanded==true?View.VISIBLE:View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/delivery_block">
@@ -454,16 +454,18 @@
                 android:layout_height="@dimen/size_bottom_nav_icon"
                 android:layout_marginStart="24dp"
                 android:src="@drawable/ic_home"
+                android:onClick="@{() -> viewModel.navigateToHome()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:tint="@drawable/bottom_nav_item_selector" />
 
             <ImageView
-                android:id="@+id/nav_follow"
+                android:id="@+id/nav_chat"
                 android:layout_width="@dimen/size_bottom_nav_icon"
                 android:layout_height="@dimen/size_bottom_nav_icon"
                 android:layout_marginStart="32dp"
+                android:onClick="@{() -> viewModel.getChatRoom(viewModel.myId, viewModel.shop.userId)}"
                 android:src="@drawable/ic_baseline_message_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/nav_home"
@@ -484,7 +486,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_chainStyle="spread"
-                app:layout_constraintStart_toEndOf="@+id/nav_follow"
+                app:layout_constraintStart_toEndOf="@+id/nav_chat"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.5"
                 tools:visibility="gone" />
@@ -500,7 +502,7 @@
                 android:visibility="@{viewModel.shop.status==0?View.VISIBLE:View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_chainStyle="spread"
-                app:layout_constraintStart_toEndOf="@+id/nav_follow"
+                app:layout_constraintStart_toEndOf="@+id/nav_chat"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.5" />
 

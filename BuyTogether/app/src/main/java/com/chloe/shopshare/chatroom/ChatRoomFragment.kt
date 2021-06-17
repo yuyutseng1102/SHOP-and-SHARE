@@ -23,7 +23,7 @@ import com.chloe.shopshare.myrequest.item.MyRequestListViewModel
 
 class ChatRoomFragment : Fragment() {
     private val args: ChatRoomFragmentArgs by navArgs()
-    private val viewModel by viewModels<ChatRoomViewModel> { getVmFactory(args.myId,args.friendId,args.chatRoomId) }
+    private val viewModel by viewModels<ChatRoomViewModel> { getVmFactory(args.chatRoomKey) }
     private lateinit var binding: FragmentChatRoomBinding
     private val pickImageFile = 2
     override fun onCreateView(
@@ -36,21 +36,11 @@ class ChatRoomFragment : Fragment() {
         val adapter = ChatRoomMessageAdapter(viewModel)
         binding.recyclerMessage.adapter = adapter
 
-        viewModel.getChatRoomDone.observe(viewLifecycleOwner, Observer {
+        viewModel.chatRoom.observe(viewLifecycleOwner, Observer {
             it?.let {
-                viewModel.friendId.value?.let {
-                    viewModel.getFriendProfile(it)
-                }
-                viewModel.onGetChatRoomDone()
-            }
-        })
-
-        viewModel.getProfileDone.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                viewModel.chatRoom.value?.let {
-                    viewModel.getLiveMessage(it.id)
-                    binding.viewModel = viewModel
-                }
+                viewModel.getFriendId(it)
+                viewModel.getLiveMessage(it.id)
+                binding.viewModel = viewModel
             }
         })
 
@@ -76,6 +66,7 @@ class ChatRoomFragment : Fragment() {
                     viewModel.image.value?.let {
                         viewModel.sendImages(it)
                     }
+                    viewModel.onUploadImageDone()
                 }
             }
         })

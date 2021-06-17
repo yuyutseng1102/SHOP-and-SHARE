@@ -78,7 +78,7 @@ class VariationDialog(private val optionSelector: VariationSelector?, private va
 
 
         var lastCheckedId = View.NO_ID
-        binding.chipGroupOption.setOnCheckedChangeListener { group, checkedId ->
+        binding.chipGroupVariation.setOnCheckedChangeListener { group, checkedId ->
             if(checkedId == View.NO_ID) {
                 // User tried to uncheck, make sure to keep the chip checked
                 group.check(lastCheckedId)
@@ -95,7 +95,7 @@ class VariationDialog(private val optionSelector: VariationSelector?, private va
 
         viewModel.option.observe(viewLifecycleOwner, Observer {
             it?.let {
-        binding.chipGroupOption.addChip(context,viewModel.option.value!!)
+        binding.chipGroupVariation.addChip(context,viewModel.option.value!!)
             }
         })
 

@@ -4,8 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class MyOrder(
+data class Cart(
     var shop: Shop,
-    var order: Order
+    var products: List<Product>
 ): Parcelable
-

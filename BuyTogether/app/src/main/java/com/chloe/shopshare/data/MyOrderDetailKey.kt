@@ -7,5 +7,4 @@ import kotlinx.android.parcel.Parcelize
 data class MyOrderDetailKey(
     var shopId: String = "",
     var orderId: String = ""
-): Parcelable {
-}
+): Parcelable

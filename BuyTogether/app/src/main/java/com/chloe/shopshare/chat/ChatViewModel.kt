@@ -68,15 +68,14 @@ class ChatViewModel(val repository: Repository): ViewModel() {
         }
     }
 
-    private val _navigateToChatRoom = MutableLiveData<ChatRoomKey>()
-    val navigateToChatRoom: LiveData<ChatRoomKey>
+    private val _navigateToChatRoom = MutableLiveData<ChatRoom>()
+    val navigateToChatRoom: LiveData<ChatRoom>
         get() = _navigateToChatRoom
 
-    fun navigateToChatRoom(chatDetail: ChatDetail) {
-        Log.d("Chat","chatDetail on click is ${chatDetail}")
-        _navigateToChatRoom.value = ChatRoomKey(myId = UserManager.userId!!,friendId = chatDetail.friendProfile!!.id,chatRoomId = chatDetail.chatRoom!!.id)
+    fun navigateToChatRoom(chatRoom: ChatRoom) {
+        Log.d("ChatTag","nav")
+        _navigateToChatRoom.value = chatRoom
     }
-
     fun onChatRoomNavigated() {
         _navigateToChatRoom.value = null
     }
