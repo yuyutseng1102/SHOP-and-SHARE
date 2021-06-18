@@ -150,7 +150,7 @@ fun bindRecyclerViewWithMessage(recyclerView: RecyclerView, message: List<Messag
 fun bindRecyclerViewWithChatDetail(recyclerView: RecyclerView, chat: List<Chat>?) {
     chat?.let {
         recyclerView.adapter?.apply {
-            Log.d("Chat","summit the chat is ${chat}")
+            Log.d("ChatTag","summit the chat is ${chat}")
             var chatSort = chat.sortedByDescending {it.message?.last()?.time}
             when (this) {
                 is ChatAdapter -> submitList(chatSort)

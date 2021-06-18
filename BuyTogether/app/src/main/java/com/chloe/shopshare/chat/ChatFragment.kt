@@ -38,6 +38,20 @@ class ChatFragment : Fragment() {
 
         binding.recyclerChat.adapter = adapter
 
+        viewModel.chatRooms.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                Log.d("ChatTag","chatRooms is change to  $it")
+                binding.viewModel = viewModel
+                viewModel.getProfile(it)
+            }
+        })
+
+        viewModel.chatList.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                Log.d("ChatTag","chatList is change to $it")
+            }
+        })
+
         viewModel.navigateToChatRoom.observe(viewLifecycleOwner, Observer {
             it?.let {
                 findNavController().navigate(NavigationDirections.navigateToChatRoomFragment(it))

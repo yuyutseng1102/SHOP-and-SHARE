@@ -210,7 +210,7 @@ class LocalDataSource(val context: Context): DataSource {
         TODO("Not yet implemented")
     }
 
-    override fun getMyAllChatRoom(myId: String): MutableLiveData<List<ChatRoom>> {
+    override fun getMyLiveChatList(myId: String): MutableLiveData<List<ChatRoom>> {
         TODO("Not yet implemented")
     }
 
