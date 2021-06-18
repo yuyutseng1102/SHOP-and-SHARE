@@ -21,8 +21,8 @@ class ChatViewModel(val repository: Repository) : ViewModel() {
     val chatRoom: LiveData<List<ChatRoom>>
         get() = _chatRoom
 
-    private val _chatDetail = MutableLiveData<List<ChatDetail>>()
-    val chatDetail: LiveData<List<ChatDetail>>
+    private val _chatDetail = MutableLiveData<List<Chat>>()
+    val chatDetail: LiveData<List<Chat>>
         get() = _chatDetail
 
     private val _getMessageDone = MutableLiveData<Boolean>()
@@ -52,7 +52,7 @@ class ChatViewModel(val repository: Repository) : ViewModel() {
 
     init {
         UserManager.userId?.let {
-            getChatDetail(it)
+            getChatList(it)
 //            getLiveChat(it)
         }
     }
@@ -77,23 +77,21 @@ class ChatViewModel(val repository: Repository) : ViewModel() {
 //        _status.value = LoadApiStatus.DONE
 //    }
 
-    private fun getChatDetail(myId: String) {
-        var message = MutableLiveData<List<Message>>()
-        val chatDetailList = mutableListOf<ChatDetail>()
-        var friendProfile: User?
+    private fun getChatList(myId: String) {
+
+        val chatList = mutableListOf<Chat>()
+        var friend: User?
 
         coroutineScope.launch {
 
-            //拿聊天列表的資料
-
             val chatResult = repository.getMyChatList(myId)
+
             _chatRoom.value =
                 when (chatResult) {
                     is Result.Success -> {
                         _error.value = null
                         _status.value = LoadApiStatus.DONE
                         chatResult.data
-
                     }
                     is Result.Fail -> {
                         _error.value = chatResult.error
@@ -128,32 +126,32 @@ class ChatViewModel(val repository: Repository) : ViewModel() {
                             _status.value = LoadApiStatus.DONE
                             //抓聊天室的message
 //                            message = getLiveMessage(chat.id)
-                            friendProfile = result.data
-                            chatDetailList.add(ChatDetail(chat, friendProfile, message.value))
+                            friend = result.data
+                            chatList.add(Chat(chat, friend))
 //                            chatDetailList.add(ChatDetail(chat, friendProfile, message.value))
                             count++
                         }
                         is Result.Fail -> {
                             _error.value = result.error
                             _status.value = LoadApiStatus.ERROR
-                            friendProfile = null
+                            friend = null
                             count++
                         }
                         is Result.Error -> {
                             _error.value = result.exception.toString()
                             _status.value = LoadApiStatus.ERROR
-                            friendProfile = null
+                            friend = null
                             count++
                         }
                         else -> {
                             _error.value = MyApplication.instance.getString(R.string.result_fail)
                             _status.value = LoadApiStatus.ERROR
-                            friendProfile = null
+                            friend = null
                             count++
                         }
                     }
                     if (count == totalCount) {
-                        _chatDetail.value = chatDetailList
+                        _chatDetail.value = chatList
                         _status.value = LoadApiStatus.DONE
                     }
                 }

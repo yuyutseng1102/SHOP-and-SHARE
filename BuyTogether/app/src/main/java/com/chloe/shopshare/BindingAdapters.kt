@@ -147,7 +147,7 @@ fun bindRecyclerViewWithMessage(recyclerView: RecyclerView, message: List<Messag
 
 
 @BindingAdapter("chatDetail")
-fun bindRecyclerViewWithChatDetail(recyclerView: RecyclerView, chat: List<ChatDetail>?) {
+fun bindRecyclerViewWithChatDetail(recyclerView: RecyclerView, chat: List<Chat>?) {
     chat?.let {
         recyclerView.adapter?.apply {
             Log.d("Chat","summit the chat is ${chat}")

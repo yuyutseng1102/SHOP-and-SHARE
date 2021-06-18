@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <variable name="item" type="com.chloe.shopshare.data.ChatDetail" />
+        <variable name="item" type="com.chloe.shopshare.data.Chat" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

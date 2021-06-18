@@ -16,13 +16,6 @@ data class User(
 
 
 @Parcelize
-data class ChatDetail(
-    var chatRoom: ChatRoom? = null,
-    val friendProfile: User? = null,
-    var message: List<Message>? = null
-): Parcelable
-
-@Parcelize
 data class ChatRoomKey(
     val myId: String = "",
     val friendId: String = "",
