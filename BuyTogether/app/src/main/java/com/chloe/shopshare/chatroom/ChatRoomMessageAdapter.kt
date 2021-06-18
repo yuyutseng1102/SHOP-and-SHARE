@@ -74,7 +74,7 @@ class ChatRoomMessageAdapter(private val viewModel: ChatRoomViewModel):ListAdapt
         val item = getItem(position)
 
         return when (item.talkerId) {
-            UserManager.userId -> ITEM_MESSAGE_BY_ME
+            viewModel.myId -> ITEM_MESSAGE_BY_ME
             else -> ITEM_MESSAGE_BY_FRIEND
         }
     }

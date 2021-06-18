@@ -1694,12 +1694,11 @@ object RemoteDataSource : DataSource {
         return liveData
     }
 
-    override fun getMyAllChatRoom(myId: String): MutableLiveData<List<ChatRoom>> {
+    override fun getMyLiveChatList(myId: String): MutableLiveData<List<ChatRoom>> {
         val liveData = MutableLiveData<List<ChatRoom>>()
         val chatRoomDataBase = FirebaseFirestore.getInstance().collection(PATH_CHAT_ROOM)
         chatRoomDataBase
-//            .whereArrayContains("talker", myId)
-            .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
+            .whereArrayContains("talker", myId)
             .addSnapshotListener { snapshot, exception ->
                 Log.i("Chat", "addSnapshotListener detect")
                 exception?.let {
@@ -1708,7 +1707,7 @@ object RemoteDataSource : DataSource {
                         "[${this::class.simpleName}] Error getting documents. ${it.message}"
                     )
                 }
-                var chatList = mutableListOf<ChatRoom>()
+                val chatList = mutableListOf<ChatRoom>()
                 for (document in snapshot!!) {
                     Log.d("Chat", document.id + " => " + document.data)
                     val chat = document.toObject(ChatRoom::class.java)

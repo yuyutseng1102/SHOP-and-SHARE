@@ -86,7 +86,7 @@ interface DataSource {
     fun getLiveNewNotify(userId: String): MutableLiveData<List<Notify>>
 
     /** CHAT ROOM **/
-    fun getMyAllChatRoom(myId: String): MutableLiveData<List<ChatRoom>>
+    fun getMyLiveChatList(myId: String): MutableLiveData<List<ChatRoom>>
     suspend fun getMyChatList(myId: String): Result<List<ChatRoom>>
     suspend fun getChatRoom(myId: String, friendId: String): Result<ChatRoom>
     fun getRoomMessage(roomId: String): MutableLiveData<List<Message>>

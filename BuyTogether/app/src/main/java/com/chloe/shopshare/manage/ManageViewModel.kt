@@ -140,8 +140,8 @@ class ManageViewModel(
     }
 
     // 要傳給聊天頁面的
-    private val _navigateToChatRoom = MutableLiveData<ChatRoomKey>()
-    val navigateToChatRoom: LiveData<ChatRoomKey>
+    private val _navigateToChatRoom = MutableLiveData<ChatRoom>()
+    val navigateToChatRoom: LiveData<ChatRoom>
         get() = _navigateToChatRoom
 
 
@@ -558,7 +558,7 @@ class ManageViewModel(
                 }
 
                 _chatRoom.value?.let {
-                    _navigateToChatRoom.value = ChatRoomKey(myId = UserManager.userId!!,friendId = friendId,chatRoomId = it.id)
+                    _navigateToChatRoom.value = it
                 }
 
             }

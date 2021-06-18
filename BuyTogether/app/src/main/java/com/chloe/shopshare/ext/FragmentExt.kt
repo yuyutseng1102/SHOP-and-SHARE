@@ -59,9 +59,9 @@ fun Fragment.getVmFactory(myHostType: MyHostType): MyHostViewModelFactory {
     return MyHostViewModelFactory(repository, myHostType)
 }
 
-fun Fragment.getVmFactory(myId: String, friendId: String, chatRoomId: String): ChatRoomViewModelFactory {
+fun Fragment.getVmFactory(chatRoom: ChatRoom): ChatRoomViewModelFactory {
     val repository = (requireContext().applicationContext as MyApplication).repository
-    return ChatRoomViewModelFactory(repository, myId, friendId, chatRoomId)
+    return ChatRoomViewModelFactory(repository, chatRoom)
 }
 
 fun Fragment.getVmFactory(category: Int, country: Int): ResultViewModelFactory {

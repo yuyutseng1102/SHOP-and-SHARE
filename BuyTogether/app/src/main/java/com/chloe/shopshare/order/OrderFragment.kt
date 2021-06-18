@@ -37,7 +37,7 @@ class OrderFragment : Fragment() {
         binding.viewModel = viewModel
 
         val adapter = OrderProductAdapter(viewModel)
-        binding.recyclerProductList.adapter = adapter
+        binding.recyclerProducts.adapter = adapter
 
         viewModel.products.observe(viewLifecycleOwner, Observer {
             it?.let {

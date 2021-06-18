@@ -12,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearSnapHelper
 import com.chloe.shopshare.NavigationDirections
-import com.chloe.shopshare.data.Cart
 import com.chloe.shopshare.data.Product
 import com.chloe.shopshare.databinding.FragmentDetailBinding
 import com.chloe.shopshare.detail.dialog.VariationDialog
@@ -31,9 +30,11 @@ class DetailFragment : Fragment() {
 
     private val viewModel by viewModels<DetailViewModel> { getVmFactory(args.shopKey) }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        val binding = FragmentDetailBinding.inflate(inflater,container,false)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val binding = FragmentDetailBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
@@ -53,7 +54,6 @@ class DetailFragment : Fragment() {
             )
         }
 
-
         binding.viewpagerDetail.let {
             binding.tabsDetail.setupWithViewPager(it)
             it.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(binding.tabsDetail))
@@ -62,46 +62,56 @@ class DetailFragment : Fragment() {
         viewModel.shop.observe(viewLifecycleOwner, Observer {
             it?.let {
                 binding.viewModel = viewModel
-                binding.viewpagerDetail.adapter = DetailPagerAdapter(childFragmentManager,it.description)
+                binding.navChat.isEnabled = it.userId != viewModel.myId
+                binding.viewpagerDetail.adapter =
+                    DetailPagerAdapter(childFragmentManager, it.description)
                 viewModel.getUserProfile(it.userId)
             }
         })
 
 
-
-
-
         viewModel.navigateToVariation.observe(viewLifecycleOwner, Observer {
             it?.let {
-                    val dialog =
-                        VariationDialog(
-                            object : VariationSelector { override fun onVariationSelector(products: List<Product>) { viewModel.updateProductList(products) } },
-                            it
-                        )
-                    viewModel.onVariationNavigated()
-                    dialog.show(childFragmentManager, "hiya")
+                val dialog =
+                    VariationDialog(
+                        object : VariationSelector {
+                            override fun onVariationSelector(products: List<Product>) {
+                                viewModel.updateProductList(products)
+                            }
+                        },
+                        it
+                    )
+                viewModel.onVariationNavigated()
+                dialog.show(childFragmentManager, "hiya")
             }
         })
 
         viewModel.navigateToCart.observe(viewLifecycleOwner, Observer {
             it?.let {
-                    val dialog =
-                        CartDialog(
-                            object : CartCheck { override fun onCartCheck(products: List<Product>) { viewModel.updateProductList(products) } },
-                            it
-                        )
-                    viewModel.onCartNavigated()
-                    dialog.show(childFragmentManager, "hiya")
+                val dialog =
+                    CartDialog(
+                        object : CartCheck {
+                            override fun onCartCheck(products: List<Product>) {
+                                viewModel.updateProductList(products)
+                            }
+                        },
+                        it
+                    )
+                viewModel.onCartNavigated()
+                dialog.show(childFragmentManager, "hiya")
 
             }
         })
 
-        binding.deliveryExpandButton.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.isChecked.value = isChecked
-        }
+        viewModel.navigateToHome.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                findNavController().navigate(NavigationDirections.navigateToHomeFragment())
+                viewModel.onHomeNavigated()
+            }
+        })
 
         viewModel.chatRoom.observe(viewLifecycleOwner, Observer {
-            Log.d("Chloe","chatRoom = ${viewModel.chatRoom.value}")
+            Log.d("Chloe", "chatRoom = ${viewModel.chatRoom.value}")
             it?.let {
                 viewModel.navigateToChatRoom(it)
             }
@@ -109,33 +119,13 @@ class DetailFragment : Fragment() {
 
         viewModel.navigateToChatRoom.observe(viewLifecycleOwner, Observer {
             it?.let {
-                findNavController().navigate(NavigationDirections.navigateToChatRoomFragment(it.myId,it.friendId,it.chatRoomId))
+                findNavController().navigate(NavigationDirections.navigateToChatRoomFragment(it))
                 viewModel.onChatRoomNavigated()
             }
         })
 
-
-
-        binding.navHome.setOnClickListener {
-            findNavController().navigate(NavigationDirections.navigateToHomeFragment())
-        }
-
-        viewModel.shop.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                binding.navFollow.isEnabled = it.userId != UserManager.userId
-            }
-        })
-
-
-        binding.navFollow.setOnClickListener {
-            viewModel.shop.value?.let {
-
-                    viewModel.getChatRoom(UserManager.userId ?: "", it.userId)
-                    Log.d(
-                        "Chat",
-                        "UserManager.userId = ${UserManager.userId},friendId = ${it.userId}"
-                    )
-            }
+        binding.deliveryExpandButton.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.isExpanded(isChecked)
         }
 
         return binding.root

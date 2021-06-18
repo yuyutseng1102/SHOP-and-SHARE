@@ -161,14 +161,9 @@
         android:label="ChatRoomFragment"
         tools:layout="@layout/fragment_chat_room">
         <argument
-            android:name="myId"
-            app:argType="string" />
-        <argument
-            android:name="friendId"
-            app:argType="string" />
-        <argument
-            android:name="chatRoomId"
-            app:argType="string" />
+            android:name="chatRoomKey"
+            app:argType="com.chloe.shopshare.data.ChatRoom"
+            app:nullable="false" />
     </fragment>
     <fragment
         android:id="@+id/chatFragment"

@@ -7,34 +7,58 @@ import androidx.lifecycle.*
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.chloe.shopshare.data.ChatDetail
+import com.chloe.shopshare.data.Chat
 import com.chloe.shopshare.data.Message
 import com.chloe.shopshare.databinding.ItemChatBinding
 import com.chloe.shopshare.ext.getDayWeek
 import com.chloe.shopshare.ext.toDisplayDateTimeFormat
 
-class ChatAdapter(val onClickListener: OnClickListener, private val viewModel: ChatViewModel) : ListAdapter<ChatDetail, ChatAdapter.ViewHolder>(DiffCallback) {
+class ChatAdapter(
+    private val onClickListener: OnClickListener,
+    private val viewModel: ChatViewModel
+) : ListAdapter<Chat, ChatAdapter.ViewHolder>(DiffCallback) {
 
-    class ViewHolder(private var binding: ItemChatBinding):
+    class ViewHolder(private var binding: ItemChatBinding) :
         RecyclerView.ViewHolder(binding.root), LifecycleOwner {
 
         private var _messageList = MutableLiveData<List<Message>>()
 
-        fun bind(item: ChatDetail,viewModel: ChatViewModel) {
+        fun bind(item: Chat, viewModel: ChatViewModel) {
             binding.lifecycleOwner = this
             binding.item = item
-            _messageList = viewModel.getLiveMessage(item.chatRoom!!.id)
+            item.chatRoom?.let {
+                _messageList = viewModel.getLiveMessage(it.id)
+            }
 
             _messageList.observe(this, Observer {
                 it?.let {
-                    Log.d("Chat","_messageList = $it")
-                    item.message = it
-                    Log.d("Chat","message = ${item.message}")
-                    binding.item = item
-                    Log.d("Chat","messageDate = ${it.last().time.toDisplayDateTimeFormat()}")
-                    Log.d("Chat","messageContent = ${it.last().message}")
-                    binding.messageDate.text = it.last().time.getDayWeek()
-                    binding.messageContent.text = it.last().message?:"照片已傳送"
+                    if (it.isNotEmpty()){
+                        Log.d("Chat", "_messageList = $it")
+                        item.message = it
+                        Log.d("Chat", "message = ${item.message}")
+                        binding.item = item
+
+                        val time: Long = it.last().time
+                        val message: String? = it.last().message
+                        val image: String? = it.last().image
+
+                        binding.messageDate.text =
+                            when (time) {
+                                0L -> ""
+                                else -> it.last().time.getDayWeek()
+                            }
+
+                        binding.messageContent.text =
+                            when (message) {
+                                null -> {
+                                    when (image) {
+                                        null -> ""
+                                        else -> "照片已傳送"
+                                    }
+                                }
+                                else -> message
+                            }
+                    }
                 }
             })
 
@@ -73,11 +97,12 @@ class ChatAdapter(val onClickListener: OnClickListener, private val viewModel: C
         holder.onDetach()
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<ChatDetail>() {
-        override fun areItemsTheSame(oldItem: ChatDetail, newItem: ChatDetail): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<Chat>() {
+        override fun areItemsTheSame(oldItem: Chat, newItem: Chat): Boolean {
             return oldItem === newItem
         }
-        override fun areContentsTheSame(oldItem: ChatDetail, newItem: ChatDetail): Boolean {
+
+        override fun areContentsTheSame(oldItem: Chat, newItem: Chat): Boolean {
             return oldItem == newItem
         }
     }
@@ -85,7 +110,9 @@ class ChatAdapter(val onClickListener: OnClickListener, private val viewModel: C
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             ItemChatBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false))
+                LayoutInflater.from(parent.context), parent, false
+            )
+        )
     }
 
     /**
@@ -93,15 +120,15 @@ class ChatAdapter(val onClickListener: OnClickListener, private val viewModel: C
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item,viewModel)
+        holder.bind(item, viewModel)
         holder.itemView.setOnClickListener {
             onClickListener.onClick(item)
         }
 
     }
 
-    class OnClickListener(val clickListener: (item: ChatDetail) -> Unit) {
-        fun onClick(item: ChatDetail) = clickListener(item)
+    class OnClickListener(val clickListener: (item: Chat) -> Unit) {
+        fun onClick(item: Chat) = clickListener(item)
     }
 
 }

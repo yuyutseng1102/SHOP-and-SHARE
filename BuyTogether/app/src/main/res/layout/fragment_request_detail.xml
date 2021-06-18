@@ -344,7 +344,7 @@
                 app:tint="@drawable/bottom_nav_item_selector" />
 
             <ImageView
-                android:id="@+id/nav_follow"
+                android:id="@+id/nav_chat"
                 android:layout_width="@dimen/size_bottom_nav_icon"
                 android:layout_height="@dimen/size_bottom_nav_icon"
                 android:layout_marginStart="32dp"
@@ -367,7 +367,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_chainStyle="spread"
-                app:layout_constraintStart_toEndOf="@+id/nav_follow"
+                app:layout_constraintStart_toEndOf="@+id/nav_chat"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.5"
                 tools:visibility="visible" />
@@ -382,7 +382,7 @@
                 android:visibility="@{viewModel.request.host==null?View.VISIBLE:View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_chainStyle="spread"
-                app:layout_constraintStart_toEndOf="@+id/nav_follow"
+                app:layout_constraintStart_toEndOf="@+id/nav_chat"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.5"
                 tools:visibility="gone" />
