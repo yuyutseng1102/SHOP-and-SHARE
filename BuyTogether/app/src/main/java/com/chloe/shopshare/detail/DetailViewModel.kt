@@ -1,7 +1,6 @@
 package com.chloe.shopshare.detail
 
 import android.graphics.Rect
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,7 +11,6 @@ import com.chloe.shopshare.MyApplication
 import com.chloe.shopshare.R
 import com.chloe.shopshare.data.*
 import com.chloe.shopshare.data.source.Repository
-import com.chloe.shopshare.data.source.remote.RemoteDataSource.getLiveDetailShop
 import com.chloe.shopshare.network.LoadApiStatus
 import com.chloe.shopshare.util.UserManager
 import kotlinx.coroutines.CoroutineScope
@@ -22,12 +20,11 @@ import kotlinx.coroutines.launch
 
 class DetailViewModel(
     private val repository: Repository,
-    private val arguments: String
-):ViewModel() {
+    private val args: String
+) : ViewModel() {
 
     private val _shopId = MutableLiveData<String>().apply {
-        Log.d("Chloe", "_shopId = $arguments")
-        value = arguments
+        value = args
     }
     val shopId: LiveData<String>
         get() = _shopId
@@ -39,12 +36,6 @@ class DetailViewModel(
     private var _orderList = MutableLiveData<List<Order>>()
     val orderList: LiveData<List<Order>>
         get() = _orderList
-
-
-    private val _order = MutableLiveData<Order>()
-    val order: LiveData<Order>
-        get() = _order
-
 
     private val _product = MutableLiveData<List<Product>?>()
     val product: LiveData<List<Product>?>
@@ -58,125 +49,104 @@ class DetailViewModel(
     val chatRoom: LiveData<ChatRoom>
         get() = _chatRoom
 
-    val isChecked = MutableLiveData<Boolean>()
+    val isExpanded = MutableLiveData<Boolean?>()
 
-    // status: The internal MutableLiveData that stores the status of the most recent request
+    private val _navigateToVariation = MutableLiveData<Cart>()
+    val navigateToVariation: LiveData<Cart>
+        get() = _navigateToVariation
+
+    private val _navigateToCart = MutableLiveData<Cart>()
+    val navigateToCart: LiveData<Cart>
+        get() = _navigateToCart
+
+    private val _navigateToChatRoom = MutableLiveData<ChatRoom>()
+    val navigateToChatRoom: LiveData<ChatRoom>
+        get() = _navigateToChatRoom
+
+    private val _navigateToHome = MutableLiveData<Boolean>()
+
+    val navigateToHome: LiveData<Boolean>
+        get() = _navigateToHome
+
+
     private val _status = MutableLiveData<LoadApiStatus>()
-
     val status: LiveData<LoadApiStatus>
         get() = _status
 
-    // error: The internal MutableLiveData that stores the error of the most recent request
     private val _error = MutableLiveData<String>()
-
     val error: LiveData<String>
         get() = _error
 
-    // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
 
-    // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-    // status for the loading icon of swl
     private val _refreshStatus = MutableLiveData<Boolean>()
-
     val refreshStatus: LiveData<Boolean>
         get() = _refreshStatus
 
-    // it for gallery circles design
     private val _snapPosition = MutableLiveData<Int>()
-
     val snapPosition: LiveData<Int>
         get() = _snapPosition
 
-    val productItem = MutableLiveData<Product?>()
-    lateinit var myId : String
+    val myId: String
+        get() = UserManager.userId ?: ""
 
     init {
-        Log.i("Chloe", "Detail")
-        isChecked.value = false
+        isExpanded.value = false
         _shopId.value?.let {
             getLiveDetailShop(it)
             getLiveOrderOfShop(it)
-            Log.i("Chloe", "_shop is ${_shop.value}")
-        }
-        UserManager.userId?.let {
-            myId = it
         }
 
+//        UserManager.userId?.let {
+//            myId = it
+//        }
+
     }
 
-    private fun getLiveDetailShop(shopId: String) {
-        _status.value = LoadApiStatus.LOADING
-        _shop = repository.getLiveDetailShop(shopId)
-        _status.value = LoadApiStatus.DONE
-        _refreshStatus.value = false
+
+    fun navigateToVariation(shop: Shop, products: List<Product>?) {
+        _navigateToVariation.value = Cart(shop, products ?: listOf())
     }
 
-    private fun getLiveOrderOfShop(shopId: String) {
-        _status.value = LoadApiStatus.LOADING
-        _orderList = repository.getLiveOrderOfShop(shopId)
-        _status.value = LoadApiStatus.DONE
-        _refreshStatus.value = false
+    fun onVariationNavigated() {
+        _navigateToVariation.value = null
     }
 
-    //要傳給選擇商品選項頁面的
-
-    private val _navigateToOption = MutableLiveData<List<Product>>()
-    val navigateToOption: LiveData<List<Product>>
-        get() = _navigateToOption
-
-    fun navigateToOption(product: List<Product>?) {
-        _navigateToOption.value = product?: listOf()
+    fun navigateToCart(shop: Shop, products: List<Product>?) {
+        _navigateToCart.value = Cart(shop, products ?: listOf())
     }
 
-    fun onOptionNavigated() {
-        _navigateToOption.value = null
+    fun onCartNavigated() {
+        _navigateToCart.value = null
     }
-
-    // 要傳給聊天頁面的
-    private val _navigateToChatRoom = MutableLiveData<ChatRoomKey>()
-    val navigateToChatRoom: LiveData<ChatRoomKey>
-        get() = _navigateToChatRoom
 
     fun navigateToChatRoom(chatRoom: ChatRoom) {
-        Log.d("Chloe","chatRoomKey : myId = ${UserManager.userId!!},friendId = ${_shop.value?.userId},chatRoomId = ${chatRoom.id}")
-        _shop.value?.let {
-            _navigateToChatRoom.value = ChatRoomKey(myId = UserManager.userId!!,friendId = it.userId,chatRoomId = chatRoom.id)
-        }
-
+        _navigateToChatRoom.value = chatRoom
     }
 
     fun onChatRoomNavigated() {
         _navigateToChatRoom.value = null
     }
 
-
-
-    // 要傳給商品清單頁面的
-    private val _navigateToProductList = MutableLiveData<List<Product>>()
-    val navigateToProductList: LiveData<List<Product>>
-        get() = _navigateToProductList
-
-    fun navigateToProductList(product: List<Product>?) {
-        _navigateToProductList.value = product?: listOf()
+    fun navigateToHome() {
+        _navigateToHome.value = true
     }
 
-    fun onProductListNavigated() {
-        _navigateToProductList.value = null
+    fun onHomeNavigated() {
+        _navigateToHome.value = null
+    }
+
+    fun isExpanded(isChecked: Boolean) {
+        isExpanded.value = isChecked
     }
 
 
-    //從選擇頁面/清單頁面回來要把新的productList更新取代現有的list中
-
-    fun updateProductList(product: List<Product>){
-        if (product.isNullOrEmpty()){
-            _product.value = null
-            Log.d("Chloe","Product is update to null =${_product.value} ,  product from selector is ${product}}")
-        }else{
-            _product.value = product
-            Log.d("Chloe","Product is update to new =${_product.value} ,  product from selector is ${product}}")
+    fun updateProductList(products: List<Product>) {
+        when (products.isNotEmpty()) {
+            true -> _product.value = null
+            false -> _product.value = products
         }
     }
 
@@ -210,13 +180,26 @@ class DetailViewModel(
         val snapView = linearSnapHelper.findSnapView(layoutManager)
         snapView?.let {
             layoutManager?.getPosition(snapView)?.let {
-                if (it != snapPosition.value) {
+                if (it != _snapPosition.value) {
                     _snapPosition.value = it
                 }
             }
         }
     }
 
+    private fun getLiveDetailShop(shopId: String) {
+        _status.value = LoadApiStatus.LOADING
+        _shop = repository.getLiveDetailShop(shopId)
+        _status.value = LoadApiStatus.DONE
+        _refreshStatus.value = false
+    }
+
+    private fun getLiveOrderOfShop(shopId: String) {
+        _status.value = LoadApiStatus.LOADING
+        _orderList = repository.getLiveOrderOfShop(shopId)
+        _status.value = LoadApiStatus.DONE
+        _refreshStatus.value = false
+    }
 
 
     fun getUserProfile(userId: String) {
@@ -224,7 +207,7 @@ class DetailViewModel(
         coroutineScope.launch {
             _status.value = LoadApiStatus.LOADING
             val result = repository.getUserProfile(userId)
-            // It will return Result object after Deferred flow
+
             _user.value =
                 when (result) {
                     is Result.Success -> {
@@ -285,94 +268,3 @@ class DetailViewModel(
 }
 
 
-//mock
-//    private val orderId : Int = 1222
-//    private val orderTime: Long= java.util.Calendar.getInstance().timeInMillis
-//    private val userId:Long = 10000002
-//
-//    private val price: Int = 2000
-//    private val phone:String = "0988888888"
-//    private val delivery: String = "711永和門市"
-//    private val note: String? = "無"
-//    private val mockPaymentStatus: Int = 0
-
-//private fun getDetailShop(shopId: String) {
-//
-//    coroutineScope.launch {
-//
-//        _status.value = LoadApiStatus.LOADING
-//
-//        val result = repository.getDetailShop(shopId)
-//
-//        _shop.value = when (result) {
-//            is Result.Success -> {
-//                _error.value = null
-//                _status.value = LoadApiStatus.DONE
-//                result.data
-//            }
-//            is Result.Fail -> {
-//                _error.value = result.error
-//                _status.value = LoadApiStatus.ERROR
-//                null
-//            }
-//            is Result.Error -> {
-//                _error.value = result.exception.toString()
-//                _status.value = LoadApiStatus.ERROR
-//                null
-//            }
-//            else -> {
-//                _error.value = MyApplication.instance.getString(R.string.result_fail)
-//                _status.value = LoadApiStatus.ERROR
-//                null
-//            }
-//        }
-//        _refreshStatus.value = false
-//    }
-//}
-
-// 要傳給確定跟團頁面的
-//private val _navigateToParticipate = MutableLiveData<Shop>()
-//
-//val navigateToParticipate: LiveData<Shop>
-//    get() = _navigateToParticipate
-//
-//fun navigateToParticipate(shop: Shop) {
-//    _navigateToParticipate.value = shop
-//}
-//
-//fun onParticipateNavigated() {
-//    _navigateToParticipate.value = null
-//}
-
-
-//fun getOrderOfShop(shopId : String) {
-//
-//    coroutineScope.launch {
-//        _status.value = LoadApiStatus.LOADING
-//        val result = repository.getOrderOfShop(shopId)
-//        _orderList.value = when (result) {
-//            is Result.Success -> {
-//                _error.value = null
-//                _status.value = LoadApiStatus.DONE
-//                Log.d("Chloe","result = ${result.data}")
-//                result.data
-//            }
-//            is Result.Fail -> {
-//                _error.value = result.error
-//                _status.value = LoadApiStatus.ERROR
-//                null
-//            }
-//            is Result.Error -> {
-//                _error.value = result.exception.toString()
-//                _status.value = LoadApiStatus.ERROR
-//                null
-//            }
-//            else -> {
-//                _error.value = MyApplication.instance.getString(R.string.result_fail)
-//                _status.value = LoadApiStatus.ERROR
-//                null
-//            }
-//        }
-//        _refreshStatus.value = false
-//    }
-//}

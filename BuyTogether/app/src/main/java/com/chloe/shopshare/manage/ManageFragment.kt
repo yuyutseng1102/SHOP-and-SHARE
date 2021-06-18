@@ -132,7 +132,7 @@ class ManageFragment : Fragment() {
 
         viewModel.navigateToChatRoom.observe(viewLifecycleOwner, Observer {
             it?.let {
-                findNavController().navigate(NavigationDirections.navigateToChatRoomFragment(it.myId,it.friendId,it.chatRoomId))
+                findNavController().navigate(NavigationDirections.navigateToChatRoomFragment(it))
                 viewModel.onChatRoomNavigated()
             }
         })

@@ -63,7 +63,6 @@ class LoginViewModel(private val repository: Repository):ViewModel() {
 
     //登入google 取得id及基本資料->確認是否為首次登入->回傳profile
     private fun signInWithGoogle(idToken: String) {
-        Log.d("Login","idToken= $idToken")
         coroutineScope.launch {
             _status.value = LoadApiStatus.LOADING
             val result = repository.signInWithGoogle(idToken)

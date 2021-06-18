@@ -66,7 +66,7 @@ class GatherOptionDialog(private val optionAdd: OptionAdd?, private var oldOptio
         if(oldIsStandard){
             oldOption?.let {
                 for (i in it)
-                    binding.chipGroupOption.addChip(context,i)
+                    binding.chipGroupVariation.addChip(context,i)
             }
         }
 
@@ -90,7 +90,7 @@ class GatherOptionDialog(private val optionAdd: OptionAdd?, private var oldOptio
             viewModel.addOption()
             viewModel.optionItem.value?.let {
                     if (it.isNotEmpty())
-                    binding.chipGroupOption.addChip(context,it)
+                    binding.chipGroupVariation.addChip(context,it)
                 }
             viewModel.clearEditOption()
             binding.customOptionEdit.setText("")

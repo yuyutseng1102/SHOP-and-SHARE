@@ -7,20 +7,20 @@ import androidx.lifecycle.*
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.chloe.shopshare.data.ChatDetail
+import com.chloe.shopshare.data.Chat
 import com.chloe.shopshare.data.Message
 import com.chloe.shopshare.databinding.ItemChatBinding
 import com.chloe.shopshare.ext.getDayWeek
 import com.chloe.shopshare.ext.toDisplayDateTimeFormat
 
-class ChatAdapter(val onClickListener: OnClickListener, private val viewModel: ChatViewModel) : ListAdapter<ChatDetail, ChatAdapter.ViewHolder>(DiffCallback) {
+class ChatAdapter(val onClickListener: OnClickListener, private val viewModel: ChatViewModel) : ListAdapter<Chat, ChatAdapter.ViewHolder>(DiffCallback) {
 
     class ViewHolder(private var binding: ItemChatBinding):
         RecyclerView.ViewHolder(binding.root), LifecycleOwner {
 
         private var _messageList = MutableLiveData<List<Message>>()
 
-        fun bind(item: ChatDetail,viewModel: ChatViewModel) {
+        fun bind(item: Chat, viewModel: ChatViewModel) {
             binding.lifecycleOwner = this
             binding.item = item
             _messageList = viewModel.getLiveMessage(item.chatRoom!!.id)
@@ -73,11 +73,11 @@ class ChatAdapter(val onClickListener: OnClickListener, private val viewModel: C
         holder.onDetach()
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<ChatDetail>() {
-        override fun areItemsTheSame(oldItem: ChatDetail, newItem: ChatDetail): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<Chat>() {
+        override fun areItemsTheSame(oldItem: Chat, newItem: Chat): Boolean {
             return oldItem === newItem
         }
-        override fun areContentsTheSame(oldItem: ChatDetail, newItem: ChatDetail): Boolean {
+        override fun areContentsTheSame(oldItem: Chat, newItem: Chat): Boolean {
             return oldItem == newItem
         }
     }
@@ -100,8 +100,8 @@ class ChatAdapter(val onClickListener: OnClickListener, private val viewModel: C
 
     }
 
-    class OnClickListener(val clickListener: (item: ChatDetail) -> Unit) {
-        fun onClick(item: ChatDetail) = clickListener(item)
+    class OnClickListener(val clickListener: (item: Chat) -> Unit) {
+        fun onClick(item: Chat) = clickListener(item)
     }
 
 }

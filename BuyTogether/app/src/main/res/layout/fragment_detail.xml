@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.chloe.shopshare.detail.DetailViewModel" />
@@ -14,7 +16,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray_f5f5f5"
+        android:background="@color/color_background"
         tools:context=".detail.DetailFragment">
 
         <androidx.core.widget.NestedScrollView
@@ -27,12 +29,13 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/shop_block"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/detail_img_block"
+                    android:id="@+id/image_block"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="#FFFFFF"
@@ -42,7 +45,7 @@
 
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_detail_image"
+                        android:id="@+id/recycler_image"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_marginBottom="24dp"
@@ -55,7 +58,7 @@
                         app:strings="@{viewModel.shop.image}" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_detail_circles"
+                        android:id="@+id/recycler_image_circles"
                         android:layout_width="0dp"
                         android:layout_height="6dp"
                         android:layout_marginStart="16dp"
@@ -65,7 +68,7 @@
                         app:addDecoration="@{viewModel.decoration}"
                         app:count="@{viewModel.shop.image.size}"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintBottom_toBottomOf="@+id/recycler_detail_image"
+                        app:layout_constraintBottom_toBottomOf="@+id/recycler_image"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
 
@@ -90,13 +93,13 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/detail_title_block"
+                    android:id="@+id/header_block"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#FFFFFF"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/detail_img_block">
+                    app:layout_constraintTop_toBottomOf="@+id/image_block">
 
                     <TextView
                         android:id="@+id/detail_title"
@@ -163,14 +166,14 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/detail_info_block"
+                    android:id="@+id/information_block"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:background="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/detail_title_block">
+                    app:layout_constraintTop_toBottomOf="@+id/header_block">
 
 
                     <TextView
@@ -270,7 +273,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/option_block"
+                    android:id="@+id/variation_block"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -278,7 +281,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/detail_info_block">
+                    app:layout_constraintTop_toBottomOf="@+id/information_block">
 
                     <TextView
                         android:id="@+id/deatil_option_title"
@@ -301,7 +304,7 @@
                         android:layout_marginEnd="8dp"
                         android:background="@drawable/ic_baseline_chevron_right_24"
                         android:backgroundTint="@color/gray_888888"
-                        android:onClick="@{() -> viewModel.navigateToOption(viewModel.product)}"
+                        android:onClick="@{() -> viewModel.navigateToVariation(viewModel.shop, viewModel.product)}"
                         app:layout_constraintBottom_toBottomOf="@+id/deatil_option_title"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/deatil_option_title" />
@@ -331,7 +334,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/option_block">
+                    app:layout_constraintTop_toBottomOf="@+id/variation_block">
 
                     <TextView
                         android:id="@+id/deatil_delivery_title"
@@ -356,18 +359,18 @@
                         android:backgroundTint="@color/gray_888888"
                         android:textOff=""
                         android:textOn=""
-                        app:isExpandChecked="@{viewModel.isChecked}"
+                        app:isExpandChecked="@{viewModel.isExpanded}"
                         app:layout_constraintBottom_toBottomOf="@+id/deatil_delivery_title"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/deatil_delivery_title" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/delivery_method_block"
+                    android:id="@+id/expand_delivery_block"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="#FFFFFF"
-                    android:visibility="@{viewModel.isChecked==true?View.VISIBLE:View.GONE}"
+                    android:visibility="@{viewModel.isExpanded==true?View.VISIBLE:View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/delivery_block">
@@ -382,7 +385,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_delivery_list"
+                        android:id="@+id/recycler_delivery"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="8dp"
@@ -395,7 +398,7 @@
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/pager_block"
+                    android:id="@+id/content_block"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -404,7 +407,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/delivery_method_block"
+                    app:layout_constraintTop_toBottomOf="@+id/expand_delivery_block"
                     app:layout_constraintVertical_bias="0.0">
 
                     <androidx.viewpager.widget.ViewPager
@@ -451,16 +454,18 @@
                 android:layout_height="@dimen/size_bottom_nav_icon"
                 android:layout_marginStart="24dp"
                 android:src="@drawable/ic_home"
+                android:onClick="@{() -> viewModel.navigateToHome()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:tint="@drawable/bottom_nav_item_selector" />
 
             <ImageView
-                android:id="@+id/nav_follow"
+                android:id="@+id/nav_chat"
                 android:layout_width="@dimen/size_bottom_nav_icon"
                 android:layout_height="@dimen/size_bottom_nav_icon"
                 android:layout_marginStart="32dp"
+                android:onClick="@{() -> viewModel.getChatRoom(viewModel.myId, viewModel.shop.userId)}"
                 android:src="@drawable/ic_baseline_message_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/nav_home"
@@ -481,41 +486,39 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_chainStyle="spread"
-                app:layout_constraintStart_toEndOf="@+id/nav_follow"
+                app:layout_constraintStart_toEndOf="@+id/nav_chat"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.5"
-                tools:visibility="visible" />
+                tools:visibility="gone" />
 
             <Button
-                android:id="@+id/button_product_list"
+                android:id="@+id/button_cart"
                 style="@style/WhiteButtonName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:onClick="@{() -> viewModel.navigateToProductList(viewModel.product)}"
+                android:onClick="@{() -> viewModel.navigateToCart(viewModel.shop, viewModel.product)}"
                 android:text="查看清單"
                 android:visibility="@{viewModel.shop.status==0?View.VISIBLE:View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_chainStyle="spread"
-                app:layout_constraintStart_toEndOf="@+id/nav_follow"
+                app:layout_constraintStart_toEndOf="@+id/nav_chat"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.5"
-                tools:visibility="gone" />
+                app:layout_constraintVertical_bias="0.5" />
 
             <Button
-                android:id="@+id/button_participate"
+                android:id="@+id/button_order"
                 style="@style/WhiteButtonName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:onClick="@{() -> viewModel.navigateToOption(viewModel.product)}"
+                android:onClick="@{() -> viewModel.navigateToVariation(viewModel.shop, viewModel.product)}"
                 android:text="我要跟團"
                 android:visibility="@{viewModel.shop.status==0?View.VISIBLE:View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/button_product_list"
+                app:layout_constraintStart_toEndOf="@+id/button_cart"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.625"
-                tools:visibility="gone" />
+                app:layout_constraintVertical_bias="0.625" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

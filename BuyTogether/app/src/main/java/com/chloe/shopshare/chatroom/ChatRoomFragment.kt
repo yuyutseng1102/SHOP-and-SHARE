@@ -19,64 +19,55 @@ import com.chloe.shopshare.databinding.FragmentHostBinding
 import com.chloe.shopshare.ext.getVmFactory
 import com.chloe.shopshare.host.HostFragmentArgs
 import com.chloe.shopshare.myrequest.item.MyRequestListViewModel
+import kotlinx.android.synthetic.main.item_message_left.*
 
 
 class ChatRoomFragment : Fragment() {
+
     private val args: ChatRoomFragmentArgs by navArgs()
-    private val viewModel by viewModels<ChatRoomViewModel> { getVmFactory(args.myId,args.friendId,args.chatRoomId) }
+
+    private val viewModel by viewModels<ChatRoomViewModel> { getVmFactory(args.chatRoomKey) }
+
     private lateinit var binding: FragmentChatRoomBinding
+
     private val pickImageFile = 2
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         binding = FragmentChatRoomBinding.inflate(inflater, container, false)
+
         binding.lifecycleOwner = viewLifecycleOwner
+
         binding.viewModel = viewModel
+
         val adapter = ChatRoomMessageAdapter(viewModel)
+
         binding.recyclerMessage.adapter = adapter
 
-        viewModel.getChatRoomDone.observe(viewLifecycleOwner, Observer {
+        viewModel.chatRoom.observe(viewLifecycleOwner, Observer {
             it?.let {
-                viewModel.friendId.value?.let {
-                    viewModel.getFriendProfile(it)
-                }
-                viewModel.onGetChatRoomDone()
-            }
-        })
-
-        viewModel.getProfileDone.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                viewModel.chatRoom.value?.let {
-                    viewModel.getLiveMessage(it.id)
-                    binding.viewModel = viewModel
-                }
+                viewModel.getFriendId(it)
+                viewModel.getLiveMessage(it.id)
+                binding.viewModel = viewModel
             }
         })
 
         viewModel.sendMessageDone.observe(viewLifecycleOwner, Observer {
             it?.let {
-                if (it) {
                     viewModel.editMessage.value = ""
                     viewModel.onSendMessageDone()
-                }
             }
         })
 
-        binding.buttonAlbum.setOnClickListener {
-            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                type = "image/*"
-            }
-            startActivityForResult(intent, pickImageFile)
-        }
-
         viewModel.uploadImageDone.observe(viewLifecycleOwner, Observer {
             it?.let {
-                if (it) {
-                    viewModel.image.value?.let {
-                        viewModel.sendImages(it)
-                    }
+                viewModel.image.value?.let { image ->
+                    viewModel.sendImages(image)
                 }
+                viewModel.onUploadImageDone()
             }
         })
 
@@ -87,6 +78,12 @@ class ChatRoomFragment : Fragment() {
             }
         })
 
+        binding.buttonAlbum.setOnClickListener {
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                type = "image/*"
+            }
+            startActivityForResult(intent, pickImageFile)
+        }
 
         return binding.root
     }

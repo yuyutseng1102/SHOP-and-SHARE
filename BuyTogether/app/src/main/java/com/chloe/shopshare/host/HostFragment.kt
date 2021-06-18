@@ -28,7 +28,7 @@ import com.google.firebase.crashlytics.internal.common.Utils
 
 class HostFragment : Fragment() {
     private val args: HostFragmentArgs by navArgs()
-    private val viewModel by viewModels<HostViewModel> { getVmFactory(args.requestKey) }
+    private val viewModel by viewModels<HostViewModel> { getVmFactory(args.requestInfoKey) }
 
     private lateinit var binding: FragmentHostBinding
     private val pickImageFile = 2

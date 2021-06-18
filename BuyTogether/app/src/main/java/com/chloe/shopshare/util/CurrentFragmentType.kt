@@ -11,7 +11,7 @@ enum class CurrentFragmentType(val value: String) {
     SHOP(getString(R.string.collection)),
     MANAGE(getString(R.string.collection_manage)),
     DETAIL(""),
-    PARTICIPATE(getString(R.string.participate)),
+    ORDER(getString(R.string.participate)),
     NOTIFY(getString(R.string.notify)),
     REQUEST(getString(R.string.request_title)),
     REQUEST_DETAIL(""),

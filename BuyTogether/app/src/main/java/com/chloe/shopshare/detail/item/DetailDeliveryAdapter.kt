@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.chloe.shopshare.databinding.ItemDetailDeliveryBinding
-import com.chloe.shopshare.databinding.ItemProductListBinding
 
 class DetailDeliveryAdapter : ListAdapter<Int, DetailDeliveryAdapter.ViewHolder>(DiffCallback) {
 

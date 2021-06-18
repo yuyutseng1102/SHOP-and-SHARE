@@ -86,7 +86,7 @@
             app:layout_constraintTop_toTopOf="@+id/custom_text_field" />
 
         <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chip_group_option"
+            android:id="@+id/chip_group_variation"
             android:visibility="@{viewModel.isStandard?View.VISIBLE:View.GONE}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chip_group_option"
+            app:layout_constraintTop_toBottomOf="@+id/chip_group_variation"
             app:layout_constraintVertical_bias="1.0"
             tools:visibility="visible" />
 

@@ -7,5 +7,5 @@ import kotlinx.android.parcel.Parcelize
 data class MyOrder(
     var shop: Shop,
     var order: Order
-): Parcelable {
-}
+): Parcelable
+
