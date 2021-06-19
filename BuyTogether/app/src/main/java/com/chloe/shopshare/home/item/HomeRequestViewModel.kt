@@ -1,6 +1,5 @@
 package com.chloe.shopshare.home.item
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -23,50 +22,36 @@ class HomeRequestViewModel(private val repository: Repository) : ViewModel() {
     val request: LiveData<List<Request>>
         get() = _request
 
-    val displayFinishedRequest = MutableLiveData<Boolean>()
+    val displayFinishedRequest = MutableLiveData<Boolean?>()
 
-    // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
-
     val status: LiveData<LoadApiStatus>
         get() = _status
 
-    // error: The internal MutableLiveData that stores the error of the most recent request
     private val _error = MutableLiveData<String>()
-
     val error: LiveData<String>
         get() = _error
 
-    // status for the loading icon of swl
     private val _refreshStatus = MutableLiveData<Boolean>()
-
     val refreshStatus: LiveData<Boolean>
         get() = _refreshStatus
 
-    // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
-
-    // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-
-
-    private val _navigateToDetail = MutableLiveData<String>()
-
-    val navigateToDetail: LiveData<String>
+    private val _navigateToDetail = MutableLiveData<String?>()
+    val navigateToDetail: LiveData<String?>
         get() = _navigateToDetail
 
-
-    fun navigateToDetail(request: Request){
+    fun navigateToDetail(request: Request) {
         _navigateToDetail.value = request.id
     }
 
-    fun onDetailNavigated(){
+    fun onDetailNavigated() {
         _navigateToDetail.value = null
     }
 
     init {
-        Log.d("HomeTag", "HomeRequestFragment")
         displayFinishedRequest.value = false
         getRequestList()
     }
@@ -77,7 +62,7 @@ class HomeRequestViewModel(private val repository: Repository) : ViewModel() {
     }
 
     fun getRequestList() {
-        when(displayFinishedRequest.value){
+        when (displayFinishedRequest.value) {
             true -> getAllFinishedRequest()
             else -> getAllRequest()
         }
@@ -152,22 +137,15 @@ class HomeRequestViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
-
-
     fun refresh() {
         if (status.value != LoadApiStatus.LOADING) {
             getRequestList()
         }
     }
 
-
-
-
     //排序方式
     val selectedSortMethodPosition = MutableLiveData<Int>()
     val sortMethod: LiveData<SortMethod> = Transformations.map(selectedSortMethodPosition) {
         SortMethod.values()[it]
     }
-
-
 }

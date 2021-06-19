@@ -25,9 +25,9 @@ class HomeMainFragment : Fragment() {
     ): View? {
         val binding = FragmentHomeMainBinding.inflate(inflater,container,false)
 
-        val linearAdapter = HomeMainLinearAdapter(viewModel)
+        val linearTopAdapter = HomeMainLinearTopAdapter(viewModel)
 
-        val adapter2nd = HomeHots2ndAdapter(viewModel)
+        val linearBottomAdapter = HomeMainLinearBottomAdapter(viewModel)
 
         val gridAdapter = HomeMainGridAdapter(viewModel)
 
@@ -40,7 +40,6 @@ class HomeMainFragment : Fragment() {
 
         binding.layoutSwipeRefreshHome.setOnRefreshListener {
             viewModel.refresh()
-            Log.d("Chloe", "home status = ${viewModel.status.value}")
         }
 
         viewModel.refreshStatus.observe(viewLifecycleOwner, Observer {
@@ -52,8 +51,8 @@ class HomeMainFragment : Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        binding.recyclerHots1st.adapter = linearAdapter
-        binding.recyclerHots2nd.adapter = adapter2nd
+        binding.recyclerTopHots.adapter = linearTopAdapter
+        binding.recyclerBottomHots.adapter = linearBottomAdapter
         binding.recyclerNew.adapter = gridAdapter
 
 

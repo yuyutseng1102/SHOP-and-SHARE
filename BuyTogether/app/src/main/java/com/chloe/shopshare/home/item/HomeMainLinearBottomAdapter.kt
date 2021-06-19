@@ -9,15 +9,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.databinding.ItemHomeLinearBinding
 
-class HomeHots2ndAdapter(private val viewModel: HomeMainViewModel): ListAdapter<Shop, HomeHots2ndAdapter.ViewHolder>(DiffCallback) {
+class HomeMainLinearBottomAdapter(private val viewModel: HomeMainViewModel) :
+    ListAdapter<Shop, HomeMainLinearBottomAdapter.ViewHolder>(DiffCallback) {
 
-    class ViewHolder(private var binding: ItemHomeLinearBinding):
+    class ViewHolder(private var binding: ItemHomeLinearBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Shop, position: Int, viewModel: HomeMainViewModel) {
             binding.item = item
-            if (position<=3){
+            if (position <= 3) {
                 binding.markText.text = position.toString()
-            }else{
+            } else {
                 binding.markText.visibility = View.GONE
                 binding.markImage.visibility = View.GONE
             }
@@ -30,6 +31,7 @@ class HomeHots2ndAdapter(private val viewModel: HomeMainViewModel): ListAdapter<
         override fun areItemsTheSame(oldItem: Shop, newItem: Shop): Boolean {
             return oldItem === newItem
         }
+
         override fun areContentsTheSame(oldItem: Shop, newItem: Shop): Boolean {
             return oldItem == newItem
         }
@@ -38,14 +40,13 @@ class HomeHots2ndAdapter(private val viewModel: HomeMainViewModel): ListAdapter<
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             ItemHomeLinearBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false))
+                LayoutInflater.from(parent.context), parent, false
+            )
+        )
     }
 
-    /**
-     * Replaces the contents of a view (invoked by the layout manager)
-     */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item,position+1,viewModel)
+        holder.bind(item, position + 1, viewModel)
     }
 }

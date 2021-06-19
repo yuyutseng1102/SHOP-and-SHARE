@@ -8,9 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chloe.shopshare.data.Request
 import com.chloe.shopshare.databinding.ItemHomeRequestBinding
 
-class HomeRequestAdapter(private val viewModel: HomeRequestViewModel)  : ListAdapter<Request, HomeRequestAdapter.ViewHolder>(DiffCallback) {
+class HomeRequestAdapter(private val viewModel: HomeRequestViewModel) :
+    ListAdapter<Request, HomeRequestAdapter.ViewHolder>(DiffCallback) {
 
-    class ViewHolder(private var binding: ItemHomeRequestBinding):
+    class ViewHolder(private var binding: ItemHomeRequestBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Request, viewModel: HomeRequestViewModel) {
             binding.item = item
@@ -23,6 +24,7 @@ class HomeRequestAdapter(private val viewModel: HomeRequestViewModel)  : ListAda
         override fun areItemsTheSame(oldItem: Request, newItem: Request): Boolean {
             return oldItem === newItem
         }
+
         override fun areContentsTheSame(oldItem: Request, newItem: Request): Boolean {
             return oldItem == newItem
         }
@@ -31,15 +33,14 @@ class HomeRequestAdapter(private val viewModel: HomeRequestViewModel)  : ListAda
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             ItemHomeRequestBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false))
+                LayoutInflater.from(parent.context), parent, false
+            )
+        )
     }
 
-    /**
-     * Replaces the contents of a view (invoked by the layout manager)
-     */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item,viewModel)
+        holder.bind(item, viewModel)
     }
 
 }

@@ -79,11 +79,11 @@ fun bindRecyclerViewWithCollections(recyclerView: RecyclerView, shop: List<Shop>
     shop?.let {
         recyclerView.adapter?.apply {
             when (this) {
-                is HomeMainLinearAdapter -> {
+                is HomeMainLinearTopAdapter -> {
                     Log.d("HomeTag","Summit shop is $shop")
                     submitList(it)
                 }
-                is HomeHots2ndAdapter -> submitList(it)
+                is HomeMainLinearBottomAdapter -> submitList(it)
                 is HomeHostingAdapter -> submitList(it)
                 is HomeMainGridAdapter -> submitList(it)
                 is MyHostListAdapter -> submitList(it)
