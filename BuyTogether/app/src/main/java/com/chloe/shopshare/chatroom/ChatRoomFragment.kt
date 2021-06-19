@@ -3,23 +3,17 @@ package com.chloe.shopshare.chatroom
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.chloe.shopshare.NavigationDirections
-import com.chloe.shopshare.R
 import com.chloe.shopshare.databinding.FragmentChatRoomBinding
-import com.chloe.shopshare.databinding.FragmentHostBinding
 import com.chloe.shopshare.ext.getVmFactory
-import com.chloe.shopshare.host.HostFragmentArgs
-import com.chloe.shopshare.myrequest.item.MyRequestListViewModel
-import kotlinx.android.synthetic.main.item_message_left.*
 
 
 class ChatRoomFragment : Fragment() {
@@ -57,8 +51,8 @@ class ChatRoomFragment : Fragment() {
 
         viewModel.sendMessageDone.observe(viewLifecycleOwner, Observer {
             it?.let {
-                    viewModel.editMessage.value = ""
-                    viewModel.onSendMessageDone()
+                viewModel.editMessage.value = ""
+                viewModel.onSendMessageDone()
             }
         })
 
@@ -89,12 +83,13 @@ class ChatRoomFragment : Fragment() {
     }
 
     override fun onActivityResult(
-        requestCode: Int, resultCode: Int, resultData: Intent?) {
+        requestCode: Int, resultCode: Int, resultData: Intent?
+    ) {
 
         when (requestCode) {
             pickImageFile -> {
                 if (resultCode == Activity.RESULT_OK && resultData != null)
-                    resultData.data?.let { uri -> viewModel.pickImages(uri)}
+                    resultData.data?.let { uri -> viewModel.pickImages(uri) }
             }
         }
     }

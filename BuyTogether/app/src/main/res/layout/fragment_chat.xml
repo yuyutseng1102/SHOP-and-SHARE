@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
             android:text="目前沒有聊天紀錄"
-            android:visibility="gone"
+            android:visibility="@{viewModel.isChatListEmpty == true?View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
