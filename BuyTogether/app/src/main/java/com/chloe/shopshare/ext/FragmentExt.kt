@@ -39,7 +39,7 @@ fun Fragment.getVmFactory(shopId: String): ShopViewModelFactory {
 }
 
 
-fun Fragment.getVmFactory(orderDetail: MyOrderDetailKey): OrderDetailViewModelFactory {
+fun Fragment.getVmFactory(orderDetail: Track): OrderDetailViewModelFactory {
     val repository = (requireContext().applicationContext as MyApplication).repository
     return OrderDetailViewModelFactory(repository, orderDetail)
 }

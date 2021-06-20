@@ -20,7 +20,7 @@ class ManageFragment : Fragment() {
 
     private val args: ManageFragmentArgs by navArgs()
 
-    private val viewModel by viewModels<ManageViewModel> { getVmFactory(args.shopIdKey) }
+    private val viewModel by viewModels<ManageViewModel> { getVmFactory(args.shopKey) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

@@ -6,10 +6,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.chloe.shopshare.data.MyOrder
-import com.chloe.shopshare.data.MyOrderDetailKey
 import com.chloe.shopshare.databinding.ItemMyOrderBinding
 import com.chloe.shopshare.databinding.ItemProfileShopBinding
-import com.chloe.shopshare.myorder.item.MyOrderListViewModel
 
 class ProfileOrderAdapter(val onClickListener: OnClickListener) : ListAdapter<MyOrder, ProfileOrderAdapter.ViewHolder>(
     DiffCallback

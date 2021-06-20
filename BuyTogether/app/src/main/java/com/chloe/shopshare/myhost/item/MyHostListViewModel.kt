@@ -52,18 +52,8 @@ class MyHostListViewModel(private val repository: Repository, private val myHost
         }
     }
 
-//    private fun getShop() {
-//        when (myHostType) {
-//            MyHostType.ALL_SHOP -> getMyShop(userId)
-//            MyHostType.OPENING_SHOP -> getMyShopByStatus(userId, MyHostType.OPENING_SHOP.status)
-//            MyHostType.PROCESS_SHOP -> getMyShopByStatus(userId, MyHostType.PROCESS_SHOP.status)
-//            MyHostType.SHIPMENT_SHOP -> getMyShopByStatus(userId, MyHostType.SHIPMENT_SHOP.status)
-//            MyHostType.FINISH_SHOP -> getMyShopByStatus(userId, MyHostType.FINISH_SHOP.status)
-//        }
-//    }
-
-    private fun getShops(myHostType: MyHostType) {
-        when (val type = MyHostType.values()[myHostType.position]) {
+    private fun getShops(type: MyHostType) {
+        when (type) {
             MyHostType.ALL_SHOP -> getAllShops(userId)
             else -> getShopsByStatus(userId, type.status)
         }

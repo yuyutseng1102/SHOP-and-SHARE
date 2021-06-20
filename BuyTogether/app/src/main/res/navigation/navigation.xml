@@ -101,7 +101,7 @@
         android:label="ManageFragment"
         tools:layout="@layout/fragment_manage">
         <argument
-            android:name="shopIdKey"
+            android:name="shopKey"
             app:argType="string" />
     </fragment>
 
@@ -118,12 +118,13 @@
         tools:layout="@layout/fragment_my_order_list" />
 
     <fragment
-        android:id="@+id/orderDetailFragment"
-        android:name="com.chloe.shopshare.orderdetail.OrderDetailFragment"
-        android:label="OrderDetailFragment">
+        android:id="@+id/trackFragment"
+        android:name="com.chloe.shopshare.track.TrackFragment"
+        android:label="TrackFragment"
+        tools:layout="@layout/fragment_track">
         <argument
-            android:name="myOrderDetailKey"
-            app:argType="com.chloe.shopshare.data.MyOrderDetailKey" />
+            android:name="trackKey"
+            app:argType="com.chloe.shopshare.data.Track" />
     </fragment>
 
     <fragment
@@ -269,7 +270,7 @@
 
     <action
         android:id="@+id/navigate_to_order_detail_fragment"
-        app:destination="@id/orderDetailFragment" />
+        app:destination="@id/trackFragment" />
 
     <action
         android:id="@+id/navigate_to_success_dialog"

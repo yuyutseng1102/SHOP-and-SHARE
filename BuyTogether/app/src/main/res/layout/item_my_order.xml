@@ -5,7 +5,7 @@
 
     <data>
         <variable name="item" type="com.chloe.shopshare.data.MyOrder" />
-        <variable name="orderDetail" type="com.chloe.shopshare.data.MyOrderDetailKey" />
+        <variable name="orderDetail" type="com.chloe.shopshare.data.Track" />
         <variable name="viewModel" type="com.chloe.shopshare.myorder.item.MyOrderListViewModel" />
     </data>
 

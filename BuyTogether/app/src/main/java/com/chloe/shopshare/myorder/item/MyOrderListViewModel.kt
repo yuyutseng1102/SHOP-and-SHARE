@@ -45,8 +45,8 @@ class MyOrderListViewModel(private val repository: Repository,private val myOrde
     val refreshStatus: LiveData<Boolean>
         get() = _refreshStatus
 
-    private val _navigateToOrderDetail = MutableLiveData<MyOrderDetailKey?>()
-    val navigateToOrderDetail: LiveData<MyOrderDetailKey?>
+    private val _navigateToOrderDetail = MutableLiveData<Track?>()
+    val navigateToOrderDetail: LiveData<Track?>
         get() = _navigateToOrderDetail
 
     private var viewModelJob = Job()
@@ -58,17 +58,12 @@ class MyOrderListViewModel(private val repository: Repository,private val myOrde
         _visible.value = false
         UserManager.userId?.let {
             userId = it
-            getOrder()
+            getOrders(myOrderType)
         }
     }
 
-    private fun getOrder() {
-        when(myOrderType) {
-            MyOrderType.OPENING_ORDER -> getMyOrder(userId, MyOrderType.OPENING_ORDER.status)
-            MyOrderType.PROCESS_ORDER -> getMyOrder(userId, MyOrderType.PROCESS_ORDER.status)
-            MyOrderType.SHIPMENT_ORDER -> getMyOrder(userId, MyOrderType.SHIPMENT_ORDER.status)
-            MyOrderType.FINISHED_ORDER -> getMyOrder(userId, MyOrderType.FINISHED_ORDER.status)
-        }
+    private fun getOrders(type: MyOrderType) {
+        getMyOrder(userId, type.status)
     }
 
     override fun onCleared() {
@@ -76,7 +71,7 @@ class MyOrderListViewModel(private val repository: Repository,private val myOrde
         viewModelJob.cancel()
     }
 
-    fun navigateToOrderDetail(key: MyOrderDetailKey) {
+    fun navigateToOrderDetail(key: Track) {
         _navigateToOrderDetail.value = key
     }
 
@@ -121,7 +116,7 @@ class MyOrderListViewModel(private val repository: Repository,private val myOrde
 
     fun refresh() {
         if (status.value != LoadApiStatus.LOADING) {
-            getOrder()
+            getOrders(myOrderType)
         }
     }
 }

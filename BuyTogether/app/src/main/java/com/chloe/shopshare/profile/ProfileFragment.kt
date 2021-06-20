@@ -5,15 +5,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.chloe.shopshare.NavigationDirections
-import com.chloe.shopshare.R
-import com.chloe.shopshare.data.MyOrderDetailKey
+import com.chloe.shopshare.data.Track
 import com.chloe.shopshare.databinding.FragmentProfileBinding
 import com.chloe.shopshare.ext.getVmFactory
 import com.google.android.material.tabs.TabLayout
@@ -35,7 +33,7 @@ class ProfileFragment : Fragment() {
 
         val myHostAdapter = ProfileShopAdapter(ProfileShopAdapter.OnClickListener { viewModel.navigateToManage(it) })
         val myOrderAdapter = ProfileOrderAdapter(ProfileOrderAdapter.OnClickListener { viewModel.navigateToOrderDetail(
-            MyOrderDetailKey(shopId = it.shop.id, orderId = it.order.id)
+            Track(shopId = it.shop.id, orderId = it.order.id)
         ) })
         val reminderAdapter = ProfileReminderAdapter(viewModel)
         binding.recyclerMyHostImage.adapter = myHostAdapter

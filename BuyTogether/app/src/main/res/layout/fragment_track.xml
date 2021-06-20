@@ -8,7 +8,7 @@
         <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="com.chloe.shopshare.orderdetail.OrderDetailViewModel" />
+            type="com.chloe.shopshare.track.TrackViewModel" />
 
     </data>
 

@@ -7,7 +7,11 @@ import androidx.lifecycle.ViewModel
 import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.network.LoadApiStatus
 
-class GatherOptionViewModel(private val repository: Repository,var oldOption: List<String>?,oldIsStandard: Boolean): ViewModel() {
+class GatherOptionViewModel(
+    private val repository: Repository,
+    var oldOption: List<String>?,
+    oldIsStandard: Boolean
+) : ViewModel() {
 
     private val _option = MutableLiveData<List<String>>()
     val option: LiveData<List<String>>
@@ -15,12 +19,9 @@ class GatherOptionViewModel(private val repository: Repository,var oldOption: Li
 
     val optionItem = MutableLiveData<String?>()
 
-    //select option method
     val isStandard = MutableLiveData<Boolean>()
 
-    // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
-
     val status: LiveData<LoadApiStatus>
         get() = _status
 
@@ -28,12 +29,11 @@ class GatherOptionViewModel(private val repository: Repository,var oldOption: Li
 
 
     init {
-        oldOption?.let{
+        oldOption?.let {
             _option.value = it
             for (item in _option.value!!) {
                 optionList?.add(item)
             }
-//            oldOption = null
         }
         isStandard.value = oldIsStandard
     }
@@ -50,29 +50,14 @@ class GatherOptionViewModel(private val repository: Repository,var oldOption: Li
             _option.value = optionList!!
         }
     }
-//
-//
-//    fun addOption() {
-//        if (!optionItem.value.isNullOrEmpty()) {
-//            _option.value?.let {
-//                optionList = it.toMutableList()
-//            }
-//            if(_option.value.isNullOrEmpty()){
-//                optionList = mutableListOf()
-//            }
-//            optionList?.add(optionItem.value!!)
-//            _option.value = optionList!!
-//        }
-//    }
 
-
-    fun removeOption(optionItem : String) {
+    fun removeOption(optionItem: String) {
         _option.value?.let {
-            Log.d("Chloe","the option cleared is $optionItem")
+            Log.d("Chloe", "the option cleared is $optionItem")
             val optionList = it.toMutableList()
             optionList.remove(optionItem)
             _option.value = optionList
-            Log.d("Chloe","the optionList is ${_option.value}")
+            Log.d("Chloe", "the optionList is ${_option.value}")
         }
     }
 
@@ -81,14 +66,10 @@ class GatherOptionViewModel(private val repository: Repository,var oldOption: Li
     }
 
     fun optionDone() {
-        Log.d("Chloe","the optionList is ${_option.value}")
-        // 將輸入欄加入list中
-        //情況1: 自訂義輸入
+        Log.d("Chloe", "the optionList is ${_option.value}")
         if (isStandard.value == false) {
-            //先清空舊的選項
             if (!optionItem.value.isNullOrEmpty()) {
                 optionList = mutableListOf(optionItem.value ?: "")
-//                    optionList?.add(optionItem.value!!)
                 if (optionList != null) {
                     _option.value = optionList!!
                     _status.value = LoadApiStatus.DONE
@@ -96,17 +77,14 @@ class GatherOptionViewModel(private val repository: Repository,var oldOption: Li
                     _status.value = LoadApiStatus.LOADING
                 }
             }
-            //將輸入欄加入list中
-
         } else {
-            //情況2:新增選項規格
-            //先確定選項非為空
             if (!optionItem.value.isNullOrEmpty()) {
-                Log.d("Chloe","!optionItem.value.isNullOrEmpty()")
-                addOption()}
-            if (!_option.value.isNullOrEmpty()){
+                Log.d("Chloe", "!optionItem.value.isNullOrEmpty()")
+                addOption()
+            }
+            if (!_option.value.isNullOrEmpty()) {
                 _status.value = LoadApiStatus.DONE
-            }else{
+            } else {
                 _status.value = LoadApiStatus.LOADING
             }
         }
@@ -135,7 +113,7 @@ class GatherOptionViewModel(private val repository: Repository,var oldOption: Li
                     } else {
                         ""
                     }
-                }else {
+                } else {
                     ""
                 }
                 else -> ""

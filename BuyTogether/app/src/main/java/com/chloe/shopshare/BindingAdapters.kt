@@ -38,7 +38,7 @@ import com.chloe.shopshare.myrequest.item.MyRequestListAdapter
 import com.chloe.shopshare.network.LoadApiStatus
 import com.chloe.shopshare.notify.NotifyAdapter
 import com.chloe.shopshare.notify.NotifyType
-import com.chloe.shopshare.orderdetail.OrderDetailProductAdapter
+import com.chloe.shopshare.track.TrackAdapter
 import com.chloe.shopshare.order.OrderProductAdapter
 import com.chloe.shopshare.profile.ProfileOrderAdapter
 import com.chloe.shopshare.profile.ProfileReminderAdapter
@@ -255,7 +255,7 @@ fun bindRecyclerViewWithProducts(recyclerView: RecyclerView, products: List<Prod
                 is MemberProductAdapter -> submitList(it)
                 is CartAdapter -> submitList(it)
                 is OrderProductAdapter -> submitList(it)
-                is OrderDetailProductAdapter -> submitList(it)
+                is TrackAdapter -> submitList(it)
             }
         }
     }

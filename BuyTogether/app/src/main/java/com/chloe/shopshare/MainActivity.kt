@@ -106,7 +106,7 @@ class MainActivity : BaseActivity() {
                 R.id.manageFragment -> CurrentFragmentType.MANAGE
                 R.id.myOrderFragment -> CurrentFragmentType.MY_ORDER
                 R.id.myOrderListFragment -> CurrentFragmentType.MY_ORDER
-                R.id.orderDetailFragment -> CurrentFragmentType.ORDER_DETAIL
+                R.id.trackFragment -> CurrentFragmentType.TRACK
                 R.id.myRequestFragment -> CurrentFragmentType.MY_REQUEST
                 R.id.myRequestListFragment -> CurrentFragmentType.MY_REQUEST
 
