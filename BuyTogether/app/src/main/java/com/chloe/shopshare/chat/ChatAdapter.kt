@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chloe.shopshare.data.Chat
 import com.chloe.shopshare.data.Message
 import com.chloe.shopshare.databinding.ItemChatBinding
-import com.chloe.shopshare.ext.getDayWeek
+import com.chloe.shopshare.ext.toDisplayTimeGap
 
 class ChatAdapter(
     private val onClickListener: OnClickListener,
@@ -47,7 +47,7 @@ class ChatAdapter(
             binding.messageDate.text =
                 when (time) {
                     0L -> ""
-                    else -> time.getDayWeek()
+                    else -> time.toDisplayTimeGap()
                 }
         }
 

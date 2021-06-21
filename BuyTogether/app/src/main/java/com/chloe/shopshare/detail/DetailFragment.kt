@@ -1,11 +1,10 @@
 package com.chloe.shopshare.detail
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -14,13 +13,12 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import com.chloe.shopshare.NavigationDirections
 import com.chloe.shopshare.data.Product
 import com.chloe.shopshare.databinding.FragmentDetailBinding
-import com.chloe.shopshare.detail.dialog.VariationDialog
 import com.chloe.shopshare.detail.dialog.CartDialog
+import com.chloe.shopshare.detail.dialog.VariationDialog
 import com.chloe.shopshare.detail.item.DetailCircleAdapter
 import com.chloe.shopshare.detail.item.DetailDeliveryAdapter
 import com.chloe.shopshare.detail.item.DetailImageAdapter
 import com.chloe.shopshare.ext.getVmFactory
-import com.chloe.shopshare.util.UserManager
 import com.google.android.material.tabs.TabLayout
 
 
@@ -82,7 +80,7 @@ class DetailFragment : Fragment() {
                         it
                     )
                 viewModel.onVariationNavigated()
-                dialog.show(childFragmentManager, "hiya")
+                dialog.show(childFragmentManager, "Show Variation Dialog")
             }
         })
 
@@ -98,7 +96,7 @@ class DetailFragment : Fragment() {
                         it
                     )
                 viewModel.onCartNavigated()
-                dialog.show(childFragmentManager, "hiya")
+                dialog.show(childFragmentManager, "Show Cart Dialog")
 
             }
         })
@@ -111,7 +109,6 @@ class DetailFragment : Fragment() {
         })
 
         viewModel.chatRoom.observe(viewLifecycleOwner, Observer {
-            Log.d("Chloe", "chatRoom = ${viewModel.chatRoom.value}")
             it?.let {
                 viewModel.navigateToChatRoom(it)
             }

@@ -99,9 +99,6 @@ class DetailViewModel(
             getLiveOrderOfShop(it)
         }
 
-//        UserManager.userId?.let {
-//            myId = it
-//        }
 
     }
 

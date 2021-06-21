@@ -42,11 +42,11 @@ class RequestViewModel(private val repository: Repository) : ViewModel() {
     val uploadDone: LiveData<Boolean>
         get() = _uploadDone
 
-    private val _image = MutableLiveData<List<String>>()
-    val image: LiveData<List<String>>
-        get() = _image
+    private val _imagesPicked = MutableLiveData<List<String>>()
+    val imagesPicked: LiveData<List<String>>
+        get() = _imagesPicked
 
-    private val postImage = MutableLiveData<List<String>>()
+    private val images = MutableLiveData<List<String>>()
 
     private val _isInvalid = MutableLiveData<Int>()
     val isInvalid: LiveData<Int>
@@ -60,7 +60,6 @@ class RequestViewModel(private val repository: Repository) : ViewModel() {
     val category = MutableLiveData<Int>()
     val country = MutableLiveData<Int>()
     val source = MutableLiveData<String>()
-    private lateinit var imageList: MutableList<String>
     private lateinit var userId: String
 
     init {
@@ -70,42 +69,39 @@ class RequestViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
+    /**Request Category amd Country Selected**/
+
+    val categoryTitle = MutableLiveData<String>()
+    val countryTitle = MutableLiveData<String>()
+
+    fun convertTitleToValue(isCategory:Boolean, title: String): Int{
+        return when(isCategory){
+            true -> CategoryType.values().filter { it.title == title }[0].category
+            else -> CountryType.values().filter { it.title == title }[0].country
+        }
+    }
+
+    /**Request Image Picked**/
+
     fun pickImages(uri: Uri) {
-        imageList =
-            when (image.value) {
-                null -> mutableListOf()
-                else -> image.value?.toMutableList() ?: mutableListOf()
-            }
-        imageList.add(uri.toString())
-        _image.value = imageList
+        var list = mutableListOf<String>()
+        _imagesPicked.value?.let { list = it.toMutableList() }
+        list.add(uri.toString())
+        _imagesPicked.value = list
     }
 
-    fun removeImages(item: String) {
-        imageList.remove(item)
-        _image.value = imageList
-    }
-
-    val selectedCategoryTitle = MutableLiveData<String>()
-
-    fun convertCategoryTitleToInt(title: String) {
-        val value = CategoryType.values().filter { it.title == title }[0]
-        category.value = value.category
-        Log.d("RequestTag", "selectedCategory = $title in ${category.value}")
-    }
-
-    val selectedCountryTitle = MutableLiveData<String>()
-
-    fun convertCountryTitleToInt(title: String) {
-        val value = CountryType.values().filter { it.title == title }[0]
-        country.value = value.country
-        Log.d("RequestTag", "selectedCountry = $title in ${country.value}")
+    fun removeImages(image: String) {
+        var list = mutableListOf<String>()
+        _imagesPicked.value?.let { list = it.toMutableList() }
+        list.remove(image)
+        _imagesPicked.value = list
     }
 
     fun checkRequest() {
         _isInvalid.value =
             when {
                 title.value.isNullOrEmpty() -> INVALID_FORMAT_TITLE_EMPTY
-                image.value.isNullOrEmpty() -> INVALID_FORMAT_IMAGE_EMPTY
+                imagesPicked.value.isNullOrEmpty() -> INVALID_FORMAT_IMAGE_EMPTY
                 description.value.isNullOrEmpty() -> INVALID_FORMAT_DESCRIPTION_EMPTY
                 source.value.isNullOrEmpty() -> INVALID_FORMAT_SOURCE_EMPTY
                 category.value == null -> INVALID_FORMAT_CATEGORY_EMPTY
@@ -117,8 +113,8 @@ class RequestViewModel(private val repository: Repository) : ViewModel() {
     fun editRequest() {
         _request.value = Request(
             userId = userId,
-            mainImage = postImage.value?.get(0) ?: "",
-            image = postImage.value ?: listOf(),
+            mainImage = images.value?.get(0) ?: "",
+            image = images.value ?: listOf(),
             title = title.value ?: "",
             description = description.value ?: "",
             category = category.value ?: 0,
@@ -204,7 +200,7 @@ class RequestViewModel(private val repository: Repository) : ViewModel() {
                     }
                 }
                 if (count == totalCount) {
-                    postImage.value = list
+                    images.value = list
                     _uploadDone.value = true
                     _status.value = LoadApiStatus.DONE
                 }

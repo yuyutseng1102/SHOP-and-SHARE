@@ -30,7 +30,7 @@ import com.chloe.shopshare.ext.*
 import com.chloe.shopshare.home.item.*
 import com.chloe.shopshare.host.CategoryType
 import com.chloe.shopshare.host.CountryType
-import com.chloe.shopshare.host.item.GatherOptionAdapter
+import com.chloe.shopshare.host.item.HostVariationAdapter
 import com.chloe.shopshare.host.DeliveryMethod
 import com.chloe.shopshare.host.HostImageAdapter
 import com.chloe.shopshare.myorder.item.MyOrderListAdapter
@@ -166,7 +166,7 @@ fun bindRecyclerViewWithOptionStrings(recyclerView: RecyclerView, options: List<
         recyclerView.adapter?.apply {
             Log.d("Chloe","summit the option list is ${options}")
             when (this) {
-                is GatherOptionAdapter -> submitList(it)
+                is HostVariationAdapter -> submitList(it)
                 is HostImageAdapter -> submitList(it)
                 is DetailImageAdapter -> submitImages(it)
                 is RequestImageAdapter -> submitList(it)
@@ -277,7 +277,7 @@ fun bindRecyclerViewWithNotify(recyclerView: RecyclerView, notify: List<Notify>?
 
 @BindingAdapter("dateToDisplayFormat")
 fun bindDisplayFormatDate(textView: TextView, time: Long?) {
-    textView.text = time?.toDisplayDateFormat()
+    textView.text = time?.toDisplayYearDateFormat()
 }
 
 @BindingAdapter("timeToDisplayFormat")
@@ -302,14 +302,14 @@ fun bindDisplayFormatDateWeek(textView: TextView, time: Long?) {
 
 @BindingAdapter("timeToDisplayInChatRoomFormat")
 fun bindDisplayLastChatTime(textView: TextView, time: Long?) {
-    textView.text = time?.getDay()
+    textView.text = time?.toDisplayTimeGapWithoutWeek()
 }
 
 
 @BindingAdapter("deadLineToDisplay","conditionType","conditionToDisplay")
 fun bindDisplayCondition(textView: TextView,deadLine:Long?,conditionType:Int?,condition:Int?) {
 
-    val deadLineToDisplay: String? = "預計 ${deadLine?.toDisplayDateFormat()} 收團"
+    val deadLineToDisplay: String? = "預計 ${deadLine?.toDisplayYearDateFormat()} 收團"
 
     val conditionToDisplay: String? =
         when (conditionType) {

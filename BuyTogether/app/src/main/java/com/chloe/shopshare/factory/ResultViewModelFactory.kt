@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.result.ResultViewModel
 
+@Suppress("UNCHECKED_CAST")
 class ResultViewModelFactory(
     private val repository: Repository,
     private val category: Int,

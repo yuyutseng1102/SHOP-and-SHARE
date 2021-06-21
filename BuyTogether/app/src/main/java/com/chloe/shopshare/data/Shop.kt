@@ -33,5 +33,3 @@ data class Shop(
     var member : Int = 0
 }
 
-
-

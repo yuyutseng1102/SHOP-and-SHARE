@@ -6,18 +6,15 @@ import com.chloe.shopshare.data.Track
 import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.track.TrackViewModel
 
-class OrderDetailViewModelFactory(
-    private val repository: Repository,
-    private val orderDetail: Track
-) : ViewModelProvider.Factory {
+@Suppress("UNCHECKED_CAST")
+class TrackViewModelFactory(private val repository: Repository, private val track: Track) :
+    ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>) =
         with(modelClass) {
             when {
-                isAssignableFrom(TrackViewModel::class.java) ->
-                    TrackViewModel(repository, orderDetail)
-                else ->
-                    throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
+                isAssignableFrom(TrackViewModel::class.java) -> TrackViewModel(repository, track)
+                else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }
         } as T
 }

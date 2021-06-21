@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,18 +52,18 @@ class RequestFragment : Fragment() {
 
         (binding.menuRequestCountry.editText as? AutoCompleteTextView)?.setAdapter(countryAdapter)
 
-        viewModel.selectedCategoryTitle.observe(viewLifecycleOwner, Observer {
+        viewModel.categoryTitle.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if (it.isNotEmpty()) {
-                    viewModel.convertCategoryTitleToInt(it)
+                    viewModel.convertTitleToValue(true, it)
                 }
             }
         })
 
-        viewModel.selectedCountryTitle.observe(viewLifecycleOwner, Observer {
+        viewModel.countryTitle.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if (it.isNotEmpty()) {
-                    viewModel.convertCountryTitleToInt(it)
+                    viewModel.convertTitleToValue(false, it)
                 }
             }
         })
@@ -73,7 +72,7 @@ class RequestFragment : Fragment() {
 
         binding.recyclerImage.adapter = imageAdapter
 
-        viewModel.image.observe(viewLifecycleOwner, Observer {
+        viewModel.imagesPicked.observe(viewLifecycleOwner, Observer {
             imageAdapter.notifyDataSetChanged()
         })
 
@@ -89,7 +88,7 @@ class RequestFragment : Fragment() {
             viewModel.isInvalid.observe(viewLifecycleOwner, Observer {
                 when (it) {
                     null -> {
-                        viewModel.image.value?.let { image ->
+                        viewModel.imagesPicked.value?.let { image ->
                             viewModel.uploadImages(image)
                         }
                     }

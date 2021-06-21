@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.network.LoadApiStatus
 
-class GatherOptionViewModel(
+class HostVariationViewModel(
     private val repository: Repository,
     var oldOption: List<String>?,
     oldIsStandard: Boolean

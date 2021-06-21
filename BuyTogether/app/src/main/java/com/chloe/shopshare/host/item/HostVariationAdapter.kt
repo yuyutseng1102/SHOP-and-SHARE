@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.chloe.shopshare.databinding.ItemHostOptionBinding
 
-class GatherOptionAdapter : ListAdapter<String, GatherOptionAdapter.ViewHolder>(DiffCallback) {
+class HostVariationAdapter : ListAdapter<String, HostVariationAdapter.ViewHolder>(DiffCallback) {
 
     class ViewHolder(private var binding: ItemHostOptionBinding):
             RecyclerView.ViewHolder(binding.root) {

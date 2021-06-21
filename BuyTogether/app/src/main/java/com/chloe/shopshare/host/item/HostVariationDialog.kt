@@ -11,69 +11,68 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.chloe.shopshare.R
-import com.chloe.shopshare.databinding.DialogHostOptionBinding
+import com.chloe.shopshare.data.Variation
+import com.chloe.shopshare.databinding.DialogHostVariationBinding
 import com.chloe.shopshare.ext.getVmFactory
-import com.chloe.shopshare.host.OptionAdd
+import com.chloe.shopshare.host.VariationEditor
 import com.chloe.shopshare.network.LoadApiStatus
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
 
 
-class GatherOptionDialog(private val optionAdd: OptionAdd?, private var oldOption:List<String>?, private val oldIsStandard:Boolean) : AppCompatDialogFragment() {
+class HostVariationDialog(
+    private val optionAdd: VariationEditor?,
+    private var oldOption: List<String>?,
+    private val oldIsStandard: Boolean
+) : AppCompatDialogFragment() {
 
-    private val viewModel by viewModels<GatherOptionViewModel> { getVmFactory(oldOption,oldIsStandard) }
+    private val viewModel by viewModels<HostVariationViewModel> {
+        getVmFactory(
+            oldOption,
+            oldIsStandard
+        )
+    }
 
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
-        val binding = DialogHostOptionBinding.inflate(inflater, container, false)
+        val binding = DialogHostVariationBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-//        val adapter = GatherOptionAdapter()
-//        binding.recyclerOption.adapter = adapter
-
-
         fun ChipGroup.addChip(context: Context?, option: String) {
-//            for (i in option.indices) {
-                val drawable = ChipDrawable.createFromAttributes(requireContext(), null, 0, R.style.WidgetAppChip)
-                Chip(context).apply {
-                    id = View.generateViewId()
-                    text = option
-                    isCloseIconVisible = true
-                    isFocusable = true
-                    setBackgroundColor(R.drawable.bg_radio_button)
-                    setChipDrawable(drawable)
-                    addView(this)
-                    setOnCloseIconClickListener{
-                        viewModel.removeOption(option)
-                        removeView(it)
-                    }
+            val drawable =
+                ChipDrawable.createFromAttributes(requireContext(), null, 0, R.style.WidgetAppChip)
+            Chip(context).apply {
+                id = View.generateViewId()
+                text = option
+                isCloseIconVisible = true
+                isFocusable = true
+                setBackgroundColor(R.drawable.bg_radio_button)
+                setChipDrawable(drawable)
+                addView(this)
+                setOnCloseIconClickListener {
+                    viewModel.removeOption(option)
+                    removeView(it)
                 }
-//                Log.d("Chloe","elements is ${i} to ${option[i]}")
-//            }
+            }
 
         }
 
-//        Chip(context).setOnCloseIconClickListener {
-//            viewModel.removeOption(option)
-//            removeView(it)
-//        }
-
-        if(oldIsStandard){
+        if (oldIsStandard) {
             oldOption?.let {
                 for (i in it)
-                    binding.chipGroupVariation.addChip(context,i)
+                    binding.chipGroupVariation.addChip(context, i)
             }
         }
 
         viewModel.isStandard.observe(viewLifecycleOwner, Observer {
             it?.let {
-                if (it){
-                    if (!oldIsStandard && !oldOption.isNullOrEmpty()){
+                if (it) {
+                    if (!oldIsStandard && !oldOption.isNullOrEmpty()) {
                         viewModel.removeOption(oldOption!![0])
                         oldOption = null
                     }
@@ -89,9 +88,9 @@ class GatherOptionDialog(private val optionAdd: OptionAdd?, private var oldOptio
         binding.addOption.setOnClickListener {
             viewModel.addOption()
             viewModel.optionItem.value?.let {
-                    if (it.isNotEmpty())
-                    binding.chipGroupVariation.addChip(context,it)
-                }
+                if (it.isNotEmpty())
+                    binding.chipGroupVariation.addChip(context, it)
+            }
             viewModel.clearEditOption()
             binding.customOptionEdit.setText("")
         }
@@ -107,10 +106,12 @@ class GatherOptionDialog(private val optionAdd: OptionAdd?, private var oldOptio
                 if (it == LoadApiStatus.DONE) {
                     viewModel.showOption()
                     Log.d("Chloe", "optionToDisplay = ${viewModel.optionToDisplay.value}")
-                    optionAdd?.onOptionAdded(
+                    optionAdd?.onVariationEdited(
+                        Variation(
                             viewModel.option.value!!,
                             viewModel.isStandard.value!!,
-                            viewModel.optionToDisplay.value?:""
+                            viewModel.optionToDisplay.value ?: ""
+                        )
                     )
                     this.dismiss()
                 } else {

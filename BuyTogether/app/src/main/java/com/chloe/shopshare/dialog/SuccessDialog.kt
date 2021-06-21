@@ -16,25 +16,22 @@ class SuccessDialog : AppCompatDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-            setStyle(DialogFragment.STYLE_NO_FRAME, R.style.SuccessDialog)
+        setStyle(DialogFragment.STYLE_NO_FRAME, R.style.SuccessDialog)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = DialogSuccessBinding.inflate(inflater,container,false)
+        val binding = DialogSuccessBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.dialog = this
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         Handler().postDelayed({ this.dismiss() }, 2000)
-
     }
 
 }

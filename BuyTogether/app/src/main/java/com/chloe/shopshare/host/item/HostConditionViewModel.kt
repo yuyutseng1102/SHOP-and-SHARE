@@ -7,16 +7,14 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.chloe.shopshare.R
 import com.chloe.shopshare.data.Shop
-import com.chloe.shopshare.data.source.Repository
-import com.chloe.shopshare.ext.toDisplayDateFormat
+import com.chloe.shopshare.ext.toDisplayYearDateFormat
 import com.chloe.shopshare.host.ConditionType
 import com.chloe.shopshare.network.LoadApiStatus
 import com.chloe.shopshare.util.Util
 import com.google.android.material.datepicker.MaterialDatePicker
 
-class GatherConditionViewModel(private val repository: Repository): ViewModel() {
+class HostConditionViewModel : ViewModel() {
 
-//    val conditionType = MutableLiveData<Int?>()
     val deadLine = MutableLiveData<Long?>()
     val condition = MutableLiveData<Int?>()
     val content = MutableLiveData<String?>()
@@ -25,9 +23,7 @@ class GatherConditionViewModel(private val repository: Repository): ViewModel() 
     val shop: LiveData<Shop>
         get() =  _shop
 
-    // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
-
     val status: LiveData<LoadApiStatus>
         get() = _status
 
@@ -35,12 +31,8 @@ class GatherConditionViewModel(private val repository: Repository): ViewModel() 
         condition.value = 0
     }
 
-
-
     val isTimeChecked = MutableLiveData<Boolean>()
     val isConditionChecked = MutableLiveData<Boolean>()
-
-    // datePicker
 
     val datePicker =
         MaterialDatePicker.Builder.datePicker()
@@ -49,19 +41,14 @@ class GatherConditionViewModel(private val repository: Repository): ViewModel() 
             .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
             .build()
 
-    fun pickDate(){
-        deadLine.value = datePicker.selection
-        }
-
-    //condition spinner
+    fun pickDate(){ deadLine.value = datePicker.selection }
 
     val selectedConditionPosition = MutableLiveData<Int?>()
 
-    val conditionMethod: LiveData<ConditionType> = Transformations.map(selectedConditionPosition) {
-        it?.let {
-            ConditionType.values()[it]
-        }
+    private val conditionMethod: LiveData<ConditionType> = Transformations.map(selectedConditionPosition) {
+        it?.let { ConditionType.values()[it] }
     }
+
     val hint = MutableLiveData<String?>()
 
     init {
@@ -102,7 +89,7 @@ class GatherConditionViewModel(private val repository: Repository): ViewModel() 
     }
 
     private val deadLineToDisplay : String?
-        get()= "預計${deadLine.value?.toDisplayDateFormat()}收團"
+        get()= "預計${deadLine.value?.toDisplayYearDateFormat()}收團"
     private val conditionToDisplay : String?
         get()=
             when (selectedConditionPosition.value){
