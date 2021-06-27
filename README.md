@@ -8,7 +8,7 @@ Features
 
 
 
-**1. Initiated a group shop**
+**1. Initiated a group shop**<br/>
 Created an attractive group shop by picking up eye-catching photos first. Second, boost your shop to success by adding product variations, deadlines, and conditions, don’t forget an affable category.
 
 <div align="left">
@@ -16,7 +16,7 @@ Created an attractive group shop by picking up eye-catching photos first. Second
 <img width="240" height="504" src="https://github.com/yuyutseng1102/AppImage/blob/main/device-2021-06-27-170108.png?raw=true">  <img width="240" height="504" src="https://github.com/yuyutseng1102/AppImage/blob/main/device-2021-06-27-170621.png?raw=true">  <img width="240" height="504" src="https://github.com/yuyutseng1102/AppImage/blob/main/device-2021-06-27-170353.png?raw=true">  <img width="240" height="504" src="https://github.com/yuyutseng1102/AppImage/blob/main/device-2021-06-27-170532.png?raw=true">
 </div>
 
-**2. Joined a group shop**
+**2. Joined a group shop**<br/>
 By click on the shop card, you liked to see the detail of it.
 On the detail page, you can add the variances to the cart, check the delivery method it provides, the number of the members joined, and all other detail of the group shop.
 After selecting finished, press the purchase button to place the order.
@@ -26,7 +26,7 @@ After selecting finished, press the purchase button to place the order.
 <img width="240" height="504" src="https://github.com/yuyutseng1102/AppImage/blob/main/device-2021-06-27-173936.png?raw=true">  <img width="240" height="504" src="https://github.com/yuyutseng1102/AppImage/blob/main/device-2021-06-27-173950.png?raw=true">  <img width="240" height="504" src="https://github.com/yuyutseng1102/AppImage/blob/main/device-2021-06-27-174014.png?raw=true">  <img width="240" height="504" src="https://github.com/yuyutseng1102/AppImage/blob/main/device-2021-06-27-174033.png?raw=true">
 </div>
   
-**3. Managed and Tracked**
+**3. Managed and Tracked**<br/>
 On the profile page, the calendar reminds you the shop expired today. You can manage the shop you launched by switching to a specific state quickly.
 On the management page, you can remove the invalid order before the shop end.
 Click the Finish button to send a group message to inform the payment.
@@ -35,14 +35,14 @@ Click the Finish button to send a group message to inform the payment.
 <img width="240" height="504" src="https://github.com/yuyutseng1102/AppImage/blob/main/device-2021-06-27-174717.png?raw=true">  <img width="240" height="504" src="https://github.com/yuyutseng1102/AppImage/blob/main/device-2021-06-27-174739.png?raw=true">  <img width="240" height="504" src="https://github.com/yuyutseng1102/AppImage/blob/main/device-2021-06-27-174809.png?raw=true">  <img width="240" height="504" src="https://github.com/yuyutseng1102/AppImage/blob/main/device-2021-06-27-174920.png?raw=true">
 </div>
 
-**4. Request**
+**4. Request**<br/>
 If you don't have the time or experience to initiate a group shop, you can post a request shop to ask someone to initiate one.
 <div align="left">
   <pre>
 <img width="240" height="504" src="https://github.com/yuyutseng1102/AppImage/blob/main/device-2021-06-27-175424.png?raw=true">  <img width="240" height="504" src="https://github.com/yuyutseng1102/AppImage/blob/main/device-2021-06-27-175516.png?raw=true">
 </div>
 
-**5. Others**
+**5. Others**<br/>
 Notification, Chat Room, Wish List, Search, Request…etc
 <div align="left">
   <pre>
