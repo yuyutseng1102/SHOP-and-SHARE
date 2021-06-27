@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.chloe.shopshare.data.MyOrder
-import com.chloe.shopshare.data.MyOrderDetailKey
+import com.chloe.shopshare.data.Track
 import com.chloe.shopshare.databinding.ItemMyOrderBinding
 
 class MyOrderListAdapter(private val viewModel: MyOrderListViewModel) : ListAdapter<MyOrder, MyOrderListAdapter.ViewHolder>(
@@ -19,7 +19,7 @@ class MyOrderListAdapter(private val viewModel: MyOrderListViewModel) : ListAdap
         fun bind(item: MyOrder, viewModel: MyOrderListViewModel) {
             binding.item = item
             binding.viewModel = viewModel
-            binding.orderDetail = MyOrderDetailKey(shopId = item.shop.id, orderId = item.order.id)
+            binding.orderDetail = Track(shopId = item.shop.id, orderId = item.order.id)
             binding.executePendingBindings()
         }
     }
@@ -41,15 +41,8 @@ class MyOrderListAdapter(private val viewModel: MyOrderListViewModel) : ListAdap
         )
     }
 
-    /**
-     * Replaces the contents of a view (invoked by the layout manager)
-     */
-
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item,viewModel)
-
     }
-
 }

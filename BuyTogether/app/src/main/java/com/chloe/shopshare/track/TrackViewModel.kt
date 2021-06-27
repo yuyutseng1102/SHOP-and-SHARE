@@ -1,15 +1,14 @@
-package com.chloe.shopshare.orderdetail
+package com.chloe.shopshare.track
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.chloe.shopshare.MyApplication
 import com.chloe.shopshare.R
-import com.chloe.shopshare.data.MyOrderDetailKey
 import com.chloe.shopshare.data.Order
 import com.chloe.shopshare.data.Result
 import com.chloe.shopshare.data.Shop
+import com.chloe.shopshare.data.Track
 import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.network.LoadApiStatus
 import kotlinx.coroutines.CoroutineScope
@@ -17,16 +16,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class OrderDetailViewModel(private val repository: Repository, private val arguments: MyOrderDetailKey):ViewModel(){
+class TrackViewModel(private val repository: Repository, private val args: Track) :
+    ViewModel() {
 
     private val _shopId = MutableLiveData<String>().apply {
-        value = arguments.shopId
+        value = args.shopId
     }
     val shopId: LiveData<String>
         get() = _shopId
 
     private val _orderId = MutableLiveData<String>().apply {
-        value = arguments.orderId
+        value = args.orderId
     }
     val orderId: LiveData<String>
         get() = _orderId
@@ -39,33 +39,26 @@ class OrderDetailViewModel(private val repository: Repository, private val argum
     val order: LiveData<Order>
         get() = _order
 
-    private val _navigateToDetail = MutableLiveData<String>()
-    val navigateToDetail: LiveData<String>
+    private val _navigateToDetail = MutableLiveData<String?>()
+    val navigateToDetail: LiveData<String?>
         get() = _navigateToDetail
 
-    // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
-
     val status: LiveData<LoadApiStatus>
         get() = _status
 
-    // error: The internal MutableLiveData that stores the error of the most recent request
-    private val _error = MutableLiveData<String>()
-
-    val error: LiveData<String>
+    private val _error = MutableLiveData<String?>()
+    val error: LiveData<String?>
         get() = _error
 
-    // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
-
-    // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     init {
-        _shopId.value?.let {
-            getDetailShop(it)
-            if (_orderId.value != null) {
-                getDetailOrder(it, _orderId.value!!)
+        _shopId.value?.let { shop ->
+            getShop(shop)
+            _orderId.value?.let { order ->
+                getOrder(shop, order)
             }
         }
     }
@@ -75,21 +68,19 @@ class OrderDetailViewModel(private val repository: Repository, private val argum
         viewModelJob.cancel()
     }
 
-    fun navigateToDetail(shopId: String){
+    fun navigateToDetail(shopId: String) {
         _navigateToDetail.value = shopId
     }
 
-    fun onDetailNavigate(){
+    fun onDetailNavigate() {
         _navigateToDetail.value = null
     }
 
-    private fun getDetailShop(shopId: String) {
+    private fun getShop(id: String) {
 
         coroutineScope.launch {
-
             _status.value = LoadApiStatus.LOADING
-
-            val result = repository.getDetailShop(shopId)
+            val result = repository.getDetailShop(id)
 
             _shop.value = when (result) {
                 is Result.Success -> {
@@ -116,12 +107,10 @@ class OrderDetailViewModel(private val repository: Repository, private val argum
         }
     }
 
-    private fun getDetailOrder(shopId: String, orderId: String) {
+    private fun getOrder(shopId: String, orderId: String) {
 
         coroutineScope.launch {
-
             _status.value = LoadApiStatus.LOADING
-
             val result = repository.getDetailOrder(shopId, orderId)
 
             _order.value = when (result) {

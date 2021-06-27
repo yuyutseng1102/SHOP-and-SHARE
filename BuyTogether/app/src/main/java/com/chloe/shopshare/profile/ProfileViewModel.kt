@@ -1,6 +1,5 @@
 package com.chloe.shopshare.profile
 
-import android.icu.text.SimpleDateFormat
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,16 +9,13 @@ import com.chloe.shopshare.R
 import com.chloe.shopshare.data.*
 import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.ext.isShopExpiredToday
-import com.chloe.shopshare.login.LoginViewModel
 import com.chloe.shopshare.network.LoadApiStatus
 import com.chloe.shopshare.util.UserManager
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.util.*
 
 class ProfileViewModel(private val repository: Repository): ViewModel() {
 
@@ -147,12 +143,12 @@ class ProfileViewModel(private val repository: Repository): ViewModel() {
         _navigateToManage.value = null
     }
 
-    private val _navigateToOrderDetail = MutableLiveData<MyOrderDetailKey>()
+    private val _navigateToOrderDetail = MutableLiveData<Track>()
 
-    val navigateToOrderDetail: LiveData<MyOrderDetailKey>
+    val navigateToOrderDetail: LiveData<Track>
         get() = _navigateToOrderDetail
 
-    fun navigateToOrderDetail(key: MyOrderDetailKey) {
+    fun navigateToOrderDetail(key: Track) {
         _navigateToOrderDetail.value = key
     }
 

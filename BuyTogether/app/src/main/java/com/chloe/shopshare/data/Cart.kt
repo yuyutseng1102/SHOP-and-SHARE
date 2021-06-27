@@ -8,3 +8,4 @@ data class Cart(
     var shop: Shop,
     var products: List<Product>
 ): Parcelable
+

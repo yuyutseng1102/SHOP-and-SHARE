@@ -1,6 +1,5 @@
 package com.chloe.shopshare.order
 
-import android.util.Log
 import android.widget.RadioButton
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,7 +19,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class OrderViewModel(private val repository: Repository, private val args: Cart
+class OrderViewModel(
+    private val repository: Repository, private val args: Cart
 ) : ViewModel() {
 
     private val _shop = MutableLiveData<Shop>().apply {
@@ -55,25 +55,15 @@ class OrderViewModel(private val repository: Repository, private val args: Cart
     val status: LiveData<LoadApiStatus>
         get() = _status
 
-
-
-
     private val _error = MutableLiveData<String>()
     val error: LiveData<String>
         get() = _error
-
-    private val _leave = MutableLiveData<Boolean>()
-    val leave: LiveData<Boolean>
-        get() = _leave
-
 
     private var viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
 
     //order data
-
-
     lateinit var userId: String
     val name = MutableLiveData<String>()
     val price = MutableLiveData<Int>()
@@ -94,6 +84,7 @@ class OrderViewModel(private val repository: Repository, private val args: Cart
         UserManager.userId?.let { userId = it }
         price.value = 0
     }
+
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
@@ -101,7 +92,6 @@ class OrderViewModel(private val repository: Repository, private val args: Cart
 
 
     fun readyToPost() {
-        //紅字訊息提醒
         _isInvalid.value =
             when {
                 _products.value.isNullOrEmpty() -> INVALID_FORMAT_PRODUCT_EMPTY
@@ -112,59 +102,38 @@ class OrderViewModel(private val repository: Repository, private val args: Cart
                 address.value.isNullOrEmpty() -> INVALID_FORMAT_PHONE_EMPTY
                 else -> null
             }
-
-//        //是否有東西尚未輸入
-//        if (_isInvalid.value != null){
-//            _status.value = LoadApiStatus.LOADING
-//            Log.d("Chloe","The input is invalid, the value is ${_isInvalid.value}")
-//        }else{
-//            _status.value = LoadApiStatus.DONE
-//        }
-
-        Log.d("Chloe", "The _product.value is valid ${_products.value}")
-        Log.d("Chloe", "The delivery.value is valid${delivery.value}")
-        Log.d("Chloe", "The price.value is valid${price.value}")
-        Log.d("Chloe", "The name.value is valid${name.value}")
-        Log.d("Chloe", "The phone.value is valid${phone.value}")
-        Log.d("Chloe", "The address.value is valid${address.value}")
     }
 
     var order = Order()
     fun sendOrder() {
-        Log.d("Chloe","_product.value!! = ${_products.value!!}")
         order = Order(
             userId = userId,
-            product = _products.value!!,
-            price = price.value!!,
-            name = name.value!!,
-            phone = phone.value!!,
-            delivery = delivery.value!!,
-            address = address.value!!,
+            product = _products.value ?: listOf(),
+            price = price.value ?: 0,
+            name = name.value ?: "",
+            phone = phone.value ?: "",
+            delivery = delivery.value ?: 0,
+            address = address.value ?: "",
             note = note.value ?: "",
             paymentStatus = paymentStatus
         )
-
         _shop.value?.let {
             postOrder(it.id, order)
         }
     }
-    fun editNotify(){
 
-        val notify = Notify(
-            shopId = _shop.value!!.id,
-            type = NotifyType.ORDER_INCREASE.type,
-            title = NotifyType.ORDER_INCREASE.title,
-            content = NotifyType.ORDER_INCREASE.toDisplayNotifyContent(_shop.value!!.title),
-            message = NotifyType.ORDER_INCREASE.toDisplayNotifyMessage(order)
-        )
-        Log.d("Chloe","order.value!! = ${order}")
-        Log.d("Chloe","notify.value!! = ${notify.message}")
+    fun editNotify() {
         _shop.value?.let {
+            val notify = Notify(
+                shopId = it.id,
+                type = NotifyType.ORDER_INCREASE.type,
+                title = NotifyType.ORDER_INCREASE.title,
+                content = NotifyType.ORDER_INCREASE.toDisplayNotifyContent(it.title),
+                message = NotifyType.ORDER_INCREASE.toDisplayNotifyMessage(order)
+            )
             postNotifyToHost(it.userId, notify)
         }
     }
-
-
 
     fun removeProduct(product: Product) {
         val productList = _products.value?.toMutableList()
@@ -175,28 +144,22 @@ class OrderViewModel(private val repository: Repository, private val args: Cart
 
     fun increaseQuantity(product: Product) {
         product.quantity = product.quantity?.plus(1)
-        Log.d("Chloe", "on increase!Product is $product")
         updateProduct(product)
     }
 
     fun decreaseQuantity(product: Product) {
         product.quantity = product.quantity?.minus(1)
-        Log.d("Chloe", "on decrease!Product is $product")
         updateProduct(product)
     }
 
     private fun updateProduct(productItem: Product) {
-        if (_products.value != null) {
-            for (item in _products.value!!) {
+        _products.value?.let {
+            for (item in it) {
                 if (item.title == productItem.title) {
                     item.quantity = productItem.quantity
                 }
             }
-            _products.value = _products.value
-            Log.d(
-                "Chloe",
-                "new product is updated to ${_products.value},product is ${products.value}"
-            )
+            _products.value = it
         }
     }
 
@@ -208,8 +171,8 @@ class OrderViewModel(private val repository: Repository, private val args: Cart
         }
         return ""
     }
-    fun selectDelivery(radioButton: RadioButton) {
 
+    fun selectDelivery(radioButton: RadioButton) {
         for (type in DeliveryMethod.values()) {
             if (type.title == radioButton.text) {
                 _delivery.value = type.delivery
@@ -226,11 +189,6 @@ class OrderViewModel(private val repository: Repository, private val args: Cart
         _navigateToSuccess.value = null
     }
 
-
-
-
-
-
     private fun postOrder(shopId: String, order: Order) {
 
         coroutineScope.launch {
@@ -238,46 +196,11 @@ class OrderViewModel(private val repository: Repository, private val args: Cart
             _status.value = LoadApiStatus.LOADING
             val result = repository.postOrder(shopId, order)
             _successNumber.value =
-            when (result) {
-                is Result.Success -> {
-                    _error.value = null
-                    _status.value = LoadApiStatus.DONE
-                    leave(true)
-                    result.data.number
-
-                }
-                is Result.Fail -> {
-                    _error.value = result.error
-                    _status.value = LoadApiStatus.ERROR
-                    null
-                }
-                is Result.Error -> {
-                    _error.value = result.exception.toString()
-                    _status.value = LoadApiStatus.ERROR
-                    null
-                }
-                else -> {
-                    _error.value = MyApplication.instance.getString(R.string.result_fail)
-                    _status.value = LoadApiStatus.ERROR
-                    null
-                }
-            }
-        }
-    }
-
-    fun increaseOrderSize(shopId: String) {
-
-        coroutineScope.launch {
-
-            _status.value = LoadApiStatus.LOADING
-            val result = repository.increaseOrderSize(shopId)
-            _successIncreaseOrder.value =
                 when (result) {
                     is Result.Success -> {
                         _error.value = null
                         _status.value = LoadApiStatus.DONE
-                        leave(true)
-                        true
+                        result.data.number
 
                     }
                     is Result.Fail -> {
@@ -299,6 +222,36 @@ class OrderViewModel(private val repository: Repository, private val args: Cart
         }
     }
 
+    fun increaseOrderSize(shopId: String) {
+
+        coroutineScope.launch {
+            _status.value = LoadApiStatus.LOADING
+            val result = repository.increaseOrderSize(shopId)
+            _successIncreaseOrder.value =
+                when (result) {
+                    is Result.Success -> {
+                        _error.value = null
+                        _status.value = LoadApiStatus.DONE
+                        true
+                    }
+                    is Result.Fail -> {
+                        _error.value = result.error
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                    is Result.Error -> {
+                        _error.value = result.exception.toString()
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                    else -> {
+                        _error.value = MyApplication.instance.getString(R.string.result_fail)
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                }
+        }
+    }
 
     private fun postNotifyToHost(hostId: String, notify: Notify) {
 
@@ -307,48 +260,47 @@ class OrderViewModel(private val repository: Repository, private val args: Cart
             _status.value = LoadApiStatus.LOADING
             val result = repository.postNotifyToHost(hostId, notify)
             _successToNotify.value =
-            when (result) {
-                is Result.Success -> {
-                    _error.value = null
-                    _status.value = LoadApiStatus.DONE
-                    leave(true)
-                    true
+                when (result) {
+                    is Result.Success -> {
+                        _error.value = null
+                        _status.value = LoadApiStatus.DONE
+                        true
+                    }
+                    is Result.Fail -> {
+                        _error.value = result.error
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                    is Result.Error -> {
+                        _error.value = result.exception.toString()
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                    else -> {
+                        _error.value = MyApplication.instance.getString(R.string.result_fail)
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
                 }
-                is Result.Fail -> {
-                    _error.value = result.error
-                    _status.value = LoadApiStatus.ERROR
-                    null
-                }
-                is Result.Error -> {
-                    _error.value = result.exception.toString()
-                    _status.value = LoadApiStatus.ERROR
-                    null
-                }
-                else -> {
-                    _error.value = MyApplication.instance.getString(R.string.result_fail)
-                    _status.value = LoadApiStatus.ERROR
-                    null
-                }
-            }
         }
     }
 
-
-
-    fun leave(needRefresh: Boolean = false) {
-        _leave.value = needRefresh
+    fun displayHint(delivery: Int): String {
+        var hint = ""
+        for (type in DeliveryMethod.values()) {
+            if (type.delivery == delivery) {
+                hint = type.hint
+            }
+        }
+        return hint
     }
 
-
     companion object {
-
         const val INVALID_FORMAT_PRODUCT_EMPTY = 0x11
         const val INVALID_FORMAT_DELIVERY_EMPTY = 0x12
         const val INVALID_FORMAT_PRICE_EMPTY = 0x13
         const val INVALID_FORMAT_NAME_EMPTY = 0x14
         const val INVALID_FORMAT_PHONE_EMPTY = 0x15
-        const val INVALID_FORMAT_ADDRESS_EMPTY = 0x16
-
     }
 
 }

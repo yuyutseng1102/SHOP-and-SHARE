@@ -208,7 +208,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
-                        app:dateTimeToDisplayFormat="@{viewModel.shop.time}"
+                        app:dateToDisplayFormat="@{viewModel.shop.time}"
                         app:layout_constraintBottom_toBottomOf="@+id/host_id"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/host_id"

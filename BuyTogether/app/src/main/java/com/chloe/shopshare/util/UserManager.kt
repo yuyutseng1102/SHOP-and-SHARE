@@ -1,7 +1,6 @@
 package com.chloe.shopshare.util
 
 import android.content.Context
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.chloe.shopshare.MyApplication

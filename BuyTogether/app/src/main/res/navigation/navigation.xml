@@ -18,6 +18,12 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
+        android:id="@+id/homeMainFragment"
+        android:name="com.chloe.shopshare.home.item.HomeMainFragment"
+        android:label="HomeMainFragment"
+        tools:layout="@layout/fragment_home_main" />
+
+    <fragment
         android:id="@+id/hostFragment"
         android:name="com.chloe.shopshare.host.HostFragment"
         android:label="HostFragment"
@@ -48,7 +54,7 @@
         android:id="@+id/requestFragment"
         android:name="com.chloe.shopshare.request.RequestFragment"
         android:label="RequestFragment"
-        tools:layout="@layout/fragment_request"/>
+        tools:layout="@layout/fragment_request" />
 
     <fragment
         android:id="@+id/requestDetailFragment"
@@ -77,7 +83,11 @@
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
 
-
+    <fragment
+        android:id="@+id/myHostFragment"
+        android:name="com.chloe.shopshare.myhost.MyHostFragment"
+        android:label="MyHostFragment"
+        tools:layout="@layout/fragment_my_host" />
 
     <fragment
         android:id="@+id/myHostListFragment"
@@ -91,23 +101,15 @@
         android:label="ManageFragment"
         tools:layout="@layout/fragment_manage">
         <argument
-            android:name="shopIdKey"
+            android:name="shopKey"
             app:argType="string" />
     </fragment>
 
     <fragment
-        android:id="@+id/notifyFragment"
-        android:name="com.chloe.shopshare.notify.NotificationFragment"
-        android:label="NotifyFragment" />
-
-    <fragment
-        android:id="@+id/successDialog"
-        android:name="com.chloe.shopshare.dialog.SuccessDialog"
-        android:label="SuccessDialog"
-        tools:layout="@layout/dialog_success" />
-
-
-
+        android:id="@+id/myOrderFragment"
+        android:name="com.chloe.shopshare.myorder.MyOrderFragment"
+        android:label="MyOrderFragment"
+        tools:layout="@layout/fragment_my_order" />
 
     <fragment
         android:id="@+id/myOrderListFragment"
@@ -116,45 +118,38 @@
         tools:layout="@layout/fragment_my_order_list" />
 
     <fragment
-        android:id="@+id/orderDetailFragment"
-        android:name="com.chloe.shopshare.orderdetail.OrderDetailFragment"
-        android:label="OrderDetailFragment">
+        android:id="@+id/trackFragment"
+        android:name="com.chloe.shopshare.track.TrackFragment"
+        android:label="TrackFragment"
+        tools:layout="@layout/fragment_track">
         <argument
-            android:name="myOrderDetailKey"
-            app:argType="com.chloe.shopshare.data.MyOrderDetailKey" />
+            android:name="trackKey"
+            app:argType="com.chloe.shopshare.data.Track" />
     </fragment>
+
+    <fragment
+        android:id="@+id/myRequestFragment"
+        android:name="com.chloe.shopshare.myrequest.MyRequestFragment"
+        android:label="MyRequestFragment"
+        tools:layout="@layout/fragment_my_request" />
 
     <fragment
         android:id="@+id/myRequestListFragment"
         android:name="com.chloe.shopshare.myrequest.item.MyRequestListFragment"
         android:label="fragment_my_request"
         tools:layout="@layout/fragment_my_request_list" />
-    <fragment
-        android:id="@+id/likeFragment"
-        android:name="com.chloe.shopshare.like.LikeFragment"
-        android:label="LikeFragment"
-        tools:layout="@layout/fragment_like"/>
 
     <fragment
-        android:id="@+id/myRequestFragment"
-        android:name="com.chloe.shopshare.myrequest.MyRequestFragment"
-        android:label="MyRequestFragment"
-        tools:layout="@layout/fragment_my_request"/>
+        android:id="@+id/notifyFragment"
+        android:name="com.chloe.shopshare.notify.NotificationFragment"
+        android:label="NotifyFragment"
+        tools:layout="@layout/fragment_notify" />
+
     <fragment
-        android:id="@+id/homeMainFragment"
-        android:name="com.chloe.shopshare.home.item.HomeMainFragment"
-        android:label="HomeMainFragment"
-        tools:layout="@layout/fragment_home_main"/>
-    <fragment
-        android:id="@+id/myOrderFragment"
-        android:name="com.chloe.shopshare.myorder.MyOrderFragment"
-        android:label="MyOrderFragment"
-        tools:layout="@layout/fragment_my_order"/>
-    <fragment
-        android:id="@+id/myHostFragment"
-        android:name="com.chloe.shopshare.myhost.MyHostFragment"
-        android:label="MyHostFragment"
-        tools:layout="@layout/fragment_my_host"/>
+        android:id="@+id/chatFragment"
+        android:name="com.chloe.shopshare.chat.ChatFragment"
+        android:label="ChatFragment" />
+
     <fragment
         android:id="@+id/chatRoomFragment"
         android:name="com.chloe.shopshare.chatroom.ChatRoomFragment"
@@ -165,15 +160,29 @@
             app:argType="com.chloe.shopshare.data.ChatRoom"
             app:nullable="false" />
     </fragment>
+
+    <dialog
+        android:id="@+id/chatRoomImageDialog"
+        android:name="com.chloe.shopshare.chatroom.dialog.ChatRoomImageDialog"
+        android:label="ChatRoomImageDialog"
+        tools:layout="@layout/dialog_chat_room_image">
+        <argument
+            android:name="imageKey"
+            app:argType="string" />
+    </dialog>
+
     <fragment
-        android:id="@+id/chatFragment"
-        android:name="com.chloe.shopshare.chat.ChatFragment"
-        android:label="ChatFragment" />
+        android:id="@+id/likeFragment"
+        android:name="com.chloe.shopshare.like.LikeFragment"
+        android:label="LikeFragment"
+        tools:layout="@layout/fragment_like" />
+
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.chloe.shopshare.search.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
+
     <fragment
         android:id="@+id/resultFragment"
         android:name="com.chloe.shopshare.result.ResultFragment"
@@ -186,17 +195,12 @@
             android:name="countryKey"
             app:argType="integer" />
     </fragment>
+
     <dialog
-        android:id="@+id/chatRoomImageDialog"
-        android:name="com.chloe.shopshare.chatroom.dialog.ChatRoomImageDialog"
-        android:label="ChatRoomImageDialog"
-        tools:layout="@layout/dialog_chat_room_image">
-        <argument
-            android:name="imageKey"
-            app:argType="string" />
-    </dialog>
-
-
+        android:id="@+id/successDialog"
+        android:name="com.chloe.shopshare.dialog.SuccessDialog"
+        android:label="SuccessDialog"
+        tools:layout="@layout/dialog_success" />
 
     <action
         android:id="@+id/navigate_to_home_fragment"
@@ -231,12 +235,15 @@
     <action
         android:id="@+id/navigate_to_request_fragment"
         app:destination="@id/requestFragment" />
+
     <action
         android:id="@+id/navigate_to_search_fragment"
         app:destination="@id/searchFragment" />
+
     <action
         android:id="@+id/navigate_to_result_fragment"
         app:destination="@id/resultFragment" />
+
     <action
         android:id="@+id/navigate_to_request_detail_fragment"
         app:destination="@id/requestDetailFragment" />
@@ -244,36 +251,45 @@
     <action
         android:id="@+id/navigate_to_my_host_fragment"
         app:destination="@id/myHostFragment" />
+
     <action
         android:id="@+id/navigate_to_manage_fragment"
         app:destination="@id/manageFragment" />
+
     <action
         android:id="@+id/navigate_to_my_order_fragment"
         app:destination="@id/myOrderFragment" />
+
     <action
         android:id="@+id/navigate_to_my_request_fragment"
         app:destination="@id/myRequestFragment" />
+
     <action
         android:id="@+id/navigate_to_notify_fragment"
         app:destination="@id/notifyFragment" />
+
     <action
         android:id="@+id/navigate_to_order_detail_fragment"
-        app:destination="@id/orderDetailFragment" />
+        app:destination="@id/trackFragment" />
+
     <action
         android:id="@+id/navigate_to_success_dialog"
         app:destination="@id/successDialog" />
+
     <action
         android:id="@+id/navigate_to_login_fragment"
         app:destination="@id/loginFragment" />
+
     <action
         android:id="@+id/navigate_to_chat_room_fragment"
         app:destination="@id/chatRoomFragment" />
+
     <action
         android:id="@+id/navigate_to_chat_fragment"
         app:destination="@id/chatFragment" />
+
     <action
         android:id="@+id/navigate_to_chat_room_image_dialog"
         app:destination="@id/chatRoomImageDialog" />
-
 
 </navigation>

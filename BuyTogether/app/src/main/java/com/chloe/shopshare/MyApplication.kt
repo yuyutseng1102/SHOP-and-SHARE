@@ -5,7 +5,7 @@ import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.util.ServiceLocator
 import kotlin.properties.Delegates
 
-class MyApplication: Application() {
+class MyApplication : Application() {
 
     val repository: Repository
         get() = ServiceLocator.provideRepository(this)

@@ -17,7 +17,7 @@ enum class CurrentFragmentType(val value: String) {
     REQUEST_DETAIL(""),
     LIKE(getString(R.string.like)),
     MY_ORDER(getString(R.string.my_order)),
-    ORDER_DETAIL("訂單詳情"),
+    TRACK("訂單詳情"),
     MY_REQUEST(getString(R.string.my_request)),
     SEARCH("選擇分類"),
     CHAT("聊天列表"),

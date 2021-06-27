@@ -1,6 +1,5 @@
 package com.chloe.shopshare.chat
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.*
@@ -10,8 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chloe.shopshare.data.Chat
 import com.chloe.shopshare.data.Message
 import com.chloe.shopshare.databinding.ItemChatBinding
-import com.chloe.shopshare.ext.getDayWeek
-import com.chloe.shopshare.ext.toDisplayDateTimeFormat
+import com.chloe.shopshare.ext.toDisplayTimeGap
 
 class ChatAdapter(
     private val onClickListener: OnClickListener,
@@ -32,39 +30,41 @@ class ChatAdapter(
 
             _messageList.observe(this, Observer {
                 it?.let {
-                    if (it.isNotEmpty()){
-                        Log.d("Chat", "_messageList = $it")
+                    if (it.isNotEmpty()) {
                         item.message = it
-                        Log.d("Chat", "message = ${item.message}")
                         binding.item = item
-
-                        val time: Long = it.last().time
-                        val message: String? = it.last().message
-                        val image: String? = it.last().image
-
-                        binding.messageDate.text =
-                            when (time) {
-                                0L -> ""
-                                else -> it.last().time.getDayWeek()
-                            }
-
-                        binding.messageContent.text =
-                            when (message) {
-                                null -> {
-                                    when (image) {
-                                        null -> ""
-                                        else -> "照片已傳送"
-                                    }
-                                }
-                                else -> message
-                            }
+                        displayTime(it)
+                        previewMessage(it)
                     }
                 }
             })
 
-
-
             binding.executePendingBindings()
+        }
+
+        private fun displayTime(item: List<Message>) {
+            val time: Long = item.last().time
+            binding.messageDate.text =
+                when (time) {
+                    0L -> ""
+                    else -> time.toDisplayTimeGap()
+                }
+        }
+
+        private fun previewMessage(item: List<Message>) {
+            val message: String? = item.last().message
+            val image: String? = item.last().image
+
+            binding.messageContent.text =
+                when (message) {
+                    null -> {
+                        when (image) {
+                            null -> ""
+                            else -> "照片已傳送"
+                        }
+                    }
+                    else -> message
+                }
         }
 
 

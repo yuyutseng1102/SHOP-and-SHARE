@@ -1,6 +1,5 @@
 package com.chloe.shopshare.home.item
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -15,41 +14,29 @@ class HomeHostingAdapter(private val viewModel: HomeHostViewModel)  : ListAdapte
     class ViewHolder(private var binding: ItemHomeHostBinding):
             RecyclerView.ViewHolder(binding.root) {
 
-
-
         fun bind(item: Shop, viewModel: HomeHostViewModel) {
+
             binding.item = item
+
             binding.viewModel = viewModel
-            binding.isShopLiked = isShopLiked(item, viewModel.shopLikedList.value?: listOf())
+
+            binding.isShopLiked = isShopLiked(item, viewModel.likes.value?: listOf())
+
             HomeHostingAdapter(viewModel).notifyDataSetChanged()
+
             binding.checkBoxLike.setOnCheckedChangeListener { _, isChecked ->
-                Log.d("LikeTag", "check")
                 when (isChecked) {
-                    true -> {
-//                        binding.isShopLiked = isChecked
-                        Log.d("LikeTag", "add = viewModel.userId=${viewModel.userId}, item.id = ${item.id}")
-                        viewModel.addShopLiked(viewModel.userId, item.id)
-                    }
-                    else -> {
-//                        binding.isShopLiked = isChecked
-                        Log.d("LikeTag", "remove = viewModel.userId=${viewModel.userId}, item.id = ${item.id}")
-                        viewModel.removeShopLiked(viewModel.userId, item.id)
-                    }
+                    true -> viewModel.likeShop(viewModel.userId, item.id)
+                    else -> viewModel.dislikeShop(viewModel.userId, item.id)
                 }
             }
+
             binding.executePendingBindings()
         }
 
-        private fun isShopLiked(item: Shop, likeList: List<String>):Boolean{
-            var like  = ""
-            for (shop in likeList){
-                Log.d("LikeTag","shop loop = ${shop}")
-                if (shop == item.id){
-                    like =  shop
-                }
-            }
-            Log.d("LikeTag","like checked = ${like.isNotEmpty()}")
-            return like.isNotEmpty()
+        private fun isShopLiked(item: Shop, likeList: List<String>): Boolean {
+            val like = likeList.filter { it == item.id }
+            return !like.isNullOrEmpty()
         }
     }
 
@@ -67,9 +54,6 @@ class HomeHostingAdapter(private val viewModel: HomeHostViewModel)  : ListAdapte
                 LayoutInflater.from(parent.context), parent, false))
     }
 
-    /**
-     * Replaces the contents of a view (invoked by the layout manager)
-     */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item,viewModel)

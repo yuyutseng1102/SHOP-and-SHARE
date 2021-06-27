@@ -69,7 +69,7 @@ class VariationDialog(private val optionSelector: VariationSelector?, private va
         viewModel.selectedChip.observe(viewLifecycleOwner, Observer {
             it?.let {
                 viewModel.getOption()
-                Log.d("Chloe","what i choose is ${viewModel.productTitle}")
+                Log.d("Chloe","what i choose is ${viewModel.productTitle.value}")
             }
         })
 

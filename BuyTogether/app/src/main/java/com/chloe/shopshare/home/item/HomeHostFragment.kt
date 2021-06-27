@@ -1,11 +1,10 @@
 package com.chloe.shopshare.home.item
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -14,10 +13,9 @@ import com.chloe.shopshare.NavigationDirections
 import com.chloe.shopshare.R
 import com.chloe.shopshare.databinding.FragmentHomeHostBinding
 import com.chloe.shopshare.ext.getVmFactory
-import com.chloe.shopshare.home.HomeType
 
 
-class HomeHostFragment() : Fragment() {
+class HomeHostFragment : Fragment() {
 
     private val viewModel by viewModels<HomeHostViewModel> { getVmFactory() }
 
@@ -25,18 +23,16 @@ class HomeHostFragment() : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentHomeHostBinding.inflate(inflater,container,false)
 
+        val binding = FragmentHomeHostBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        val adapter = HomeHostingAdapter(viewModel)
 
+        val adapter = HomeHostingAdapter(viewModel)
         binding.recyclerCollection.adapter = adapter
 
-        binding.isLiveDataDesign = MyApplication.instance.isLiveDataDesign()
         binding.layoutSwipeRefreshCollectionItem.setOnRefreshListener {
             viewModel.refresh()
-            Log.d("Chloe", "home status = ${viewModel.status.value}")
         }
 
         viewModel.refreshStatus.observe(viewLifecycleOwner, Observer {
@@ -45,45 +41,27 @@ class HomeHostFragment() : Fragment() {
             }
         })
 
+        viewModel.shops.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                viewModel.getLikes()
+            }
+        })
+
+        viewModel.getLikesDone.observe(viewLifecycleOwner, Observer {
+            it?.let {
+
+                viewModel.shops.value?.let { shop ->
+                    adapter.submitList(shop)
+                }
+                viewModel.onLikesGetDone()
+            }
+        })
+
         viewModel.refreshProfile.observe(viewLifecycleOwner, Observer {
             it?.let {
                 viewModel.refreshProfile()
             }
         })
-
-        viewModel.shop.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                Log.d("LikeTag","get shop ready")
-                viewModel.getLikeList()
-            }
-        })
-
-        viewModel.successGetLikeList.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                Log.d("LikeTag","successGetLikeList observe = ${viewModel.successGetLikeList.value}")
-                viewModel.shop.value?.let {
-                        Log.d("LikeTag","submitList shop to home recycler")
-                        adapter.submitList(it)
-                    }
-                viewModel.onLikeListGet()
-            }
-        })
-
-        binding.checkBoxHostFilter.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.displayOpeningShop.value = isChecked
-        }
-
-        viewModel.displayOpeningShop.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                viewModel.getShopList()
-            }
-        })
-
-
-
-
-        binding.spinnerHome.adapter = HomeSpinnerAdapter(
-                MyApplication.instance.resources.getStringArray(R.array.sort_method_list))
 
         viewModel.navigateToDetail.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -94,6 +72,19 @@ class HomeHostFragment() : Fragment() {
             }
         })
 
+        binding.checkBoxHostFilter.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.filterOpeningShops.value = isChecked
+        }
+
+        viewModel.filterOpeningShops.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                viewModel.getShops()
+            }
+        })
+
+        binding.spinnerHome.adapter = HomeSpinnerAdapter(
+            MyApplication.instance.resources.getStringArray(R.array.sort_method_list)
+        )
 
         return binding.root
     }

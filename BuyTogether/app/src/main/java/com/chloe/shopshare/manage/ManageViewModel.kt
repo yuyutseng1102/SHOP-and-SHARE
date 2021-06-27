@@ -9,7 +9,6 @@ import com.chloe.shopshare.R
 import com.chloe.shopshare.data.*
 import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.ext.toDisplayNotifyContent
-import com.chloe.shopshare.ext.toDisplayNotifyMessage
 import com.chloe.shopshare.network.LoadApiStatus
 import com.chloe.shopshare.notify.NotifyType
 import com.chloe.shopshare.util.UserManager
@@ -18,19 +17,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class ManageViewModel(
-        private val repository: Repository,
-        private val arguments: String
-):ViewModel() {
+class ManageViewModel(private val repository: Repository, private val arguments: String) :
+    ViewModel() {
 
     private val _shopId = MutableLiveData<String>().apply {
-        Log.d("Chloe", "_shopId = $arguments")
         value = arguments
     }
     val shopId: LiveData<String>
         get() = _shopId
-
-
 
     private var _shop = MutableLiveData<Shop>()
     val shop: LiveData<Shop>
@@ -41,7 +35,7 @@ class ManageViewModel(
         get() = _order
 
     private val _member = MutableLiveData<Order?>()
-    val member : LiveData<Order?>
+    val member: LiveData<Order?>
         get() = _member
 
     private val _isChecked = MutableLiveData<Boolean>()
@@ -62,60 +56,41 @@ class ManageViewModel(
     val chatRoom: LiveData<ChatRoom>
         get() = _chatRoom
 
-    private val _leave = MutableLiveData<Boolean>()
-
-    val leave: LiveData<Boolean>
-        get() = _leave
-
-    // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
-
     val status: LiveData<LoadApiStatus>
         get() = _status
 
-    // error: The internal MutableLiveData that stores the error of the most recent request
-    private val _error = MutableLiveData<String>()
-
-    val error: LiveData<String>
+    private val _error = MutableLiveData<String?>()
+    val error: LiveData<String?>
         get() = _error
 
-    // status for the loading icon of swl
     private val _refreshStatus = MutableLiveData<Boolean>()
-
     val refreshStatus: LiveData<Boolean>
         get() = _refreshStatus
 
-    private val _navigateToDetail = MutableLiveData<String>()
-    val navigateToDetail: LiveData<String>
+    private val _navigateToDetail = MutableLiveData<String?>()
+    val navigateToDetail: LiveData<String?>
         get() = _navigateToDetail
 
-    // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
-
-    // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-    var checkedMemberPosition = MutableLiveData<Int?>()
+    private var checkedMemberPosition = MutableLiveData<Int?>()
     var deleteList = MutableLiveData<List<Order>>()
 
-    lateinit var myId : String
+    lateinit var myId: String
 
 
     init {
-        Log.i("Chloe", "Detail")
-
         _shopId.value?.let {
-            Log.i("Order", "shopId = ${_shopId.value}")
             getDetailShop(it)
             getOrderOfShop(it)
-            }
-
-        UserManager.userId?.let {
-            myId = it
         }
 
+        UserManager.userId?.let { myId = it }
         deleteList.value = listOf()
-        }
+
+    }
 
     override fun onCleared() {
         super.onCleared()
@@ -123,98 +98,84 @@ class ManageViewModel(
     }
 
     fun refresh() {
-            if (status.value != LoadApiStatus.LOADING) {
-                _shop.value?.let {
-                    getDetailShop(it.id)
-                    getOrderOfShop(it.id)
-                }
+        if (status.value != LoadApiStatus.LOADING) {
+            _shop.value?.let {
+                getDetailShop(it.id)
+                getOrderOfShop(it.id)
             }
+        }
     }
 
-    fun navigateToDetail(shopId: String){
+    fun navigateToDetail(shopId: String) {
         _navigateToDetail.value = shopId
     }
 
-    fun onDetailNavigate(){
+    fun onDetailNavigate() {
         _navigateToDetail.value = null
     }
 
-    // 要傳給聊天頁面的
     private val _navigateToChatRoom = MutableLiveData<ChatRoom>()
     val navigateToChatRoom: LiveData<ChatRoom>
         get() = _navigateToChatRoom
 
-
-    //打勾的是即將要刪除的團員
-    fun checkAgain(member: Order, position: Int){
+    fun checkAgain(member: Order, position: Int) {
         checkedMemberPosition.value = position
-        Log.d("checkChloe","selectMember=$member, position=$position")
+        Log.d("checkChloe", "selectMember=$member, position=$position")
         _member.value = member
-        val list = deleteList.value?.toMutableList()?: mutableListOf()
-        if (_member.value!=null) {
+        val list = deleteList.value?.toMutableList() ?: mutableListOf()
+        if (_member.value != null) {
             if (_member.value!!.isCheck) {
                 list.add(_member.value!!)
-            }else if (!_member.value!!.isCheck){
+            } else if (!_member.value!!.isCheck) {
                 list.remove(_member.value!!)
             }
-            Log.d("checkChloe","deleteList=${list}")
+            Log.d("checkChloe", "deleteList=${list}")
             deleteList.value = list
         }
     }
 
     fun deleteMember() {
-        if (shop.value != null) {
-            deleteList.value?.let {
-                for (i in it) {
-                    deleteOrder(shop.value!!.id, i)
+        _shop.value?.let { shop ->
+            deleteList.value?.let { list ->
+                for (item in list) {
+                    deleteOrder(shop.id, item)
                 }
             }
         }
     }
 
-    fun onFailNotifySend(){
+    fun onFailNotifySend() {
         _deleteSuccess.value = null
         deleteList.value = null
     }
 
-
-
-
-    //點選確定後
-    //把剩下的所有團員 狀態改為待付款
-
-    fun readyCollect(){
-        _shop.value?.let{
-            updateOrderStatus(it.id,1)
+    fun readyCollect() {
+        _shop.value?.let {
+            updateOrderStatus(it.id)
             updateShopStatus(it.id, 1)
             expectStatus.value = 0
         }
     }
 
-    //按鈕改變團購狀態
-
     var expectStatus = MutableLiveData<Int>()
-
-
-    fun clickStatus(status:Int){
+    fun clickStatus(status: Int) {
         expectStatus.value = status
-        Log.d("Chloe","i want to change the status to $expectStatus")
+        Log.d("Chloe", "i want to change the status to $expectStatus")
     }
 
-    fun updateStatus(){
-        _shop.value?.let{
+    fun updateStatus() {
+        _shop.value?.let {
             updateShopStatus(it.id, expectStatus.value!!)
             expectStatus.value = 0
         }
-
-        Log.d("Chloe","after update, now status is $${_shop.value?.status}")
+        Log.d("Chloe", "after update, now status is $${_shop.value?.status}")
     }
 
-    fun editShopNotify(){
+    fun editShopNotify() {
         var notify: Notify? = null
         _shop.value?.let {
-            val notifyType : NotifyType =
-                when (it.status){
+            val notifyType: NotifyType =
+                when (it.status) {
                     1 -> NotifyType.STATUS_CHANGE_TO_GATHER_SUCCESS
                     2 -> NotifyType.STATUS_CHANGE_TO_ORDER_SUCCESS
                     3 -> NotifyType.STATUS_CHANGE_TO_SHOP_SHIPMENT
@@ -224,7 +185,7 @@ class ManageViewModel(
                     7 -> NotifyType.STATUS_CHANGE_TO_FINISH
                     else -> NotifyType.STATUS_CHANGE_TO_GATHER_SUCCESS
                 }
-            if (!messageContent.value.isNullOrEmpty()){
+            if (!messageContent.value.isNullOrEmpty()) {
                 notify = Notify(
                     shopId = it.id,
                     type = notifyType.type,
@@ -232,14 +193,14 @@ class ManageViewModel(
                     content = notifyType.toDisplayNotifyContent(_shop.value!!.title),
                     message = messageContent.value
                 )
-            }else if (messageContent.value.isNullOrEmpty() && (it.status == 1 || it.status == 6 || it.status == 7)) {
+            } else if (messageContent.value.isNullOrEmpty() && (it.status == 1 || it.status == 6 || it.status == 7)) {
                 notify = Notify(
                     shopId = it.id,
                     type = notifyType.type,
                     title = notifyType.title,
                     content = notifyType.toDisplayNotifyContent(_shop.value!!.title)
                 )
-            }else{
+            } else {
                 notify = null
             }
         }
@@ -249,19 +210,19 @@ class ManageViewModel(
         }
     }
 
-    fun editOrderNotify(orderList:List<Order>){
+    fun editOrderNotify(orderList: List<Order>) {
         var notify: Notify? = null
         _shop.value?.let {
             notify = Notify(
                 shopId = it.id,
                 type = NotifyType.ORDER_FAIL.type,
                 title = NotifyType.ORDER_FAIL.title,
-                content = NotifyType.ORDER_FAIL.toDisplayNotifyContent(_shop.value!!.title)
+                content = NotifyType.ORDER_FAIL.toDisplayNotifyContent(it.title)
             )
         }
 
         notify?.let {
-            postOrderNotifyToMember(orderList,it)
+            postOrderNotifyToMember(orderList, it)
         }
     }
 
@@ -269,9 +230,7 @@ class ManageViewModel(
     private fun getDetailShop(shopId: String) {
 
         coroutineScope.launch {
-
             _status.value = LoadApiStatus.LOADING
-
             val result = repository.getDetailShop(shopId)
 
             _shop.value = when (result) {
@@ -302,8 +261,7 @@ class ManageViewModel(
     }
 
 
-
-    private fun getOrderOfShop(shopId : String) {
+    private fun getOrderOfShop(shopId: String) {
 
         coroutineScope.launch {
             _status.value = LoadApiStatus.LOADING
@@ -349,31 +307,31 @@ class ManageViewModel(
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
-            val result = repository.deleteOrder(shopId,order)
+            val result = repository.deleteOrder(shopId, order)
             _deleteSuccess.value =
-            when (result) {
-                is Result.Success -> {
-                    _error.value = null
-                    _status.value = LoadApiStatus.DONE
-                    refresh()
-                    true
+                when (result) {
+                    is Result.Success -> {
+                        _error.value = null
+                        _status.value = LoadApiStatus.DONE
+                        refresh()
+                        true
+                    }
+                    is Result.Fail -> {
+                        _error.value = result.error
+                        _status.value = LoadApiStatus.ERROR
+                        false
+                    }
+                    is Result.Error -> {
+                        _error.value = result.exception.toString()
+                        _status.value = LoadApiStatus.ERROR
+                        false
+                    }
+                    else -> {
+                        _error.value = MyApplication.instance.getString(R.string.result_fail)
+                        _status.value = LoadApiStatus.ERROR
+                        false
+                    }
                 }
-                is Result.Fail -> {
-                    _error.value = result.error
-                    _status.value = LoadApiStatus.ERROR
-                    false
-                }
-                is Result.Error -> {
-                    _error.value = result.exception.toString()
-                    _status.value = LoadApiStatus.ERROR
-                    false
-                }
-                else -> {
-                    _error.value = MyApplication.instance.getString(R.string.result_fail)
-                    _status.value = LoadApiStatus.ERROR
-                    false
-                }
-            }
             _refreshStatus.value = false
         }
     }
@@ -426,7 +384,7 @@ class ManageViewModel(
 
             _status.value = LoadApiStatus.LOADING
 
-            when (val result = repository.updateShopStatus(shopId,shopStatus)) {
+            when (val result = repository.updateShopStatus(shopId, shopStatus)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
@@ -449,13 +407,13 @@ class ManageViewModel(
         }
     }
 
-    private fun updateOrderStatus(shopId: String,paymentStatus: Int) {
+    private fun updateOrderStatus(shopId: String) {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            when (val result = repository.updateOrderStatus(shopId,paymentStatus)) {
+            when (val result = repository.updateOrderStatus(shopId, 1)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
@@ -506,7 +464,7 @@ class ManageViewModel(
     private fun postOrderNotifyToMember(orderList: List<Order>, notify: Notify) {
         coroutineScope.launch {
             _status.value = LoadApiStatus.LOADING
-            when (val result = repository.postOrderNotifyToMember(orderList,notify)) {
+            when (val result = repository.postOrderNotifyToMember(orderList, notify)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
@@ -556,37 +514,14 @@ class ManageViewModel(
                         null
                     }
                 }
-
-                _chatRoom.value?.let {
-                    _navigateToChatRoom.value = it
-                }
-
+            _chatRoom.value?.let {
+                _navigateToChatRoom.value = it
             }
-
         }
+    }
 
     fun onChatRoomNavigated() {
         _navigateToChatRoom.value = null
     }
 
 }
-
-
-//fun readyCollect(){
-//        if (_order.value!=null){
-//                for (i in _order.value!!){
-//                    i?.paymentStatus = 1
-//                }
-//        }
-//            Log.d("Chloe","after delete, order value is ${_order.value}")
-//            //更新collection
-//            _shop.value?.order =_order.value
-//            Log.d("Chloe","after update, now collection is ${_shop.value}")
-//        //更新collection的status
-//
-//    _shop.value?.let{
-//        updateOrderStatus(it.id,1)
-//        updateShopStatus(it.id, 1)
-//        expectStatus.value = 0
-//    }
-//}

@@ -49,7 +49,7 @@
                     android:paddingLeft="4dp"
                     android:paddingRight="4dp"
                     android:text="開團方式"
-                    android:textColor="@{viewModel.isInvalid != null ? (viewModel.selectedMethodRadio == 0 ? @color/design_default_color_error : @color/black_3f3a3a) : @color/black_3f3a3a}"
+                    android:textColor="@{viewModel.isInvalid != null ? (viewModel.selectedTypeRadio == 0 ? @color/design_default_color_error : @color/black_3f3a3a) : @color/black_3f3a3a}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
-                    android:checkedButton="@={viewModel.selectedMethodRadio}"
+                    android:checkedButton="@={viewModel.selectedTypeRadio}"
                     android:clipToPadding="false"
                     android:gravity="start"
                     android:orientation="horizontal"
@@ -143,7 +143,7 @@
                     app:layout_constraintStart_toStartOf="@+id/pick_image_button"
                     app:layout_constraintTop_toBottomOf="@+id/pick_image_button"
                     app:spanCount="4"
-                    app:strings="@{viewModel.image}" >
+                    app:strings="@{viewModel.imagesPicked}" >
 
                 </androidx.recyclerview.widget.RecyclerView>
 
@@ -154,7 +154,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="請至少上傳一張照片"
-                    android:visibility="@{viewModel.isInvalid != null ? (viewModel.image==null||viewModel.image.size()==0 ? View.VISIBLE : View.GONE ):View.GONE}"
+                    android:visibility="@{viewModel.isInvalid != null ? (viewModel.imagesPicked==null||viewModel.imagesPicked.size()==0 ? View.VISIBLE : View.GONE ):View.GONE}"
                     android:textColor="@color/design_default_color_error"
                     app:layout_constraintBottom_toBottomOf="@+id/pick_image_button"
                     app:layout_constraintStart_toEndOf="@+id/pick_image_button"
@@ -259,7 +259,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="none"
-                        android:text="@={viewModel.selectedCategoryTitle}" />
+                        android:text="@={viewModel.categoryTitle}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -283,7 +283,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="none"
-                        android:text="@={viewModel.selectedCountryTitle}" />
+                        android:text="@={viewModel.countryTitle}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -333,7 +333,7 @@
                     android:background="@drawable/bg_check_chip_button"
                     android:maxLines="2"
                     android:padding="8dp"
-                    android:text="@={viewModel.optionShow}"
+                    android:text="@={viewModel.optionContent}"
                     android:visibility="@{viewModel.isOptionDone?View.VISIBLE:View.INVISIBLE}"
                     app:layout_constraintEnd_toStartOf="@+id/add_gather_option"
                     app:layout_constraintStart_toEndOf="@+id/title_gather_option"
@@ -350,7 +350,7 @@
                     android:paddingLeft="4dp"
                     android:paddingRight="4dp"
                     android:text="成團條件"
-                    android:textColor='@{viewModel.isInvalid != null ? (TextUtils.isEmpty(viewModel.conditionShow)? @color/design_default_color_error : @color/black_3f3a3a) : @color/black_3f3a3a}'
+                    android:textColor="@{viewModel.isInvalid != null ? (TextUtils.isEmpty(viewModel.conditionContent)? @color/design_default_color_error : @color/black_3f3a3a) : @color/black_3f3a3a}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/gather_option_edit" />
 
@@ -384,7 +384,7 @@
                     android:background="@drawable/bg_check_chip_button"
                     android:maxLines="2"
                     android:padding="8dp"
-                    android:text="@{viewModel.conditionShow}"
+                    android:text="@{viewModel.conditionContent}"
                     android:visibility="@{viewModel.isConditionDone()?View.VISIBLE:View.INVISIBLE}"
                     app:layout_constraintEnd_toStartOf="@+id/add_gather_condition"
                     app:layout_constraintStart_toEndOf="@+id/title_gather_condition"
@@ -401,7 +401,7 @@
                     android:paddingLeft="4dp"
                     android:paddingRight="4dp"
                     android:text="@string/delivery_method"
-                    android:textColor='@{viewModel.isInvalid != null ? (viewModel.deliveryMethod == null? @color/design_default_color_error : @color/black_3f3a3a) : @color/black_3f3a3a}'
+                    android:textColor="@{viewModel.isInvalid != null ? (viewModel.deliveryList.size()&lt;1? @color/design_default_color_error : @color/black_3f3a3a) : @color/black_3f3a3a}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/gather_condition_edit" />
 
@@ -418,7 +418,8 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintHorizontal_chainStyle="spread_inside"
                     app:layout_constraintStart_toEndOf="@+id/gather_delivery_text"
-                    app:useMaterialThemeColors="false" />
+                    app:useMaterialThemeColors="false"
+                    android:onClick="@{viewModel.onCheckboxClicked}"/>
 
                 <CheckBox
                     android:id="@+id/checkBox_family_mart"
@@ -432,7 +433,8 @@
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/checkBox_seven_eleven"
                     app:layout_constraintTop_toTopOf="@+id/checkBox_seven_eleven"
-                    app:useMaterialThemeColors="false" />
+                    app:useMaterialThemeColors="false"
+                    android:onClick="@{viewModel.onCheckboxClicked}"/>
 
                 <CheckBox
                     android:id="@+id/checkBox_hi_life"
@@ -446,7 +448,8 @@
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/checkBox_family_mart"
                     app:layout_constraintTop_toTopOf="@+id/checkBox_family_mart"
-                    app:useMaterialThemeColors="false" />
+                    app:useMaterialThemeColors="false"
+                    android:onClick="@{viewModel.onCheckboxClicked}"/>
 
 
                 <CheckBox
@@ -458,7 +461,8 @@
                     android:text="@string/ok"
                     app:layout_constraintStart_toStartOf="@+id/checkBox_seven_eleven"
                     app:layout_constraintTop_toBottomOf="@+id/checkBox_seven_eleven"
-                    app:useMaterialThemeColors="false" />
+                    app:useMaterialThemeColors="false"
+                    android:onClick="@{viewModel.onCheckboxClicked}"/>
 
                 <CheckBox
                     android:id="@+id/checkBox_home_delivery"
@@ -469,7 +473,8 @@
                     android:text="@string/home_delivery"
                     app:layout_constraintStart_toStartOf="@+id/checkBox_family_mart"
                     app:layout_constraintTop_toBottomOf="@+id/checkBox_family_mart"
-                    app:useMaterialThemeColors="false" />
+                    app:useMaterialThemeColors="false"
+                    android:onClick="@{viewModel.onCheckboxClicked}"/>
 
                 <CheckBox
                     android:id="@+id/checkBox_by_hand"
@@ -480,7 +485,8 @@
                     android:text="@string/by_hand"
                     app:layout_constraintStart_toStartOf="@+id/checkBox_hi_life"
                     app:layout_constraintTop_toBottomOf="@+id/checkBox_hi_life"
-                    app:useMaterialThemeColors="false" />
+                    app:useMaterialThemeColors="false"
+                    android:onClick="@{viewModel.onCheckboxClicked}"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_add_bottom"
@@ -547,201 +553,3 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
-
-
-
-    <!--                <TextView-->
-    <!--                    android:id="@+id/request_title_text"-->
-    <!--                    style="@style/GatherTitle"-->
-    <!--                    android:layout_width="wrap_content"-->
-    <!--                    android:layout_height="wrap_content"-->
-    <!--                    android:layout_marginStart="16dp"-->
-    <!--                    android:layout_marginTop="16dp"-->
-    <!--                    android:text="團購名稱"-->
-    <!--                    android:textColor='@{viewModel.isInvalid != null ? (TextUtils.isEmpty(viewModel.title) ? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}'-->
-    <!--                    app:layout_constraintStart_toStartOf="parent"-->
-    <!--                    app:layout_constraintTop_toBottomOf="@+id/recycler_image" />-->
-
-    <!--                <EditText-->
-    <!--                    android:id="@+id/gather_title_edit"-->
-    <!--                    style="@style/ProductTitleSingle"-->
-    <!--                    android:layout_width="0dp"-->
-    <!--                    android:layout_height="wrap_content"-->
-    <!--                    android:layout_marginStart="16dp"-->
-    <!--                    android:layout_marginTop="8dp"-->
-    <!--                    android:layout_marginEnd="16dp"-->
-    <!--                    android:ems="10"-->
-    <!--                    android:gravity="top|start"-->
-    <!--                    android:inputType="textMultiLine"-->
-    <!--                    android:maxLines="2"-->
-    <!--                    android:text="@={viewModel.title}"-->
-    <!--                    app:layout_constraintEnd_toEndOf="parent"-->
-    <!--                    app:layout_constraintHorizontal_bias="0.0"-->
-    <!--                    app:layout_constraintStart_toStartOf="parent"-->
-    <!--                    app:layout_constraintTop_toBottomOf="@+id/request_title_text" />-->
-
-    <!--                <TextView-->
-    <!--                    android:id="@+id/gather_description_text"-->
-    <!--                    style="@style/GatherTitle"-->
-    <!--                    android:layout_width="wrap_content"-->
-    <!--                    android:layout_height="wrap_content"-->
-    <!--                    android:layout_marginStart="16dp"-->
-    <!--                    android:layout_marginTop="16dp"-->
-    <!--                    android:text="團購描述"-->
-    <!--                    android:textColor='@{viewModel.isInvalid != null ? (TextUtils.isEmpty(viewModel.description)?@color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}'-->
-    <!--                    app:layout_constraintStart_toStartOf="parent"-->
-    <!--                    app:layout_constraintTop_toBottomOf="@+id/gather_title_edit" />-->
-
-    <!--                <EditText-->
-    <!--                    android:id="@+id/gather_description_edit"-->
-    <!--                    style="@style/ProductTitleSingle"-->
-    <!--                    android:layout_width="0dp"-->
-    <!--                    android:layout_height="wrap_content"-->
-    <!--                    android:layout_marginStart="16dp"-->
-    <!--                    android:layout_marginTop="8dp"-->
-    <!--                    android:layout_marginEnd="16dp"-->
-    <!--                    android:ems="10"-->
-    <!--                    android:gravity="top|start"-->
-    <!--                    android:inputType="textMultiLine"-->
-    <!--                    android:maxLines="10"-->
-    <!--                    android:text="@={viewModel.description}"-->
-    <!--                    app:layout_constraintEnd_toEndOf="parent"-->
-    <!--                    app:layout_constraintHorizontal_bias="0.0"-->
-    <!--                    app:layout_constraintStart_toStartOf="parent"-->
-    <!--                    app:layout_constraintTop_toBottomOf="@+id/gather_description_text" />-->
-
-
-
-    <!--                <TextView-->
-    <!--                    android:id="@+id/gather_web_text"-->
-    <!--                    style="@style/GatherTitle"-->
-    <!--                    android:layout_width="wrap_content"-->
-    <!--                    android:layout_height="wrap_content"-->
-    <!--                    android:layout_marginStart="16dp"-->
-    <!--                    android:layout_marginTop="16dp"-->
-    <!--                    android:text="購買來源"-->
-    <!--                    android:textColor='@{viewModel.isInvalid != null ? (TextUtils.isEmpty(viewModel.source)? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}'-->
-    <!--                    app:layout_constraintStart_toStartOf="parent"-->
-    <!--                    app:layout_constraintTop_toBottomOf="@id/gather_description_edit" />-->
-
-    <!--                <EditText-->
-    <!--                    android:id="@+id/gather_web_edit"-->
-    <!--                    style="@style/ProductTitleSingle"-->
-    <!--                    android:layout_width="0dp"-->
-    <!--                    android:layout_height="wrap_content"-->
-    <!--                    android:layout_marginStart="16dp"-->
-    <!--                    android:layout_marginTop="8dp"-->
-    <!--                    android:layout_marginEnd="16dp"-->
-    <!--                    android:ems="10"-->
-    <!--                    android:gravity="top|start"-->
-    <!--                    android:inputType="textMultiLine"-->
-    <!--                    android:maxLines="2"-->
-    <!--                    android:text="@={viewModel.source}"-->
-    <!--                    app:layout_constraintEnd_toEndOf="parent"-->
-    <!--                    app:layout_constraintHorizontal_bias="0.0"-->
-    <!--                    app:layout_constraintStart_toStartOf="parent"-->
-    <!--                    app:layout_constraintTop_toBottomOf="@+id/gather_web_text" />-->
-
-    <!--                <TextView-->
-    <!--                    android:id="@+id/gather_option_text"-->
-    <!--                    style="@style/GatherTitle"-->
-    <!--                    android:layout_width="wrap_content"-->
-    <!--                    android:layout_height="wrap_content"-->
-    <!--                    android:layout_marginStart="16dp"-->
-    <!--                    android:layout_marginTop="24dp"-->
-    <!--                    android:text="新增選項"-->
-    <!--                    android:textColor='@{viewModel.isInvalid != null ? (viewModel.option==null? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}'-->
-    <!--                    app:layout_constraintStart_toStartOf="parent"-->
-    <!--                    app:layout_constraintTop_toBottomOf="@id/menu_host_country" />-->
-
-
-    <!--                <com.google.android.material.button.MaterialButton-->
-    <!--                    android:id="@+id/add_gather_option"-->
-    <!--                    android:layout_width="20dp"-->
-    <!--                    android:layout_height="20dp"-->
-    <!--                    android:layout_marginEnd="16dp"-->
-    <!--                    android:background="@drawable/ic_add"-->
-    <!--                    android:backgroundTint="@color/black_3f3a3a"-->
-    <!--                    android:stateListAnimator="@null"-->
-    <!--                    app:layout_constraintBottom_toBottomOf="@+id/gather_option_edit"-->
-    <!--                    app:layout_constraintDimensionRatio="h,1:1"-->
-    <!--                    app:layout_constraintEnd_toEndOf="parent"-->
-    <!--                    app:layout_constraintTop_toTopOf="@+id/gather_option_edit" />-->
-    <!--                <TextView-->
-    <!--                    android:id="@+id/gather_category_text"-->
-    <!--                    style="@style/GatherTitle"-->
-    <!--                    android:layout_width="wrap_content"-->
-    <!--                    android:layout_height="wrap_content"-->
-    <!--                    android:layout_marginStart="16dp"-->
-    <!--                    android:layout_marginTop="24dp"-->
-    <!--                    android:text="團購分類"-->
-    <!--                    app:layout_constraintStart_toStartOf="parent"-->
-    <!--                    app:layout_constraintTop_toBottomOf="@id/gather_web_edit" />-->
-
-    <!--                <Spinner-->
-    <!--                    android:id="@+id/spinner_gather_category"-->
-    <!--                    android:layout_width="0dp"-->
-    <!--                    android:layout_height="wrap_content"-->
-    <!--                    android:layout_marginStart="16dp"-->
-    <!--                    android:layout_marginEnd="16dp"-->
-    <!--                    android:dropDownWidth="match_parent"-->
-    <!--                    android:selectedItemPosition="@={viewModel.selectedCategoryPosition}"-->
-    <!--                    android:spinnerMode="dropdown"-->
-    <!--                    android:textAlignment="viewStart"-->
-    <!--                    app:layout_constraintBottom_toBottomOf="@+id/gather_category_text"-->
-    <!--                    app:layout_constraintEnd_toEndOf="parent"-->
-    <!--                    app:layout_constraintStart_toEndOf="@+id/gather_category_text"-->
-    <!--                    app:layout_constraintTop_toTopOf="@+id/gather_category_text" />-->
-
-    <!--                <TextView-->
-    <!--                    android:id="@+id/gather_country_text"-->
-    <!--                    style="@style/GatherTitle"-->
-    <!--                    android:layout_width="wrap_content"-->
-    <!--                    android:layout_height="wrap_content"-->
-    <!--                    android:layout_marginStart="16dp"-->
-    <!--                    android:layout_marginTop="24dp"-->
-    <!--                    android:text="團購國家"-->
-    <!--                    app:layout_constraintStart_toStartOf="parent"-->
-    <!--                    app:layout_constraintTop_toBottomOf="@+id/gather_category_text" />-->
-
-    <!--                <Spinner-->
-    <!--                    android:id="@+id/spinner_gather_country"-->
-    <!--                    android:layout_width="0dp"-->
-    <!--                    android:layout_height="wrap_content"-->
-    <!--                    android:layout_marginStart="16dp"-->
-    <!--                    android:layout_marginEnd="16dp"-->
-    <!--                    android:selectedItemPosition="@={viewModel.selectedCountryPosition}"-->
-    <!--                    android:textAlignment="viewStart"-->
-    <!--                    app:layout_constraintBottom_toBottomOf="@+id/gather_country_text"-->
-    <!--                    app:layout_constraintEnd_toEndOf="parent"-->
-    <!--                    app:layout_constraintStart_toEndOf="@+id/gather_country_text"-->
-    <!--                    app:layout_constraintTop_toTopOf="@+id/gather_country_text" />-->
-
-    <!--                <TextView-->
-    <!--                    android:id="@+id/gather_condition_text"-->
-    <!--                    style="@style/GatherTitle"-->
-    <!--                    android:layout_width="wrap_content"-->
-    <!--                    android:layout_height="wrap_content"-->
-    <!--                    android:layout_marginStart="16dp"-->
-    <!--                    android:layout_marginTop="16dp"-->
-    <!--                    android:layout_marginBottom="32dp"-->
-    <!--                    android:maxLines="2"-->
-    <!--                    android:text="成團條件"-->
-    <!--                    android:textColor='@{viewModel.isInvalid != null ? (TextUtils.isEmpty(viewModel.conditionShow) ? @color/red_500 : @color/black_3f3a3a) : @color/black_3f3a3a}'-->
-    <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--                    app:layout_constraintStart_toStartOf="parent"-->
-    <!--                    app:layout_constraintTop_toBottomOf="@+id/checkBox_ok"-->
-    <!--                    app:layout_constraintVertical_bias="0.0" />-->
-
-    <!--                <com.google.android.material.button.MaterialButton-->
-    <!--                    android:id="@+id/add_gather_condition"-->
-    <!--                    android:layout_width="20dp"-->
-    <!--                    android:layout_height="0dp"-->
-    <!--                    android:layout_marginEnd="16dp"-->
-    <!--                    android:background="@drawable/ic_add"-->
-    <!--                    android:backgroundTint="@color/black_3f3a3a"-->
-    <!--                    android:stateListAnimator="@null"-->
-    <!--                    app:layout_constraintBottom_toBottomOf="@+id/gather_condition_text"-->
-    <!--                    app:layout_constraintDimensionRatio="h,1:1"-->
-    <!--                    app:layout_constraintEnd_toEndOf="parent"-->
-    <!--                    app:layout_constraintTop_toTopOf="@+id/gather_condition_text" />-->

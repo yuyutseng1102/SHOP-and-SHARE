@@ -37,9 +37,6 @@ class OrderProductAdapter(private val viewModel: OrderViewModel) : ListAdapter<P
         )
     }
 
-    /**
-     * Replaces the contents of a view (invoked by the layout manager)
-     */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item,viewModel)

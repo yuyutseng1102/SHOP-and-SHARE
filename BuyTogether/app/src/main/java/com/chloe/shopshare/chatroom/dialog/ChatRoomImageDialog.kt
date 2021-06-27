@@ -1,7 +1,6 @@
 package com.chloe.shopshare.chatroom.dialog
 
 import android.os.Bundle
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.chloe.shopshare.R
 import com.chloe.shopshare.databinding.DialogChatRoomImageBinding
 
-class ChatRoomImageDialog : AppCompatDialogFragment()  {
+class ChatRoomImageDialog : AppCompatDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +21,7 @@ class ChatRoomImageDialog : AppCompatDialogFragment()  {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val args : ChatRoomImageDialogArgs by navArgs()
+        val args: ChatRoomImageDialogArgs by navArgs()
         val binding = DialogChatRoomImageBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.imageItem = args.imageKey

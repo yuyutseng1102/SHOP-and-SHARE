@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class MyOrderDetailKey(
+data class Track(
     var shopId: String = "",
     var orderId: String = ""
 ): Parcelable

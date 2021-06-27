@@ -39,16 +39,13 @@ class ChatFragment : Fragment() {
         binding.recyclerChat.adapter = adapter
 
         viewModel.chatRooms.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                Log.d("ChatTag","chatRooms is change to  $it")
-                binding.viewModel = viewModel
-                viewModel.getProfile(it)
-            }
-        })
-
-        viewModel.chatList.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                Log.d("ChatTag","chatList is change to $it")
+            when(it.isNullOrEmpty()){
+                true -> viewModel.isChatListEmpty()
+                false -> {
+                    binding.viewModel = viewModel
+                    viewModel.getProfile(it)
+                    viewModel.isChatListNotEmpty()
+                }
             }
         })
 

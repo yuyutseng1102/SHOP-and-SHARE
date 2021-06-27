@@ -1,4 +1,4 @@
-package com.chloe.shopshare.orderdetail
+package com.chloe.shopshare.track
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,15 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chloe.shopshare.data.Product
 import com.chloe.shopshare.databinding.ItemManageProductBinding
 
-class OrderDetailProductAdapter: ListAdapter<Product, OrderDetailProductAdapter.ViewHolder>(
-    DiffCallback
-) {
+class TrackAdapter : ListAdapter<Product, TrackAdapter.ViewHolder>(DiffCallback) {
 
-    class ViewHolder(private var binding: ItemManageProductBinding):
+    class ViewHolder(private var binding: ItemManageProductBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Product,position: Int) {
+        fun bind(item: Product, position: Int) {
             binding.item = item
-            binding.position = position+1
+            binding.position = position + 1
             binding.executePendingBindings()
         }
     }
@@ -25,6 +23,7 @@ class OrderDetailProductAdapter: ListAdapter<Product, OrderDetailProductAdapter.
         override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
             return oldItem === newItem
         }
+
         override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
             return oldItem == newItem
         }
@@ -38,12 +37,8 @@ class OrderDetailProductAdapter: ListAdapter<Product, OrderDetailProductAdapter.
         )
     }
 
-    /**
-     * Replaces the contents of a view (invoked by the layout manager)
-     */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item,position)
+        holder.bind(item, position)
     }
-
 }

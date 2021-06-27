@@ -49,10 +49,6 @@ class VariationViewModel(private val repository: Repository, private val args: C
     val navigateToOrder: LiveData<Cart>
         get() = _navigateToOrder
 
-
-
-
-
     init {
         quantity.value = 0
         isEnable.value = false
@@ -60,6 +56,7 @@ class VariationViewModel(private val repository: Repository, private val args: C
     }
 
     fun navigateToDetail(product:List<Product>) {
+        Log.d("Variation", "navigateToDetail.value = $product")
         _navigateToDetail.value = product
     }
 
@@ -120,10 +117,8 @@ class VariationViewModel(private val repository: Repository, private val args: C
 
     fun finishSelector(): List<Product> {
         val productList = _products.value?.toMutableList()?: mutableListOf()
-        Log.d("Chloe","finishSelector productList is$productList")
 
-        //如果清單內已有相同商品,應合併數量
-        var isSame : Boolean = false
+        var isSame = false
         fun checkSame() : Boolean{
             for (i in productList){
                 if(i.title == productTitle.value){
@@ -147,10 +142,6 @@ class VariationViewModel(private val repository: Repository, private val args: C
         }
         _products.value = productList
 
-        Log.d("Chloe","productTitle.value is${productTitle.value}  quantity.value is ${quantity.value}")
-        Log.d("Chloe","productList is${productList}")
-
-        Log.d("Chloe","_product.value is${_products.value}")
         return _products.value?:listOf()
     }
 
