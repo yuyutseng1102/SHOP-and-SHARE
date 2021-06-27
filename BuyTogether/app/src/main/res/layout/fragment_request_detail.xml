@@ -32,7 +32,7 @@
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/detail_img_block"
+                    android:id="@+id/image_block"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="#FFFFFF"
@@ -42,7 +42,7 @@
 
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_detail_image"
+                        android:id="@+id/recycler_image"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:orientation="horizontal"
@@ -56,7 +56,7 @@
                         tools:listitem="@layout/item_detail_image"/>
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_detail_circles"
+                        android:id="@+id/recycler_image_circles"
                         android:layout_width="0dp"
                         android:layout_height="6dp"
                         android:layout_marginStart="16dp"
@@ -66,7 +66,7 @@
                         app:addDecoration="@{viewModel.decoration}"
                         app:count="@{viewModel.request.image.size}"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintBottom_toBottomOf="@+id/recycler_detail_image"
+                        app:layout_constraintBottom_toBottomOf="@+id/recycler_image"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
 
@@ -101,7 +101,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/detail_img_block">
+                    app:layout_constraintTop_toBottomOf="@+id/image_block">
 
                     <ImageView
                         android:id="@+id/host_image"
@@ -186,7 +186,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        app:dateTimeToDisplayFormat="@{viewModel.request.time}"
+                        app:dateToDisplayFormat="@{viewModel.request.time}"
                         app:layout_constraintBottom_toBottomOf="@+id/tag_country"
                         app:layout_constraintStart_toEndOf="@+id/tag_country"
                         app:layout_constraintTop_toTopOf="@+id/tag_country"
@@ -208,7 +208,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/detail_info_block"
+                    android:id="@+id/information_block"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#FFFFFF"
@@ -255,7 +255,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/detail_info_block">
+                    app:layout_constraintTop_toBottomOf="@+id/information_block">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/description_title_block"
@@ -344,7 +344,7 @@
                 app:tint="@drawable/bottom_nav_item_selector" />
 
             <ImageView
-                android:id="@+id/nav_follow"
+                android:id="@+id/nav_chat"
                 android:layout_width="@dimen/size_bottom_nav_icon"
                 android:layout_height="@dimen/size_bottom_nav_icon"
                 android:layout_marginStart="32dp"
@@ -361,13 +361,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="24dp"
-                android:onClick="@{()->viewModel.navigateToHostDetail(viewModel.request)}"
+                android:onClick="@{()->viewModel.navigateToHostDetail(viewModel.request.shopId)}"
                 android:text="查看團購頁面"
-                android:visibility="@{viewModel.request.host!=null?View.VISIBLE:View.GONE}"
+                android:visibility="@{viewModel.request.shopId!=null?View.VISIBLE:View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_chainStyle="spread"
-                app:layout_constraintStart_toEndOf="@+id/nav_follow"
+                app:layout_constraintStart_toEndOf="@+id/nav_chat"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.5"
                 tools:visibility="visible" />
@@ -382,7 +382,7 @@
                 android:visibility="@{viewModel.request.host==null?View.VISIBLE:View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_chainStyle="spread"
-                app:layout_constraintStart_toEndOf="@+id/nav_follow"
+                app:layout_constraintStart_toEndOf="@+id/nav_chat"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.5"
                 tools:visibility="gone" />
@@ -394,7 +394,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="16dp"
-                android:onClick="@{()->viewModel.updateRequestMember(viewModel.request.id,viewModel.memberId)}"
+                android:onClick="@{()->viewModel.updateMember(viewModel.request.id,viewModel.userId)}"
                 android:text="我有興趣"
                 android:visibility="@{viewModel.request.host==null?View.VISIBLE:View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -5,7 +5,9 @@ import android.content.Context
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.chloe.shopshare.R
 import com.chloe.shopshare.databinding.ItemDetailImageBinding
 
 class DetailImageAdapter : RecyclerView.Adapter<DetailImageAdapter.ImageViewHolder>() {
@@ -13,7 +15,8 @@ class DetailImageAdapter : RecyclerView.Adapter<DetailImageAdapter.ImageViewHold
     private lateinit var context: Context
     private var images: List<String>? = null
 
-    class ImageViewHolder(private var binding: ItemDetailImageBinding): RecyclerView.ViewHolder(binding.root) {
+    class ImageViewHolder(private var binding: ItemDetailImageBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(context: Context, imageUrl: String) {
 
@@ -23,8 +26,10 @@ class DetailImageAdapter : RecyclerView.Adapter<DetailImageAdapter.ImageViewHold
                 // Make sure the size of each image item can display correct
                 val displayMetrics = DisplayMetrics()
                 (context as Activity).windowManager.defaultDisplay.getMetrics(displayMetrics)
-//                binding.imageDetailGallery.layoutParams = ConstraintLayout.LayoutParams(displayMetrics.widthPixels,
-//                    context.resources.getDimensionPixelSize(R.dimen.height_detail_gallery))
+                binding.imageDetail.layoutParams = ConstraintLayout.LayoutParams(
+                    displayMetrics.widthPixels,
+                    context.resources.getDimensionPixelSize(R.dimen.height_detail_gallery)
+                )
 
                 binding.executePendingBindings()
             }
@@ -33,15 +38,14 @@ class DetailImageAdapter : RecyclerView.Adapter<DetailImageAdapter.ImageViewHold
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         context = parent.context
-        return ImageViewHolder(ItemDetailImageBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false))
+        return ImageViewHolder(
+            ItemDetailImageBinding.inflate(
+                LayoutInflater.from(parent.context), parent, false
+            )
+        )
     }
 
-    /**
-     * Replaces the contents of a view (invoked by the layout manager)
-     */
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-
         images?.let {
             holder.bind(context, it[getRealPosition(position)])
         }
@@ -55,10 +59,6 @@ class DetailImageAdapter : RecyclerView.Adapter<DetailImageAdapter.ImageViewHold
         position % it.size
     } ?: 0
 
-    /**
-     * Submit data list and refresh adapter by [notifyDataSetChanged]
-     * @param images: [List] [String]
-     */
     fun submitImages(images: List<String>) {
         this.images = images
         notifyDataSetChanged()

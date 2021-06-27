@@ -40,4 +40,5 @@
     <dimen name="size_detail_circle">6dp</dimen>
     <dimen name="radius_detail_circle">3dp</dimen>
     <dimen name="edge_detail_circle">1px</dimen>
+    <dimen name="height_detail_gallery">500dp</dimen>
 </resources>

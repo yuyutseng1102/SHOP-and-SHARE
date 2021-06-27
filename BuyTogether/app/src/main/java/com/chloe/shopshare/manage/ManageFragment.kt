@@ -1,7 +1,6 @@
 package com.chloe.shopshare.manage
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,20 +10,22 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.chloe.shopshare.NavigationDirections
-import com.chloe.shopshare.manage.groupmessage.GroupMessageDialog
 import com.chloe.shopshare.databinding.FragmentManageBinding
 import com.chloe.shopshare.ext.getVmFactory
+import com.chloe.shopshare.manage.groupmessage.GroupMessageDialog
 
 
 class ManageFragment : Fragment() {
 
     private val args: ManageFragmentArgs by navArgs()
 
-    private val viewModel by viewModels<ManageViewModel> { getVmFactory(args.shopIdKey) }
+    private val viewModel by viewModels<ManageViewModel> { getVmFactory(args.shopKey) }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        val binding = FragmentManageBinding.inflate(inflater,container,false)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val binding = FragmentManageBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
@@ -34,7 +35,6 @@ class ManageFragment : Fragment() {
 
         binding.layoutSwipeRefreshManage.setOnRefreshListener {
             viewModel.refresh()
-            Log.d("Chloe", "home status = ${viewModel.status.value}")
         }
 
         viewModel.refreshStatus.observe(viewLifecycleOwner, Observer {
@@ -44,47 +44,43 @@ class ManageFragment : Fragment() {
         })
 
 
-            viewModel.member.observe(viewLifecycleOwner, Observer {
-                it?.let {
-                    Log.d("Life", "member is change")
-                    memberAdapter.notifyDataSetChanged()
-                }
-            })
+        viewModel.member.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                memberAdapter.notifyDataSetChanged()
+            }
+        })
 
         binding.deleteButton.setOnClickListener {
-            Log.d("Chloe","status now is ${viewModel.shop.value?.status}")
             viewModel.deleteMember()
         }
 
-        binding.buttonGather.setOnClickListener{
+        binding.buttonGather.setOnClickListener {
             viewModel.readyCollect()
             memberAdapter.notifyDataSetChanged()
             val dialog = GroupMessageDialog(
-                groupMessageSend=object :
+                groupMessageSend = object :
                     GroupMessageSend {
-                    override fun onMessageSend(message:String) {
+                    override fun onMessageSend(message: String) {
                         viewModel.messageContent.value = message
-                        Log.d("Chloe","message dialog is Success!viewModel.messageContent.value = ${viewModel.messageContent.value}")
-                    }},
-
-                status = viewModel.shop.value?.status?:0
+                    }
+                },
+                status = viewModel.shop.value?.status ?: 0
             )
-            dialog.show(childFragmentManager, "hiya")
+            dialog.show(childFragmentManager, "groupMessageSend")
         }
 
         binding.updateProgressButton.setOnClickListener {
             viewModel.updateStatus()
             val dialog = GroupMessageDialog(
-                groupMessageSend=object :
+                groupMessageSend = object :
                     GroupMessageSend {
-                    override fun onMessageSend(message:String) {
+                    override fun onMessageSend(message: String) {
                         viewModel.messageContent.value = message
-                        Log.d("Chloe","message dialog is Success!viewModel.messageContent.value = ${viewModel.messageContent.value}")
-                    }},
-
-                status = viewModel.shop.value?.status?:0
+                    }
+                },
+                status = viewModel.shop.value?.status ?: 0
             )
-            dialog.show(childFragmentManager, "hiya")
+            dialog.show(childFragmentManager, "groupMessageSend")
         }
 
         viewModel.messageContent.observe(viewLifecycleOwner, Observer {
@@ -93,35 +89,33 @@ class ManageFragment : Fragment() {
             }
         })
 
-        viewModel.deleteSuccess.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                if(it){
-                    viewModel.apply {
-                        order.value?.let {
-                            decreaseOrderSize(shop.value!!.id,it.size.minus(viewModel.deleteList.value?.size?:0))
+        viewModel.apply {
+            deleteSuccess.observe(viewLifecycleOwner, Observer {
+                it?.let {
+                    shop.value?.let { shop ->
+                        order.value?.let { order ->
+                            decreaseOrderSize(
+                                shop.id,
+                                order.size.minus(deleteList.value?.size ?: 0)
+                            )
                         }
-                        onSuccessDeleteOrder()
                     }
+                    onSuccessDeleteOrder()
                 }
-
-            }
-        })
+            })
+        }
 
         viewModel.successDecreaseOrder.observe(viewLifecycleOwner, Observer {
             it?.let {
-                if (it) {
-                    viewModel.deleteList.observe(viewLifecycleOwner, Observer {
-                        it?.let {
-                            viewModel.editOrderNotify(it)
-                            viewModel.onFailNotifySend()
-                        }
-                    })
-                    viewModel.onSuccessDecreaseOrder()
-                }
+                viewModel.deleteList.observe(viewLifecycleOwner, Observer { list ->
+                    list?.let {
+                        viewModel.editOrderNotify(list)
+                        viewModel.onFailNotifySend()
+                    }
+                })
+                viewModel.onSuccessDecreaseOrder()
             }
-        }
-            )
-
+        })
 
         viewModel.navigateToDetail.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -132,20 +126,16 @@ class ManageFragment : Fragment() {
 
         viewModel.navigateToChatRoom.observe(viewLifecycleOwner, Observer {
             it?.let {
-                findNavController().navigate(NavigationDirections.navigateToChatRoomFragment(it.myId,it.friendId,it.chatRoomId))
+                findNavController().navigate(NavigationDirections.navigateToChatRoomFragment(it))
                 viewModel.onChatRoomNavigated()
             }
         })
-
-
-
         return binding.root
     }
-
 }
 
 interface GroupMessageSend {
     fun onMessageSend(
-        message:String
+        message: String
     )
 }

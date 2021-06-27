@@ -5,7 +5,6 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.chloe.shopshare.data.*
 import com.chloe.shopshare.data.source.DataSource
-import com.google.firebase.auth.FirebaseAuth
 
 
 class LocalDataSource(val context: Context): DataSource {
@@ -123,10 +122,6 @@ class LocalDataSource(val context: Context): DataSource {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getShopByOrder(orderId:String): Result<List<Shop>> {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun getMyRequest(userId: String): Result<List<Request>> {
         TODO("Not yet implemented")
     }
@@ -210,7 +205,7 @@ class LocalDataSource(val context: Context): DataSource {
         TODO("Not yet implemented")
     }
 
-    override fun getMyAllChatRoom(myId: String): MutableLiveData<List<ChatRoom>> {
+    override fun getMyLiveChatList(myId: String): MutableLiveData<List<ChatRoom>> {
         TODO("Not yet implemented")
     }
 

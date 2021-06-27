@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_white_corner"
         android:minWidth="350dp"
-        tools:context=".host.item.GatherConditionDialog">
+        tools:context=".host.item.HostConditionDialog">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout

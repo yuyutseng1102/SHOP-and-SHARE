@@ -1,10 +1,10 @@
 package com.chloe.shopshare.myorder.item
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -12,9 +12,8 @@ import com.chloe.shopshare.NavigationDirections
 import com.chloe.shopshare.databinding.FragmentMyOrderListBinding
 import com.chloe.shopshare.ext.getVmFactory
 import com.chloe.shopshare.myorder.MyOrderType
-import com.chloe.shopshare.myrequest.MyRequestType
 
-class MyOrderListFragment (private val myOrderType: MyOrderType): Fragment() {
+class MyOrderListFragment(private val myOrderType: MyOrderType) : Fragment() {
 
     private val viewModel by viewModels<MyOrderListViewModel> { getVmFactory(myOrderType) }
 
@@ -22,11 +21,13 @@ class MyOrderListFragment (private val myOrderType: MyOrderType): Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val binding = FragmentMyOrderListBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        val orderAdapter =
-            MyOrderListAdapter(viewModel)
+
+        val orderAdapter = MyOrderListAdapter(viewModel)
+
         binding.recyclerMyOrder.adapter = orderAdapter
 
         binding.layoutSwipeRefreshMyRequest.setOnRefreshListener {
@@ -45,6 +46,8 @@ class MyOrderListFragment (private val myOrderType: MyOrderType): Fragment() {
                 viewModel.onOrderDetailNavigated()
             }
         })
+
+
         return binding.root
     }
 

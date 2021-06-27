@@ -1,9 +1,9 @@
 package com.chloe.shopshare.home
 
-enum class HomeType (val value: String) {
-    HOME("首頁"),
-    HOST("開團中"),
-    REQUEST("徵團中")
+enum class HomeType (val position: Int, val value: String) {
+    MAIN(0, "首頁"),
+    HOST(1, "開團中"),
+    REQUEST(2, "徵團中")
 }
 
 enum class SortMethod(val positionOnSpinner: Int) {

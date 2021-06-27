@@ -1,6 +1,5 @@
 package com.chloe.shopshare.chatroom
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -9,26 +8,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chloe.shopshare.data.Message
 import com.chloe.shopshare.databinding.ItemMessageLeftBinding
 import com.chloe.shopshare.databinding.ItemMessageRightBinding
-import com.chloe.shopshare.util.UserManager
 
-class ChatRoomMessageAdapter(private val viewModel: ChatRoomViewModel):ListAdapter<Message, RecyclerView.ViewHolder>(DiffCallback)  {
+class ChatRoomMessageAdapter(private val viewModel: ChatRoomViewModel) :
+    ListAdapter<Message, RecyclerView.ViewHolder>(DiffCallback) {
 
-    class RightBubbleViewHolder(private var binding: ItemMessageRightBinding):
+    class RightBubbleViewHolder(private var binding: ItemMessageRightBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Message,viewModel: ChatRoomViewModel) {
-            Log.d("Chat","RightBubbleViewHolder")
+        fun bind(item: Message, viewModel: ChatRoomViewModel) {
             binding.item = item
             binding.viewModel = viewModel
             binding.executePendingBindings()
         }
     }
 
-    class LeftBubbleViewHolder(private var binding: ItemMessageLeftBinding):
+    class LeftBubbleViewHolder(private var binding: ItemMessageLeftBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Message,viewModel: ChatRoomViewModel) {
-            Log.d("Chat","LeftBubbleViewHolder")
+        fun bind(item: Message, viewModel: ChatRoomViewModel) {
             binding.item = item
             binding.viewModel = viewModel
             binding.executePendingBindings()
@@ -39,6 +36,7 @@ class ChatRoomMessageAdapter(private val viewModel: ChatRoomViewModel):ListAdapt
         override fun areItemsTheSame(oldItem: Message, newItem: Message): Boolean {
             return oldItem === newItem
         }
+
         override fun areContentsTheSame(oldItem: Message, newItem: Message): Boolean {
             return oldItem.id == newItem.id
         }
@@ -50,10 +48,16 @@ class ChatRoomMessageAdapter(private val viewModel: ChatRoomViewModel):ListAdapt
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
 
-            ITEM_MESSAGE_BY_ME -> RightBubbleViewHolder(ItemMessageRightBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false))
-            ITEM_MESSAGE_BY_FRIEND -> LeftBubbleViewHolder(ItemMessageLeftBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false))
+            ITEM_MESSAGE_BY_ME -> RightBubbleViewHolder(
+                ItemMessageRightBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+            )
+            ITEM_MESSAGE_BY_FRIEND -> LeftBubbleViewHolder(
+                ItemMessageLeftBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+            )
             else -> throw ClassCastException("Unknown viewType $viewType")
         }
     }
@@ -62,10 +66,10 @@ class ChatRoomMessageAdapter(private val viewModel: ChatRoomViewModel):ListAdapt
 
         when (holder) {
             is RightBubbleViewHolder -> {
-                holder.bind((getItem(position)),viewModel)
+                holder.bind((getItem(position)), viewModel)
             }
             is LeftBubbleViewHolder -> {
-                holder.bind((getItem(position)),viewModel)
+                holder.bind((getItem(position)), viewModel)
             }
         }
     }
@@ -74,7 +78,7 @@ class ChatRoomMessageAdapter(private val viewModel: ChatRoomViewModel):ListAdapt
         val item = getItem(position)
 
         return when (item.talkerId) {
-            UserManager.userId -> ITEM_MESSAGE_BY_ME
+            viewModel.myId -> ITEM_MESSAGE_BY_ME
             else -> ITEM_MESSAGE_BY_FRIEND
         }
     }

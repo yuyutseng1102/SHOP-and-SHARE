@@ -2,15 +2,12 @@ package com.chloe.shopshare
 
 import android.os.Build
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.util.Log
-import android.view.DisplayCutout
 import android.view.Gravity
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -32,36 +29,6 @@ class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-
-//    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-//        when (item.itemId) {
-//            R.id.navigation_home -> {
-//                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToHomeFragment())
-//                return@OnNavigationItemSelectedListener true
-//            }
-//            R.id.navigation_follow -> {
-//
-//                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToLikeFragment())
-//                return@OnNavigationItemSelectedListener true
-//            }
-////            R.id.navigation_discuss -> {
-////
-////                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToHomeFragment())
-////                return@OnNavigationItemSelectedListener true
-////            }
-//            R.id.navigation_search -> {
-//
-//                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToSearchFragment())
-//                return@OnNavigationItemSelectedListener true
-//            }
-//            R.id.navigation_profile -> {
-//                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToProfileFragment())
-//                return@OnNavigationItemSelectedListener true
-//            }
-//        }
-//        false
-//    }
-
     // get the height of status bar from system
     private val statusBarHeight: Int
         get() {
@@ -71,8 +38,6 @@ class MainActivity : BaseActivity() {
                 else -> 0
             }
         }
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,12 +49,7 @@ class MainActivity : BaseActivity() {
         setupBottomNav()
         setupNavController()
         setUpBadge()
-
-
     }
-
-
-
 
     private fun setupNavController() {
         findNavController(R.id.myNavHostFragment).addOnDestinationChangedListener { navController: NavController, _: NavDestination, _: Bundle? ->
@@ -99,23 +59,18 @@ class MainActivity : BaseActivity() {
                 R.id.requestFragment -> CurrentFragmentType.REQUEST
                 R.id.detailFragment -> CurrentFragmentType.DETAIL
                 R.id.requestDetailFragment -> CurrentFragmentType.REQUEST_DETAIL
-                R.id.participateFragment -> CurrentFragmentType.PARTICIPATE
-
+                R.id.orderFragment -> CurrentFragmentType.ORDER
                 R.id.likeFragment -> CurrentFragmentType.LIKE
-
                 R.id.profileFragment -> CurrentFragmentType.PROFILE
                 R.id.myHostFragment -> CurrentFragmentType.SHOP
                 R.id.manageFragment -> CurrentFragmentType.MANAGE
                 R.id.myOrderFragment -> CurrentFragmentType.MY_ORDER
                 R.id.myOrderListFragment -> CurrentFragmentType.MY_ORDER
-                R.id.orderDetailFragment -> CurrentFragmentType.ORDER_DETAIL
+                R.id.trackFragment -> CurrentFragmentType.TRACK
                 R.id.myRequestFragment -> CurrentFragmentType.MY_REQUEST
                 R.id.myRequestListFragment -> CurrentFragmentType.MY_REQUEST
-
                 R.id.loginFragment -> CurrentFragmentType.LOGIN
-
                 R.id.notifyFragment -> CurrentFragmentType.NOTIFY
-
                 R.id.searchFragment -> CurrentFragmentType.SEARCH
                 R.id.chatFragment -> CurrentFragmentType.CHAT
                 R.id.chatRoomFragment -> CurrentFragmentType.CHAT_ROOM
@@ -131,8 +86,8 @@ class MainActivity : BaseActivity() {
      * to display the count of Cart
      */
     private fun setupBottomNav() {
-
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as NavHostFragment
         val navController = navHostFragment.navController
 
         findViewById<BottomNavigationView>(R.id.bottomNavView).setupWithNavController(navController)
@@ -146,7 +101,7 @@ class MainActivity : BaseActivity() {
 
     }
 
-    private fun setUpBadge(){
+    private fun setUpBadge() {
         val navMenu = binding.bottomNavView
         val notifyBadge = navMenu.getOrCreateBadge(R.id.profileFragment)
         notifyBadge.maxCharacterCount = 99
@@ -154,19 +109,16 @@ class MainActivity : BaseActivity() {
         notifyBadge.verticalOffset = 20
         notifyBadge.backgroundColor = ContextCompat.getColor(this, R.color.textColorError)
 
-        viewModel.notify.observeForever{
-            it?.let {
-                if (it.isNotEmpty()) {
+        viewModel.notify.observeForever {
+            when (it.isNullOrEmpty()) {
+                true -> notifyBadge.isVisible = false
+                else -> {
                     notifyBadge.isVisible = true
                     notifyBadge.number = it.size
-                } else {
-                    notifyBadge.isVisible = false
                 }
             }
         }
     }
-
-
 
 
     /**
@@ -174,53 +126,24 @@ class MainActivity : BaseActivity() {
      */
     private fun setupToolbar() {
 
-//        binding.toolbar.setPadding(0, statusBarHeight, 0, 0)
-//        binding.toolbar.setPadding(0, 0, 0, 0)
-
         launch {
-            val dpi = resources.displayMetrics.densityDpi.toFloat()
-            val dpiMultiple = dpi / DisplayMetrics.DENSITY_DEFAULT
-//            val cutoutHeight = getCutoutHeight()
-            Log.i("Chloe", "====== ${Build.MODEL} ======")
-            Log.i("Chloe", "$dpi dpi (${dpiMultiple}x)")
-            Log.i(
-                "Chloe",
-                "statusBarHeight: ${statusBarHeight}px/${statusBarHeight / dpiMultiple}dp"
+            val oriStatusBarHeight =
+                resources.getDimensionPixelSize(R.dimen.height_status_bar_origin)
+            binding.toolbar.setPadding(0, 0, 0, 0)
+            val layoutParams = Toolbar.LayoutParams(
+                Toolbar.LayoutParams.WRAP_CONTENT,
+                Toolbar.LayoutParams.WRAP_CONTENT
             )
-
-//            when {
-//                cutoutHeight > 0 -> {
-//                    Log.i(
-//                        "Chloe",
-//                        "cutoutHeight: ${cutoutHeight}px/${cutoutHeight / dpiMultiple}dp"
-//                    )
-
-                    val oriStatusBarHeight =
-                        resources.getDimensionPixelSize(R.dimen.height_status_bar_origin)
-                    binding.toolbar.setPadding(0, 0, 0, 0)
-//                    binding.toolbar.setPadding(0, oriStatusBarHeight, 0, 0)
-                    val layoutParams = Toolbar.LayoutParams(
-                        Toolbar.LayoutParams.WRAP_CONTENT,
-                        Toolbar.LayoutParams.WRAP_CONTENT
-                    )
-                    layoutParams.gravity = Gravity.CENTER
-//
-                    when (Build.MODEL) {
-                        "Pixel 5" -> {
-                            Log.i("Chloe", "Build.MODEL is ${Build.MODEL}")
-                        }
-                        else -> {
-                            layoutParams.topMargin = statusBarHeight - oriStatusBarHeight
-                        }
-                    }
-//                    binding.toolbarTitle.layoutParams = layoutParams
+            layoutParams.gravity = Gravity.CENTER
+            when (Build.MODEL) {
+                "Pixel 5" -> {
+                    Log.i("Chloe", "Build.MODEL is ${Build.MODEL}")
                 }
-//            }
-            Log.i("Chloe", "====== ${Build.MODEL} ======")
+                else -> {
+                    layoutParams.topMargin = statusBarHeight - oriStatusBarHeight
+                }
+            }
         }
-        }
-
-
-
-//
-//}
+        Log.i("Chloe", "====== ${Build.MODEL} ======")
+    }
+}
