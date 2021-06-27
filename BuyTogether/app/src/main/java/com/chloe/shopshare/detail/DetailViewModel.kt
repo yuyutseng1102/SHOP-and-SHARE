@@ -1,6 +1,7 @@
 package com.chloe.shopshare.detail
 
 import android.graphics.Rect
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -175,9 +176,9 @@ class DetailViewModel(
         val snapView = linearSnapHelper.findSnapView(layoutManager)
         snapView?.let {
             layoutManager?.getPosition(snapView)?.let {
-                if (it != _snapPosition.value) {
-                    _snapPosition.value = it
-                }
+                Log.d("CircleTag","getPosition = $it")
+                _snapPosition.value = it
+                Log.d("CircleTag","_snapPosition.value = ${_snapPosition.value}")
             }
         }
     }

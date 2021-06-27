@@ -53,6 +53,19 @@ class DetailFragment : Fragment() {
             )
         }
 
+        viewModel.snapPosition.observe(viewLifecycleOwner, Observer {
+            Log.d("CircleTag", "snapPosition is change to ${viewModel.snapPosition.value}")
+            viewModel.shop.value?.let { shop ->
+                (binding.recyclerImageCircles.adapter as DetailCircleAdapter).selectedPosition.value =
+                    (it % shop.image.size)
+            }
+        })
+
+        // set the initial position to the center of infinite gallery
+        viewModel.shop.value?.let { shop ->
+            binding.recyclerImage.scrollToPosition(shop.image.size * 100)
+        }
+
         binding.viewpagerDetail.let {
             binding.tabsDetail.setupWithViewPager(it)
             it.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(binding.tabsDetail))
@@ -75,7 +88,7 @@ class DetailFragment : Fragment() {
                     VariationDialog(
                         object : VariationSelector {
                             override fun onVariationSelector(products: List<Product>) {
-                                Log.d("DetailTag","product from variation is $products")
+                                Log.d("DetailTag", "product from variation is $products")
                                 viewModel.updateProductList(products)
                             }
                         },
@@ -92,7 +105,7 @@ class DetailFragment : Fragment() {
                     CartDialog(
                         object : CartCheck {
                             override fun onCartCheck(products: List<Product>) {
-                                Log.d("DetailTag","product from cart is $products")
+                                Log.d("DetailTag", "product from cart is $products")
                                 viewModel.updateProductList(products)
                             }
                         },

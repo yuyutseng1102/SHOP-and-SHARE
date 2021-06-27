@@ -5,7 +5,9 @@ import android.content.Context
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.chloe.shopshare.R
 import com.chloe.shopshare.databinding.ItemDetailImageBinding
 
 class RequestDetailImageAdapter :
@@ -25,8 +27,10 @@ class RequestDetailImageAdapter :
                 // Make sure the size of each image item can display correct
                 val displayMetrics = DisplayMetrics()
                 (context as Activity).windowManager.defaultDisplay.getMetrics(displayMetrics)
-//                binding.imageDetailGallery.layoutParams = ConstraintLayout.LayoutParams(displayMetrics.widthPixels,
-//                    context.resources.getDimensionPixelSize(R.dimen.height_detail_gallery))
+                binding.imageDetail.layoutParams = ConstraintLayout.LayoutParams(
+                    displayMetrics.widthPixels,
+                    context.resources.getDimensionPixelSize(R.dimen.height_detail_gallery)
+                )
 
                 binding.executePendingBindings()
             }

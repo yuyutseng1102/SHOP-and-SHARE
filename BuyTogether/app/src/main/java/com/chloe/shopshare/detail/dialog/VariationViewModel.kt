@@ -1,44 +1,35 @@
 package com.chloe.shopshare.detail.dialog
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.chloe.shopshare.data.Cart
-import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.data.Product
-import com.chloe.shopshare.data.source.Repository
+import com.chloe.shopshare.data.Shop
 
-class VariationViewModel(private val repository: Repository, private val args: Cart): ViewModel() {
+class VariationViewModel(private val args: Cart) : ViewModel() {
 
     private val _shop = MutableLiveData<Shop>().apply {
         value = args.shop
     }
-
     val shop: LiveData<Shop>
         get() = _shop
 
-    private val _products= MutableLiveData<List<Product>>().apply {
+    private val _products = MutableLiveData<List<Product>>().apply {
         value = args.products
     }
-
     val products: LiveData<List<Product>>
         get() = _products
 
     private val _option = MutableLiveData<List<String>>().apply {
         value = _shop.value?.option
     }
-
     val option: LiveData<List<String>>
         get() = _option
 
     val quantity = MutableLiveData<Int?>()
-
     val isEnable = MutableLiveData<Boolean>()
     val isVisible = MutableLiveData<Boolean>()
-
-
-
     val productTitle = MutableLiveData<String>()
 
     private val _navigateToDetail = MutableLiveData<List<Product>>()
@@ -55,8 +46,7 @@ class VariationViewModel(private val repository: Repository, private val args: C
         isVisible.value = false
     }
 
-    fun navigateToDetail(product:List<Product>) {
-        Log.d("Variation", "navigateToDetail.value = $product")
+    fun navigateToDetail(product: List<Product>) {
         _navigateToDetail.value = product
     }
 
@@ -65,7 +55,7 @@ class VariationViewModel(private val repository: Repository, private val args: C
     }
 
 
-    fun navigateToOrder(shop: Shop, products:List<Product>) {
+    fun navigateToOrder(shop: Shop, products: List<Product>) {
         _navigateToOrder.value = Cart(shop, products)
     }
 
@@ -73,20 +63,26 @@ class VariationViewModel(private val repository: Repository, private val args: C
         _navigateToOrder.value = null
     }
 
-
     //select option
     val selectedChip = MutableLiveData<Int>()
     fun getOption() {
-        if (shop.value!!.isStandard) {
-            if (_option.value != null && selectedChip.value != null) {
-                productTitle.value = _option.value!![selectedChip.value!!]
+        _shop.value?.let { shop ->
+            when (shop.isStandard) {
+                true -> {
+                    _option.value?.let { option ->
+                        selectedChip.value?.let { position ->
+                            productTitle.value = option[position]
+                        }
+                    }
+                    quantity.value = 1
+                    isEnable.value = true
+                    isVisible.value = false
+                }
+                else -> {
+                    isEnable.value = false
+                    isVisible.value = true
+                }
             }
-            quantity.value = 1
-            isEnable.value = true
-            isVisible.value = false
-        }else{
-            isEnable.value = false
-            isVisible.value = true
         }
     }
 
@@ -100,54 +96,31 @@ class VariationViewModel(private val repository: Repository, private val args: C
 
     fun isEditable() {
         isEnable.value = !productTitle.value.isNullOrEmpty()
-
-    }
-
-    private fun updateProduct(productItem: Product) {
-        productItem == Product(productTitle.value!!,quantity.value)
-        if(_products.value!= null){
-            for (item in _products.value!!){
-                if (item.title == productItem.title){
-                    item.quantity = productItem.quantity
-                } }
-            _products.value = _products.value
-            Log.d("Chloe","new product is updated to ${_products.value},product is ${products.value}")
-        }
     }
 
     fun finishSelector(): List<Product> {
-        val productList = _products.value?.toMutableList()?: mutableListOf()
-
-        var isSame = false
-        fun checkSame() : Boolean{
-            for (i in productList){
-                if(i.title == productTitle.value){
-                    isSame = true
-                }
-            }
-            return isSame
-        }
-
-        checkSame()
-
-        when (isSame){
+        val productList = _products.value?.toMutableList() ?: mutableListOf()
+        when (checkSame(productList)) {
             true -> {
-                for (item in productList){
-                    if(item.title == productTitle.value){
-                        item.quantity = item.quantity?.plus(quantity.value!!)
+                for (item in productList) {
+                    if (item.title == productTitle.value) {
+                        item.quantity = item.quantity?.plus(quantity.value ?: 0)
                     }
                 }
             }
-            false -> productList.add(Product(productTitle.value!!,quantity.value))
+            false -> productList.add(Product(productTitle.value ?: "", quantity.value))
         }
         _products.value = productList
-
-        return _products.value?:listOf()
+        return _products.value ?: listOf()
     }
 
-
-
-    fun onOptionSend(){
-        _products.value = null
+    private fun checkSame(list: List<Product>): Boolean {
+        var isSame = false
+        for (i in list) {
+            if (i.title == productTitle.value) {
+                isSame = true
+            }
+        }
+        return isSame
     }
 }

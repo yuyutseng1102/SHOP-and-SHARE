@@ -124,23 +124,23 @@ class RequestDetailViewModel(private val repository: Repository, private val arg
             _status.value = LoadApiStatus.LOADING
 
             when (val result = repository.updateRequestMember(requestId, memberId)) {
-                    is Result.Success -> {
-                        _error.value = null
-                        _status.value = LoadApiStatus.DONE
-                    }
-                    is Result.Fail -> {
-                        _error.value = result.error
-                        _status.value = LoadApiStatus.ERROR
-                    }
-                    is Result.Error -> {
-                        _error.value = result.exception.toString()
-                        _status.value = LoadApiStatus.ERROR
-                    }
-                    else -> {
-                        _error.value = MyApplication.instance.getString(R.string.result_fail)
-                        _status.value = LoadApiStatus.ERROR
-                    }
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
                 }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                }
+                else -> {
+                    _error.value = MyApplication.instance.getString(R.string.result_fail)
+                    _status.value = LoadApiStatus.ERROR
+                }
+            }
             _refreshStatus.value = false
         }
     }
@@ -175,9 +175,7 @@ class RequestDetailViewModel(private val repository: Repository, private val arg
         val snapView = linearSnapHelper.findSnapView(layoutManager)
         snapView?.let {
             layoutManager?.getPosition(snapView)?.let {
-                if (it != _snapPosition.value) {
-                    _snapPosition.value = it
-                }
+                _snapPosition.value = it
             }
         }
     }

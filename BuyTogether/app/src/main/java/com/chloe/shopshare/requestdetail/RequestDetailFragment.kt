@@ -1,6 +1,7 @@
 package com.chloe.shopshare.requestdetail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearSnapHelper
 import com.chloe.shopshare.NavigationDirections
 import com.chloe.shopshare.databinding.FragmentRequestDetailBinding
+import com.chloe.shopshare.detail.item.DetailCircleAdapter
 import com.chloe.shopshare.ext.getVmFactory
 
 class RequestDetailFragment : Fragment() {
@@ -33,6 +35,19 @@ class RequestDetailFragment : Fragment() {
 
         val linearSnapHelper = LinearSnapHelper().apply {
             attachToRecyclerView(binding.recyclerImage)
+        }
+
+        viewModel.snapPosition.observe(viewLifecycleOwner, Observer {
+            Log.d("CircleTag", "snapPosition is change to ${viewModel.snapPosition.value}")
+            viewModel.request.value?.let { request ->
+                (binding.recyclerImageCircles.adapter as RequestDetailCircleAdapter).selectedPosition.value =
+                    (it % request.image.size)
+            }
+        })
+
+        // set the initial position to the center of infinite gallery
+        viewModel.request.value?.let { request ->
+            binding.recyclerImage.scrollToPosition(request.image.size * 100)
         }
 
         binding.recyclerImage.setOnScrollChangeListener { _, _, _, _, _ ->
