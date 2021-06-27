@@ -18,7 +18,7 @@ class CartViewModelFactory(private val repository: Repository, private val cart:
 
                 isAssignableFrom(OrderViewModel::class.java) -> OrderViewModel(repository, cart)
 
-                isAssignableFrom(VariationViewModel::class.java) -> VariationViewModel(repository, cart)
+                isAssignableFrom(VariationViewModel::class.java) -> VariationViewModel(cart)
 
                 else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

@@ -1,54 +1,75 @@
 package com.chloe.shopshare.detail.item
 
-import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
+import androidx.lifecycle.*
 import androidx.recyclerview.widget.RecyclerView
-import com.chloe.shopshare.MainActivity
 import com.chloe.shopshare.databinding.ItemDetailCircleBinding
 
 class DetailCircleAdapter : RecyclerView.Adapter<DetailCircleAdapter.ImageViewHolder>() {
 
-    private lateinit var context: Context
     private var count = 0
     var selectedPosition = MutableLiveData<Int>()
 
-    class ImageViewHolder(val binding: ItemDetailCircleBinding): RecyclerView.ViewHolder(binding.root) {
+    class ImageViewHolder(val binding: ItemDetailCircleBinding) :
+        RecyclerView.ViewHolder(binding.root),
+        LifecycleOwner {
 
-        var isSelected = MutableLiveData<Boolean>()
-
-        fun bind(context: Context, selectedPosition: MutableLiveData<Int>) {
-
-            selectedPosition.observe(context as MainActivity, Observer {
+        fun bind(selectedPosition: MutableLiveData<Int>) {
+            selectedPosition.observe(this, Observer {
+                binding.lifecycleOwner = this
                 binding.isSelected = it == adapterPosition
+                Log.d("CircleTag", "binding.isSelected = ${binding.isSelected}")
                 binding.executePendingBindings()
             })
+        }
+
+        private val lifecycleRegistry = LifecycleRegistry(this)
+
+        init {
+            lifecycleRegistry.currentState = Lifecycle.State.INITIALIZED
+        }
+
+        fun onAttach() {
+            lifecycleRegistry.currentState = Lifecycle.State.STARTED
+        }
+
+        fun onDetach() {
+            lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
+        }
+
+        override fun getLifecycle(): Lifecycle {
+            return lifecycleRegistry
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-        context = parent.context
-        return ImageViewHolder(ItemDetailCircleBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false))
+        return ImageViewHolder(
+            ItemDetailCircleBinding.inflate(
+                LayoutInflater.from(parent.context), parent, false
+            )
+        )
     }
 
-    /**
-     * Replaces the contents of a view (invoked by the layout manager)
-     */
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        holder.bind(context, selectedPosition)
+        holder.bind(selectedPosition)
+    }
+
+    override fun onViewAttachedToWindow(holder: ImageViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        holder.onAttach()
+    }
+
+    override fun onViewDetachedFromWindow(holder: ImageViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        holder.onDetach()
     }
 
     override fun getItemCount(): Int {
         return count
     }
 
-    /**
-     * Submit data list and refresh adapter by [notifyDataSetChanged]
-     * @param count: set up count of circles
-     */
     fun submitCount(count: Int) {
         this.count = count
         notifyDataSetChanged()
