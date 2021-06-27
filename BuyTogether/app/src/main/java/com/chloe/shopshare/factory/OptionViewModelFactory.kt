@@ -16,7 +16,7 @@ class OptionViewModelFactory(
         with(modelClass) {
             when {
                 isAssignableFrom(HostVariationViewModel::class.java) ->
-                    HostVariationViewModel(repository, option, isStandard)
+                    HostVariationViewModel(option, isStandard)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

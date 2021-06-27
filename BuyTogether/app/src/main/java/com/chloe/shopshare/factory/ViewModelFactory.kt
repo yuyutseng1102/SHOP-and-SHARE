@@ -45,13 +45,13 @@ class ViewModelFactory constructor(private val repository: Repository): ViewMode
 
                 isAssignableFrom(ProfileViewModel::class.java) -> ProfileViewModel(repository)
 
-                isAssignableFrom(GroupMessageViewModel::class.java) -> GroupMessageViewModel(repository)
+                isAssignableFrom(GroupMessageViewModel::class.java) -> GroupMessageViewModel()
 
                 isAssignableFrom(NotifyViewModel::class.java) -> NotifyViewModel(repository)
 
                 isAssignableFrom(ChatViewModel::class.java) -> ChatViewModel(repository)
 
-                isAssignableFrom(SearchViewModel::class.java) -> SearchViewModel(repository)
+                isAssignableFrom(SearchViewModel::class.java) -> SearchViewModel()
 
                 else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

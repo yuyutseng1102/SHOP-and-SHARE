@@ -49,10 +49,6 @@ class VariationViewModel(private val repository: Repository, private val args: C
     val navigateToOrder: LiveData<Cart>
         get() = _navigateToOrder
 
-
-
-
-
     init {
         quantity.value = 0
         isEnable.value = false
@@ -60,6 +56,7 @@ class VariationViewModel(private val repository: Repository, private val args: C
     }
 
     fun navigateToDetail(product:List<Product>) {
+        Log.d("Variation", "navigateToDetail.value = $product")
         _navigateToDetail.value = product
     }
 

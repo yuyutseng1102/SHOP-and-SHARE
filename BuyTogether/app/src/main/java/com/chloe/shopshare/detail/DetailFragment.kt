@@ -1,6 +1,7 @@
 package com.chloe.shopshare.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -74,6 +75,7 @@ class DetailFragment : Fragment() {
                     VariationDialog(
                         object : VariationSelector {
                             override fun onVariationSelector(products: List<Product>) {
+                                Log.d("DetailTag","product from variation is $products")
                                 viewModel.updateProductList(products)
                             }
                         },
@@ -90,6 +92,7 @@ class DetailFragment : Fragment() {
                     CartDialog(
                         object : CartCheck {
                             override fun onCartCheck(products: List<Product>) {
+                                Log.d("DetailTag","product from cart is $products")
                                 viewModel.updateProductList(products)
                             }
                         },

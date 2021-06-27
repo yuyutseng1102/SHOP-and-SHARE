@@ -2,11 +2,9 @@ package com.chloe.shopshare
 
 import android.content.res.ColorStateList
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.Shape
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.core.net.toUri
@@ -17,11 +15,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.chloe.shopshare.chat.ChatAdapter
 import com.chloe.shopshare.chatroom.ChatRoomMessageAdapter
 import com.chloe.shopshare.data.*
-import com.chloe.shopshare.myhost.item.MyHostListAdapter
-import com.chloe.shopshare.myhost.OrderStatusType
-import com.chloe.shopshare.myhost.PaymentStatusType
-import com.chloe.shopshare.manage.MemberAdapter
-import com.chloe.shopshare.manage.MemberProductAdapter
 import com.chloe.shopshare.detail.dialog.CartAdapter
 import com.chloe.shopshare.detail.item.DetailCircleAdapter
 import com.chloe.shopshare.detail.item.DetailDeliveryAdapter
@@ -30,15 +23,18 @@ import com.chloe.shopshare.ext.*
 import com.chloe.shopshare.home.item.*
 import com.chloe.shopshare.host.CategoryType
 import com.chloe.shopshare.host.CountryType
-import com.chloe.shopshare.host.item.HostVariationAdapter
 import com.chloe.shopshare.host.DeliveryMethod
 import com.chloe.shopshare.host.HostImageAdapter
+import com.chloe.shopshare.host.item.HostVariationAdapter
+import com.chloe.shopshare.manage.MemberAdapter
+import com.chloe.shopshare.manage.MemberProductAdapter
+import com.chloe.shopshare.myhost.OrderStatusType
+import com.chloe.shopshare.myhost.PaymentStatusType
+import com.chloe.shopshare.myhost.item.MyHostListAdapter
 import com.chloe.shopshare.myorder.item.MyOrderListAdapter
 import com.chloe.shopshare.myrequest.item.MyRequestListAdapter
 import com.chloe.shopshare.network.LoadApiStatus
 import com.chloe.shopshare.notify.NotifyAdapter
-import com.chloe.shopshare.notify.NotifyType
-import com.chloe.shopshare.track.TrackAdapter
 import com.chloe.shopshare.order.OrderProductAdapter
 import com.chloe.shopshare.profile.ProfileOrderAdapter
 import com.chloe.shopshare.profile.ProfileReminderAdapter
@@ -46,16 +42,9 @@ import com.chloe.shopshare.profile.ProfileShopAdapter
 import com.chloe.shopshare.request.RequestImageAdapter
 import com.chloe.shopshare.requestdetail.RequestDetailCircleAdapter
 import com.chloe.shopshare.requestdetail.RequestDetailImageAdapter
+import com.chloe.shopshare.track.TrackAdapter
 import com.chloe.shopshare.util.Util.getColor
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-
-/**
- * According to [LoadApiStatus] to decide the visibility of [ProgressBar]
- */
-//@BindingAdapter("setupApiStatus")
-//fun bindApiStatus(){
-//}
 
 /**
  * Uses the Glide library to load an image by URL into an [ImageView]
@@ -69,7 +58,8 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
             .apply(
                 RequestOptions()
                     .placeholder(R.drawable.ic_loading_image)
-                    .error(R.drawable.ic_loading_image))
+                    .error(R.drawable.ic_loading_image)
+            )
             .into(imgView)
     }
 }
@@ -79,19 +69,13 @@ fun bindRecyclerViewWithCollections(recyclerView: RecyclerView, shop: List<Shop>
     shop?.let {
         recyclerView.adapter?.apply {
             when (this) {
-                is HomeMainLinearTopAdapter -> {
-                    Log.d("HomeTag","Summit shop is $shop")
-                    submitList(it)
-                }
+                is HomeMainLinearTopAdapter -> submitList(it)
                 is HomeMainLinearBottomAdapter -> submitList(it)
                 is HomeHostingAdapter -> submitList(it)
                 is HomeMainGridAdapter -> submitList(it)
                 is MyHostListAdapter -> submitList(it)
                 is ProfileShopAdapter -> submitList(it)
-                is ProfileReminderAdapter -> {
-                    Log.d("Profile","Summit shop is $shop")
-                    submitList(it)
-                }
+                is ProfileReminderAdapter -> submitList(it)
             }
         }
     }
@@ -124,7 +108,6 @@ fun bindRecyclerViewWithMyOrderDetail(recyclerView: RecyclerView, myOrder: List<
 @BindingAdapter("messageList")
 fun bindRecyclerViewWithMessage(recyclerView: RecyclerView, message: List<Message>?) {
     message?.let {
-        Log.d("Chat","summit the message is ${message}")
         recyclerView.adapter?.apply {
             when (this) {
                 is ChatRoomMessageAdapter -> submitList(it)
@@ -133,25 +116,11 @@ fun bindRecyclerViewWithMessage(recyclerView: RecyclerView, message: List<Messag
     }
 }
 
-//@BindingAdapter("chat")
-//fun bindRecyclerViewWithChat(recyclerView: RecyclerView, chat: List<ChatRoom>?) {
-//    chat?.let {
-//        recyclerView.adapter?.apply {
-//            Log.d("Chat","summit the chat is ${chat}")
-//            when (this) {
-//                is ChatAdapter -> submitList(it)
-//            }
-//        }
-//    }
-//}
-
-
 @BindingAdapter("chatDetail")
 fun bindRecyclerViewWithChatDetail(recyclerView: RecyclerView, chat: List<Chat>?) {
     chat?.let {
         recyclerView.adapter?.apply {
-            Log.d("ChatTag","summit the chat is ${chat}")
-            var chatSort = chat.sortedByDescending {it.message?.last()?.time}
+            val chatSort = chat.sortedByDescending { it.message?.last()?.time }
             when (this) {
                 is ChatAdapter -> submitList(chatSort)
             }
@@ -164,13 +133,12 @@ fun bindRecyclerViewWithChatDetail(recyclerView: RecyclerView, chat: List<Chat>?
 fun bindRecyclerViewWithOptionStrings(recyclerView: RecyclerView, options: List<String>?) {
     options?.let {
         recyclerView.adapter?.apply {
-            Log.d("Chloe","summit the option list is ${options}")
             when (this) {
                 is HostVariationAdapter -> submitList(it)
                 is HostImageAdapter -> submitList(it)
                 is DetailImageAdapter -> submitImages(it)
                 is RequestImageAdapter -> submitList(it)
-                is RequestDetailImageAdapter ->  submitImages(it)
+                is RequestDetailImageAdapter -> submitImages(it)
             }
         }
     }
@@ -181,12 +149,65 @@ fun bindRecyclerViewByCount(recyclerView: RecyclerView, count: Int?) {
     count?.let {
         recyclerView.adapter?.apply {
             when (this) {
-                is DetailCircleAdapter ->  submitCount(it)
-                is RequestDetailCircleAdapter ->  submitCount(it)
+                is DetailCircleAdapter -> submitCount(it)
+                is RequestDetailCircleAdapter -> submitCount(it)
             }
         }
     }
 }
+
+@BindingAdapter("addDecoration")
+fun bindDecoration(recyclerView: RecyclerView, decoration: RecyclerView.ItemDecoration?) {
+    decoration?.let { recyclerView.addItemDecoration(it) }
+}
+
+@BindingAdapter("delivery")
+fun bindRecyclerViewWithDeliveryInt(recyclerView: RecyclerView, delivery: List<Int>?) {
+    delivery?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is DetailDeliveryAdapter -> submitList(it)
+            }
+        }
+    }
+}
+
+@BindingAdapter("orders")
+fun bindRecyclerViewWithOrders(recyclerView: RecyclerView, orders: List<Order>?) {
+    orders?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is MemberAdapter -> submitList(it)
+            }
+        }
+    }
+}
+
+@BindingAdapter("products")
+fun bindRecyclerViewWithProducts(recyclerView: RecyclerView, products: List<Product>?) {
+    products?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is MemberProductAdapter -> submitList(it)
+                is CartAdapter -> submitList(it)
+                is OrderProductAdapter -> submitList(it)
+                is TrackAdapter -> submitList(it)
+            }
+        }
+    }
+}
+
+@BindingAdapter("notify")
+fun bindRecyclerViewWithNotify(recyclerView: RecyclerView, notify: List<Notify>?) {
+    notify?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is NotifyAdapter -> submitList(it)
+            }
+        }
+    }
+}
+
 
 @BindingAdapter("circleStatus")
 fun bindDetailCircleStatus(imageView: ImageView, isSelected: Boolean = false) {
@@ -207,84 +228,19 @@ fun bindDetailCircleStatus(imageView: ImageView, isSelected: Boolean = false) {
                 }
             }
 
-            canvas.drawCircle(this.width / 2, this.height / 2,
+            canvas.drawCircle(
+                this.width / 2, this.height / 2,
                 MyApplication.instance.resources
-                    .getDimensionPixelSize(R.dimen.radius_detail_circle).toFloat(), paint)
+                    .getDimensionPixelSize(R.dimen.radius_detail_circle).toFloat(), paint
+            )
         }
     })
 }
-
-
-@BindingAdapter("addDecoration")
-fun bindDecoration(recyclerView: RecyclerView, decoration: RecyclerView.ItemDecoration?) {
-    decoration?.let { recyclerView.addItemDecoration(it) }
-}
-
-@BindingAdapter("delivery")
-fun bindRecyclerViewWithDeliveryInt(recyclerView: RecyclerView, delivery: List<Int>?) {
-    delivery?.let {
-        recyclerView.adapter?.apply {
-            Log.d("Chloe","summit the delivery list is $delivery")
-            when (this) {
-                is DetailDeliveryAdapter -> submitList(it)
-            }
-        }
-    }
-}
-
-@BindingAdapter("orders")
-fun bindRecyclerViewWithOrders(recyclerView: RecyclerView, orders: List<Order>?) {
-    orders?.let {
-        recyclerView.adapter?.apply {
-
-            Log.d("Chloe","summit the option list is ${orders}")
-            when (this) {
-                is MemberAdapter -> submitList(it)
-            }
-        }
-
-    }
-}
-
-@BindingAdapter("products")
-fun bindRecyclerViewWithProducts(recyclerView: RecyclerView, products: List<Product>?) {
-    products?.let {
-        recyclerView.adapter?.apply {
-            Log.d("Chloe","summit the option list is ${products}")
-            when (this) {
-                is MemberProductAdapter -> submitList(it)
-                is CartAdapter -> submitList(it)
-                is OrderProductAdapter -> submitList(it)
-                is TrackAdapter -> submitList(it)
-            }
-        }
-    }
-}
-
-@BindingAdapter("notify")
-fun bindRecyclerViewWithNotify(recyclerView: RecyclerView, notify: List<Notify>?) {
-    notify?.let {
-        recyclerView.adapter?.apply {
-            Log.d("Chloe","summit the notify list is ${notify}")
-            when (this) {
-                is NotifyAdapter -> submitList(it)
-            }
-        }
-
-    }
-}
-
 
 @BindingAdapter("dateToDisplayFormat")
 fun bindDisplayFormatDate(textView: TextView, time: Long?) {
     textView.text = time?.toDisplayYearDateFormat()
 }
-
-@BindingAdapter("timeToDisplayFormat")
-fun bindDisplayFormatTime(textView: TextView, time: Long?) {
-    textView.text = time?.toDisplayTimeFormat()
-}
-
 
 @BindingAdapter("dateTimeToDisplayFormat")
 fun bindDisplayFormatDateTime(textView: TextView, time: Long?) {
@@ -297,17 +253,19 @@ fun bindDisplayFormatDateWeek(textView: TextView, time: Long?) {
 }
 
 
-
-
-
 @BindingAdapter("timeToDisplayInChatRoomFormat")
 fun bindDisplayLastChatTime(textView: TextView, time: Long?) {
     textView.text = time?.toDisplayTimeGapWithoutWeek()
 }
 
 
-@BindingAdapter("deadLineToDisplay","conditionType","conditionToDisplay")
-fun bindDisplayCondition(textView: TextView,deadLine:Long?,conditionType:Int?,condition:Int?) {
+@BindingAdapter("deadLineToDisplay", "conditionType", "conditionToDisplay")
+fun bindDisplayCondition(
+    textView: TextView,
+    deadLine: Long?,
+    conditionType: Int?,
+    condition: Int?
+) {
 
     val deadLineToDisplay: String? = "預計 ${deadLine?.toDisplayYearDateFormat()} 收團"
 
@@ -320,20 +278,20 @@ fun bindDisplayCondition(textView: TextView,deadLine:Long?,conditionType:Int?,co
         }
 
     textView.text =
-        if (deadLine == null) {
-            conditionToDisplay
-        } else if (condition == null) {
-            deadLineToDisplay
-        } else {
-            "${deadLineToDisplay}\n" +
-            "${conditionToDisplay}"
+        when {
+            deadLine == null -> conditionToDisplay
+            condition == null -> deadLineToDisplay
+            else -> {
+                "${deadLineToDisplay}\n" +
+                        "$conditionToDisplay"
+            }
         }
 }
 
 @BindingAdapter("shopStatusToDisplayInShort")
-fun bindDisplayShopStatusInShort(textView:TextView,status:Int) {
+fun bindDisplayShopStatusInShort(textView: TextView, status: Int) {
 
-    fun getTitle(status:Int): String {
+    fun getTitle(status: Int): String {
         for (type in OrderStatusType.values()) {
             if (type.status == status) {
                 return type.shortTitle
@@ -355,28 +313,30 @@ fun bindDisplayShopStatusInShort(textView:TextView,status:Int) {
                 OrderStatusType.SHIPMENT.status -> R.color.state_ship
                 OrderStatusType.FINISH.status -> R.color.state_finish
                 else -> R.color.state_opening
-            }))
+            }
+        )
+    )
 }
 
 @BindingAdapter("categoryToDisplay")
-fun bindDisplayCategory(textView:TextView,category:Int) {
+fun bindDisplayCategory(textView: TextView, category: Int) {
 
-        fun getTitle(category:Int): String {
-            for (type in CategoryType.values()) {
-                if (type.category == category) {
-                    return type.title
-                }
+    fun getTitle(category: Int): String {
+        for (type in CategoryType.values()) {
+            if (type.category == category) {
+                return type.title
             }
-            return ""
         }
+        return ""
+    }
 
     textView.text = getTitle(category)
 }
 
 @BindingAdapter("countryToDisplay")
-fun bindDisplayCountry(textView:TextView,country:Int) {
+fun bindDisplayCountry(textView: TextView, country: Int) {
 
-    fun getTitle(country:Int): String {
+    fun getTitle(country: Int): String {
         for (type in CountryType.values()) {
             if (type.country == country) {
                 return type.title
@@ -389,9 +349,9 @@ fun bindDisplayCountry(textView:TextView,country:Int) {
 }
 
 @BindingAdapter("deliveryToDisplay")
-fun bindDisplayDelivery(textView:TextView,delivery:Int) {
+fun bindDisplayDelivery(textView: TextView, delivery: Int) {
 
-    fun getTitle(delivery:Int): String {
+    fun getTitle(delivery: Int): String {
         for (type in DeliveryMethod.values()) {
             if (type.delivery == delivery) {
                 return type.title
@@ -405,9 +365,9 @@ fun bindDisplayDelivery(textView:TextView,delivery:Int) {
 
 
 @BindingAdapter("orderStatusToDisplay")
-fun bindDisplayOrderStatus(textView:TextView,status:Int) {
+fun bindDisplayOrderStatus(textView: TextView, status: Int) {
 
-    fun getTitle(status:Int): String {
+    fun getTitle(status: Int): String {
         for (type in OrderStatusType.values()) {
             if (type.status == status) {
                 return type.title
@@ -419,9 +379,9 @@ fun bindDisplayOrderStatus(textView:TextView,status:Int) {
 }
 
 @BindingAdapter("paymentStatusToDisplay")
-fun bindDisplayPaymentStatus(textView:TextView,status:Int) {
+fun bindDisplayPaymentStatus(textView: TextView, status: Int) {
 
-    fun getTitle(status:Int): String {
+    fun getTitle(status: Int): String {
         for (type in PaymentStatusType.values()) {
             if (type.paymentStatus == status) {
                 return type.title
@@ -432,148 +392,72 @@ fun bindDisplayPaymentStatus(textView:TextView,status:Int) {
     textView.text = getTitle(status)
 }
 
-@BindingAdapter("notifyTitleToDisplay")
-fun bindDisplayNotifyTitle(textView:TextView,notifyType:Int) {
-
-    fun getTitle(notifyType:Int): String {
-        for (item in NotifyType.values()) {
-            if (item.type == notifyType) {
-                return item.title
-            }
-        }
-        return ""
-    }
-
-    textView.text = getTitle(notifyType)
-}
-
-
-@BindingAdapter("editorMemberJoined")
-fun bindEditorMemberJoined(toggleButton: ToggleButton, paymentStatus: Int) {
-
-    toggleButton.apply {
-        visibility =
-                when (paymentStatus) {
-                    0 -> View.VISIBLE
-                    else -> View.GONE
-                }
-    }
-}
-
 
 @BindingAdapter("isMemberChecked")
 fun bindEditorMemberChecked(toggleButton: ToggleButton, isChecked: Boolean) {
 
-    Log.d("Chloe","isChecked really is $isChecked")
-
     toggleButton.setBackgroundResource(
-
-            when(isChecked){
-                true -> R.drawable.ic_check_circle
-                else -> R.drawable.ic_check_circle_outline
-            }
-
+        when (isChecked) {
+            true -> R.drawable.ic_check_circle
+            else -> R.drawable.ic_check_circle_outline
+        }
     )
 }
 
 @BindingAdapter("isExpandChecked")
 fun bindExpandButtonChecked(toggleButton: ToggleButton, isChecked: Boolean) {
 
-    Log.d("Chloe","isChecked really is $isChecked")
-
     toggleButton.setBackgroundResource(
-
-            when(isChecked){
-                true -> R.drawable.ic_baseline_keyboard_arrow_down_24
-                else -> R.drawable.ic_baseline_keyboard_arrow_up_24
-            }
-
+        when (isChecked) {
+            true -> R.drawable.ic_baseline_keyboard_arrow_down_24
+            else -> R.drawable.ic_baseline_keyboard_arrow_up_24
+        }
     )
 }
 
-@BindingAdapter("editorControllerStatus")
-fun bindEditorControllerStatus(imageButton: ImageButton, enabled: Boolean = false) {
-
-    imageButton.apply {
-        foreground = ShapeDrawable(object : Shape() {
-            override fun draw(canvas: Canvas, paint: Paint) {
-
-                paint.color = Color.BLACK
-                paint.style = Paint.Style.STROKE
-                paint.strokeWidth = MyApplication.instance.resources
-                    .getDimensionPixelSize(R.dimen.edge_select).toFloat()
-                canvas.drawRect(0f, 0f, this.width, this.height, paint)
-            }
-        })
-        isClickable = enabled
-        backgroundTintList = ColorStateList.valueOf(
-            getColor(
-                when (enabled) {
-                    true -> R.color.black_3f3a3a
-                    false -> R.color.gray_999999
-                }))
-        foregroundTintList = ColorStateList.valueOf(
-            getColor(
-                when (enabled) {
-                    true -> R.color.black_3f3a3a
-                    false -> R.color.gray_999999
-                }))
-    }
-}
-
-@BindingAdapter("optionIsStandard","shortOptionDisplay")
-fun bindDisplayShortOption(textView: TextView, isStandard:Boolean,option: List<String>?) {
-    option?.let { option ->
+@BindingAdapter("optionIsStandard", "shortOptionDisplay")
+fun bindDisplayShortOption(textView: TextView, isStandard: Boolean, options: List<String>?) {
+    options?.let { option ->
         textView.apply {
-            text =
-                when (isStandard) {
-                    false -> {
-                        option[0]
-                    }
-                    true -> if (option.size > 2) {
-                        "${option[0]}+${option[1]}...共${option.size}項"
-                    } else if (option.size == 2) {
-                        "${option[0]}+${option[1]}"
-                    } else if (option.size == 1) {
-                        option[0]
-                    } else {
-                        ""
-                    }
+            text = when (isStandard) {
+                false -> option[0]
+                true -> when {
+                    option.size > 2 -> "${option[0]}+${option[1]}...共${option.size}項"
+                    option.size == 2 -> "${option[0]}+${option[1]}"
+                    option.size == 1 -> option[0]
+                    else -> ""
                 }
+            }
         }
     }
-
 }
 
 @BindingAdapter("memberNumberToDisplay")
-fun bindDisplayHostMemberNumber(textView: TextView, number: Int?) {
-    number?.let { number ->
+fun bindDisplayHostMemberNumber(textView: TextView, member: Int?) {
+    member?.let { number ->
         textView.apply {
-            text =
-                when (number) {
-                    0 -> "尚無人跟團"
-                    else -> "已跟團+${number}"
-                }
+            text = when (number) {
+                0 -> "尚無人跟團"
+                else -> "已跟團+${number}"
+            }
         }
     }
 }
 
 @BindingAdapter("requestNumberToDisplay")
-fun bindDisplayRequestMemberNumber(textView: TextView, number: Int?) {
-    number?.let { number ->
+fun bindDisplayRequestMemberNumber(textView: TextView, member: Int?) {
+    member?.let { number ->
         textView.apply {
-            text =
-                when (number) {
-                    0 -> "尚無人有興趣"
-                    else -> "有興趣+${number}"
-                }
+            text = when (number) {
+                0 -> "尚無人有興趣"
+                else -> "有興趣+${number}"
+            }
         }
     }
 }
 
 @BindingAdapter("enableButtonStatus")
 fun bindEnableButtonStatus(button: Button, enabled: Boolean = false) {
-
     button.apply {
         isClickable = enabled
         backgroundTintList = ColorStateList.valueOf(
@@ -581,43 +465,17 @@ fun bindEnableButtonStatus(button: Button, enabled: Boolean = false) {
                 when (enabled) {
                     true -> R.color.colorPrimary
                     false -> R.color.gray_cccccc
-                }))
-
+                }
+            )
+        )
     }
 }
 
 @BindingAdapter("quantity")
 fun bindEditorStatus(textView: TextView, quantity: Int) {
-    textView.apply {
-//        background = ShapeDrawable(object : Shape() {
-//            override fun draw(canvas: Canvas, paint: Paint) {
-//
-//                paint.color = Color.BLACK
-//                paint.style = Paint.Style.STROKE
-//                paint.strokeWidth = MyApplication.instance.resources
-//                    .getDimensionPixelSize(R.dimen.edge_select).toFloat()
-//                canvas.drawRect(0f, 0f, this.width, this.height, paint)
-//            }
-//        })
-        text =
-            when (quantity){
-                0 -> ""
-                else -> "$quantity"
-            }
-    }
-}
-
-
-@BindingAdapter("isInvalid","inputTextColorHintPrice")
-fun bindEditorPriceStatus(editText: TextInputEditText, isInvalid: Int?, price: Int?) {
-    editText.apply {
-        setHintTextColor(
-
-                if (isInvalid != null && (price == null || price == 0)) {
-                    R.color.red_500
-                } else {
-                    R.color.gray_646464
-                })
+    textView.text = when (quantity) {
+        0 -> ""
+        else -> "$quantity"
     }
 }
 
@@ -635,6 +493,7 @@ fun bindApiStatus(view: ProgressBar, status: LoadApiStatus?) {
 /**
  * According to [message] to decide the visibility of [ProgressBar]
  */
+
 @BindingAdapter("setupApiErrorMessage")
 fun bindApiErrorMessage(view: TextView, message: String?) {
     when (message) {
@@ -659,50 +518,3 @@ fun bindErrorToEditText(view: TextInputLayout, error: Boolean?) {
         }
     }
 }
-
-
-
-//
-//@BindingAdapter("selected")
-//fun bindTextCollectionStatus(textView: TextView, isSelected: Boolean?) {
-//    textView.textColors ==
-//            if (isSelected == true){
-//                ColorSquare("#${it.code}", isSelected = isSelected)
-//                ColorStateList.valueOf(getColor(R.color.black_3f3a3a))
-//            }else{
-//                ColorStateList.valueOf(getColor(R.color.white))
-//            }
-//
-//}
-
-
-
-
-
-//@BindingAdapter("editorPaymentStatus")
-//fun bindEditorPaymentStatus(imageButton: ImageButton, paymentStatus: Int) {
-//
-//    imageButton.apply {
-//        visibility =
-//                when(paymentStatus){
-//                    0 -> View.VISIBLE
-//                    1 -> View.VISIBLE
-//                    else -> View.GONE
-//                }}
-//        backgroundTintList =
-//
-//                getColor(
-//                        when (enabled) {
-//                            true -> R.color.black_3f3a3a
-//                            false -> R.color.gray_999999
-//                        }))
-//        foregroundTintList = ColorStateList.valueOf(
-//                getColor(
-//                        when (enabled) {
-//                            true -> R.color.black_3f3a3a
-//                            false -> R.color.gray_999999
-//                        }))
-//    }
-
-
-

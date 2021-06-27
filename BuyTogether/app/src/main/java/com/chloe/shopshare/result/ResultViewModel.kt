@@ -1,16 +1,13 @@
 package com.chloe.shopshare.result
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.chloe.shopshare.MyApplication
 import com.chloe.shopshare.R
 import com.chloe.shopshare.data.Result
 import com.chloe.shopshare.data.Shop
 import com.chloe.shopshare.data.source.Repository
-import com.chloe.shopshare.home.SortMethod
 import com.chloe.shopshare.network.LoadApiStatus
 import com.chloe.shopshare.util.UserManager
 import kotlinx.coroutines.CoroutineScope
@@ -22,17 +19,15 @@ class ResultViewModel(
     private val repository: Repository,
     private val categoryArgs: Int,
     private val countryArgs: Int
-):ViewModel() {
+) : ViewModel() {
 
     private val _category = MutableLiveData<Int>().apply {
-        Log.d("Chloe", "_category = $categoryArgs")
         value = categoryArgs
     }
     val category: LiveData<Int>
         get() = _category
 
     private val _country = MutableLiveData<Int>().apply {
-        Log.d("Chloe", "_country = $countryArgs")
         value = countryArgs
     }
     val country: LiveData<Int>
@@ -47,69 +42,50 @@ class ResultViewModel(
         get() = _orderSize
 
     private val _shopLikedList = MutableLiveData<List<String>>()
-    val shopLikedList : LiveData<List<String>>
+    val shopLikedList: LiveData<List<String>>
         get() = _shopLikedList
 
     private val _successGetLikeList = MutableLiveData<Boolean?>()
     val successGetLikeList: LiveData<Boolean?>
         get() = _successGetLikeList
 
-
-    val displayOpeningShop = MutableLiveData<Boolean>()
-
-    // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
-
     val status: LiveData<LoadApiStatus>
         get() = _status
 
-    // error: The internal MutableLiveData that stores the error of the most recent request
-    private val _error = MutableLiveData<String>()
-
-    val error: LiveData<String>
+    private val _error = MutableLiveData<String?>()
+    val error: LiveData<String?>
         get() = _error
 
-    // status for the loading icon of swl
-    private val _refreshProfile = MutableLiveData<Boolean>()
-    val refreshProfile: LiveData<Boolean>
+    private val _refreshProfile = MutableLiveData<Boolean?>()
+    val refreshProfile: LiveData<Boolean?>
         get() = _refreshProfile
 
-    // status for the loading icon of swl
     private val _refreshStatus = MutableLiveData<Boolean>()
-
     val refreshStatus: LiveData<Boolean>
         get() = _refreshStatus
 
-    // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
-
-    // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-
-
-    private val _navigateToDetail = MutableLiveData<String>()
-
-    val navigateToDetail: LiveData<String>
+    private val _navigateToDetail = MutableLiveData<String?>()
+    val navigateToDetail: LiveData<String?>
         get() = _navigateToDetail
 
-
-    fun navigateToDetail(shop: Shop){
+    fun navigateToDetail(shop: Shop) {
         _navigateToDetail.value = shop.id
     }
 
-    fun onDetailNavigated(){
+    fun onDetailNavigated() {
         _navigateToDetail.value = null
     }
 
-    lateinit var userId : String
+    lateinit var userId: String
 
     init {
-        Log.d("LikeTag","UserManager.userId = ${UserManager.userId}")
         UserManager.userId?.let {
             userId = it
         }
-
         filterToShop()
     }
 
@@ -118,28 +94,28 @@ class ResultViewModel(
         viewModelJob.cancel()
     }
 
-    private fun filterToShop(){
-        if (_category.value!=null && _country.value!=null) {
-            if (_category.value == 0) {
-                getShopByCountry(_country.value!!)
-            } else if (_country.value == 0) {
-                getShopByCategory(_category.value!!)
-            } else if (_country.value != 0 && _category.value != 0) {
-                getShopByCategoryAndCountry(_category.value!!, _country.value!!)
+    private fun filterToShop() {
+        _category.value?.let { category ->
+            _country.value?.let { country ->
+                when {
+                    category == 0 -> getShopByCountry(country)
+                    country == 0 -> getShopByCategory(category)
+                    category != 0 && country != 0 -> getShopByCategoryAndCountry(category, country)
+                }
             }
         }
     }
 
-    fun getLikeList(){
+    fun getLikeList() {
         getUserProfile(userId)
     }
 
-    fun onLikeListGet(){
+    fun onLikeListGet() {
         _successGetLikeList.value = null
     }
 
 
-    private fun getShopByCategory(category:Int) {
+    private fun getShopByCategory(category: Int) {
 
         coroutineScope.launch {
 
@@ -173,14 +149,11 @@ class ResultViewModel(
         }
     }
 
-    private fun getShopByCountry(country:Int) {
+    private fun getShopByCountry(country: Int) {
 
         coroutineScope.launch {
-
             _status.value = LoadApiStatus.LOADING
-
             val result = repository.getShopByCountry(country)
-
             _shop.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
@@ -207,14 +180,11 @@ class ResultViewModel(
         }
     }
 
-    private fun getShopByCategoryAndCountry(category:Int,country:Int) {
+    private fun getShopByCategoryAndCountry(category: Int, country: Int) {
 
         coroutineScope.launch {
-
             _status.value = LoadApiStatus.LOADING
-
-            val result = repository.getShopByCategoryAndCountry(category,country)
-
+            val result = repository.getShopByCategoryAndCountry(category, country)
             _shop.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
@@ -244,11 +214,8 @@ class ResultViewModel(
     private fun getUserProfile(userId: String) {
 
         coroutineScope.launch {
-
             _status.value = LoadApiStatus.LOADING
-
             val result = repository.getUserProfile(userId)
-
             _shopLikedList.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
@@ -280,16 +247,12 @@ class ResultViewModel(
     }
 
 
-
-    fun addShopLiked(userId:String, shopId:String) {
+    fun addShopLiked(userId: String, shopId: String) {
 
         coroutineScope.launch {
-
             _status.value = LoadApiStatus.LOADING
 
-            val result = repository.addShopLiked(userId, shopId)
-
-            when (result) {
+            when (val result = repository.addShopLiked(userId, shopId)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
@@ -298,17 +261,17 @@ class ResultViewModel(
                 is Result.Fail -> {
                     _error.value = result.error
                     _status.value = LoadApiStatus.ERROR
-                    null
+                    _refreshProfile.value = null
                 }
                 is Result.Error -> {
                     _error.value = result.exception.toString()
                     _status.value = LoadApiStatus.ERROR
-                    null
+                    _refreshProfile.value = null
                 }
                 else -> {
                     _error.value = MyApplication.instance.getString(R.string.result_fail)
                     _status.value = LoadApiStatus.ERROR
-                    null
+                    _refreshProfile.value = null
                 }
             }
         }
@@ -320,9 +283,7 @@ class ResultViewModel(
 
             _status.value = LoadApiStatus.LOADING
 
-            val result = repository.removeShopLiked(userId , shopId)
-
-            when (result) {
+            when (val result = repository.removeShopLiked(userId, shopId)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
@@ -332,17 +293,17 @@ class ResultViewModel(
                 is Result.Fail -> {
                     _error.value = result.error
                     _status.value = LoadApiStatus.ERROR
-                    null
+                    _refreshProfile.value = null
                 }
                 is Result.Error -> {
                     _error.value = result.exception.toString()
                     _status.value = LoadApiStatus.ERROR
-                    null
+                    _refreshProfile.value = null
                 }
                 else -> {
                     _error.value = MyApplication.instance.getString(R.string.result_fail)
                     _status.value = LoadApiStatus.ERROR
-                    null
+                    _refreshProfile.value = null
                 }
             }
             _refreshProfile.value = false
@@ -356,19 +317,9 @@ class ResultViewModel(
         }
     }
 
-    fun refreshProfile(){
+    fun refreshProfile() {
         getUserProfile(userId)
         _refreshProfile.value = null
     }
-
-
-
-
-//    //排序方式
-//    val selectedSortMethodPosition = MutableLiveData<Int>()
-//    val sortMethod: LiveData<SortMethod> = Transformations.map(selectedSortMethodPosition) {
-//        SortMethod.values()[it]
-//    }
-
 
 }

@@ -2,7 +2,6 @@ package com.chloe.shopshare.host.item
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +33,6 @@ class HostVariationDialog(
         )
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -59,66 +57,59 @@ class HostVariationDialog(
                     removeView(it)
                 }
             }
-
         }
 
         if (oldIsStandard) {
             oldOption?.let {
-                for (i in it)
+                for (i in it) {
                     binding.chipGroupVariation.addChip(context, i)
+                }
             }
         }
 
         viewModel.isStandard.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                if (it) {
-                    if (!oldIsStandard && !oldOption.isNullOrEmpty()) {
-                        viewModel.removeOption(oldOption!![0])
-                        oldOption = null
-                    }
-                }
+            if (it == true && !oldIsStandard && !oldOption.isNullOrEmpty()) {
+                viewModel.removeOption(oldOption!![0])
+                oldOption = null
             }
-        }
-        )
-
-
-
-
+        })
 
         binding.addOption.setOnClickListener {
             viewModel.addOption()
             viewModel.optionItem.value?.let {
-                if (it.isNotEmpty())
+                if (it.isNotEmpty()) {
                     binding.chipGroupVariation.addChip(context, it)
+                }
             }
             viewModel.clearEditOption()
             binding.customOptionEdit.setText("")
         }
 
-
-
-
+        fun leave() {
+            viewModel.apply {
+                showOption()
+                option.value?.let { option ->
+                    isStandard.value?.let { standard ->
+                        optionAdd?.onVariationEdited(
+                            Variation(option, standard, optionToDisplay.value ?: "")
+                        )
+                    }
+                }
+            }
+            this.dismiss()
+        }
 
         binding.buttonReady.setOnClickListener {
             viewModel.optionDone()
             viewModel.status.observe(viewLifecycleOwner, Observer {
-                Log.d("Chloe", "status = ${viewModel.status.value}")
-                if (it == LoadApiStatus.DONE) {
-                    viewModel.showOption()
-                    Log.d("Chloe", "optionToDisplay = ${viewModel.optionToDisplay.value}")
-                    optionAdd?.onVariationEdited(
-                        Variation(
-                            viewModel.option.value!!,
-                            viewModel.isStandard.value!!,
-                            viewModel.optionToDisplay.value ?: ""
-                        )
-                    )
-                    this.dismiss()
-                } else {
-                    Toast.makeText(context, "尚未輸入完畢", Toast.LENGTH_SHORT).show()
+                when (it) {
+                    LoadApiStatus.DONE -> leave()
+                    else -> Toast.makeText(context, "尚未輸入完畢", Toast.LENGTH_SHORT).show()
                 }
             })
         }
+
         return binding.root
     }
 }
+

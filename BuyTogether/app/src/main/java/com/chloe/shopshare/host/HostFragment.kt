@@ -147,7 +147,14 @@ class HostFragment : Fragment() {
         viewModel.postShopDone.observe(viewLifecycleOwner, Observer {
             it?.let {
                 when (viewModel.request.value) {
-                    null -> showDialog()
+                    null -> {
+                        showDialog()
+                        viewModel.shopId.value?.let { id ->
+                            findNavController().navigate(
+                                NavigationDirections.navigateToDetailFragment(id)
+                            )
+                        }
+                    }
                     else -> viewModel.editRequesterNotify()
                 }
                 viewModel.onShopPostDone()
@@ -173,6 +180,9 @@ class HostFragment : Fragment() {
         viewModel.updateRequestHostDone.observe(viewLifecycleOwner, Observer {
             it?.let {
                 showDialog()
+                viewModel.shopId.value?.let { id ->
+                    findNavController().navigate(NavigationDirections.navigateToDetailFragment(id))
+                }
                 viewModel.onRequestHostUpdateDone()
             }
         })
@@ -232,9 +242,6 @@ class HostFragment : Fragment() {
         val view = layoutInflater.inflate(R.layout.dialog_success, null)
         successDialog.setContentView(view)
         successDialog.show()
-        viewModel.shopId.value?.let { id ->
-            findNavController().navigate(NavigationDirections.navigateToDetailFragment(id))
-        }
     }
 
 }

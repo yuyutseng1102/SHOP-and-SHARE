@@ -1,6 +1,5 @@
 package com.chloe.shopshare.notify
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,7 +14,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.util.*
 
 class NotifyViewModel(private val repository: Repository) : ViewModel() {
 
@@ -28,23 +26,17 @@ class NotifyViewModel(private val repository: Repository) : ViewModel() {
         get() = _getNotifyDone
 
     val isChecked = MutableLiveData<Boolean>()
-    lateinit var userId : String
+    lateinit var userId: String
 
-    // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
-
     val status: LiveData<LoadApiStatus>
         get() = _status
 
-    // error: The internal MutableLiveData that stores the error of the most recent request
-    private val _error = MutableLiveData<String>()
-
-    val error: LiveData<String>
+    private val _error = MutableLiveData<String?>()
+    val error: LiveData<String?>
         get() = _error
 
-    // status for the loading icon of swl
     private val _refreshStatus = MutableLiveData<Boolean>()
-
     val refreshStatus: LiveData<Boolean>
         get() = _refreshStatus
 
@@ -52,10 +44,7 @@ class NotifyViewModel(private val repository: Repository) : ViewModel() {
     val visible: LiveData<Boolean>
         get() = _visible
 
-    // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
-
-    // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     override fun onCleared() {
@@ -66,12 +55,11 @@ class NotifyViewModel(private val repository: Repository) : ViewModel() {
     init {
         UserManager.userId?.let {
             userId = it
+            getMyNotify(userId)
         }
-        getMyNotify(userId)
-
     }
 
-    private fun getMyNotify(userId : String) {
+    private fun getMyNotify(userId: String) {
 
         coroutineScope.launch {
             _status.value = LoadApiStatus.LOADING
@@ -98,21 +86,21 @@ class NotifyViewModel(private val repository: Repository) : ViewModel() {
                     null
                 }
             }
-            if (_notify.value.isNullOrEmpty()){
-                _visible.value = true
-            }else{
-                _visible.value = null
-            }
+            _visible.value =
+                when (_notify.value.isNullOrEmpty()) {
+                    true -> true
+                    else -> null
+                }
             _getNotifyDone.value = true
             _refreshStatus.value = false
         }
     }
 
-    fun updateNotifyChecked(userId : String, notifyList: List<Notify>) {
+    fun updateNotifyChecked(userId: String, notifyList: List<Notify>) {
 
         val notifyUnchecked = mutableListOf<Notify>()
-        for (totalNotify in notifyList){
-            if (!totalNotify.isChecked){
+        for (totalNotify in notifyList) {
+            if (!totalNotify.isChecked) {
                 notifyUnchecked.add(totalNotify)
             }
         }
@@ -129,70 +117,59 @@ class NotifyViewModel(private val repository: Repository) : ViewModel() {
                     is Result.Success -> {
                         _error.value = null
                         _status.value = LoadApiStatus.DONE
-                        Log.d("Notify", "updateNotifyChecked is Success")
                         count++
-                        result.data
                     }
                     is Result.Fail -> {
                         _error.value = result.error
                         _status.value = LoadApiStatus.ERROR
                         count++
-                        null
                     }
                     is Result.Error -> {
                         _error.value = result.exception.toString()
                         _status.value = LoadApiStatus.ERROR
                         count++
-                        null
                     }
                     else -> {
                         _error.value = MyApplication.instance.getString(R.string.result_fail)
                         _status.value = LoadApiStatus.ERROR
                         count++
-                        null
                     }
                 }
-                if (count == totalCount){
+                if (count == totalCount) {
                     _refreshStatus.value = false
                 }
             }
         }
     }
 
-    fun deleteNotify(userId : String, notify: Notify) {
+    fun deleteNotify(userId: String, notify: Notify) {
 
         coroutineScope.launch {
             _status.value = LoadApiStatus.LOADING
-            val result = repository.deleteNotify(userId, notify)
-            when (result) {
+            when (val result = repository.deleteNotify(userId, notify)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-                    result.data
                     refresh()
                 }
                 is Result.Fail -> {
                     _error.value = result.error
                     _status.value = LoadApiStatus.ERROR
-                    null
                 }
                 is Result.Error -> {
                     _error.value = result.exception.toString()
                     _status.value = LoadApiStatus.ERROR
-                    null
                 }
                 else -> {
                     _error.value = MyApplication.instance.getString(R.string.result_fail)
                     _status.value = LoadApiStatus.ERROR
-                    null
                 }
             }
-
             _refreshStatus.value = false
         }
     }
 
-    fun onGetNotifyDone(){
+    fun onGetNotifyDone() {
         _getNotifyDone.value = null
     }
 
@@ -201,16 +178,5 @@ class NotifyViewModel(private val repository: Repository) : ViewModel() {
             getMyNotify(userId)
         }
     }
-
-
-
-//
-//    private fun getLiveNotify(userId: String) {
-//        _notify = repository.getLiveNotify(userId)
-//        _status.value = LoadApiStatus.DONE
-//        _refreshStatus.value = false
-//    }
-//
-
 
 }

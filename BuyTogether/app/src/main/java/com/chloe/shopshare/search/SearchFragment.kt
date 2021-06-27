@@ -1,10 +1,10 @@
 package com.chloe.shopshare.search
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -17,7 +17,7 @@ import com.chloe.shopshare.host.CountryType
 
 class SearchFragment : Fragment() {
     private val viewModel by viewModels<SearchViewModel> { getVmFactory() }
-    private lateinit var binding : FragmentSearchBinding
+    private lateinit var binding: FragmentSearchBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,7 +32,6 @@ class SearchFragment : Fragment() {
         binding.apply {
             chipGroupCategory.setOnCheckedChangeListener { group, checkedId ->
                 if (checkedId == View.NO_ID) {
-                    // User tried to uncheck, make sure to keep the chip checked
                     group.check(lastCheckedId)
                     return@setOnCheckedChangeListener
                 }
@@ -53,13 +52,11 @@ class SearchFragment : Fragment() {
                     chipComputer.id -> viewModel?.selectCategory(CategoryType.COMPUTER.category)
                     chipTicket.id -> viewModel?.selectCategory(CategoryType.TICKET.category)
                     chipOther.id -> viewModel?.selectCategory(CategoryType.OTHER.category)
-
                 }
             }
 
             chipGroupCountry.setOnCheckedChangeListener { group, checkedId ->
                 if (checkedId == View.NO_ID) {
-                    // User tried to uncheck, make sure to keep the chip checked
                     group.check(lastCheckedId)
                     return@setOnCheckedChangeListener
                 }
@@ -81,14 +78,13 @@ class SearchFragment : Fragment() {
 
         viewModel.navigateToDetail.observe(viewLifecycleOwner, Observer {
             it?.let {
-                findNavController().navigate(NavigationDirections.navigateToResultFragment(it.category?:0, it.country?:0))
+                findNavController().navigate(
+                    NavigationDirections.navigateToResultFragment(it.category ?: 0, it.country ?: 0)
+                )
                 viewModel.onDetailNavigated()
             }
         })
-
-
+        
         return binding.root
     }
-
-
 }

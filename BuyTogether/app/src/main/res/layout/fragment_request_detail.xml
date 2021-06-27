@@ -186,7 +186,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        app:dateTimeToDisplayFormat="@{viewModel.request.time}"
+                        app:dateToDisplayFormat="@{viewModel.request.time}"
                         app:layout_constraintBottom_toBottomOf="@+id/tag_country"
                         app:layout_constraintStart_toEndOf="@+id/tag_country"
                         app:layout_constraintTop_toTopOf="@+id/tag_country"

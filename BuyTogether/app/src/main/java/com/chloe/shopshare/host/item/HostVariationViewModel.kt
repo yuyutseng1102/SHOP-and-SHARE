@@ -1,17 +1,11 @@
 package com.chloe.shopshare.host.item
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.chloe.shopshare.data.source.Repository
 import com.chloe.shopshare.network.LoadApiStatus
 
-class HostVariationViewModel(
-    private val repository: Repository,
-    var oldOption: List<String>?,
-    oldIsStandard: Boolean
-) : ViewModel() {
+class HostVariationViewModel(oldOption: List<String>?, oldIsStandard: Boolean) : ViewModel() {
 
     private val _option = MutableLiveData<List<String>>()
     val option: LiveData<List<String>>
@@ -40,24 +34,21 @@ class HostVariationViewModel(
 
     fun addOption() {
         if (!optionItem.value.isNullOrEmpty()) {
-            _option.value?.let {
-                optionList = it.toMutableList()
-            }
-            if (_option.value.isNullOrEmpty()) {
-                optionList = mutableListOf()
-            }
-            optionList?.add(optionItem.value!!)
-            _option.value = optionList!!
+            optionList =
+                when (_option.value.isNullOrEmpty()) {
+                    true -> mutableListOf()
+                    else -> _option.value?.toMutableList()
+                }
+            optionItem.value?.let { optionList?.add(it) }
+            optionList?.let { _option.value = it }
         }
     }
 
     fun removeOption(optionItem: String) {
         _option.value?.let {
-            Log.d("Chloe", "the option cleared is $optionItem")
             val optionList = it.toMutableList()
             optionList.remove(optionItem)
             _option.value = optionList
-            Log.d("Chloe", "the optionList is ${_option.value}")
         }
     }
 
@@ -66,26 +57,26 @@ class HostVariationViewModel(
     }
 
     fun optionDone() {
-        Log.d("Chloe", "the optionList is ${_option.value}")
-        if (isStandard.value == false) {
-            if (!optionItem.value.isNullOrEmpty()) {
-                optionList = mutableListOf(optionItem.value ?: "")
-                if (optionList != null) {
-                    _option.value = optionList!!
+        _status.value = LoadApiStatus.LOADING
+        when (isStandard.value) {
+            false -> {
+                if (!optionItem.value.isNullOrEmpty()) {
+                    optionList = mutableListOf(optionItem.value ?: "")
+                    optionList?.let {
+                        _option.value = it
+                        _status.value = LoadApiStatus.DONE
+                    }
+                }
+            }
+            else -> {
+                if (!optionItem.value.isNullOrEmpty()) {
+                    addOption()
+                }
+                if (!_option.value.isNullOrEmpty()) {
                     _status.value = LoadApiStatus.DONE
                 } else {
                     _status.value = LoadApiStatus.LOADING
                 }
-            }
-        } else {
-            if (!optionItem.value.isNullOrEmpty()) {
-                Log.d("Chloe", "!optionItem.value.isNullOrEmpty()")
-                addOption()
-            }
-            if (!_option.value.isNullOrEmpty()) {
-                _status.value = LoadApiStatus.DONE
-            } else {
-                _status.value = LoadApiStatus.LOADING
             }
         }
     }
@@ -93,30 +84,32 @@ class HostVariationViewModel(
     val optionToDisplay = MutableLiveData<String>()
 
     fun showOption() {
-
         optionToDisplay.value =
             when (isStandard.value) {
-                false -> {
-                    if (_option.value != null) {
-                        _option.value!![0]
-                    } else {
-                        ""
-                    }
-                }
-                true -> if (_option.value != null) {
-                    if (_option.value!!.size > 2) {
-                        "${_option.value!![0]}+${_option.value!![1]}...共${_option.value!!.size}項"
-                    } else if (_option.value!!.size == 2) {
-                        "${_option.value!![0]}+${_option.value!![1]}"
-                    } else if (_option.value!!.size == 1) {
-                        _option.value!![0]
-                    } else {
-                        ""
-                    }
-                } else {
-                    ""
-                }
+                false -> displayScope(_option.value)
+                true -> displayVariance(_option.value)
                 else -> ""
             }
+    }
+
+    private fun displayScope(option: List<String>?): String {
+        return when (option) {
+            null -> ""
+            else -> option[0]
+        }
+    }
+
+    private fun displayVariance(option: List<String>?): String {
+        return when (option) {
+            null -> ""
+            else -> {
+                when {
+                    option.size > 2 -> "${option[0]}+${option[1]}...共${option.size}項"
+                    option.size == 2 -> "${option[0]}+${option[1]}"
+                    option.size == 1 -> option[0]
+                    else -> ""
+                }
+            }
+        }
     }
 }

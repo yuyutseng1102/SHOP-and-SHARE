@@ -8,9 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chloe.shopshare.data.Product
 import com.chloe.shopshare.databinding.ItemManageProductBinding
 
-class TrackAdapter : ListAdapter<Product, TrackAdapter.ViewHolder>(
-    DiffCallback
-) {
+class TrackAdapter : ListAdapter<Product, TrackAdapter.ViewHolder>(DiffCallback) {
 
     class ViewHolder(private var binding: ItemManageProductBinding) :
         RecyclerView.ViewHolder(binding.root) {

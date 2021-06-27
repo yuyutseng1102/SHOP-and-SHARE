@@ -4,10 +4,11 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.chloe.shopshare.data.*
 
-
-class DefaultRepository (private val remoteDataSource: DataSource,
-                         private val localDataSource: DataSource
+class DefaultRepository(
+    private val remoteDataSource: DataSource,
+    private val localDataSource: DataSource
 ) : Repository {
+
     override suspend fun signInWithGoogle(idToken: String): Result<User> {
         return remoteDataSource.signInWithGoogle(idToken)
     }
@@ -78,7 +79,6 @@ class DefaultRepository (private val remoteDataSource: DataSource,
         return remoteDataSource.getOrderOfShop(shopId)
     }
 
-
     override fun getLiveOrderOfShop(shopId: String): MutableLiveData<List<Order>> {
         return remoteDataSource.getLiveOrderOfShop(shopId)
     }
@@ -87,41 +87,40 @@ class DefaultRepository (private val remoteDataSource: DataSource,
         return remoteDataSource.getLiveDetailRequest(requestId)
     }
 
-
-    override suspend fun deleteOrder(shopId: String, order: Order): Result<Boolean>  {
-        return remoteDataSource.deleteOrder(shopId,order)
+    override suspend fun deleteOrder(shopId: String, order: Order): Result<Boolean> {
+        return remoteDataSource.deleteOrder(shopId, order)
     }
 
     override suspend fun updateShopStatus(shopId: String, shopStatus: Int): Result<Boolean> {
-        return remoteDataSource.updateShopStatus(shopId,shopStatus)
+        return remoteDataSource.updateShopStatus(shopId, shopStatus)
     }
 
     override suspend fun updateOrderStatus(shopId: String, paymentStatus: Int): Result<Boolean> {
-        return remoteDataSource.updateOrderStatus(shopId,paymentStatus)
+        return remoteDataSource.updateOrderStatus(shopId, paymentStatus)
     }
 
     override suspend fun postRequest(request: Request): Result<Boolean> {
         return remoteDataSource.postRequest(request)
     }
 
-    override suspend fun updateRequestHost(requestId: String,shopId: String ,  hostId: String): Result<Boolean> {
-        return remoteDataSource.updateRequestHost(requestId,shopId, hostId)
+    override suspend fun updateRequestHost(
+        requestId: String,
+        shopId: String,
+        hostId: String
+    ): Result<Boolean> {
+        return remoteDataSource.updateRequestHost(requestId, shopId, hostId)
     }
 
     override suspend fun updateRequestMember(requestId: String, memberId: String): Result<Boolean> {
         return remoteDataSource.updateRequestMember(requestId, memberId)
     }
 
-    override suspend fun getMyOrder(userId: String, status:List<Int>): Result<List<MyOrder>> {
+    override suspend fun getMyOrder(userId: String, status: List<Int>): Result<List<MyOrder>> {
         return remoteDataSource.getMyOrder(userId, status)
     }
 
     override suspend fun getDetailOrder(shopId: String, orderId: String): Result<Order> {
         return remoteDataSource.getDetailOrder(shopId, orderId)
-    }
-
-    override suspend fun getShopByOrder(orderId:String): Result<List<Shop>> {
-        return remoteDataSource.getShopByOrder(orderId)
     }
 
     override suspend fun getMyRequest(userId: String): Result<List<Request>> {
@@ -156,16 +155,16 @@ class DefaultRepository (private val remoteDataSource: DataSource,
         return remoteDataSource.getShopDetailLiked(shopIdList)
     }
 
-    override suspend fun uploadImage(uri: Uri,folder:String): Result<String> {
-        return remoteDataSource.uploadImage(uri,folder)
+    override suspend fun uploadImage(uri: Uri, folder: String): Result<String> {
+        return remoteDataSource.uploadImage(uri, folder)
     }
 
     override suspend fun addShopLiked(userId: String, shopId: String): Result<Boolean> {
-        return remoteDataSource.addShopLiked(userId,shopId)
+        return remoteDataSource.addShopLiked(userId, shopId)
     }
 
     override suspend fun removeShopLiked(userId: String, shopId: String): Result<Boolean> {
-        return remoteDataSource.removeShopLiked(userId,shopId)
+        return remoteDataSource.removeShopLiked(userId, shopId)
     }
 
     override suspend fun postShopNotifyToMember(notify: Notify): Result<Boolean> {
@@ -176,7 +175,10 @@ class DefaultRepository (private val remoteDataSource: DataSource,
         return remoteDataSource.postRequestNotifyToMember(notify)
     }
 
-    override suspend fun postOrderNotifyToMember(orderList: List<Order>, notify: Notify): Result<Boolean> {
+    override suspend fun postOrderNotifyToMember(
+        orderList: List<Order>,
+        notify: Notify
+    ): Result<Boolean> {
         return remoteDataSource.postOrderNotifyToMember(orderList, notify)
     }
 
@@ -188,12 +190,12 @@ class DefaultRepository (private val remoteDataSource: DataSource,
         return remoteDataSource.getMyNotify(userId)
     }
 
-    override suspend fun updateNotifyChecked(userId: String,notifyId: String): Result<Boolean> {
-        return remoteDataSource.updateNotifyChecked(userId,notifyId)
+    override suspend fun updateNotifyChecked(userId: String, notifyId: String): Result<Boolean> {
+        return remoteDataSource.updateNotifyChecked(userId, notifyId)
     }
 
-    override suspend fun deleteNotify(userId: String,notify: Notify): Result<Boolean> {
-        return remoteDataSource.deleteNotify(userId,notify)
+    override suspend fun deleteNotify(userId: String, notify: Notify): Result<Boolean> {
+        return remoteDataSource.deleteNotify(userId, notify)
     }
 
 
@@ -220,6 +222,5 @@ class DefaultRepository (private val remoteDataSource: DataSource,
     override suspend fun sendMessage(chatRoomId: String, message: Message): Result<Boolean> {
         return remoteDataSource.sendMessage(chatRoomId, message)
     }
-
 
 }

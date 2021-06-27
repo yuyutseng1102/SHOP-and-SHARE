@@ -74,10 +74,10 @@ class RequestViewModel(private val repository: Repository) : ViewModel() {
     val categoryTitle = MutableLiveData<String>()
     val countryTitle = MutableLiveData<String>()
 
-    fun convertTitleToValue(isCategory:Boolean, title: String): Int{
-        return when(isCategory){
-            true -> CategoryType.values().filter { it.title == title }[0].category
-            else -> CountryType.values().filter { it.title == title }[0].country
+    fun convertTitleToValue(isCategory:Boolean, title: String){
+        when(isCategory){
+            true -> category.value = CategoryType.values().filter { it.title == title }[0].category
+            else -> country.value = CountryType.values().filter { it.title == title }[0].country
         }
     }
 

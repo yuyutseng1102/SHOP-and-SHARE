@@ -29,7 +29,7 @@ class HostViewModel(private val repository: Repository, private val argument: Re
 
     private val PATH = "host"
 
-    private val _request = MutableLiveData<Request>().apply {
+    private val _request = MutableLiveData<Request?>().apply {
         value = argument
     }
     val request: LiveData<Request?>
@@ -151,15 +151,15 @@ class HostViewModel(private val repository: Repository, private val argument: Re
     val categoryTitle = MutableLiveData<String>()
     val countryTitle = MutableLiveData<String>()
 
-    fun convertTitleToValue(isCategory:Boolean, title: String): Int{
-        return when(isCategory){
-            true -> CategoryType.values().filter { it.title == title }[0].category
-            else -> CountryType.values().filter { it.title == title }[0].country
+    fun convertTitleToValue(isCategory: Boolean, title: String) {
+        when (isCategory) {
+            true -> category.value = CategoryType.values().filter { it.title == title }[0].category
+            else -> country.value = CountryType.values().filter { it.title == title }[0].country
         }
     }
 
-    private fun convertValueToPosition(isCategory:Boolean, value: Int): Int{
-        return when(isCategory){
+    private fun convertValueToPosition(isCategory: Boolean, value: Int): Int {
+        return when (isCategory) {
             true -> CategoryType.values().filter { it.category == value }[0].positionOnSpinner
             else -> CountryType.values().filter { it.country == value }[0].positionOnSpinner
         }
@@ -212,15 +212,15 @@ class HostViewModel(private val repository: Repository, private val argument: Re
     fun isShopInvalid() {
         _isInvalid.value =
             when {
-                selectedTypeRadio.value == 0           -> INVALID_FORMAT_TYPE_EMPTY
-                _imagesPicked.value.isNullOrEmpty()    -> INVALID_FORMAT_IMAGE_EMPTY
-                title.value.isNullOrEmpty()            -> INVALID_FORMAT_TITLE_EMPTY
-                description.value.isNullOrEmpty()      -> INVALID_FORMAT_DESCRIPTION_EMPTY
-                source.value.isNullOrEmpty()           -> INVALID_FORMAT_SOURCE_EMPTY
-                category.value == null                 -> INVALID_FORMAT_CATEGORY_EMPTY
-                country.value == null                  -> INVALID_FORMAT_COUNTRY_EMPTY
-                option.value.isNullOrEmpty()           -> INVALID_FORMAT_OPTION_EMPTY
-                deliveryList.value.isNullOrEmpty()     -> INVALID_FORMAT_DELIVERY_EMPTY
+                selectedTypeRadio.value == 0 -> INVALID_FORMAT_TYPE_EMPTY
+                _imagesPicked.value.isNullOrEmpty() -> INVALID_FORMAT_IMAGE_EMPTY
+                title.value.isNullOrEmpty() -> INVALID_FORMAT_TITLE_EMPTY
+                description.value.isNullOrEmpty() -> INVALID_FORMAT_DESCRIPTION_EMPTY
+                source.value.isNullOrEmpty() -> INVALID_FORMAT_SOURCE_EMPTY
+                category.value == null -> INVALID_FORMAT_CATEGORY_EMPTY
+                country.value == null -> INVALID_FORMAT_COUNTRY_EMPTY
+                option.value.isNullOrEmpty() -> INVALID_FORMAT_OPTION_EMPTY
+                deliveryList.value.isNullOrEmpty() -> INVALID_FORMAT_DELIVERY_EMPTY
                 conditionContent.value.isNullOrEmpty() -> INVALID_FORMAT_CONDITION_EMPTY
                 else -> null
             }
@@ -266,7 +266,9 @@ class HostViewModel(private val repository: Repository, private val argument: Re
                     image.value = list
                     _uploadImageDone.value = true
                 }
-            }}}
+            }
+        }
+    }
 
     fun onImageUploadDone() {
         _uploadImageDone.value = null
@@ -461,15 +463,15 @@ class HostViewModel(private val repository: Repository, private val argument: Re
     }
 
     companion object {
-        const val INVALID_FORMAT_TYPE_EMPTY        = 0x11
-        const val INVALID_FORMAT_IMAGE_EMPTY       = 0x12
-        const val INVALID_FORMAT_TITLE_EMPTY       = 0x13
+        const val INVALID_FORMAT_TYPE_EMPTY = 0x11
+        const val INVALID_FORMAT_IMAGE_EMPTY = 0x12
+        const val INVALID_FORMAT_TITLE_EMPTY = 0x13
         const val INVALID_FORMAT_DESCRIPTION_EMPTY = 0x14
-        const val INVALID_FORMAT_CATEGORY_EMPTY    = 0x15
-        const val INVALID_FORMAT_COUNTRY_EMPTY     = 0x16
-        const val INVALID_FORMAT_SOURCE_EMPTY      = 0x17
-        const val INVALID_FORMAT_OPTION_EMPTY      = 0x18
-        const val INVALID_FORMAT_DELIVERY_EMPTY    = 0x19
-        const val INVALID_FORMAT_CONDITION_EMPTY   = 0x20
+        const val INVALID_FORMAT_CATEGORY_EMPTY = 0x15
+        const val INVALID_FORMAT_COUNTRY_EMPTY = 0x16
+        const val INVALID_FORMAT_SOURCE_EMPTY = 0x17
+        const val INVALID_FORMAT_OPTION_EMPTY = 0x18
+        const val INVALID_FORMAT_DELIVERY_EMPTY = 0x19
+        const val INVALID_FORMAT_CONDITION_EMPTY = 0x20
     }
 }

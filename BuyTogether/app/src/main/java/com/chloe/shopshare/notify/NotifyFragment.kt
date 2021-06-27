@@ -2,7 +2,10 @@ package com.chloe.shopshare.notify
 
 
 import android.annotation.SuppressLint
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
@@ -25,14 +28,17 @@ class NotificationFragment : Fragment() {
     private val viewModel by viewModels<NotifyViewModel> { getVmFactory() }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        val binding = FragmentNotifyBinding.inflate(inflater,container,false)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        val binding = FragmentNotifyBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
+
         val adapter = NotifyAdapter(viewModel)
         binding.recyclerNotify.adapter = adapter
-//        viewModel.addMockData()
 
         binding.layoutSwipeRefreshNotify.setOnRefreshListener {
             viewModel.refresh()
@@ -47,9 +53,9 @@ class NotificationFragment : Fragment() {
 
         viewModel.getNotifyDone.observe(viewLifecycleOwner, Observer {
             it?.let {
-                    viewModel.notify.value?.let {
-                        if (it.isNotEmpty()){
-                        viewModel.updateNotifyChecked(viewModel.userId, it)
+                viewModel.notify.value?.let { notify ->
+                    if (notify.isNotEmpty()) {
+                        viewModel.updateNotifyChecked(viewModel.userId, notify)
                     }
                     viewModel.onGetNotifyDone()
                 }
@@ -66,30 +72,63 @@ class NotificationFragment : Fragment() {
 
         val itemTouchHelperCallback =
             object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-                override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
                     return false
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    Log.d("Notify","onSwiped at ${adapter.getNotify(viewHolder.adapterPosition)}")
-                    viewModel.deleteNotify(viewModel.userId,adapter.getNotify(viewHolder.adapterPosition))
+                    Log.d("Notify", "onSwiped at ${adapter.getNotify(viewHolder.adapterPosition)}")
+                    viewModel.deleteNotify(
+                        viewModel.userId,
+                        adapter.getNotify(viewHolder.adapterPosition)
+                    )
                 }
 
-                override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
-
+                override fun onChildDraw(
+                    c: Canvas,
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    dX: Float,
+                    dY: Float,
+                    actionState: Int,
+                    isCurrentlyActive: Boolean
+                ) {
                     val itemView = viewHolder.itemView
                     val itemHeight = itemView.bottom - itemView.top
                     val isCanceled = dX == 0f && !isCurrentlyActive
 
                     if (isCanceled) {
-                        clearCanvas(c, itemView.right + dX, itemView.top.toFloat(), itemView.right.toFloat(), itemView.bottom.toFloat())
-                        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                        clearCanvas(
+                            c,
+                            itemView.right + dX,
+                            itemView.top.toFloat(),
+                            itemView.right.toFloat(),
+                            itemView.bottom.toFloat()
+                        )
+                        super.onChildDraw(
+                            c,
+                            recyclerView,
+                            viewHolder,
+                            dX,
+                            dY,
+                            actionState,
+                            isCurrentlyActive
+                        )
                         return
                     }
 
                     // Draw the red delete background
                     background.color = backgroundColor
-                    background.setBounds(itemView.right + dX.toInt(), itemView.top, itemView.right, itemView.bottom)
+                    background.setBounds(
+                        itemView.right + dX.toInt(),
+                        itemView.top,
+                        itemView.right,
+                        itemView.bottom
+                    )
                     background.draw(c)
 
                     // Calculate position of delete icon
@@ -100,13 +139,32 @@ class NotificationFragment : Fragment() {
                     val deleteIconBottom = deleteIconTop + intrinsicHeight
 
                     // Draw the delete icon
-                    deleteIcon.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom)
+                    deleteIcon.setBounds(
+                        deleteIconLeft,
+                        deleteIconTop,
+                        deleteIconRight,
+                        deleteIconBottom
+                    )
                     deleteIcon.draw(c)
 
-                    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                    super.onChildDraw(
+                        c,
+                        recyclerView,
+                        viewHolder,
+                        dX,
+                        dY,
+                        actionState,
+                        isCurrentlyActive
+                    )
                 }
 
-                private fun clearCanvas(c: Canvas?, left: Float, top: Float, right: Float, bottom: Float) {
+                private fun clearCanvas(
+                    c: Canvas?,
+                    left: Float,
+                    top: Float,
+                    right: Float,
+                    bottom: Float
+                ) {
                     c?.drawRect(left, top, right, bottom, clearPaint)
                 }
             }
@@ -116,5 +174,4 @@ class NotificationFragment : Fragment() {
 
         return binding.root
     }
-
 }

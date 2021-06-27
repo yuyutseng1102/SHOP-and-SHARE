@@ -98,8 +98,6 @@ class DetailViewModel(
             getLiveDetailShop(it)
             getLiveOrderOfShop(it)
         }
-
-
     }
 
 
@@ -142,8 +140,8 @@ class DetailViewModel(
 
     fun updateProductList(products: List<Product>) {
         when (products.isNotEmpty()) {
-            true -> _product.value = null
-            false -> _product.value = products
+            true -> _product.value = products
+            else -> _product.value = null
         }
     }
 
@@ -261,7 +259,6 @@ class DetailViewModel(
                 }
         }
     }
-
 }
 
 

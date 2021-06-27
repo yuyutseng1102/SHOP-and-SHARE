@@ -50,7 +50,6 @@ class HostConditionDialog(private val editor: ConditionEditor?) : AppCompatDialo
             viewModel.status.observe(viewLifecycleOwner, Observer {
                 if (it == LoadApiStatus.DONE) {
                     viewModel.showCondition()
-                    viewModel.setCondition()
                     editor?.onConditionEdited(
                         Condition(
                             viewModel.selectedConditionPosition.value,

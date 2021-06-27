@@ -5,7 +5,6 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.chloe.shopshare.data.*
 import com.chloe.shopshare.data.source.DataSource
-import com.google.firebase.auth.FirebaseAuth
 
 
 class LocalDataSource(val context: Context): DataSource {
@@ -120,10 +119,6 @@ class LocalDataSource(val context: Context): DataSource {
     }
 
     override suspend fun getDetailOrder(shopId: String, orderId: String): Result<Order> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getShopByOrder(orderId:String): Result<List<Shop>> {
         TODO("Not yet implemented")
     }
 
